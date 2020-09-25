@@ -1,0 +1,18 @@
+<view class="page">
+    <view class="page-title">请选择油号</view>
+   <view class="container">
+      
+   <view data-index="{{index}}" style="box-sizing:border-box;border:{{current === index ? '2px solid #733434' : 'none'}}" class="content" wx:for="{{aroundList}}" wx:key="{{index}}" bindtap="chooseOir">
+       <view class="img-card">
+           <image src="{{item.img}}" alt="" />
+       </view>
+       <text class="content-title">{{item.title}}</text>
+      </view>
+      
+   </view>
+   <button bindtap="ok">确定</button>
+</view>
+
+
+
+

@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/index/index", 
+    "pages/info/info"  
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#308bef",
+    "navigationBarTitleText": "小程序模板",
+    "navigationBarTextStyle": "white"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "plugins": {
+    "inCar": {
+      "version": "1.0.0",
+      "provider": "wx933ab35ff70a9a16"
+    }
+  },
+  "tabBar": {
+    "color": "#dddddd",
+    "selectedColor": "#16f2e7",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": []
+  },
+  "usingComponents": {
+    "mini-player": "/components/miniPlayer/index",
+    "tab-bar": "/components/tabbar/index",
+    "select-works": "/components/selectWorks/index"
+  },
+  "sitemapLocation": "sitemap.json"
+}

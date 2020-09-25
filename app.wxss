@@ -1,0 +1,12 @@
+/* 全局css样式 */
+.page{
+    background-color: #EEF3FA;
+    font-size: 16px;
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+    height: 100%;
+}
+.container {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
