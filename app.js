@@ -1,4 +1,4 @@
-import WxRequest from './plugins/wx-request/lib/index'
+import WxRequest from './plugins/wx-request/index'
 var myPlugin = requirePlugin('inCar')
 
 App({

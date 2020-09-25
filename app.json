@@ -1,7 +1,10 @@
 {
   "pages": [
     "pages/index/index", 
-    "pages/info/info"  
+    "pages/abumInfo/abumInfo",
+    "pages/personalCenter/personalCenter" ,
+    "pages/playInfo/playInfo" ,
+    "pages/playList/playList" 
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -19,13 +22,6 @@
       "version": "1.0.0",
       "provider": "wx933ab35ff70a9a16"
     }
-  },
-  "tabBar": {
-    "color": "#dddddd",
-    "selectedColor": "#16f2e7",
-    "backgroundColor": "#fff",
-    "borderStyle": "black",
-    "list": []
   },
   "usingComponents": {
     "mini-player": "/components/miniPlayer/index",
