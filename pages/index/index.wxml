@@ -1,5 +1,5 @@
 <view class="page">
-    首页
+    <mini-player></mini-player>
 </view>
 
 

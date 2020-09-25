@@ -1,3 +1,13 @@
-<view class="miniPlayer">
-
+<view id="playing-status">
+  <progress percent="{{downloadPercent}}" color="#dadada" stroke-width="2">
+    <text id="playstate" style="left:{{percent}}%"></text>
+    <text id="dpstate" style="width:{{percent}}%"></text>
+    <slider bindchange="museek" color="#d33a31" left-icon="cancel" value="{{percent}}"/>
+  </progress>
+  <view class="btns">
+    <view bindtap="player" data-name="{{item.name}}" wx:for="{{items}}">
+      <image src="{{item.img}}" />
+      <text wx:if="{{item.content}}">{{item.content}}</text>
+    </view>
+  </view>
 </view>

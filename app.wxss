@@ -1,4 +1,6 @@
 /* 全局css样式 */
+@import "styles/common.wxss";
+
 .page{
     background-color: #EEF3FA;
     font-size: 16px;
