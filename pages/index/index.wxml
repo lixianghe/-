@@ -1,7 +1,15 @@
-<view class="page">
-    首页
+<view class="index">
+  <view class="latelyListen" style="background-image: url({{ lalyLtn.src }})" bindtap="tolatelyListen">
+    <image src="{{ lalyLtn.icon }}"></image>
+    <view class="latelyLtnTit">{{ lalyLtn.title }}</view>
+  </view>
+  <view class="albumCard" wx:for="{{info}}" wx:key="index" bindtap="linkAbumInfo">
+    <image src="{{item.src}}"></image>
+    <view class="albumTit">
+      <text>{{ item.title }}</text>
+    </view>
+  </view>
 </view>
-
 
 
 

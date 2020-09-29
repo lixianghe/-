@@ -1,10 +1,8 @@
-
+import {options as indOpt} from '../../utils/indexOpt'
 const app = getApp()
 
 Page({
-  data: {
-
-  },
+  data: indOpt,
   onLoad(options) {
 
   },

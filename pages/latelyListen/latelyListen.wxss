@@ -2,44 +2,26 @@ page {
   margin: 0;
   padding: 0;
 }
-.index {
+.latelyListen {
   display: flex;
   overflow: auto;
   padding: 2vh;
   height: 83vh;
   align-items: center;
 }
-.latelyListen{
-  flex: 0 0 38vh;
-  margin-right: 3vh;
-  height: 72vh;
-  border-radius: 1.5vh;
-  overflow: hidden;
-  background-size: 100%;
-  text-align: center;
-}
-.latelyListen>image {
-  width: 10vh;
-  height: 10vh;
-  margin-top: 23vh;
-}
-.latelyLtnTit {
-  margin-top: 1vh;
-  font-size: 3vh;
-}
-.albumCard {
+.latelyCard {
   flex: 0 0 58vh;
   margin-right: 3vh;
   height: 72vh;
   border-radius: 1.5vh;
   overflow: hidden;
 }
-.albumCard>image {
+.latelyCard>image {
   width: 58vh;
   height: 58vh;
   vertical-align: bottom;
 }
-.albumTit {
+.latelyTit {
   height: 14vh;
   background-color: rgba(0, 0, 0, 0.2);
   font-size: 4vh;

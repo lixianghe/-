@@ -3,17 +3,14 @@ const app = getApp()
 
 Page({
   data: indOpt,
-  // 跳转到最近收听页面
-  tolatelyListen () {
+  // 跳转到播放详情界面
+  linkInfoList () {
     wx.navigateTo({
-      url: '../latelyListen/latelyListen?a=1'
+      url: '../latelyLtnList/latelyLtnList',
     })
   },
-  // 跳转到播放详情界面
-  linkAbumInfo () {
-
-  },
   onLoad(options) {
+    console.log(options)
     const promise = indOpt.getData()
     setTimeout(()=>{
       promise.then(res => {

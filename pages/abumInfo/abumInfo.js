@@ -6,7 +6,8 @@ Page({
 
   },
   onLoad(options) {
-
+    id
+    init(id)
   },
   onShow() {
 

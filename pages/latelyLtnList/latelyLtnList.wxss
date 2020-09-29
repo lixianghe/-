@@ -1,0 +1,17 @@
+page {
+  margin: 0;
+  padding: 0;
+}
+.latelyLtnList {
+  /* display: flex; */
+  overflow: auto;
+  padding: 2vh;
+  height: 83vh;
+  align-items: center;
+}
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  height: 20rpx;
+  margin-bottom: 11rpx;
+}

@@ -1,3 +1,17 @@
 <view class="page">
   播放详情
 </view>
+
+
+
+
+
+
+
+
+<!-- 父子组件通讯区 -->
+<view>
+  {{ prop }}
+  <button bindtap="changeProp">选集</button>
+</view>
+<selectWorks id="selectWorks" bindchangeWords="changeWords"> </selectWorks>

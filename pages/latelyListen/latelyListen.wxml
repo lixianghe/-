@@ -1,0 +1,11 @@
+<view class="latelyListen">
+  <view class="latelyCard" wx:for="{{info}}" wx:key="index" bindtap="linkInfoList">
+    <image src="{{item.src}}"></image>
+    <view class="latelyTit">
+      <text>{{ item.title }}</text>
+    </view>
+  </view>
+</view>
+
+
+

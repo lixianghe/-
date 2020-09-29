@@ -1,0 +1,12 @@
+<view class="latelyLtnList">
+  <noData wx:if="{{list.length === 0}}"></noData>
+  <view class="listItem" wx:for="{{list}}" wx:key="index">
+    <text>{{index}}</text>
+    <text>{{item.musicName}}</text>
+    <text>{{item.time}}</text>
+  </view>
+</view>
+
+
+
+

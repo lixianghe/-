@@ -1,14 +1,17 @@
 import WxRequest from './plugins/wx-request/index'
+
 var myPlugin = requirePlugin('inCar')
 
 App({
   onLaunch: function () {
     this.WxRequest(), 
     myPlugin.injectWx(wx)
+
   },
 
   globalData: {
     userInfo: {},
+
   },
   vision: '1.0.0',
   WxRequest() {
