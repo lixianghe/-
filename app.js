@@ -4,9 +4,11 @@ var bsurl = 'http://localhost:3000/v1/'
 App({
   globalData: {
     playing: false,
+    percent: 0,
     curplay: {},
     globalStop: true,
-    currentPosition: 0
+    currentPosition: 0,
+    canplay: []
   },
   onLaunch: function () {
     myPlugin.injectWx(wx)

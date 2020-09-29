@@ -3,7 +3,7 @@ const app = getApp()
 import tool from '../../utils/util'
 
 var timer = null
-
+var index = 0
 
 Page({
   data: {
@@ -16,16 +16,16 @@ Page({
     songpic: ''
   },
   onLoad(options) {
-    console.log(options)
+    // 获取缓存的歌曲信息
+    const songInfo = wx.getStorageSync('songInfo')
     this.setData({
-      name: options.name,
-      duration: tool.formatduration(Number(options.duration)),
-      songpic: options.songpic.replace('$', '=='),
-      no: options.no
+      name: songInfo.name,
+      duration: tool.formatduration(Number(songInfo.duration)),
+      songpic: songInfo.songpic
     })
-    const that = this
+    index = songInfo.index
     // 播放歌曲
-    app.playmusic(that, options.id)
+    app.playmusic(this, songInfo.id)
   },
   onShow: function () {
     const that = this;
@@ -43,35 +43,36 @@ Page({
   },
   // 上一首
   pre() {
-    console.log('pre')
+    console.log('pre', index)
     // 获取上个页面数据
     const pages = getCurrentPages();
     const prevPage = pages[pages.length - 2];  //上一个页面
     const canplay = prevPage.data.canplay
-    const no = Number(this.data.no)
     // 设置播放图片名字和时长
     this.setData({
-      name: canplay[no-1].name,
-      songpic: canplay[no-1].al.picUrl.replace('$', '=='),
-      duration: tool.formatduration(Number(canplay[no-1].dt))
+      name: canplay[index-1].name,
+      songpic: canplay[index-1].al.picUrl.replace('$', '=='),
+      duration: tool.formatduration(Number(canplay[index-1].dt))
     })
-    app.nextplay(-1, canplay, no)
+    app.nextplay(-1, canplay, index)
+    index--
   },
   // 下一首
   next() {
+    console.log('next', index)
     // 获取上个页面数据
     const pages = getCurrentPages();
     const prevPage = pages[pages.length - 2];  //上一个页面
     const canplay = prevPage.data.canplay
-    const no = Number(this.data.no)
-    console.log(canplay, no)
+    console.log(canplay, index)
     // 设置播放图片名字和时长
     this.setData({
-      name: canplay[no+1].name,
-      songpic: canplay[no+1].al.picUrl.replace('$', '=='),
-      duration: tool.formatduration(Number(canplay[no+1].dt))
+      name: canplay[index+1].name,
+      songpic: canplay[index+1].al.picUrl.replace('$', '=='),
+      duration: tool.formatduration(Number(canplay[index+1].dt))
     })
-    app.nextplay(1, canplay, no)
+    app.nextplay(1, canplay, index)
+    index++
   },
   // 暂停
   togglePlay() {

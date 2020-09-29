@@ -17,5 +17,5 @@
       <image src="../../static/images/song.jpg" />
     </view>
   </view>
-  <mini-player percent="{{percent}}" downloadPercent="{{downloadPercent}}"></mini-player>
+  <mini-player name="{{name}}" data-no='{{index}}' songpic="{{songpic}}" percent="{{percent}}"></mini-player>
 </view>

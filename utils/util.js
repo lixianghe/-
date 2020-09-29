@@ -66,7 +66,8 @@ function playAlrc(that, app) {
       } if (res.status == 1) {
         playing = true;
       }
-      app.globalData.play = playing;
+      app.globalData.playing = playing;
+      app.globalData.percent = time
       that.setData({
         playtime: playtime ? formatduration(playtime * 1000) : '00:00',
         percent: time || 0,
@@ -79,10 +80,6 @@ function playAlrc(that, app) {
 
 
 function toggleplay(that, app, cb) {
-  cb = cb || null;
-  if (that.data.disable) {
-    return;
-  }
   if (that.data.playing) {
     console.log("暂停播放");
     that.setData({ 
