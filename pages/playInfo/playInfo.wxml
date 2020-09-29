@@ -1,3 +1,36 @@
 <view class="page">
-  播放详情
+  <view class="playLeft">
+    <view class="title">{{name}}</view>
+    <view class="player">
+      <text class="time">{{playtime}}</text>
+      <progress percent="{{downloadPercent}}" color="#dadada" stroke-width="2">
+        <text id="playstate" style="left:{{percent}}%"></text>
+        <text id="dpstate" style="width:{{percent}}%"></text>
+        <slider block-size="16" block-color="#888" bindchange="museek" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>
+      </progress>
+      <text class="duration">{{duration}}</text>
+      <view class="btns">
+        <view bindtap="pre">
+          <image src="../../static/images/上一曲.png" />
+        </view>
+        <!-- 播放按钮 -->
+        <view wx:if="{{playing}}" bindtap="togglePlay">
+          <image src="../../static/images/暂停.png" />
+        </view>
+        <view wx:else bindtap="togglePlay">
+          <image src="../../static/images/播放.png" />
+        </view>
+
+        <view bindtap="next">
+          <image src="../../static/images/下一曲.png" />
+        </view>
+        <view bindtap="more">
+          <image src="../../static/images/展开更多.png" />
+        </view>
+    </view>
+    </view>
+  </view>
+  <view class="playRight">
+    <image src="{{songpic}}" />
+  </view>
 </view>

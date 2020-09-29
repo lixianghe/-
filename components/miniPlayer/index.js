@@ -1,23 +1,18 @@
 
 const app = getApp()
 
-Page({
-  onReady: function (e) {
-    // 使用 wx.createAudioContext 获取 audio 上下文 context
-    this.audioCtx = wx.createAudioContext('myAudio')
+Component({
+  properties: {
+    percent: {
+      type: Number,
+      default: 0
+    },
+    downloadPercent: {
+      type: Number,
+      default: 0
+    }
   },
   data: {
-    music: {},
-    playtime: "00:00",
-    duration: "00:00",
-    percent: 50,
-    downloadPercent: 0,
-    imgload: false,
-    playing: true,
-    showlrc: false,
-    commentscount: 0,
-    lrc: {},
-    stared: false,
     // minibar的按钮
     items: [
       {
@@ -39,7 +34,22 @@ Page({
       }
     ]
   },
-  player(e) {
-    console.log(e.currentTarget.dataset.name)
+  observers: {
+    
+  },
+  lifetimes: {
+    attached: function() {
+      console.log(this.data)
+    },
+    detached: function() {
+      // 在组件实例被从页面节点树移除时执行
+    },
+  },
+  methods: {
+    showModal () {
+      this.setData({
+        showTip: true
+      })
+    }
   }
 })

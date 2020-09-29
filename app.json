@@ -1,9 +1,17 @@
 {
   "pages": [
-    "pages/index/index", 
     "pages/abumInfo/abumInfo",
-    "pages/personalCenter/personalCenter" ,
     "pages/playInfo/playInfo" ,
+    
+    
+    
+    
+    
+    
+    "pages/index/index", 
+    
+    "pages/personalCenter/personalCenter" ,
+    
     "pages/playList/playList" 
   ],
   "window": {
@@ -28,5 +36,6 @@
     "tab-bar": "/components/tabbar/index",
     "select-works": "/components/selectWorks/index"
   },
+  "requiredBackgroundModes": ["audio"],
   "sitemapLocation": "sitemap.json"
 }

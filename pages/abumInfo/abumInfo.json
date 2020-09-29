@@ -2,7 +2,8 @@
   "navigationBarBackgroundColor": "#353744",
   "navigationBarTitleText": "专辑详情",
   "enablePullDownRefresh": true,
-  "component": true,  
+  "component": true,
+  "disableScroll": true,
   "usingComponents": {
 
   }
