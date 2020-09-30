@@ -16,10 +16,13 @@ App({
     var that = this;
     //播放列表中下一首
     wx.onBackgroundAudioStop(function () { 
-      if (that.globalData.globalStop) {
-        return;
-      }
-      that.nextplay(that.globalData.playtype);
+      // 获取歌曲列表
+      const canplay = wx.getStorageSync('canplay')
+      // 获取缓存的歌曲信息
+      const songInfo = wx.getStorageSync('songInfo')
+      that.nextplay(1, canplay, songInfo.index)
+      const page = getCurrentPages()
+      console.log(page)
     });
     //监听音乐暂停，保存播放进度广播暂停状态
     wx.onBackgroundAudioPause(function () {
@@ -78,20 +81,16 @@ App({
   seekmusic: function (type, seek, cb) {
     var that = this;
     var m = this.globalData.curplay;
-    console.log('m', m)
     if (!m.id) return;
     if (cb) {
-      console.log(1)
       this.playing(type, cb, seek);
     } else {
-      console.log(2)
       this.geturl(function () { that.playing(type, cb, seek); })
     }
   },
   playing: function (type, cb, seek) {
     var that = this
     var m = that.globalData.curplay
-    console.log('m', m)
     wx.playBackgroundAudio({
       dataUrl: m.url,
       title: m.name,
@@ -100,16 +99,11 @@ App({
         if (seek != undefined) {
           wx.seekBackgroundAudio({ position: seek })
         };
-        that.globalData.globalStop = false;
         that.globalData.playing = true;
         cb && cb();
       },
       fail: function () {
-        if (type != 2) {
-          that.nextplay(1)
-        } else {
-          that.nextfm();
-        }
+        
       }
     })
   },

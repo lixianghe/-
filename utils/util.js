@@ -56,13 +56,11 @@ function formatduration(duration) {
 function playAlrc(that, app) {
   wx.getBackgroundAudioPlayerState({
     complete: function (res) {
-      // console.log('res', res)
-      var time = 0, playing = false, playtime = 0, downloadPercent = 0;
+      var time = 0, playing = false, playtime = 0;
       // 1是正常播放，2是异常
       if (res.status != 2) {
         time = res.currentPosition / res.duration * 100;
         playtime = res.currentPosition;
-        downloadPercent = res.downloadPercent
       } if (res.status == 1) {
         playing = true;
       }
@@ -71,8 +69,7 @@ function playAlrc(that, app) {
       that.setData({
         playtime: playtime ? formatduration(playtime * 1000) : '00:00',
         percent: time || 0,
-        playing: playing,
-        downloadPercent: downloadPercent
+        playing: playing
       })
     }
   });

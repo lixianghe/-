@@ -1,12 +1,12 @@
 <view class="page">
   <view class="btns">
-    <button>播放全部</button>
+    <button bindtap="playAll">播放全部</button>
     <button>共300集</button>
   </view>
   <!-- 列表 -->
   <view class="list">
     <view class="songList">
-      <view bindtap="goPlayInfo" data-no='{{index}}' data-id='{{item.id}}' data-name='{{item.name}}' data-duration="{{item.dt}}" data-songpic="{{item.al.picUrl}}" wx:for="{{canplay}}">
+      <view bindtap="goPlayInfo" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-no='{{index}}' data-id='{{item.id}}' data-name='{{item.name}}' data-duration="{{item.dt}}" data-songpic="{{item.al.picUrl}}" wx:key="index" wx:for="{{canplay}}">
         <text>{{index + 1}}</text>
         <text>{{item.name}}</text>
         <!-- <text>03:23</text> -->
