@@ -6,6 +6,10 @@ const options = {
   noContent: '/images/nullContent.png',
   // 静态数据
   info: [
+    {
+      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
+      title: '超好听的翻唱合集'
+    }
   ],
   // 请求数据
   getData: function () {
