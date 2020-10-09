@@ -26,6 +26,7 @@ page {
 .latelyLtnTit {
   margin-top: 1vh;
   font-size: 3vh;
+  
 }
 .albumCard {
   flex: 0 0 58vh;
@@ -41,7 +42,8 @@ page {
 }
 .albumTit {
   height: 14vh;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #d4edff;
   font-size: 4vh;
   text-align: center;
   display: flex;

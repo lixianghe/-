@@ -1,8 +1,8 @@
-import {options as indOpt} from '../../utils/indexOpt'
+import {options as latelyLtnOpt} from '../../utils/pageOtpions/latelyListenOpt'
 const app = getApp()
 
 Page({
-  data: indOpt,
+  data: latelyLtnOpt,
   // 跳转到播放详情界面
   linkInfoList () {
     wx.navigateTo({
@@ -10,8 +10,7 @@ Page({
     })
   },
   onLoad(options) {
-    console.log(options)
-    const promise = indOpt.getData()
+    const promise = latelyLtnOpt.getData()
     setTimeout(()=>{
       promise.then(res => {
         this.setData(res)

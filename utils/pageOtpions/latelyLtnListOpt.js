@@ -1,15 +1,9 @@
+// 最近收听--->专辑列表
+
 const options = {
   // 基础配置
-  lalyLtn: {
-    src: '/images/listen.png',
-    title: '标题',
-    icon: '/images/zjst.png'
-  },
-  info: [{
-      src: '/images/nullPic.png',
-      title: '专辑三'
-    }
-  ],
+  // 数据为空时的状态图片
+  noContent: '/images/nullContent.png',
   // 请求数据
   getData: function () {
     return new Promise((resolve, reject) => {

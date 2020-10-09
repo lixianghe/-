@@ -8,6 +8,7 @@ page {
   padding: 2vh;
   height: 83vh;
   align-items: center;
+  color: #d4edff;
 }
 .listItem {
   display: flex;

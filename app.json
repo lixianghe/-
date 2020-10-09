@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/personalCenter/personalCenter",
     "pages/index/index", 
     "pages/playInfo/playInfo" ,
     "pages/abumInfo/abumInfo",
-    "pages/personalCenter/personalCenter" ,
     "pages/playList/playList",
     "pages/latelyListen/latelyListen",
     "pages/latelyLtnList/latelyLtnList"
@@ -30,12 +30,6 @@
       "text": "主页"
     },
     {
-      "pagePath": "pages/playInfo/playInfo",
-      "iconPath": "images/sort.png",
-      "selectedIconPath": "images/sort-select.png",
-      "text": "分类"
-    },
-    {
       "pagePath": "pages/personalCenter/personalCenter",
       "iconPath": "images/admin.png",
       "selectedIconPath": "images/admin-select.png",
@@ -54,5 +48,6 @@
     "tab-bar": "/components/tabbar/index",
     "select-works": "/components/selectWorks/index"
   },
+  "requiredBackgroundModes": ["audio"],
   "sitemapLocation": "sitemap.json"
 }

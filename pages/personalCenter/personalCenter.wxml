@@ -1,15 +1,18 @@
 <view class="personalCenter">
   <view class="adminCenter">
-    <image src="/images/icon-admin.png"></image>
-    <view class="adminCenterBtn">点击登录</view>
+    <image src="{{avatar}}"></image>
+    <view class="adminCenterName">{{userName}}</view>
+    <view class="adminBtnOut" bindtap="nofityComponent" data-state="login" wx:if="{{!isLogin}}">点击登录</view>
+    <view class="adminBtnIn" bindtap="nofityComponent" data-state="out" wx:else>退出登录</view>
   </view>
-  <view class="latelyListen" 
-    style="background-image: url({{ lalyLtn.src }})" 
-    bindtap="tolatelyListen" 
-    wx:for="{{3}}"
+  <view class="cardListen" 
+    wx:for="{{data}}"
     wx:key="index"
+    style="background-image: url({{ item.src }})"
   >
-    <image src="{{ lalyLtn.icon }}"></image>
-    <view class="latelyLtnTit">{{ lalyLtn.title }}</view>
+    <image src="{{ item.icon }}"></image>
+    <view class="cardTit">{{ item.title }}</view>
   </view>
+  <mini-player></mini-player>
+  <bgConfirm id="bgConfirm"></bgConfirm>
 </view>

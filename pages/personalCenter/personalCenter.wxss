@@ -21,8 +21,13 @@ page {
   height: 10vh;
   margin-top: 20vh;
 }
-.adminCenterBtn {
-  margin-top: 8vh;
+.adminCenterName {
+  margin-top: 2vh;
+  color: #fff;
+  font-size: 3.3vh;
+}
+.adminBtnOut {
+  margin-top: 3vh;
   font-size: 15rpx;
   background-color: #000;
   width: 75rpx;
@@ -32,7 +37,18 @@ page {
   border-radius: 10rpx;
   padding: 3rpx 4rpx;
 }
-.latelyListen{
+.adminBtnIn {
+  margin-top: 3vh;
+  font-size: 15rpx;
+  width: 75rpx;
+  color: #fff;
+  border: 1px solid #fff;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  border-radius: 10rpx;
+  padding: 3rpx 4rpx;
+}
+.cardListen{
   flex: 0 0 150rpx;
   margin-right: 30rpx;
   height: 72vh;
@@ -41,12 +57,13 @@ page {
   background-size: 100%;
   text-align: center;
 }
-.latelyListen>image {
+.cardListen>image {
   width: 10vh;
   height: 10vh;
   margin-top: 23vh;
 }
-.latelyLtnTit {
-  margin-top: 1vh;
+.cardTit {
+  margin-top: 2vh;
   font-size: 3vh;
+  font-weight: bold;
 }

@@ -1,3 +1,3 @@
-<view class="noData" wx:if="{{isNoData}}">
-  <image src="/images/nullContent.png"></image>
+<view class="noData">
+  <image src="{{noContent}}"></image>
 </view>

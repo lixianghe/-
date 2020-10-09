@@ -1,3 +1,22 @@
 <view class="page">
-  专辑详情
+  <view class="btns">
+    <button>播放全部</button>
+    <button bindtap="changeProp">共300集</button>
+  </view>
+  <!-- 列表 -->
+  <view class="list">
+    <view class="songList">
+      <view bindtap="goPlayInfo" data-no='{{index}}' data-id='{{item.id}}' data-name='{{item.name}}' data-duration="{{item.dt}}" data-songpic="{{item.al.picUrl}}" wx:for="{{canplay}}">
+        <text>{{index + 1}}</text>
+        <text>{{item.name}}</text>
+        <!-- <text>03:23</text> -->
+      </view>
+      
+    </view>
+    <view class="imgCard">
+      <image src="../../static/images/song.jpg" />
+    </view>
+  </view>
+  <selectWorks id="selectWorks" bindchangeWords="changeWords"> </selectWorks>
+  <mini-player percent="{{percent}}" downloadPercent="{{downloadPercent}}"></mini-player>
 </view>

@@ -5,6 +5,7 @@ const options = {
     title: '标题',
     icon: '/images/zjst.png'
   },
+  // 静态数据
   info: [{
       src: '/images/nullPic.png',
       title: '专辑三'

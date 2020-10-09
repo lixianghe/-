@@ -1,4 +1,4 @@
-import {options as indOpt} from '../../utils/indexOpt'
+import {options as indOpt} from '../../utils/pageOtpions/indexOpt'
 const app = getApp()
 
 Page({
@@ -11,7 +11,9 @@ Page({
   },
   // 跳转到播放详情界面
   linkAbumInfo () {
-
+    wx.navigateTo({
+      url: '../abumInfo/abumInfo'
+    })
   },
   onLoad(options) {
     const promise = indOpt.getData()

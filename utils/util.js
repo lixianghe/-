@@ -1,63 +1,107 @@
-const formatTime = date => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+function formatTime(date, type) {
+  type = type || 1;
+  //type 1,完成输出年月日时分秒，2对比当前时间输出日期，或时分;
+  var d = new Date(date)
+  var year = d.getFullYear()
+  var month = d.getMonth() + 1
+  var day = d.getDate()
+  var hour = d.getHours()
+  var minute = d.getMinutes()
+  var second = d.getSeconds();
+  if (type == 1) {
+    return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':');
+  }
+  else if (type == 3) {
+    return [year, month, day].map(formatNumber).join('-');
+  } else {
+    var jm = new Date
+      , Fo = jm.getTime() - date;
+    if (Fo <= 6e4)
+      return "刚刚";
+    var Qq = jm.getHours() * 36e5 + jm.getMinutes() * 6e4 + jm.getSeconds() * 1e3;
+    if (day==jm.getDate()) {
+      if (Fo < 36e5) {
+        var bOh = Math.floor(Fo / 6e4);
+        return bOh + "分钟前"
+      }
+      return [hour, minute].map(formatNumber).join(':');
+    } else {
+      if (Fo < Qq + 864e5) {
+        return "昨天" + [hour, minute].map(formatNumber).join(':');
+      } else {
+        var hq = jm.getFullYear()
+          , bOg = new Date(hq, 0, 1);
+        var Qq = jm.getTime() - bOg.getTime();
+        if (Fo < Qq) {
+          return year + "年" + month + "月" + day + "日" + [hour, minute].map(formatNumber).join(':');
+        }
+        return year + "年" + month + "月" + day + "日"
+      }
+    }
+  }
 }
 
-const formatNumber = n => {
+function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
-const DateFormat = (str, fmt) => {
-  let o = {
-    'M+': str.getMonth() + 1,
-    'd+': str.getDate(),
-    'h+': str.getHours(),
-    'm+': str.getMinutes(),
-    's+': str.getSeconds(),
-    'q+': Math.floor((str.getMonth() + 3) / 3),
-    'S': str.getMilliseconds()
-  };
-  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (str.getFullYear() + '').substr(4 - RegExp.$1.length));
-  for (let k in o) {
-    if (new RegExp('(' + k + ')').test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
-    }
-  }
-  return fmt;
-};
 
-const DateFormatLast = (str, fmt) => {
-  let o = {
-    'M+': str.getMonth() + 1,
-    'd+': str.getDate(),
-    'h+': str.getHours()
-  };
-  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (str.getFullYear() + '').substr(4 - RegExp.$1.length));
-  for (let k in o) {
-    if (new RegExp('(' + k + ')').test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
-    }
-  }
-  fmt = fmt + ' 23:59:59';
-  return fmt;
-};
+//转换播放时间
+function formatduration(duration) {
+  duration = new Date(duration);
+  return formatNumber(duration.getMinutes()) + ":" + formatNumber(duration.getSeconds());
+}
 
-const apiFormat = (str, res) => {
-  let reg = /\{(\w+?)\}/gi;
-  return str.replace(reg, ($0, $1) => {
-    return res[$1];
+//音乐播放监听
+function playAlrc(that, app) {
+  wx.getBackgroundAudioPlayerState({
+    complete: function (res) {
+      // console.log('res', res)
+      var time = 0, playing = false, playtime = 0, downloadPercent = 0;
+      // 1是正常播放，2是异常
+      if (res.status != 2) {
+        time = res.currentPosition / res.duration * 100;
+        playtime = res.currentPosition;
+        downloadPercent = res.downloadPercent
+      } if (res.status == 1) {
+        playing = true;
+      }
+      app.globalData.play = playing;
+      that.setData({
+        playtime: playtime ? formatduration(playtime * 1000) : '00:00',
+        percent: time || 0,
+        playing: playing,
+        downloadPercent: downloadPercent
+      })
+    }
   });
 };
 
+
+function toggleplay(that, app, cb) {
+  cb = cb || null;
+  if (that.data.disable) {
+    return;
+  }
+  if (that.data.playing) {
+    console.log("暂停播放");
+    that.setData({ 
+      playing: false 
+    });
+    app.stopmusic(1);
+  } else {
+    console.log("继续播放")
+    that.setData({
+      playing: true
+    });
+    app.seekmusic(app.globalData.playtype, app.globalData.currentPosition, cb);
+  }
+}
+
+
 module.exports = {
   formatTime: formatTime,
-  DateFormat: DateFormat,
-  DateFormatLast: DateFormatLast,
-  apiFormat:apiFormat
+  formatduration: formatduration,
+  playAlrc: playAlrc,
+  toggleplay: toggleplay
 }

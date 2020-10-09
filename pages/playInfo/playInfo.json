@@ -3,6 +3,6 @@
   "navigationBarTitleText": "播放详情",
   "component": true,  
   "usingComponents": {
-    "selectWorks": "/components/selectWorks"
+    
   }
 }
