@@ -96,12 +96,22 @@ Component({
       const canplay = app.globalData.canplay
       // 设置播放图片名字和时长
       this.setData({
+        id: canplay[index-1].id,
         name: canplay[index - 1].name,
         songpic: canplay[index - 1].al.picUrl.replace('$', '=='),
         duration: tool.formatduration(Number(canplay[index - 1].dt)),
       })
       app.nextplay(-1, canplay, index)
       index--
+      // 切换完歌曲就把状态存入缓存中
+      const songInfo = {
+        name: this.data.name,
+        songpic: this.data.songpic,
+        index: index,
+        id: this.data.id,
+        duration: this.data.duration
+      } 
+      wx.setStorageSync('songInfo', songInfo)
     },
     // 下一首
     next() {
@@ -110,12 +120,22 @@ Component({
       console.log(canplay, index)
       // 设置播放图片名字和时长
       this.setData({
+        id: canplay[index+1].id,
         name: canplay[index + 1].name,
         songpic: canplay[index + 1].al.picUrl.replace('$', '=='),
         duration: tool.formatduration(Number(canplay[index + 1].dt)),
       })
       app.nextplay(1, canplay, index)
       index++
+      // 切换完歌曲就把状态存入缓存中
+      const songInfo = {
+        name: this.data.name,
+        songpic: this.data.songpic,
+        index: index,
+        id: this.data.id,
+        duration: this.data.duration
+      } 
+      wx.setStorageSync('songInfo', songInfo)
     },
     // 暂停
     togglePlay() {
@@ -124,7 +144,7 @@ Component({
     },
     // 进入播放详情
     playInfo() {
-
+      this.triggerEvent('myevent')
     }
   }
 })

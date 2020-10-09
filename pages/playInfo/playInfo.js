@@ -32,7 +32,7 @@ Page({
     console.log(songInfo)
     // 如果点击的还是当前播放的歌曲则不用重新播放
     if (options.sameFlag === 'false') {
-      app.playmusic(this, songInfo.id)
+      app.playmusic(songInfo)
     }
   },
   onShow: function () {

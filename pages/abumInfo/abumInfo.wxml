@@ -1,12 +1,12 @@
 <view class="page">
   <view class="btns">
     <button bindtap="playAll">播放全部</button>
-    <button>共300集</button>
+    <button>共{{Episode}}首</button>
   </view>
   <!-- 列表 -->
   <view class="list">
     <view class="songList">
-      <view bindtap="goPlayInfo" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-no='{{index}}' data-id='{{item.id}}' data-name='{{item.name}}' data-duration="{{item.dt}}" data-songpic="{{item.al.picUrl}}" wx:key="index" wx:for="{{canplay}}">
+      <view bindtap="goPlayInfo" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-no='{{index}}' data-id='{{item.id}}' data-name='{{item.name}}' data-duration="{{item.dt}}" data-songpic="{{item.al.picUrl}}" data-url="{{item.url}}" wx:key="index" wx:for="{{canplay}}">
         <text>{{index + 1}}</text>
         <text>{{item.name}}</text>
         <!-- <text>03:23</text> -->
@@ -17,5 +17,5 @@
       <image src="../../static/images/song.jpg" />
     </view>
   </view>
-  <mini-player name="{{name}}" data-no='{{index}}' songpic="{{songpic}}" percent="{{percent}}"></mini-player>
+  <mini-player bindmyevent="barGoPlayInfo" name="{{name}}" data-no='{{index}}' data-id='{{canplay[index].id}}' data-name='{{canplay[index].name}}' data-duration="{{canplay[index].dt}}" data-songpic="{{canplay[index].al.picUrl}}" songpic="{{songpic}}" percent="{{percent}}"></mini-player>
 </view>
