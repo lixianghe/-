@@ -16,12 +16,12 @@ Page({
     })
   },
   onLoad(options) {
-    const promise = indOpt.getData()
-    setTimeout(()=>{
-      promise.then(res => {
-        this.setData(res)
-      }).catch(err => console.log(err))
-    },500)
+    // const promise = indOpt.getData()
+    // setTimeout(()=>{
+    //   promise.then(res => {
+    //     this.setData(res)
+    //   }).catch(err => console.log(err))
+    // },500)
   },
   onShow() {
 

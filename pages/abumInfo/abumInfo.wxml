@@ -14,7 +14,7 @@
       
     </view>
     <view class="imgCard">
-      <image src="../../static/images/song.jpg" />
+      <image src="http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg" />
     </view>
   </view>
   <selectWorks id="selectWorks" bindchangeWords="changeWords"> </selectWorks>
