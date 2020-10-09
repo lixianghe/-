@@ -46,7 +46,7 @@
   "usingComponents": {
     "mini-player": "/components/miniPlayer/index",
     "tab-bar": "/components/tabbar/index",
-    "select-works": "/components/selectWorks/index"
+    "selectWorks": "/components/selectWorks/index"
   },
   "requiredBackgroundModes": ["audio"],
   "sitemapLocation": "sitemap.json"
