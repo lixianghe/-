@@ -3,7 +3,7 @@
     <view class="title">{{name}}</view>
     <view class="player">
       <text class="time">{{playtime}}</text>
-      <progress percent="{{downloadPercent}}" color="#dadada" stroke-width="2">
+      <progress color="#dadada" stroke-width="2">
         <text id="playstate" style="left:{{percent}}%"></text>
         <text id="dpstate" style="width:{{percent}}%"></text>
         <slider block-size="16" block-color="#888" bindchange="museek" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>

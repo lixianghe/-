@@ -1,5 +1,5 @@
 var myPlugin = requirePlugin('inCar')
-var bsurl = 'http://localhost:3000/v1/'
+// var bsurl = 'http://localhost:3000/v1/'
 
 App({
   globalData: {
@@ -12,9 +12,11 @@ App({
     isNetConnected: true,
     
     playing: false,
+    percent: 0,
     curplay: {},
     globalStop: true,
-    currentPosition: 0
+    currentPosition: 0,
+    canplay: []
   },
   
   
@@ -24,10 +26,13 @@ App({
     var that = this;
     //播放列表中下一首
     wx.onBackgroundAudioStop(function () { 
-      if (that.globalData.globalStop) {
-        return;
-      }
-      that.nextplay(that.globalData.playtype);
+      // 获取歌曲列表
+      const canplay = wx.getStorageSync('canplay')
+      // 获取缓存的歌曲信息
+      const songInfo = wx.getStorageSync('songInfo')
+      that.nextplay(1, canplay, songInfo.index)
+      const page = getCurrentPages()
+      console.log(page)
     });
     //监听音乐暂停，保存播放进度广播暂停状态
     wx.onBackgroundAudioPause(function () {
@@ -68,78 +73,68 @@ App({
   },
 
   
-  playmusic:  function (that, id, br) {
-    var that = this
-    wx.request({
-      url: bsurl + 'music/detail',
-      data: {
-        id: id
-      },
-      success:  (res) => {
-        console.log(res)
-        that.globalData.curplay = res.data.songs[0];
-        that.seekmusic(1);
-      }
-    })
+  playmusic:  function (songInfo) {
+    // var that = this
+    // wx.request({
+    //   url: bsurl + 'music/detail',
+    //   data: {
+    //     id: id
+    //   },
+    //   success:  (res) => {
+    //     console.log(res)
+    //     that.globalData.curplay = res.data.songs[0];
+    //     that.seekmusic(1);
+    //   }
+    // })
+    this.globalData.curplay = songInfo
+    console.log('songInfosongInfo', songInfo)
+    this.seekmusic(1)
+
 
   },
   seekmusic: function (type, seek, cb) {
-    var that = this;
     var m = this.globalData.curplay;
-    console.log('m', m)
     if (!m.id) return;
-    if (cb) {
-      console.log(1)
-      this.playing(type, cb, seek);
-    } else {
-      console.log(2)
-      this.geturl(function () { that.playing(type, cb, seek); })
-    }
+    this.playing(type, cb, seek);
   },
   playing: function (type, cb, seek) {
     var that = this
     var m = that.globalData.curplay
-    console.log('m', m)
+    console.log('mmmm', m)
     wx.playBackgroundAudio({
       dataUrl: m.url,
       title: m.name,
       success: function (res) {
-        console.log(res)
         if (seek != undefined) {
           wx.seekBackgroundAudio({ position: seek })
         };
-        that.globalData.globalStop = false;
         that.globalData.playing = true;
         cb && cb();
       },
       fail: function () {
-        if (type != 2) {
-          that.nextplay(1)
-        } else {
-          that.nextfm();
-        }
-      }
-    })
-  },
-  geturl: function (suc) {
-    var that = this;
-    var m = that.globalData.curplay
-    wx.request({
-      url: bsurl + 'music/url',
-      data: {
-        id: m.id,
-        br: m.duration ? ((m.hMusic && m.hMusic.bitrate) || (m.mMusic && m.mMusic.bitrate) || (m.lMusicm && m.lMusic.bitrate) || (m.bMusic && m.bMusic.bitrate)) : (m.privilege ? m.privilege.maxbr : ((m.h && m.h.br) || (m.m && m.m.br) || (m.l && m.l.br) || (m.b && m.b.br))),
-        br: 128000
-      },
-      success: function (a) {
-        a = a.data.data[0];
-        if (!a.url) {
-          err && err()
-        } else {
-          that.globalData.curplay.url = a.url;
-          suc && suc()
-        }
+        
       }
     })
   }
+  // geturl: function (suc) {
+  //   var that = this;
+  //   var m = that.globalData.curplay
+  //   wx.request({
+  //     url: bsurl + 'music/url',
+  //     data: {
+  //       id: m.id,
+  //       br: m.duration ? ((m.hMusic && m.hMusic.bitrate) || (m.mMusic && m.mMusic.bitrate) || (m.lMusicm && m.lMusic.bitrate) || (m.bMusic && m.bMusic.bitrate)) : (m.privilege ? m.privilege.maxbr : ((m.h && m.h.br) || (m.m && m.m.br) || (m.l && m.l.br) || (m.b && m.b.br))),
+  //       br: 128000
+  //     },
+  //     success: function (a) {
+  //       a = a.data.data[0];
+  //       if (!a.url) {
+  //         err && err()
+  //       } else {
+  //         that.globalData.curplay.url = a.url;
+  //         suc && suc()
+  //       }
+  //     }
+  //   })
+  // }
 })

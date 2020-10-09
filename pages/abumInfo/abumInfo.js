@@ -1,19 +1,34 @@
 
 const app = getApp()
 const bsurl = 'http://localhost:3000/v1/'
+import tool from '../../utils/util'
+import { playList } from '../../utils/pageOtpions/songOtpions'
 
 Page({
   data: {
     canplay: [],
     percent: 0,
-    downloadPercent: 0,
-    id: null
+    id: null,
+    songpic: null,
+    name: null,
+    index: null,
+    current: null,
+    Episode: 10
   },
   onLoad(options) {
-    this.getPlayList()
+    
   },
   onShow() {
-
+    // 初始化歌曲的名字和歌曲封面，获取歌单列表
+    const songInfo = wx.getStorageSync('songInfo')
+    this.setData({
+      songpic: songInfo.songpic,
+      name: songInfo.name,
+      canplay: songInfo.canplay,
+      index: songInfo.index,
+      current: songInfo.index
+    })
+    this.getPlayList()
   },
   // 调用子组件的方法，进行通讯,传值true显示选集列表
   changeProp() {
@@ -25,44 +40,105 @@ Page({
   changeWords(e) {
     console.log(e)
   },
-  // 跳转到歌曲详情
+
+  // 点击歌曲名称跳转到歌曲详情
   goPlayInfo(e) {
     console.log(e)
+    // 跳转的时候把歌名，歌曲封面，歌单序号，歌曲id存在本地缓存
+    // 这里还要判断一下点击的歌曲是否是正在播放的歌曲
+    const id = wx.getStorageSync('songInfo') ? wx.getStorageSync('songInfo').id : null
+    const sameFlag = id === e.currentTarget.dataset.id
+    const songInfo = {
+      name: e.currentTarget.dataset.name,
+      songpic: e.currentTarget.dataset.songpic,
+      index: e.currentTarget.dataset.no,
+      id: e.currentTarget.dataset.id,
+      duration: e.currentTarget.dataset.duration,
+      url: e.currentTarget.dataset.url
+    }
+    console.log(songInfo)
+    wx.setStorage({
+      key: "songInfo",
+      data: songInfo
+    })
     wx.navigateTo({
-      url: `../playInfo/playInfo?no=${e.currentTarget.dataset.no}&id=${e.currentTarget.dataset.id}&name=${e.currentTarget.dataset.name}&duration=${e.currentTarget.dataset.duration}&songpic=${e.currentTarget.dataset.songpic}`,
-      success: function(res) {
-      }
+      url: `../playInfo/playInfo?sameFlag=${sameFlag}`
+    })
+    this.setData({
+      current: e.currentTarget.dataset.no
+    })
+  },
+  // 点击mini bar跳转到歌曲详情
+  barGoPlayInfo() {
+    wx.navigateTo({
+      url: '../playInfo/playInfo?sameFlag=true'
+    })
+    this.setData({
+      current: e.currentTarget.dataset.no
     })
   },
   // 获取歌曲列表
   getPlayList() {
-    wx.request({
-      url: bsurl + 'playlist/detail',
-      data: {
-        id: 5157518567,
-        limit: 1000
-      },
-      success:  (res) => {
-        var canplay = [];
-        for (let i = 0; i < res.data.playlist.tracks.length; i++) {
-          if (res.data.privileges[i].st >= 0) {
-            res.data.playlist.tracks[i].al.picUrl = res.data.playlist.tracks[i].al.picUrl.replace('==', '$')
-            canplay.push(res.data.playlist.tracks[i])
-          }
-        }
-        console.log('canplay', canplay)
-        this.setData({
-          canplay: canplay
-        })
-
-        wx.setNavigationBarTitle({
-          title: res.data.playlist.name
-        })
-      }, fail: function (res) {
-        // wx.navigateBack({
-        //   delta: 1
-        // })
-      }
+    // wx.request({
+    //   url: bsurl + 'playlist/detail',
+    //   data: {
+    //     id: 5157518567,
+    //     limit: 1000
+    //   },
+    //   success:  (res) => {
+    //     var canplay = [];
+    //     for (let i = 0; i < res.data.playlist.tracks.length; i++) {
+    //       if (res.data.privileges[i].st >= 0) {
+    //         res.data.playlist.tracks[i].al.picUrl = res.data.playlist.tracks[i].al.picUrl
+    //         canplay.push(res.data.playlist.tracks[i])
+    //       }
+    //     }
+    //     console.log('canplay', canplay)
+    //     this.setData({
+    //       canplay: canplay
+    //     })
+    //     wx.setStorage({
+    //       key: "canplay",
+    //       data: canplay
+    //     })
+    //     wx.setNavigationBarTitle({
+    //       title: res.data.playlist.name
+    //     })
+    //   }
+    // })
+    const canplay = playList
+    console.log('canplay', canplay)
+    this.setData({
+      canplay: canplay
     })
+    wx.setStorage({
+      key: "canplay",
+      data: canplay
+    })
+    // wx.setNavigationBarTitle({
+    //   title: res.data.playlist.name
+    // })
+  },
+  // 播放全部
+  playAll() {
+    console.log(this.data.canplay)
+    app.globalData.canplay = this.data.canplay
+    app.playmusic(this, this.data.canplay[0].id)
+    this.setData({
+      name: this.data.canplay[0].name,
+      duration: tool.formatduration(Number(this.data.canplay[0].duration)),
+      songpic: this.data.canplay[0].al.picUrl,
+      current: 0
+    })
+    // 把第一首歌存在缓存中
+    const songInfo = {
+      name: this.data.canplay[0].name,
+      songpic: this.data.canplay[0].al.picUrl,
+      index: 0,
+      id: this.data.canplay[0].id,
+      duration: tool.formatduration(Number(this.data.canplay[0].duration)),
+    } 
+    wx.setStorageSync('songInfo', songInfo)
   }
 })
+
