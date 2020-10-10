@@ -74,18 +74,6 @@ App({
 
   
   playmusic:  function (songInfo) {
-    // var that = this
-    // wx.request({
-    //   url: bsurl + 'music/detail',
-    //   data: {
-    //     id: id
-    //   },
-    //   success:  (res) => {
-    //     console.log(res)
-    //     that.globalData.curplay = res.data.songs[0];
-    //     that.seekmusic(1);
-    //   }
-    // })
     this.globalData.curplay = songInfo
     console.log('songInfosongInfo', songInfo)
     this.seekmusic(1)
@@ -94,6 +82,7 @@ App({
   },
   seekmusic: function (type, seek, cb) {
     var m = this.globalData.curplay;
+    console.log(m)
     if (!m.id) return;
     this.playing(type, cb, seek);
   },
@@ -116,25 +105,4 @@ App({
       }
     })
   }
-  // geturl: function (suc) {
-  //   var that = this;
-  //   var m = that.globalData.curplay
-  //   wx.request({
-  //     url: bsurl + 'music/url',
-  //     data: {
-  //       id: m.id,
-  //       br: m.duration ? ((m.hMusic && m.hMusic.bitrate) || (m.mMusic && m.mMusic.bitrate) || (m.lMusicm && m.lMusic.bitrate) || (m.bMusic && m.bMusic.bitrate)) : (m.privilege ? m.privilege.maxbr : ((m.h && m.h.br) || (m.m && m.m.br) || (m.l && m.l.br) || (m.b && m.b.br))),
-  //       br: 128000
-  //     },
-  //     success: function (a) {
-  //       a = a.data.data[0];
-  //       if (!a.url) {
-  //         err && err()
-  //       } else {
-  //         that.globalData.curplay.url = a.url;
-  //         suc && suc()
-  //       }
-  //     }
-  //   })
-  // }
 })

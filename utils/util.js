@@ -88,7 +88,7 @@ function toggleplay(that, app, cb) {
     that.setData({
       playing: true
     });
-    app.seekmusic(app.globalData.playtype, app.globalData.currentPosition, cb);
+    app.seekmusic(1, app.globalData.currentPosition, cb);
   }
 }
 

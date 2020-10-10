@@ -10,9 +10,11 @@ Page({
     })
   },
   // 跳转到播放详情界面
-  linkAbumInfo () {
+  linkAbumInfo (e) {
+    const no = e.currentTarget.dataset.no
+    const src = e.currentTarget.dataset.src.replace('==', '$')
     wx.navigateTo({
-      url: '../abumInfo/abumInfo'
+      url: `../abumInfo/abumInfo?no=${no}&src=${src}`
     })
   },
   onLoad(options) {

@@ -82,3 +82,34 @@
   top: 50%;
   margin-top: -1px;
 }
+
+/* 弹出的播放列表 */
+.playList {
+  position: fixed;
+  background: #eaeaea;
+  left: 50%;
+  bottom: 20rpx;
+  width: 680rpx;
+  height: 300rpx;
+  transform: translateX(-50%);
+  border-radius: 10rpx;
+  z-index: 999;
+  padding: 20rpx;
+}
+.playList .songList view {
+  margin-bottom: 12rpx;
+  color: #333;
+}
+.playList .songList text {
+  
+  font-size: 13rpx;
+  margin-right: 15rpx;
+}
+.playList button {
+  border: none;
+  border-top: 1px solid #ddd;
+  background: #eaeaea;
+}
+.playList button::after {
+  content: none;
+}

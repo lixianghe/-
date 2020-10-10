@@ -60,8 +60,20 @@ Component({
   },
   pageLifetimes: {
     show: function() {
+      // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
+      const songInfo = wx.getStorageSync('songInfo')
+      const canplay = wx.getStorageSync('canplay')
+      if (app.globalData.curplay.name) {
+        this.setData({
+          songpic: songInfo.songpic,
+          name: songInfo.name,
+          index: songInfo.index,
+          canplay: canplay
+        })
+      } 
+      
       // 记录播放到那一首歌
-      index = this.data.no
+      index = songInfo.index
       const that = this;
       // 监听歌曲播放状态，比如进度，时间
       tool.playAlrc(that, app);
@@ -93,7 +105,7 @@ Component({
     // 上一首
     pre() {
       console.log('pre', index)
-      const canplay = app.globalData.canplay
+      const canplay = this.data.canplay
       // 设置播放图片名字和时长
       this.setData({
         id: canplay[index-1].id,
@@ -116,7 +128,7 @@ Component({
     // 下一首
     next() {
       console.log('next', index)
-      const canplay = app.globalData.canplay
+      const canplay = this.data.canplay
       console.log(canplay, index)
       // 设置播放图片名字和时长
       this.setData({

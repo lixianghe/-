@@ -14,10 +14,10 @@
       
     </view>
     <view class="imgCard">
-      <image src="http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg" />
+      <image src="{{src}}" />
     </view>
   </view>
   <selectWorks id="selectWorks" bindchangeWords="changeWords"> </selectWorks>
-  <mini-player bindmyevent="barGoPlayInfo" name="{{name}}" data-no='{{index}}' data-id='{{canplay[index].id}}' data-name='{{canplay[index].name}}' data-duration="{{canplay[index].dt}}" data-songpic="{{canplay[index].al.picUrl}}" songpic="{{songpic}}" percent="{{percent}}"></mini-player>
+  <mini-player bindmyevent="barGoPlayInfo" name="{{name}}" data-no='{{index}}'  songpic="{{songpic}}" percent="{{percent}}"></mini-player>
 </view>
   

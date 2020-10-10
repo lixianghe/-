@@ -2,7 +2,7 @@
 const app = getApp()
 const bsurl = 'http://localhost:3000/v1/'
 import tool from '../../utils/util'
-import { playList } from '../../utils/pageOtpions/songOtpions'
+import { playList, playList2 } from '../../utils/pageOtpions/songOtpions'
 
 Page({
   data: {
@@ -13,21 +13,28 @@ Page({
     name: null,
     index: null,
     current: null,
-    Episode: 10
+    Episode: 10,
+    zjNo: 0
   },
   onLoad(options) {
-    
+    this.setData({
+      zjNo: options.no,
+      src: options.src.replace('$', '==')
+    })
   },
   onShow() {
     // 初始化歌曲的名字和歌曲封面，获取歌单列表
     const songInfo = wx.getStorageSync('songInfo')
-    this.setData({
-      songpic: songInfo.songpic,
-      name: songInfo.name,
-      canplay: songInfo.canplay,
-      index: songInfo.index,
-      current: songInfo.index
-    })
+    if (app.globalData.curplay.name){
+      this.setData({
+        songpic: songInfo.songpic,
+        name: songInfo.name,
+        canplay: songInfo.canplay,
+        index: songInfo.index,
+        current: songInfo.index
+      })
+    }
+    
     this.getPlayList()
   },
   // 调用子组件的方法，进行通讯,传值true显示选集列表
@@ -79,34 +86,13 @@ Page({
   },
   // 获取歌曲列表
   getPlayList() {
-    // wx.request({
-    //   url: bsurl + 'playlist/detail',
-    //   data: {
-    //     id: 5157518567,
-    //     limit: 1000
-    //   },
-    //   success:  (res) => {
-    //     var canplay = [];
-    //     for (let i = 0; i < res.data.playlist.tracks.length; i++) {
-    //       if (res.data.privileges[i].st >= 0) {
-    //         res.data.playlist.tracks[i].al.picUrl = res.data.playlist.tracks[i].al.picUrl
-    //         canplay.push(res.data.playlist.tracks[i])
-    //       }
-    //     }
-    //     console.log('canplay', canplay)
-    //     this.setData({
-    //       canplay: canplay
-    //     })
-    //     wx.setStorage({
-    //       key: "canplay",
-    //       data: canplay
-    //     })
-    //     wx.setNavigationBarTitle({
-    //       title: res.data.playlist.name
-    //     })
-    //   }
-    // })
-    const canplay = playList
+    var canplay;
+    if (this.data.zjNo === '0') {
+      canplay = playList
+    } else {
+      canplay = playList2
+    }
+    
     console.log('canplay', canplay)
     this.setData({
       canplay: canplay
