@@ -35,7 +35,7 @@ Page({
     // 播放歌曲
     console.log(songInfo, options.sameFlag)
     // 如果点击的还是当前播放的歌曲则不用重新播放
-    if (options.sameFlag === 'false') {
+    if (options.sameFlag === 'false' || !app.globalData.curplay.name) {
       app.playmusic(songInfo)
     }
   },
@@ -87,7 +87,7 @@ Page({
       name: canplay[index+1].name,
       songpic: canplay[index+1].al.picUrl,
       duration: tool.formatduration(Number(canplay[index+1].dt)),
-      id: canplay[index-1].id,
+      id: canplay[index + 1].id,
       current: index + 1
     })
     app.nextplay(1, canplay, index)
