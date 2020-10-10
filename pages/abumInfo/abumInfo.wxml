@@ -9,7 +9,7 @@
       <view bindtap="goPlayInfo" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-no='{{index}}' data-id='{{item.id}}' data-name='{{item.name}}' data-duration="{{item.dt}}" data-songpic="{{item.al.picUrl}}" data-url="{{item.url}}" wx:key="index" wx:for="{{canplay}}">
         <text>{{index + 1}}</text>
         <text>{{item.name}}</text>
-        <!-- <text>03:23</text> -->
+        <text>{{item.formatDt}}</text>
       </view>
       
     </view>

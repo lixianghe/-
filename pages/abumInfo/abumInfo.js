@@ -92,7 +92,9 @@ Page({
     } else {
       canplay = playList2
     }
-    
+    canplay.forEach(item => {
+      item.formatDt = tool.formatduration(Number(item.dt))
+    })
     console.log('canplay', canplay)
     this.setData({
       canplay: canplay
