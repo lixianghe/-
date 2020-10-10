@@ -34,3 +34,16 @@
     <image src="{{songpic}}" />
   </view>
 </view>
+
+<!-- 弹出播放列表 -->
+<view wx:if="{{showList}}" class="playList">
+  <view class="songList">
+      <view bindtap="playSong" style="color: {{index === current ? '#c64f31' : '#333'}}" data-no='{{index}}' data-id='{{item.id}}' data-name='{{item.name}}' data-duration="{{item.dt}}" data-songpic="{{item.al.picUrl}}" data-url="{{item.url}}" wx:key="index" wx:for="{{canplay}}">
+        <text>{{index + 1}}</text>
+        <text>{{item.name}}</text>
+        <!-- <text>03:23</text> -->
+      </view>
+      
+    </view>
+    <button bindtap="closeList">关闭</button>
+</view>

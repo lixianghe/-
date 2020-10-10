@@ -19,7 +19,7 @@ Page({
   },
   onLoad(options) {
     this.setData({
-      list: wx.getStorageSync('latListenData')
+      list: wx.getStorageSync('latListenData').filter(v => v.pid == options.id)
     })
   },
   onShow() {

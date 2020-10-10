@@ -4,9 +4,10 @@ const app = getApp()
 Page({
   data: latelyLtnOpt,
   // 跳转到播放详情界面
-  linkInfoList () {
+  linkInfoList (e) {
+    let id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../latelyLtnList/latelyLtnList',
+      url: `../latelyLtnList/latelyLtnList?id=${id}`,
     })
   },
   onLoad(options) {

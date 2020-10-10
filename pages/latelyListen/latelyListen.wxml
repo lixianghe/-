@@ -1,7 +1,7 @@
 <view class="latelyListen">
   <noData wx:if="{{info.length === 0}}" noContent="{{noContent}}"></noData>
 
-  <view class="latelyCard" wx:for="{{info}}" wx:key="index" bindtap="linkInfoList">
+  <view class="latelyCard" wx:for="{{info}}" wx:key="index" data-id="{{item.id}}" bindtap="linkInfoList">
     <image src="{{item.src}}"></image>
     <view class="latelyTit">
       <text>{{ item.title }}</text>
