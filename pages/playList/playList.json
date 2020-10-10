@@ -1,9 +1,0 @@
-{
-  "navigationBarBackgroundColor": "#353744",
-  "navigationBarTitleText": "播放列表",
-  "enablePullDownRefresh": true,
-  "component": true,  
-  "usingComponents": {
-
-  }
-}

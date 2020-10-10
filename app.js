@@ -1,4 +1,4 @@
-var myPlugin = requirePlugin('inCar')
+// var myPlugin = requirePlugin('inCar')
 // var bsurl = 'http://localhost:3000/v1/'
 
 App({
@@ -23,7 +23,7 @@ App({
   
   
   onLaunch: function () {
-    myPlugin.injectWx(wx)
+    // myPlugin.injectWx(wx)
     // 关于音乐播放的
     var that = this;
     //播放列表中下一首

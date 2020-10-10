@@ -37,12 +37,6 @@
     }
   ]
   },
-  "plugins": {
-    "inCar": {
-      "version": "1.0.0",
-      "provider": "wx933ab35ff70a9a16"
-    }
-  },
   "usingComponents": {
     "mini-player": "/components/miniPlayer/index",
     "selectWorks": "/components/selectWorks/index",

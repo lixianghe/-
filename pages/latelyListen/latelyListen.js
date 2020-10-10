@@ -15,14 +15,5 @@ Page({
     this.setData({
       info: indexData
     })
-    const promise = latelyLtnOpt.getData()
-    setTimeout(()=>{
-      promise.then(res => {
-        this.setData(res)
-      }).catch(err => console.log(err))
-    },500)
-  },
-  onShow() {
-
   }
 })

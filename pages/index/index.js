@@ -26,13 +26,13 @@ Page({
   },
   onLoad(options) {
     app.globalData.indexData = indOpt.info
-    const promise = indOpt.getData()
-    setTimeout(()=>{
-      promise.then(res => {
-        app.globalData.indexData = res.info
-        this.setData(res)
-      }).catch(err => console.log(err))
-    },500)
+    // const promise = indOpt.getData()
+    // setTimeout(()=>{
+    //   promise.then(res => {
+    //     app.globalData.indexData = res.info
+    //     this.setData(res)
+    //   }).catch(err => console.log(err))
+    // },500)
 
   },
   onShow() {
