@@ -2,20 +2,20 @@
   width: 100%;
   height: 100%;
   background: #272c3f;
-  padding: 0 25rpx;
+  padding: 0 10vh;
   display: flex;
   color: #fff;
 }
 .page .playLeft {
-  width: 500rpx;
-  padding-top: 80rpx;
+  width: 130vh;
+  padding-top: 20vh;
 }
 .page .playLeft .title {
   font-size: 13rpx;
 }
 .page .playLeft .player {
-  margin-top: 65rpx;
-  padding-right: 55rpx;
+  margin-top: 18vh;
+  padding-right: 12vh;
   position: relative;
 }
 .page .playLeft .player slider {
@@ -34,23 +34,23 @@
 .page .playLeft .player .time {
   position: absolute;
   left: 0;
-  top: 25rpx;
+  top: 8vh;
 }
 
 .page .playLeft .player .duration {
   position: absolute;
-  right: 50rpx;
-  top: 25rpx;
+  right: 16vh;
+  top: 8vh;
 }
 
 .page .playLeft .btns {
   display: flex;
-  margin-top: 100rpx;
+  margin-top: 32vh;
 }
 .page .playLeft image {
-  width: 24rpx;
-  height: 24rpx;
-  margin-right: 115rpx;
+  width: 7vh;
+  height: 7vh;
+  margin-right: 30vh;
 }
 .page .playRight {
   height: 100%;
@@ -61,11 +61,11 @@
 #playstate {
   position: absolute;
   display: block;
-  height: 5rpx;
-  width: 5rpx;
+  height: 2vh;
+  width: 2vh;
   overflow: hidden;
   background-color: #d33a31;
-  border: 5rpx solid #fff;
+  border: 2vh solid #fff;
   border-radius: 50%;
   top: 50%;
   transform: translate3d(-50%, -50%, 0);
@@ -88,13 +88,13 @@
   position: fixed;
   background: #eaeaea;
   left: 50%;
-  bottom: 20rpx;
-  width: 680rpx;
-  height: 300rpx;
+  bottom: 2vh;
+  width: 180vh;
+  height: 80vh;
   transform: translateX(-50%);
-  border-radius: 10rpx;
+  border-radius: 2vh;
   z-index: 999;
-  padding: 20rpx;
+  padding: 6vh;
 }
 .playList .songList view {
   margin-bottom: 12rpx;
@@ -103,7 +103,7 @@
 .playList .songList text {
   
   font-size: 13rpx;
-  margin-right: 15rpx;
+  margin-right: 4vh;
 }
 .playList button {
   border: none;

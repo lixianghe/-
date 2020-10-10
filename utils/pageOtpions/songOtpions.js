@@ -2,11 +2,11 @@ export const playList = [{
   name: '若是没有身份吃醋都要把握分寸',
   pid: 0,
   id: 1471235612412,
-  url: 'https://sx-sycdn.kuwo.cn/ba51f384f32e9411760f9587be74ffc3/5f8125b9/resource/n2/78/89/43523193.mp3',
+  url: 'https://win-web-rg01-sycdn.kuwo.cn/325c0a8cabd12ef0b2cfeb510bb2b771/5f81672f/resource/n3/36/94/3100927403.mp3',
   al: {
     picUrl: 'http://p4.music.126.net/6cBvZ0GztcW-J5lw1kb0Mg==/109951165285986646.jpg'
   },
-  dt: 177000,
+  dt: 294000,
 },
 {
   name: 'Amber（琥珀）',
