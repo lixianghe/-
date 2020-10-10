@@ -10,7 +10,9 @@ App({
     haveLogin: false,
     token: '',
     isNetConnected: true,
-    
+    indexData: [],
+    abumInfoData: [],
+
     playing: false,
     percent: 0,
     curplay: {},

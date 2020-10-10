@@ -10,6 +10,10 @@ Page({
     })
   },
   onLoad(options) {
+    let indexData = wx.getStorageSync('indexData') || []
+    this.setData({
+      info: indexData
+    })
     const promise = latelyLtnOpt.getData()
     setTimeout(()=>{
       promise.then(res => {

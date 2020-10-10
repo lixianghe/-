@@ -3,7 +3,7 @@ const app = getApp()
 const bsurl = 'http://localhost:3000/v1/'
 import tool from '../../utils/util'
 import { playList } from '../../utils/pageOtpions/songOtpions'
-
+import {formatduration} from '../../utils/util'
 Page({
   data: {
     canplay: [],
@@ -16,7 +16,8 @@ Page({
     Episode: 10
   },
   onLoad(options) {
-    
+    // 暂存专辑全部歌曲
+    app.globalData.abumInfoData = playList
   },
   onShow() {
     // 初始化歌曲的名字和歌曲封面，获取歌单列表
@@ -45,7 +46,7 @@ Page({
   goPlayInfo(e) {
     console.log(e)
     // 跳转的时候把歌名，歌曲封面，歌单序号，歌曲id存在本地缓存
-    // 这里还要判断一下点击的歌曲是否是正在播放的歌曲
+    // 这里还要判断一下点击的歌曲是 否是正在播放的歌曲
     const id = wx.getStorageSync('songInfo') ? wx.getStorageSync('songInfo').id : null
     const sameFlag = id === e.currentTarget.dataset.id
     const songInfo = {
@@ -53,13 +54,26 @@ Page({
       songpic: e.currentTarget.dataset.songpic,
       index: e.currentTarget.dataset.no,
       id: e.currentTarget.dataset.id,
+      pid: e.currentTarget.dataset.pid,
       duration: e.currentTarget.dataset.duration,
-      url: e.currentTarget.dataset.url
+      url: e.currentTarget.dataset.url,
+      dt: formatduration(e.currentTarget.dataset.dt)
     }
-    console.log(songInfo)
     wx.setStorage({
       key: "songInfo",
       data: songInfo
+    })
+    // 缓存至最近收听
+    let latListenData = wx.getStorageSync('latListenData') || []
+    let latFlag = latListenData.filter(v => v.id === songInfo.id).length
+    if(latFlag === 0) {
+      latListenData.push(songInfo)
+    }
+    
+    
+    wx.setStorage({
+      key: "latListenData",
+      data: [...new Set(latListenData)]
     })
     wx.navigateTo({
       url: `../playInfo/playInfo?sameFlag=${sameFlag}`

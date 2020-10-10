@@ -3,7 +3,7 @@
     <image src="{{ lalyLtn.icon }}"></image>
     <view class="latelyLtnTit">{{ lalyLtn.title }}</view>
   </view>
-  <view class="albumCard" wx:for="{{info}}" wx:key="index" bindtap="linkAbumInfo">
+  <view class="albumCard" wx:for="{{info}}" wx:key="index" bindtap="linkAbumInfo" data-id="{{item.id}}">
     <image src="{{item.src}}"></image>
     <view class="albumTit">
       <text>{{ item.title }}</text>
