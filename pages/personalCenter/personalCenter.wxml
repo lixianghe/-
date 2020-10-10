@@ -2,7 +2,7 @@
   <view class="adminCenter">
     <image src="{{avatar}}"></image>
     <view class="adminCenterName">{{userName}}</view>
-    <view class="adminBtnOut" bindtap="nofityComponent" data-state="login" wx:if="{{!isLogin}}">点击登录</view>
+    <view class="adminBtnOut" bindtap="loginIn" data-state="login" wx:if="{{!isLogin}}">点击登录</view>
     <view class="adminBtnIn" bindtap="nofityComponent" data-state="out" wx:else>退出登录</view>
   </view>
   <view class="cardListen" 

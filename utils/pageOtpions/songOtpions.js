@@ -82,21 +82,21 @@ export const playList = [{
   name: '落入晚风',
   pid: 0,
   id: 1483870149,
-  url: 'https://audio04.dmhmusic.com/71_53_T10053605211_128_4_1_0_sdk-cpm/cn/0209/M00/FB/89/ChR4615p5GCAPlD4AEtM6JH9ylw207.mp3?xcode=49e3f217af8eb6997187685ce9f8af76daf7b06',
+  url: 'https://webfs.yun.kugou.com/202010101620/60550b4f22cc2b219619bfc344921a69/G243/M09/08/13/05QEAF9ydtaAYvXnACdNbAPz0Z4691.mp3',
   al: {
     picUrl: 'http://p3.music.126.net/57hzMDT8oJGN03vjr3aGvw==/109951165357860375.jpg'
   },
-  dt: 308000
+  dt: 160000
 },
 {
   name: '晚晚皆安',
   pid: 0,
   id: 1468420653123,
-  url: 'https://audio04.dmhmusic.com/71_53_T10054204252_128_4_1_0_sdk-cpm/cn/0208/M00/24/C3/ChR4616dXK2AY6pWAEiXvjiR-gY677.mp3?xcode=9d7ce6ff5eb5bd5d7187528dc9fcd6ed00e31b2',
+  url: 'https://webfs.yun.kugou.com/202010101621/bb882c4ada173a7d4d0b99da045545af/G222/M04/03/15/Hg4DAF8hj6OAbk7HACzQAIGhhrw697.mp3',
   al: {
     picUrl: 'http://p4.music.126.net/BGVrg-OeZX0XkO9XO4V__w==/109951165203418530.jpg'
   },
-  dt: 297000
+  dt: 183000
 }
 ]
 

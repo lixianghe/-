@@ -8,7 +8,7 @@
     data-no='{{index}}'
     data-name='{{item.name}}' 
     data-duration="{{item.duration}}" 
-    data-songpic="{{item.al.picUrl}}" 
+    data-songpic="{{item.songpic}}" 
     data-url="{{item.url}}" data-pid="{{item.pid}}" 
     data-dt="{{item.dt}}"
   >

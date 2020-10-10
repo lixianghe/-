@@ -4,7 +4,6 @@
     "pages/playInfo/playInfo" ,
     "pages/personalCenter/personalCenter",
     "pages/abumInfo/abumInfo",
-    "pages/playList/playList",
     "pages/latelyListen/latelyListen",
     "pages/latelyLtnList/latelyLtnList"
   ],
@@ -20,8 +19,9 @@
     }
   },
   "tabBar": {
-    "color": "#7A7E83",
-    "selectedColor": "#000",
+    "color": "#fff",
+    "selectedColor": "#fc3a7b",
+    "backgroundColor": "#3d4253",
     "list": [
     {
       "pagePath": "pages/index/index",
