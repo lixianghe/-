@@ -3,5 +3,23 @@
   "navigationBarTitleText": "最近收听",
   "usingComponents": {
     "noData": "/components/noData"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#000",
+    "list": [
+    {
+      "pagePath": "pages/index/index",
+      "iconPath": "images/index.png",
+      "selectedIconPath": "images/index-select.png",
+      "text": "主页"
+    },
+    {
+      "pagePath": "pages/personalCenter/personalCenter",
+      "iconPath": "images/admin.png",
+      "selectedIconPath": "images/admin-select.png",
+      "text": "我的"
+    }
+  ]
   }
 }

@@ -1,6 +1,17 @@
 <view class="latelyLtnList">
   <noData wx:if="{{list.length === 0}}" noContent="{{noContent}}"></noData>
-  <view class="listItem" wx:for="{{list}}" wx:key="index" data-id="{{item.id}}" bindtap="goPlayInfo">
+  <view class="listItem" 
+    wx:for="{{list}}" 
+    wx:key="index" 
+    data-id="{{item.id}}" 
+    bindtap="goPlayInfo"
+    data-no='{{index}}'
+    data-name='{{item.name}}' 
+    data-duration="{{item.dt}}" 
+    data-songpic="{{item.al.picUrl}}" 
+    data-url="{{item.url}}" data-pid="{{item.pid}}" 
+    data-dt="{{item.dt}}"
+  >
     <text>{{index + 1}}</text>
     <text>{{item.name}}</text>
     <text>{{item.dt}}</text>
