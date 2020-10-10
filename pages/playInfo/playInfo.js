@@ -22,6 +22,7 @@ Page({
     const canplay = wx.getStorageSync('canplay')
     // 获取缓存的歌曲信息
     const songInfo = wx.getStorageSync('songInfo')
+    console.log(songInfo.duration)
     this.setData({
       name: songInfo.name,
       duration: tool.formatduration(Number(songInfo.duration)),

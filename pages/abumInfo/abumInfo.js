@@ -3,7 +3,7 @@ const app = getApp()
 const bsurl = 'http://localhost:3000/v1/'
 import tool from '../../utils/util'
 
-import { playList, playList2 } from '../../utils/pageOtpions/songOtpions'
+import { playList, playList2, playList3 } from '../../utils/pageOtpions/songOtpions'
 import {formatduration} from '../../utils/util'
 
 Page({
@@ -106,8 +106,10 @@ Page({
     var canplay;
     if (this.data.zjNo === '0') {
       canplay = playList
-    } else {
+    } else if (this.data.zjNo === '1') {
       canplay = playList2
+    } else {
+      canplay = playList3
     }
     canplay.forEach(item => {
       item.formatDt = tool.formatduration(Number(item.dt))

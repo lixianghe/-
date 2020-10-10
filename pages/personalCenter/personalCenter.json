@@ -1,8 +1,5 @@
 {
   "navigationBarBackgroundColor": "#353744",
   "navigationBarTitleText": "个人中心",
-  "component": true,  
-  "usingComponents": {
-    "bgConfirm": "/components/bgConfirm"
-  }
+  "component": true
 }

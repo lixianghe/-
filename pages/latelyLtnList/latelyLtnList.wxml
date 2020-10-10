@@ -7,7 +7,7 @@
     bindtap="goPlayInfo"
     data-no='{{index}}'
     data-name='{{item.name}}' 
-    data-duration="{{item.dt}}" 
+    data-duration="{{item.duration}}" 
     data-songpic="{{item.al.picUrl}}" 
     data-url="{{item.url}}" data-pid="{{item.pid}}" 
     data-dt="{{item.dt}}"

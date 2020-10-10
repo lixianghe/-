@@ -1,4 +1,5 @@
 import {options as layLisOpt} from '../../utils/pageOtpions/latelyListenOpt'
+import {formatduration} from '../../utils/util'
 
 const app = getApp()
 
@@ -13,7 +14,6 @@ Page({
     // 这里还要判断一下点击的歌曲是 否是正在播放的歌曲
     const id = wx.getStorageSync('songInfo') ? wx.getStorageSync('songInfo').id : null
     const sameFlag = id === e.currentTarget.dataset.id
-    
     const songInfo = {
       name: e.currentTarget.dataset.name,
       songpic: e.currentTarget.dataset.songpic,
@@ -21,7 +21,8 @@ Page({
       id: e.currentTarget.dataset.id,
       pid: e.currentTarget.dataset.pid,
       duration: e.currentTarget.dataset.duration,
-      url: e.currentTarget.dataset.url
+      url: e.currentTarget.dataset.url,
+      dt: formatduration(e.currentTarget.dataset.dt)
     }
     wx.setStorage({
       key: "songInfo",
