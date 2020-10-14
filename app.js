@@ -1,5 +1,6 @@
 // var myPlugin = requirePlugin('inCar')
 // var bsurl = 'http://localhost:3000/v1/'
+import tool from './utils/util'
 
 App({
   globalData: {
@@ -49,54 +50,40 @@ App({
 
   
   vision: '1.0.0',
-  nextplay: function (t, list, no) {
-    console.log(t, list, no)
-    //播放列表中下一首
-    this.preplay();
-    var list = list
-    var index = no
-    if (t == 1) {
-      index++;
+  cutplay: function (that, type, list) {
+    let no = this.globalData.songInfo.index
+    let index
+    if (type === 1) {
+      index = no + 1 > list.length - 1 ? 0 : no + 1
     } else {
-      index--;
+      index = no - 1 < 0 ? list.length - 1 : no - 1
     }
-    index = index > list.length - 1 ? 0 : (index < 0 ? list.length - 1 : index)
-    this.globalData.curplay = list[index]
-    console.log(this.globalData.curplay)
-    this.seekmusic(1)
-  },
-  preplay: function () {
+    console.log(index)
+    //播放列表中下一首
+    this.globalData.songInfo = list[index]
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
+    this.playing(this.globalData.songInfo)
+    // 切完歌改变songInfo的index
+    this.globalData.songInfo.index = index
+    that.setData({
+      songInfo: this.globalData.songInfo
+    })
   },
-  stopmusic: function (type, cb) {
+  stopmusic: function () {
     wx.pauseBackgroundAudio();
   },
-
-  
-  playmusic:  function (songInfo) {
-    this.globalData.curplay = songInfo
-    console.log('songInfosongInfo', songInfo)
-    this.seekmusic(1)
-
-
-  },
-  seekmusic: function (type, seek, cb) {
-    var m = this.globalData.curplay;
-    console.log(m)
-    if (!m.id) return;
-    this.playing(type, cb, seek);
-  },
-  playing: function (type, cb, seek) {
+  playing: function (seek, cb) {
     var that = this
-    var m = that.globalData.curplay
-    console.log('mmmm', m)
+    const songInfo = that.globalData.songInfo
+    console.log('mmmm', songInfo)
     wx.playBackgroundAudio({
-      dataUrl: m.url,
-      title: m.name,
+      dataUrl: songInfo.url,
+      title: songInfo.name,
       success: function (res) {
         if (seek != undefined) {
+          console.log(seek)
           wx.seekBackgroundAudio({ position: seek })
         };
         that.globalData.playing = true;

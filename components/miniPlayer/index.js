@@ -2,7 +2,6 @@ const app = getApp()
 import tool from '../../utils/util'
 
 var timer = null
-var index = 0
 
 Component({
   properties: {
@@ -40,15 +39,11 @@ Component({
     ],
     playing: false,
     stopUrl: '../../static/images/stop.png',
-    playUrl: '../../static/images/play.png'
+    playUrl: '../../static/images/play.png',
+    songInfo: {}
   },
   observers: {
-    // songpic() {
-    //   this.data.items[3].img = this.data.songpic
-    //   this.setData({
-    //     items: this.data.items
-    //   })
-    // },
+
   },
   lifetimes: {
     attached: function () {
@@ -61,19 +56,14 @@ Component({
   pageLifetimes: {
     show: function() {
       // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
-      const songInfo = wx.getStorageSync('songInfo')
       const canplay = wx.getStorageSync('canplay')
-      if (app.globalData.curplay.name) {
+      console.log('opoooo', app.globalData.songInfo)
+      if (app.globalData.songInfo && app.globalData.songInfo.name) {
         this.setData({
-          songpic: songInfo.songpic,
-          name: songInfo.name,
-          index: songInfo.index,
+          songInfo: app.globalData.songInfo,
           canplay: canplay
         })
       } 
-      
-      // 记录播放到那一首歌
-      index = songInfo.index
       const that = this;
       // 监听歌曲播放状态，比如进度，时间
       tool.playAlrc(that, app);
@@ -104,50 +94,26 @@ Component({
     },
     // 上一首
     pre() {
-      console.log('pre', index)
+      if (app.globalData.songInfo.name) {
+        const index = app.globalData.songInfo.index - 1 < 0 ? this.data.canplay.length - 1 : app.globalData.songInfo.index - 1
+        this.triggerEvent('current', index)
+      }
       const canplay = this.data.canplay
       // 设置播放图片名字和时长
-      this.setData({
-        id: canplay[index-1].id,
-        name: canplay[index - 1].name,
-        songpic: canplay[index - 1].al.picUrl.replace('$', '=='),
-        duration: tool.formatduration(Number(canplay[index - 1].dt)),
-      })
-      app.nextplay(-1, canplay, index)
-      index--
-      // 切换完歌曲就把状态存入缓存中
-      const songInfo = {
-        name: this.data.name,
-        songpic: this.data.songpic,
-        index: index,
-        id: this.data.id,
-        duration: this.data.duration
-      } 
-      wx.setStorageSync('songInfo', songInfo)
+      const that = this
+      app.cutplay(that, - 1, canplay)
+      
     },
     // 下一首
     next() {
-      console.log('next', index)
+      if (app.globalData.songInfo.name) {
+        const index = app.globalData.songInfo.index + 1 > this.data.canplay.length - 1 ? 0 : app.globalData.songInfo.index + 1
+        this.triggerEvent('current', index)
+      }
       const canplay = this.data.canplay
-      console.log(canplay, index)
       // 设置播放图片名字和时长
-      this.setData({
-        id: canplay[index+1].id,
-        name: canplay[index + 1].name,
-        songpic: canplay[index + 1].al.picUrl.replace('$', '=='),
-        duration: tool.formatduration(Number(canplay[index + 1].dt)),
-      })
-      app.nextplay(1, canplay, index)
-      index++
-      // 切换完歌曲就把状态存入缓存中
-      const songInfo = {
-        name: this.data.name,
-        songpic: this.data.songpic,
-        index: index,
-        id: this.data.id,
-        duration: this.data.duration
-      } 
-      wx.setStorageSync('songInfo', songInfo)
+      const that = this
+      app.cutplay(that, + 1, canplay)
     },
     // 暂停
     togglePlay() {
@@ -156,7 +122,9 @@ Component({
     },
     // 进入播放详情
     playInfo() {
-      this.triggerEvent('myevent')
+      wx.navigateTo({
+        url: '../playInfo/playInfo?noPlay=true'
+      })
     }
   }
 })

@@ -6,7 +6,7 @@
   <!-- 列表 -->
   <view class="list">
     <view class="songList">
-      <view bindtap="goPlayInfo" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-no='{{index}}' data-id='{{item.id}}' data-name='{{item.name}}' data-duration="{{item.dt}}" data-songpic="{{item.al.picUrl}}" data-url="{{item.url}}" data-pid="{{item.pid}}" data-dt="{{item.dt}}" wx:key="index" wx:for="{{canplay}}">
+      <view bindtap="goPlayInfo" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
         <text>{{index + 1}}</text>
         <text>{{item.name}}</text>
         <text>{{item.formatDt}}</text>
@@ -18,6 +18,6 @@
     </view>
   </view>
   <selectWorks id="selectWorks" bindchangeWords="changeWords"> </selectWorks>
-  <mini-player bindmyevent="barGoPlayInfo" name="{{name}}" data-no='{{index}}'  songpic="{{songpic}}" percent="{{percent}}"></mini-player>
+  <mini-player bindcurrent="changeCurrent"></mini-player>
 </view>
   

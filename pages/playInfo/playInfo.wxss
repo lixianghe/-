@@ -5,13 +5,15 @@
   padding: 0 10vh;
   display: flex;
   color: #fff;
+  box-sizing: border-box;
 }
 .page .playLeft {
-  width: 130vh;
+  /* width: 130vh; */
+  flex: 1;
   padding-top: 20vh;
 }
 .page .playLeft .title {
-  font-size: 13rpx;
+  font-size: 3.2vh;
 }
 .page .playLeft .player {
   margin-top: 18vh;
@@ -46,11 +48,11 @@
 .page .playLeft .btns {
   display: flex;
   margin-top: 32vh;
+  justify-content: space-between;
 }
 .page .playLeft image {
   width: 7vh;
   height: 7vh;
-  margin-right: 30vh;
 }
 .page .playRight {
   height: 100%;
@@ -89,7 +91,7 @@
   background: #eaeaea;
   left: 50%;
   bottom: 2vh;
-  width: 180vh;
+  width: 90%;
   height: 80vh;
   transform: translateX(-50%);
   border-radius: 2vh;
@@ -97,12 +99,12 @@
   padding: 6vh;
 }
 .playList .songList view {
-  margin-bottom: 12rpx;
+  margin-bottom: 3.1vh;
   color: #333;
 }
 .playList .songList text {
   
-  font-size: 13rpx;
+  font-size: 3.2vh;
   margin-right: 4vh;
 }
 .playList button {

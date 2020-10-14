@@ -7,13 +7,13 @@
   </progress>
   
   <view class="btns">
-    <view bindtap="player" data-name="{{item.name}}" wx:key="index" wx:for="{{items}}">
-      <image wx:if="{{item.name === 'stop'}}" src="{{playing ? stopUrl : playUrl}}" />
-      <image wx:else src="{{item.img}}" />
+    <view wx:key="index" wx:for="{{items}}">
+      <image bindtap="player" data-name="{{item.name}}" wx:if="{{item.name === 'stop'}}" src="{{playing ? stopUrl : playUrl}}" />
+      <image bindtap="player" data-name="{{item.name}}" wx:else src="{{item.img}}" />
     </view>
     <view bindtap="playInfo">
-      <image src="{{songpic}}" />
-      <text>{{name}}</text>
+      <image src="{{songInfo.al.picUrl}}" />
+      <text>{{songInfo.name}}</text>
     </view>
   </view>
 </view>
