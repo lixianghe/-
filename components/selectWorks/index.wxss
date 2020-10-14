@@ -34,13 +34,13 @@
   flex: 0 0 100%;
 }
 .worksItem {
-  flex: 0 0 78rpx;
-  font-size: 11rpx;
+  /* flex: 0 0 78rpx; */
+  font-size: 3vh;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 1vw;
-  height: 29rpx;
+  /* height: 29rpx; */
   border-radius: 5rpx;
   margin-bottom: 10rpx;
   background-color: #eeeeee;

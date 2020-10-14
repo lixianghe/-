@@ -2,7 +2,11 @@ import {options as indOpt} from '../../utils/pageOtpions/indexOpt'
 const app = getApp()
 
 Page({
-  data: indOpt,
+  data: {
+    screen: app.globalData.screen,
+    lalyLtn: indOpt.lalyLtn,
+    info: indOpt.info
+  },
   // 跳转到最近收听页面
   tolatelyListen () {
     wx.navigateTo({

@@ -10,7 +10,7 @@
         wx:for="{{num}}" 
         wx:key="index" 
         data-index="{{index}}"
-        style="border: {{selected === index ? '1rpx solid #000' : 'none'}}; flex: {{selected === index ? '0 0 77rpx' : '0 0 78rpx'}}; height: {{selected === index ? '30rpx' : '32rpx'}}"
+        style="border: {{selected === index ? '1rpx solid #000' : 'none'}}; flex: {{selected === index ? '0 0 19.7vh' : '0 0 20vh'}}; height: {{selected === index ? '7.7vh' : '8vh'}}"
         bindtap="selectThis"  
       >
         {{index * len + 1}} - {{(index + 1) * len}}

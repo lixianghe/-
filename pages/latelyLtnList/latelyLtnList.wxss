@@ -5,14 +5,22 @@ page {
 .latelyLtnList {
   /* display: flex; */
   overflow: auto;
-  padding: 2vh;
   height: 83vh;
   align-items: center;
   color: #d4edff;
 }
+#recycleId {
+  /* display: flex; */
+  overflow: auto;
+  height: 80vh;
+}
 .listItem {
   display: flex;
-  justify-content: space-between;
-  height: 20rpx;
-  margin-bottom: 11rpx;
+  /* justify-content: space-between; */
+  /* height: 20rpx;
+  margin-bottom: 11rpx; */
+}
+.listItem text {
+  flex: 1;
+  text-indent: 10px;
 }
