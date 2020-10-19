@@ -32,17 +32,20 @@ Component({
     items: btnConfig.miniBtns,
     playing: false,
     hoverflag: false,
-    current: null
+    current: null,
+    canplay: []
   },
   observers: {
 
   },
   attached: function () {
-    console.log('attached')
+    const canplay = wx.getStorageSync('canplay')
+    this.setData({
+      canplay: canplay
+    })
     this.listenPlaey()
   },
   detached: function () {
-    console.log('detached')
     clearInterval(timer)
   },
   lifetimes: {
@@ -61,7 +64,6 @@ Component({
     show: function() {
       // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
       const canplay = wx.getStorageSync('canplay')
-      console.log('opoooo---60', app.globalData.songInfo)
       if (app.globalData.songInfo && app.globalData.songInfo.name) {
         this.setData({
           songInfo: app.globalData.songInfo,
@@ -121,7 +123,6 @@ Component({
     },
     // 暂停
     togglePlay() {
-      console.log('stop')
       tool.toggleplay(this, app)
     },
     // 进入播放详情
@@ -132,16 +133,14 @@ Component({
     },
     // 监听音乐播放的状态
     listenPlaey() {
-      // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
-      const canplay = wx.getStorageSync('canplay')
-      console.log('opoooo', app.globalData.songInfo)
-      if (app.globalData.songInfo && app.globalData.songInfo.name) {
-        this.setData({
-          songInfo: app.globalData.songInfo,
-          canplay: canplay
-        })
-      } 
       const that = this;
+      // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
+      if (app.globalData.songInfo && app.globalData.songInfo.name) {
+        that.setData({
+          songInfo: app.globalData.songInfo
+        })
+      }
+      
       // 监听歌曲播放状态，比如进度，时间
       tool.playAlrc(that, app);
       timer = setInterval(function () {
@@ -149,7 +148,6 @@ Component({
       }, 1000);
     },
     btnstart(e) {
-      console.log(1)
       const index = e.currentTarget.dataset.index
       this.setData({
         hoverflag: true,
@@ -158,7 +156,6 @@ Component({
       })
     },
     btend() {
-      console.log(2)
       setTimeout(()=> {
         this.setData({
           hoverflag: false,
