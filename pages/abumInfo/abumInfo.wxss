@@ -2,47 +2,48 @@
   width: 100%;
   height: 100%;
   background: #272c3f;
-  padding: 15rpx 25rpx;
+  padding: 5vh 8vh;
+  box-sizing: border-box;
 }
 .page .btns {
   display: flex;
   justify-content: flex-start;
 }
 .page .btns button {
-  width: 70rpx;
-  height: 20rpx;
-  line-height: 20rpx;
-  font-size: 10rpx;
-  border-radius: 10rpx;
+  width: 23vh;
+  height: 6vh;
+  line-height: 6vh;
+  font-size: 3vh;
+  border-radius: 3vh;
   margin: 0;
   background: #d2d2ee;
-  margin-right: 10rpx;
+  margin-right: 3vh;
 }
 .page .list {
   display: flex;
   color: #fff;
 }
 .page .list .songList {
-  width: 500rpx;
-  margin-top: 10rpx;
-  font-size: 12rpx;
+  /* width: 162vh; */
+  font-size: 3.2vh;
+  flex: 1;
 }
 .page .list .songList view {
-  margin-top: 12rpx;
-  padding-right: 25rpx;
+  margin-top: 3vh;
+  padding-right: 8vh;
 }
 .page .list .songList view text:nth-child(2) {
-  margin-left: 15rpx;
+  margin-left: 5vh;
 }
 .page .list .songList view text:nth-child(3) {
   float: right;
 }
 .page .list .imgCard {
-  padding-top: 80rpx;
-  padding-left: 50rpx;
+  padding-top: 18vh;
+  padding-left: 6vh;
 }
 .page .list .imgCard image {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 10rpx;
+  width: 40vh;
+  height: 40vh;
+  border-radius: 3vh;
 }

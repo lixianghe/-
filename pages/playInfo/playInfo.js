@@ -3,40 +3,32 @@ const app = getApp()
 import tool from '../../utils/util'
 
 var timer = null
-var index = 0
 
 Page({
   data: {
+    songInfo: {},
     playing: false,
-    downloadPercent: 0,
+    drapType: false,
     percent: 0,
-    name: '',
+    drapPercent: 0,
     playtime: '00:00',
-    duration: '',
-    songpic: '',
     showList: false,
     current: null
   },
   onLoad(options) {
     // 获取歌曲列表
     const canplay = wx.getStorageSync('canplay')
-    // 获取缓存的歌曲信息
-    const songInfo = wx.getStorageSync('songInfo')
-    console.log(songInfo.duration)
+    const songInfo = app.globalData.songInfo
+    console.log(songInfo.dt)
+    songInfo.dt = String(songInfo.dt).split(':').length > 1 ? songInfo.dt : tool.formatduration(Number(songInfo.dt))
     this.setData({
-      name: songInfo.name,
-      duration: tool.formatduration(Number(songInfo.duration)),
-      songpic: songInfo.songpic,
-      canplay: canplay,
-      id: songInfo.id,
-      current: songInfo.index
+      songInfo: songInfo,
+      canplay: canplay
     })
-    index = songInfo.index
-    // 播放歌曲
-    console.log(songInfo, options.sameFlag)
+    console.log('songInfosongInfo', songInfo)
     // 如果点击的还是当前播放的歌曲则不用重新播放
-    if (options.sameFlag === 'false' || !app.globalData.curplay.name) {
-      app.playmusic(songInfo)
+    if (options.noPlay !== 'true') {
+      app.playing()
     }
   },
   onShow: function () {
@@ -55,63 +47,25 @@ Page({
   },
   // 上一首
   pre() {
-    console.log('pre', index)
+    const that = this
     const canplay = this.data.canplay
-    // 设置播放图片名字和时长
-    this.setData({
-      name: canplay[index-1].name,
-      songpic: canplay[index-1].al.picUrl,
-      duration: tool.formatduration(Number(canplay[index-1].dt)),
-      id: canplay[index-1].id,
-      current: index - 1
-    })
-    app.nextplay(-1, canplay, index)
-    index--
-    // 切换完歌曲就把状态存入缓存中
-    const songInfo = {
-      name: this.data.name,
-      songpic: this.data.songpic,
-      index: index,
-      id: this.data.id,
-      duration: this.data.duration
-    } 
-    wx.setStorageSync('songInfo', songInfo)
+    app.cutplay(that, -1, canplay)
   },
   // 下一首
   next() {
-    console.log('next', index)
+    const that = this
     const canplay = this.data.canplay
-    console.log(canplay, index)
-    // 设置播放图片名字和时长
-    this.setData({
-      name: canplay[index+1].name,
-      songpic: canplay[index+1].al.picUrl,
-      duration: tool.formatduration(Number(canplay[index+1].dt)),
-      id: canplay[index + 1].id,
-      current: index + 1
-    })
-    app.nextplay(1, canplay, index)
-    index++
-    // 切换完歌曲就把状态存入缓存中
-    const songInfo = {
-      name: this.data.name,
-      songpic: this.data.songpic,
-      index: index,
-      id: this.data.id,
-      duration: this.data.duration
-    } 
-    wx.setStorageSync('songInfo', songInfo)
+    app.cutplay(that, 1, canplay)
   },
   // 暂停
   togglePlay() {
-    console.log('stop')
     tool.toggleplay(this, app)
   },
   // 播放列表
   more() {
-    console.log('more')
     this.setData({
-      showList: true
+      showList: true,
+      current: app.globalData.songInfo.index
     })
   },
   closeList() {
@@ -121,30 +75,44 @@ Page({
   },
   // 在播放列表里面点击播放歌曲
   playSong(e) {
-    const songInfo = {
-      name: e.currentTarget.dataset.name,
-      songpic: e.currentTarget.dataset.songpic,
-      index: e.currentTarget.dataset.no,
-      id: e.currentTarget.dataset.id,
-      duration: e.currentTarget.dataset.duration,
-      url: e.currentTarget.dataset.url
-    }
-    console.log(songInfo)
-    wx.setStorage({
-      key: "songInfo",
-      data: songInfo
-    })
-    // 如果点击的还是当前播放的歌曲则不用重新播放
-    if (index !== e.currentTarget.dataset.no) {
-      app.playmusic(songInfo)
-    }
+    const songInfo = e.currentTarget.dataset.song
+    app.globalData.songInfo = songInfo
+    songInfo.dt = tool.formatduration(Number(songInfo.dt))
+    app.playing()
     this.setData({
       showList: false,
-      index: e.currentTarget.dataset.no,
-      current: e.currentTarget.dataset.no,
-      name: e.currentTarget.dataset.name,
-      songpic: e.currentTarget.dataset.songpic,
-      duration: tool.formatduration(Number(e.currentTarget.dataset.duration))
+      songInfo: songInfo,
+      current: e.currentTarget.dataset.no
+    })
+  },
+  // 点击改变进度
+  setPercent(e) {
+    // const cna
+    console.log('down')
+    // 传入当前毫秒值
+    const time = e.detail.value / 100 * tool.formatToSend(app.globalData.songInfo.dt)
+    app.globalData.currentPosition = time
+    if (app.globalData.songInfo.dt) {
+      if (this.data.playing) {
+        this.setData({
+          drapType: false
+        })
+        app.playing(time)
+      }
+      this.setData({
+        percent: e.detail.value,
+        drapPercent: e.detail.value
+      })
+    }
+  },
+  // 拖拽改变进度
+  dragPercent(e) {
+    const that = this
+    tool.playAlrc(that, app, e.detail.value);
+    this.setData({
+      drapType: true,
+      percent: e.detail.value,
+      drapPercent: e.detail.value
     })
   }
 })

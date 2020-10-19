@@ -1,44 +1,44 @@
 <view class="page">
   <view class="playLeft">
-    <view class="title">{{name}}</view>
+    <view class="title">{{songInfo.name}}</view>
     <view class="player">
       <text class="time">{{playtime}}</text>
       <progress color="#dadada" stroke-width="2">
-        <text id="playstate" style="left:{{percent}}%"></text>
-        <text id="dpstate" style="width:{{percent}}%"></text>
-        <slider block-size="16" block-color="#888" bindchange="museek" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>
+        <text id="playstate" style="left:{{drapType ? drapPercent : percent}}%"></text>
+        <text id="dpstate" style="width:{{drapType ? drapPercent : percent}}%"></text>
+        <slider block-size="16" block-color="#888" bindchanging="dragPercent" bindchange="setPercent" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>
       </progress>
-      <text class="duration">{{duration}}</text>
+      <text class="duration">{{songInfo.dt}}</text>
       <view class="btns">
-        <view bindtap="pre">
-          <image src="../../static/images/pre2.png" />
+        <view>
+          <image bindtap="pre" src="../../static/images/pre2.png" />
         </view>
         <!-- 播放按钮 -->
-        <view wx:if="{{playing}}" bindtap="togglePlay">
-          <image src="../../static/images/stop2.png" />
+        <view wx:if="{{playing}}">
+          <image bindtap="togglePlay" src="../../static/images/stop2.png" />
         </view>
-        <view wx:else bindtap="togglePlay">
-          <image src="../../static/images/play2.png" />
+        <view wx:else>
+          <image bindtap="togglePlay" src="../../static/images/play2.png" />
         </view>
 
-        <view bindtap="next">
-          <image src="../../static/images/next2.png" />
+        <view>
+          <image bindtap="next" src="../../static/images/next2.png" />
         </view>
-        <view bindtap="more">
-          <image src="../../static/images/more2.png" />
+        <view>
+          <image bindtap="more" src="../../static/images/more2.png" />
         </view>
     </view>
     </view>
   </view>
   <view class="playRight">
-    <image src="{{songpic}}" />
+    <image src="{{songInfo.al.picUrl}}" />
   </view>
 </view>
 
 <!-- 弹出播放列表 -->
 <view wx:if="{{showList}}" class="playList">
   <view class="songList">
-      <view bindtap="playSong" style="color: {{index === current ? '#c64f31' : '#333'}}" data-no='{{index}}' data-id='{{item.id}}' data-name='{{item.name}}' data-duration="{{item.dt}}" data-songpic="{{item.al.picUrl}}" data-url="{{item.url}}" wx:key="index" wx:for="{{canplay}}">
+      <view bindtap="playSong" style="color: {{index === current ? '#c64f31' : '#333'}}" data-no='{{index}}' data-song="{{item}}" wx:key="index" wx:for="{{canplay}}">
         <text>{{index + 1}}</text>
         <text>{{item.name}}</text>
         <!-- <text>03:23</text> -->

@@ -1,5 +1,5 @@
 import {options as adminOpt} from '../../utils/pageOtpions/adminOpt'
-// const HTTP = require('../../utils/https')
+import {getData} from '../../utils/httpOpt/http'
 const signUtils = require('../../utils/sign')
 const app = getApp()
 
@@ -8,7 +8,23 @@ Page({
     screen: app.globalData.screen,
     avatar: adminOpt.avatarOut,
     userName: adminOpt.userName,
-    data: adminOpt.info,
+    data: [{
+      type: 'order',
+      icon: '/images/icon-personCenter.png',
+      title: '我的订单'
+    }, {
+      type: 'coupon',
+      icon: '/images/icon-personCenter.png',
+      title: '我的收藏'
+    }, {
+      type: 'VIP',
+      icon: '/images/icon-personCenter.png',
+      title: '会员等级'
+    }, {
+      type: 'us',
+      icon: '/images/icon-personCenter.png',
+      title: '关于我们'
+    }] ,
     isLogin: app.globalData.haveLogin,
     withCredentials: true,
     userInfo: null,
@@ -38,11 +54,32 @@ Page({
     wx.login({ // 重新登录
       success: function (res) {
         if (res.code) {
-          console.log(2222222222222)
-          // 改变登录状态
-          app.globalData.haveLogin = true
-          // 车联登录需要的环境
-          that.code2Session(res.code);
+          // 测试开始
+          wx.getUserInfo({
+            success: function (res) {
+              console.log(JSON.stringify(res))
+              
+              const userInfo = res.userInfo
+              const nickName = userInfo.nickName
+              const avatarUrl = userInfo.avatarUrl
+
+              app.globalData.haveLogin = true
+              that.setData({
+                avatar: avatarUrl,
+                userName: nickName,
+                isLogin: app.globalData.haveLogin
+              })
+            }
+          })
+          // 测试结束
+
+
+
+          // console.log(2220000000022)
+          // // 改变登录状态
+          // app.globalData.haveLogin = true
+          // // 车联登录需要的环境
+          // that.code2Session(res.code);
 
         } else {
           wx.showToast({
@@ -54,7 +91,7 @@ Page({
         console.log(err)
       }
     });
-  },
+  },  
 
   // 把code发至SP后台换取session_key,
   // 1.demo中调用code2Session后code无效，需要重新login获取
@@ -71,43 +108,75 @@ Page({
 
     let sign = signUtils.getSign(requestData)
     requestData.sign = sign
-    console.log(JSON.stringify(requestData))
 
-    wx.request({
-      url: 'http://api.wecar.map.qq.com/account/mini/code2session',
-      method: 'POST',
-      data: requestData,
-      success: function (res) {
-        console.log(3333333333333333)
-        console.log(JSON.stringify(res))
-        that.setData({
-          debugLog: that.data.debugLog + "\nCode2Sesssion:" + JSON.stringify(res)
-        })
+    // 封装写法
+    const promise = getData('codeSession', requestData)
+    promise.then(res => {
+      console.log(3333333333333333)
+      console.log(JSON.stringify(res))
+      that.setData({
+        debugLog: that.data.debugLog + "\nCode2Sesssion:" + JSON.stringify(res)
+      })
 
-        if (res.data.errcode == 0) {
-          console.log(4444444444444444444)
-          // Request success
-          console.log(JSON.stringify(res.data))
-          app.globalData.openid = res.data.data.openid //腾讯车联开放平台openid,保存用于getUserInfo
-          var sessionKey = res.data.data.session_key //会话密钥,demo后台会持久化session_key，用于解密getUserInfo
-          var unionid = res.data.data.unionid //用户在开放平台的唯一标识符，在满足 UnionID 下发条件的情况下会返回
-          
-          // 登录后获取用户信息
-          that.getUserInfo()
-        } else {
-          console.log(555555555555555)
-          // Request failed
-          console.log(JSON.stringify(res))
-        }
-      },
-      fail: function (res) {
-        console.log(666666666666666)
-        that.setData({
-          debugLog: that.data.debugLog + "\nCode2Sesssion:" + JSON.stringify(res)
-        })
+      if (res.data.errcode == 0) {
+        console.log(4444444444444444444)
+        // Request success
+        console.log(JSON.stringify(res.data))
+        app.globalData.openid = res.data.data.openid //腾讯车联开放平台openid,保存用于getUserInfo
+        var sessionKey = res.data.data.session_key //会话密钥,demo后台会持久化session_key，用于解密getUserInfo
+        var unionid = res.data.data.unionid //用户在开放平台的唯一标识符，在满足 UnionID 下发条件的情况下会返回
+        
+        // 登录后获取用户信息
+        that.getUserInfo()
+      } else {
+        console.log(555555555555555)
+        // Request failed
         console.log(JSON.stringify(res))
       }
+    }).catch(err => {
+      console.log(666666666666666)
+      that.setData({
+        debugLog: that.data.debugLog + "\nCode2Sesssion:" + JSON.stringify(res)
+      })
+      console.log(JSON.stringify(res))
     })
+
+
+    // wx.request({
+    //   url: 'http://api.wecar.map.qq.com/account/mini/code2session',
+    //   method: 'POST',
+    //   data: requestData,
+    //   success: function (res) {
+    //     console.log(3333333333333333)
+    //     console.log(JSON.stringify(res))
+    //     that.setData({
+    //       debugLog: that.data.debugLog + "\nCode2Sesssion:" + JSON.stringify(res)
+    //     })
+
+    //     if (res.data.errcode == 0) {
+    //       console.log(4444444444444444444)
+    //       // Request success
+    //       console.log(JSON.stringify(res.data))
+    //       app.globalData.openid = res.data.data.openid //腾讯车联开放平台openid,保存用于getUserInfo
+    //       var sessionKey = res.data.data.session_key //会话密钥,demo后台会持久化session_key，用于解密getUserInfo
+    //       var unionid = res.data.data.unionid //用户在开放平台的唯一标识符，在满足 UnionID 下发条件的情况下会返回
+          
+    //       // 登录后获取用户信息
+    //       that.getUserInfo()
+    //     } else {
+    //       console.log(555555555555555)
+    //       // Request failed
+    //       console.log(JSON.stringify(res))
+    //     }
+    //   },
+    //   fail: function (res) {
+    //     console.log(666666666666666)
+    //     that.setData({
+    //       debugLog: that.data.debugLog + "\nCode2Sesssion:" + JSON.stringify(res)
+    //     })
+    //     console.log(JSON.stringify(res))
+    //   }
+    // })
   },
 
   getUserInfo () {

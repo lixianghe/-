@@ -1,11 +1,11 @@
-import {options as indOpt} from '../../utils/pageOtpions/indexOpt'
+import { getData } from '../../utils/httpOpt/http'
 const app = getApp()
 
 Page({
   data: {
     screen: app.globalData.screen,
-    lalyLtn: indOpt.lalyLtn,
-    info: indOpt.info
+    lalyLtn: {icon: '/images/zjst.png'},
+    info: []
   },
   // 跳转到最近收听页面
   tolatelyListen () {
@@ -29,15 +29,13 @@ Page({
     })
   },
   onLoad(options) {
-    app.globalData.indexData = indOpt.info
-    // const promise = indOpt.getData()
-    // setTimeout(()=>{
-    //   promise.then(res => {
-    //     app.globalData.indexData = res.info
-    //     this.setData(res)
-    //   }).catch(err => console.log(err))
-    // },500)
-
+    // 数据请求
+    const promise = getData('index', {})
+    promise.then(res => {
+      this.setData({
+        info: res
+      })
+    })
   },
   onShow() {
 

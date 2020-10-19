@@ -1,30 +1,29 @@
 .h .latelyListen {
   display: flex;
   overflow: auto;
-  padding: 2vh;
+  padding-left: 8vh;
+  padding-top: 9vh;
   height: 83vh;
-  align-items: center;
 }
 .h .latelyCard {
-  flex: 0 0 58vh;
-  margin-right: 3vh;
-  height: 72vh;
-  border-radius: 1.5vh;
+  flex: 0 0 46.6vh;
+  margin-right: 7.6vh;
+  height: 68.6vh;
   overflow: hidden;
 }
 .h .latelyCard>image {
-  width: 58vh;
-  height: 58vh;
+  width: 46.6vh;
+  height: 46.6vh;
+  border-radius: 2vh;
   vertical-align: bottom;
 }
 .h .latelyTit {
-  height: 14vh;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #d4edff;
-  font-size: 4vh;
-  text-align: center;
+  margin-top: 4vh;
+  color: #ffffff;
+  font-size: 6vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
   padding: 0 1vh;
+  line-height: 9vh;
 }

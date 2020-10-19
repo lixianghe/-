@@ -52,7 +52,7 @@
   display: flex;
   margin-top: 12vh;
 }
-.bottomBtn button {
+.bottomBtn .button {
   color: #fff;
   height: 9vh;
   line-height: 9vh;

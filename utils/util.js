@@ -1,46 +1,3 @@
-function formatTime(date, type) {
-  type = type || 1;
-  //type 1,完成输出年月日时分秒，2对比当前时间输出日期，或时分;
-  var d = new Date(date)
-  var year = d.getFullYear()
-  var month = d.getMonth() + 1
-  var day = d.getDate()
-  var hour = d.getHours()
-  var minute = d.getMinutes()
-  var second = d.getSeconds();
-  if (type == 1) {
-    return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':');
-  }
-  else if (type == 3) {
-    return [year, month, day].map(formatNumber).join('-');
-  } else {
-    var jm = new Date
-      , Fo = jm.getTime() - date;
-    if (Fo <= 6e4)
-      return "刚刚";
-    var Qq = jm.getHours() * 36e5 + jm.getMinutes() * 6e4 + jm.getSeconds() * 1e3;
-    if (day==jm.getDate()) {
-      if (Fo < 36e5) {
-        var bOh = Math.floor(Fo / 6e4);
-        return bOh + "分钟前"
-      }
-      return [hour, minute].map(formatNumber).join(':');
-    } else {
-      if (Fo < Qq + 864e5) {
-        return "昨天" + [hour, minute].map(formatNumber).join(':');
-      } else {
-        var hq = jm.getFullYear()
-          , bOg = new Date(hq, 0, 1);
-        var Qq = jm.getTime() - bOg.getTime();
-        if (Fo < Qq) {
-          return year + "年" + month + "月" + day + "日" + [hour, minute].map(formatNumber).join(':');
-        }
-        return year + "年" + month + "月" + day + "日"
-      }
-    }
-  }
-}
-
 function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
@@ -52,8 +9,25 @@ function formatduration(duration) {
   return formatNumber(duration.getMinutes()) + ":" + formatNumber(duration.getSeconds());
 }
 
+// 时间转秒
+function formatToSend(dt) {
+  const dtArray = dt.split(':')
+  const seconds = Number(dtArray[0]) * 60 + Number(dtArray[1])
+  return seconds
+}
+
 //音乐播放监听
-function playAlrc(that, app) {
+function playAlrc(that, app, percent) {
+  // 如果是拖拽的情况
+  
+  if (percent !== undefined) {
+    console.log(percent, formatToSend(app.globalData.songInfo.dt), formatduration(percent / 100 * formatToSend(app.globalData.songInfo.dt)))
+    that.setData({
+      playtime: percent ? formatduration(percent * 10 * formatToSend(app.globalData.songInfo.dt)) : '00:00',
+      percent: percent
+    })
+    return
+  }
   wx.getBackgroundAudioPlayerState({
     complete: function (res) {
       var time = 0, playing = false, playtime = 0;
@@ -82,19 +56,19 @@ function toggleplay(that, app, cb) {
     that.setData({ 
       playing: false 
     });
-    app.stopmusic(1);
+    app.stopmusic();
   } else {
     console.log("继续播放")
     that.setData({
       playing: true
     });
-    app.seekmusic(1, app.globalData.currentPosition, cb);
+    app.playing(app.globalData.currentPosition, cb);
   }
 }
 
 
 module.exports = {
-  formatTime: formatTime,
+  formatToSend: formatToSend,
   formatduration: formatduration,
   playAlrc: playAlrc,
   toggleplay: toggleplay

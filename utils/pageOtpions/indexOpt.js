@@ -20,6 +20,16 @@ const options = {
       id: '2',
       src: 'http://p3.music.126.net/UOhYjUFS7V-_RgXxQmrRKw==/109951165088874864.jpg',
       title: '甜甜夏日'
+    },
+    {
+      id: '3',
+      src: 'http://p3.music.126.net/M-Are2JONsEGnOWOtNGomg==/109951164906980396.jpg',
+      title: '睡前轻快音乐'
+    },
+    {
+      id: '4',
+      src: 'http://p3.music.126.net/UOhYjUFS7V-_RgXxQmrRKw==/109951165088874864.jpg',
+      title: '甜甜夏日'
     }
   ],
   // 请求数据

@@ -1,10 +1,8 @@
 
 const app = getApp()
-const bsurl = 'http://localhost:3000/v1/'
 import tool from '../../utils/util'
 
 import { playList, playList2, playList3 } from '../../utils/pageOtpions/songOtpions'
-import {formatduration} from '../../utils/util'
 
 Page({
   data: {
@@ -15,8 +13,9 @@ Page({
     name: null,
     index: null,
     current: null,
-    Episode: 10,
-    zjNo: 0
+    Episode: 205,
+    zjNo: 0,
+    songInfo: {},
   },
   onLoad(options) {
     // 暂存专辑全部歌曲
@@ -27,52 +26,40 @@ Page({
     })
   },
   onShow() {
-    // 初始化歌曲的名字和歌曲封面，获取歌单列表
-    const songInfo = wx.getStorageSync('songInfo')
-    if (app.globalData.curplay.name){
-      this.setData({
-        songpic: songInfo.songpic,
-        name: songInfo.name,
-        canplay: songInfo.canplay,
-        index: songInfo.index,
-        current: songInfo.index
-      })
-    }
-    
+    const index = app.globalData.songInfo && app.globalData.songInfo.name ? app.globalData.songInfo.index : null
+    this.setData({
+      current: index
+    })
     this.getPlayList()
   },
   // 调用子组件的方法，进行通讯,传值true显示选集列表
   changeProp() {
     this.selectWorks = this.selectComponent('#selectWorks')
-    console.log(this.selectWorks)
-    this.selectWorks.hideShow(true)
+    
+    let val = {
+      hidShow: true,
+      sum: this.data.Episode
+    }
+    this.selectWorks.hideShow(val)
   },
   // 接受子组件传值
   changeWords(e) {
     console.log(e)
+    
+    // 请求新的歌曲列表
   },
 
   // 点击歌曲名称跳转到歌曲详情
   goPlayInfo(e) {
-    console.log(e)
-    // 跳转的时候把歌名，歌曲封面，歌单序号，歌曲id存在本地缓存
     // 这里还要判断一下点击的歌曲是 否是正在播放的歌曲
-    const id = wx.getStorageSync('songInfo') ? wx.getStorageSync('songInfo').id : null
-    const sameFlag = id === e.currentTarget.dataset.id
-    const songInfo = {
-      name: e.currentTarget.dataset.name,
-      songpic: e.currentTarget.dataset.songpic,
-      index: e.currentTarget.dataset.no,
-      id: e.currentTarget.dataset.id,
-      pid: e.currentTarget.dataset.pid,
-      duration: e.currentTarget.dataset.duration,
-      url: e.currentTarget.dataset.url,
-      dt: formatduration(e.currentTarget.dataset.dt)
-    }
-    wx.setStorage({
-      key: "songInfo",
-      data: songInfo
-    })
+    
+    console.log(e.currentTarget.dataset.song)
+    // 点击歌曲的时候把歌曲信息存到globalData里面
+    const songInfo = e.currentTarget.dataset.song
+    console.log(songInfo)
+    app.globalData.songInfo = songInfo
+    
+
     // 缓存至最近收听
     let latListenData = wx.getStorageSync('latListenData') || []
     let latFlag = latListenData.filter(v => v.id === songInfo.id).length
@@ -86,19 +73,17 @@ Page({
       data: latListenData
     })
     wx.navigateTo({
-      url: `../playInfo/playInfo?sameFlag=${sameFlag}`
+      url: '../playInfo/playInfo'
     })
     this.setData({
-      current: e.currentTarget.dataset.no
+      current: songInfo.index
     })
   },
-  // 点击mini bar跳转到歌曲详情
-  barGoPlayInfo() {
-    wx.navigateTo({
-      url: '../playInfo/playInfo?sameFlag=true'
-    })
+  // 改变current
+  changeCurrent(index) {
+    console.log(index)
     this.setData({
-      current: e.currentTarget.dataset.no
+      current: index.detail
     })
   },
   // 获取歌曲列表
@@ -122,30 +107,16 @@ Page({
       key: "canplay",
       data: canplay
     })
-    // wx.setNavigationBarTitle({
-    //   title: res.data.playlist.name
-    // })
   },
   // 播放全部
   playAll() {
     console.log(this.data.canplay)
     app.globalData.canplay = this.data.canplay
-    app.playmusic(this, this.data.canplay[0].id)
+    app.globalData.songInfo = this.data.canplay[0]
+    app.playing()
     this.setData({
-      name: this.data.canplay[0].name,
-      duration: tool.formatduration(Number(this.data.canplay[0].duration)),
-      songpic: this.data.canplay[0].al.picUrl,
       current: 0
     })
-    // 把第一首歌存在缓存中
-    const songInfo = {
-      name: this.data.canplay[0].name,
-      songpic: this.data.canplay[0].al.picUrl,
-      index: 0,
-      id: this.data.canplay[0].id,
-      duration: tool.formatduration(Number(this.data.canplay[0].duration)),
-    } 
-    wx.setStorageSync('songInfo', songInfo)
   }
 })
 

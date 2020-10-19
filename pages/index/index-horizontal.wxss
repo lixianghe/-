@@ -1,49 +1,64 @@
 .h .index {
   display: flex;
   overflow: auto;
-  padding: 2vh;
+  padding-left: 8vh;
+  padding-top: 9vh;
   height: 83vh;
-  align-items: center;
+}
+
+.h .latelyListen>image {
+  width: 19.8vh;
+  height: 19.8vh;
+  margin-top: 17.8vh;
+}
+.h .latelyLtnTit {
+  margin-top: 3.3vh;
+  font-size: 6vh;
+  color: #fff;
+  line-height: 5.3vh;
 }
 .h .latelyListen{
-  flex: 0 0 38vh;
-  margin-right: 3vh;
-  height: 72vh;
-  border-radius: 1.5vh;
+  flex: 0 0 41.3vh;
+  margin-right: 7.3vh;
+  height: 68.6vh;
+  border-radius: 2vh;
   overflow: hidden;
   background-size: 100%;
   text-align: center;
-}
-.h .latelyListen>image {
-  width: 10vh;
-  height: 10vh;
-  margin-top: 23vh;
-}
-.h .latelyLtnTit {
-  margin-top: 1vh;
-  font-size: 3vh;
-  color: #fff;
+  background-color: #272727;
 }
 .h .albumCard {
-  flex: 0 0 58vh;
-  margin-right: 3vh;
-  height: 72vh;
-  border-radius: 1.5vh;
+  flex: 0 0 46.6vh;
+  margin-right: 7.6vh;
+  height: 68.6vh;
   overflow: hidden;
 }
 .h .albumCard>image {
-  width: 58vh;
-  height: 58vh;
+  width: 46.6vh;
+  height: 46.6vh;
+  border-radius: 2vh;
   vertical-align: bottom;
 }
 .h .albumTit {
-  height: 14vh;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #d4edff;
-  font-size: 4vh;
-  text-align: center;
+  margin-top: 4vh;
+  color: #ffffff;
+  font-size: 6vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
   padding: 0 1vh;
+  line-height: 9vh;
+}
+.h .imgB {
+  width: 46.6vh;
+  height: 46.6vh;
+  border-radius: 2vh;
+}
+.albumTitB {
+  margin-top: 6vh;
+  height: 14vh;
+}
+.albumTitB .tb {
+  height: 5vh;
+  margin: 4vh 0;
 }

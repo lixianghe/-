@@ -1,15 +1,19 @@
 <view class="{{screen}}">
   <view class="personalCenter">
-    <view class="adminCenter">
+    <view class="adminCenter" wx:if="{{isLogin}}">
       <image src="{{avatar}}"></image>
       <view class="adminCenterName">{{userName}}</view>
-      <view class="adminBtnOut" bindtap="loginIn" data-state="login" wx:if="{{!isLogin}}">点击登录</view>
-      <view class="adminBtnIn" bindtap="nofityComponent" data-state="out" wx:else>退出登录</view>
+      <view class="adminBtnIn" bindtap="nofityComponent" data-state="out">退出登录</view>
+    </view>
+
+    <view class="adminCenter" wx:if="{{!isLogin}}">
+      <view class="adminCenterZwdl">暂未登录</view>
+      <view class="adminCenterDetail">请登录后查看详情</view>
+      <view class="adminBtnOut" bindtap="loginIn" data-state="login">授权登录</view>
     </view>
     <view class="cardListen" 
       wx:for="{{data}}"
       wx:key="index"
-      style="background-image: url({{ item.src }})"
     >
       <image src="{{ item.icon }}"></image>
       <view class="cardTit">{{ item.title }}</view>
