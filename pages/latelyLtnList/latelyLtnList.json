@@ -2,6 +2,8 @@
   "navigationBarBackgroundColor": "#353744",
   "navigationBarTitleText": "最近收听",
   "usingComponents": {
-    "noData": "/components/noData/index"
+    "noData": "/components/noData",
+    "recycle-view": "/components/recycle-view/recycle-view/recycle-view",
+    "recycle-item": "/components/recycle-view/recycle-item/recycle-item"
   }
 }

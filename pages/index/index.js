@@ -1,8 +1,13 @@
-import {options as indOpt} from '../../utils/pageOtpions/indexOpt'
+import { getData } from '../../utils/httpOpt/http'
 const app = getApp()
 
 Page({
-  data: {...indOpt, initPgae: false},
+  data: {
+    screen: app.globalData.screen,
+    lalyLtn: {icon: '/images/zjst.png'},
+    info: [],
+    initPgae: false
+  },
   // 跳转到最近收听页面
   tolatelyListen () {
     wx.navigateTo({
@@ -25,15 +30,13 @@ Page({
     })
   },
   onLoad(options) {
-    app.globalData.indexData = indOpt.info
-    // const promise = indOpt.getData()
-    // setTimeout(()=>{
-    //   promise.then(res => {
-    //     app.globalData.indexData = res.info
-    //     this.setData(res)
-    //   }).catch(err => console.log(err))
-    // },500)
-
+    // 数据请求
+    const promise = getData('index', {})
+    promise.then(res => {
+      this.setData({
+        info: res
+      })
+    })
   },
   onShow() {
     this.setData({

@@ -1,6 +1,5 @@
 {
-  "navigationBarBackgroundColor": "#353744",
-  "navigationBarTitleText": "首页",
+  "navigationBarTitleText": "推荐",
   "component": true,  
   "usingComponents": {
 

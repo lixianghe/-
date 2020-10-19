@@ -7,19 +7,20 @@ const options = {
   // 静态数据
   info: [{
       type: 'order',
-      src: '/images/listen.png',
-      icon: '/images/zjst.png',
+      icon: '/images/icon-personCenter.png',
       title: '我的订单'
     }, {
       type: 'coupon',
-      src: '/images/l2.png',
-      icon: '/images/zjst.png',
-      title: '优惠券'
+      icon: '/images/icon-personCenter.png',
+      title: '我的收藏'
     }, {
       type: 'VIP',
-      src: '/images/l3.png',
-      icon: '/images/zjst.png',
+      icon: '/images/icon-personCenter.png',
       title: '会员等级'
+    }, {
+      type: 'us',
+      icon: '/images/icon-personCenter.png',
+      title: '关于我们'
     }
   ]
 }

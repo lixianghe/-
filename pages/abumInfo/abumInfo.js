@@ -13,7 +13,7 @@ Page({
     name: null,
     index: null,
     current: null,
-    Episode: 10,
+    Episode: 205,
     zjNo: 0,
     songInfo: {},
     initPgae: false,
@@ -66,11 +66,18 @@ Page({
   // 调用子组件的方法，进行通讯,传值true显示选集列表
   changeProp() {
     this.selectWorks = this.selectComponent('#selectWorks')
-    this.selectWorks.hideShow(true)
+    
+    let val = {
+      hidShow: true,
+      sum: this.data.Episode
+    }
+    this.selectWorks.hideShow(val)
   },
   // 接受子组件传值
   changeWords(e) {
     console.log(e)
+    
+    // 请求新的歌曲列表
   },
 
   // 点击歌曲名称跳转到歌曲详情

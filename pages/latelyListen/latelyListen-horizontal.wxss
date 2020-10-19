@@ -1,0 +1,29 @@
+.h .latelyListen {
+  display: flex;
+  overflow: auto;
+  padding-left: 8vh;
+  padding-top: 9vh;
+  height: 83vh;
+}
+.h .latelyCard {
+  flex: 0 0 46.6vh;
+  margin-right: 7.6vh;
+  height: 68.6vh;
+  overflow: hidden;
+}
+.h .latelyCard>image {
+  width: 46.6vh;
+  height: 46.6vh;
+  border-radius: 2vh;
+  vertical-align: bottom;
+}
+.h .latelyTit {
+  margin-top: 4vh;
+  color: #ffffff;
+  font-size: 6vh;
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+  padding: 0 1vh;
+  line-height: 9vh;
+}

@@ -1,53 +1,7 @@
+@import "./index-horizontal.wxss";
+@import "./index-vertical.wxss";
 page {
   margin: 0;
   padding: 0;
 }
-.index {
-  display: flex;
-  overflow: auto;
-  padding: 2vh;
-  height: 83vh;
-  align-items: center;
-}
-.latelyListen{
-  flex: 0 0 38vh;
-  margin-right: 3vh;
-  height: 72vh;
-  border-radius: 1.5vh;
-  overflow: hidden;
-  background-size: 100%;
-  text-align: center;
-}
-.latelyListen>image {
-  width: 10vh;
-  height: 10vh;
-  margin-top: 23vh;
-}
-.latelyLtnTit {
-  margin-top: 1vh;
-  font-size: 3vh;
-  color: #fff;
-}
-.albumCard {
-  flex: 0 0 58vh;
-  margin-right: 3vh;
-  height: 72vh;
-  border-radius: 1.5vh;
-  overflow: hidden;
-}
-.albumCard>image {
-  width: 58vh;
-  height: 58vh;
-  vertical-align: bottom;
-}
-.albumTit {
-  height: 14vh;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #d4edff;
-  font-size: 4vh;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 1vh;
-}
+ 

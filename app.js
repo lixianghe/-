@@ -4,7 +4,10 @@ import tool from './utils/util'
 
 App({
   globalData: {
+    // 屏幕类型
+    screen: '',
     // 登录相关
+    openid: '',
     userInfo: null,
     appId: '60008',
     userId: '-1',
@@ -24,6 +27,12 @@ App({
   
   
   onLaunch: function () {
+    // 判断横竖屏
+    if (wx.getSystemInfoSync().windowWidth > wx.getSystemInfoSync().windowHeight) {
+      this.globalData.screen = 'h'
+    } else {
+      this.globalData.screen = 'v'
+    }
     // myPlugin.injectWx(wx)
     // 关于音乐播放的
     var that = this;

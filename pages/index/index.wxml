@@ -1,13 +1,25 @@
-<view class="index">
-  <view class="latelyListen" style="background-image: url({{ lalyLtn.src }})" bindtap="tolatelyListen">
-    <image src="{{ lalyLtn.icon }}"></image>
-    <view class="latelyLtnTit">{{ lalyLtn.title }}</view>
-  </view>
-  <view class="albumCard" wx:for="{{info}}" wx:key="index" data-src="{{item.src}}" data-no="{{index}}" data-id="{{item.id}}" bindtap="linkAbumInfo">
-    <image src="{{item.src}}"></image>
-    <view class="albumTit">
-      <text>{{ item.title }}</text>
+<view class="{{screen}}">
+  <view class="index">
+    <view class="latelyListen" bindtap="tolatelyListen">
+      <image src="{{ lalyLtn.icon }}"></image>
+      <view class="latelyLtnTit">最近收听</view>
     </view>
+    <!-- 页面盒子 -->
+    <view class="albumCard" wx:if="{{info.length>0}}" wx:for="{{info}}" wx:key="index" data-src="{{item.src}}" data-no="{{index}}" data-id="{{item.id}}" bindtap="linkAbumInfo">
+      <image src="{{item.src}}"></image>
+      <view class="albumTit">
+        <text>{{ item.title }}</text>
+      </view>
+    </view>
+    <!-- 加载中盒子 -->
+    <view class="albumCard" wx:if="{{info.length === 0}}" wx:for="{{5}}" wx:key="index" >
+      <view class="imgB bone"></view>
+      <view class="albumTitB">
+        <view class="tb bone"></view>
+        <view class="tb bone"></view>
+      </view>
+    </view>
+    <mini-player></mini-player>
   </view>
   <mini-player wx:if="{{initPgae}}" songInfo="{{songInfo}}"></mini-player>
 </view>

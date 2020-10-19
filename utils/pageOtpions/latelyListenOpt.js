@@ -4,10 +4,7 @@ const options = {
   // 基础配置
   // 数据为空时的状态图片
   noContent: '/images/nullContent.png',
-  // 静态数据
-  info: [
-
-  ],
+  info: [],
   // 请求数据
   getData: function () {
     return new Promise((resolve, reject) => {

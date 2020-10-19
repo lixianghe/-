@@ -59,7 +59,21 @@ Component({
   
   pageLifetimes: {
     show: function() {
-      
+      // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
+      const canplay = wx.getStorageSync('canplay')
+      console.log('opoooo---60', app.globalData.songInfo)
+      if (app.globalData.songInfo && app.globalData.songInfo.name) {
+        this.setData({
+          songInfo: app.globalData.songInfo,
+          canplay: canplay
+        })
+      } 
+      const that = this;
+      // 监听歌曲播放状态，比如进度，时间
+      tool.playAlrc(that, app);
+      timer = setInterval(function () {
+        tool.playAlrc(that, app);
+      }, 1000);
     },
     hide: function() {
       

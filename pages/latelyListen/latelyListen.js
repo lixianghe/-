@@ -2,7 +2,13 @@ import {options as latelyLtnOpt} from '../../utils/pageOtpions/latelyListenOpt'
 const app = getApp()
 
 Page({
-  data: latelyLtnOpt,
+  data: {
+    screen: app.globalData.screen,
+    noContent: latelyLtnOpt.noContent,
+    info: latelyLtnOpt.info
+
+  },
+  screen: app.globalData.screen,
   // 跳转到播放详情界面
   linkInfoList (e) {
     let id = e.currentTarget.dataset.id

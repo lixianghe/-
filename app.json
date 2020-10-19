@@ -1,15 +1,15 @@
 {
   "pages": [
-    "pages/index/index", 
-    "pages/playInfo/playInfo" ,
     "pages/personalCenter/personalCenter",
+    "pages/index/index", 
+    "pages/playInfo/playInfo",
     "pages/abumInfo/abumInfo",
     "pages/latelyListen/latelyListen",
     "pages/latelyLtnList/latelyLtnList"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#308bef",
+    "navigationBarBackgroundColor": "#202020",
     "navigationBarTitleText": "小程序模板",
     "navigationBarTextStyle": "white"
   },
@@ -19,9 +19,9 @@
     }
   },
   "tabBar": {
-    "color": "#fff",
-    "selectedColor": "#fc3a7b",
-    "backgroundColor": "#3d4253",
+    "color": "#cacbd0",
+    "selectedColor": "#fa6500",
+    "backgroundColor": "#202020",
     "list": [
     {
       "pagePath": "pages/index/index",
