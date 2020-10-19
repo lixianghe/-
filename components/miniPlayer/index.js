@@ -1,5 +1,6 @@
 const app = getApp()
 import tool from '../../utils/util'
+import btnConfig from '../../utils/pageOtpions/buttonConfig'
 
 var timer = null
 
@@ -20,59 +21,48 @@ Component({
     no: {
       type: Number,
       default: 0,
+    },
+    songInfo: {
+      type: Object,
+      default: {}
     }
   },
   data: {
     // minibar的按钮
-    items: [
-      {
-        name: 'pre',
-        img: '../../static/images/pre.png',
-      },
-      {
-        name: 'stop'
-      },
-      {
-        name: 'next',
-        img: '../../static/images/next.png',
-      }
-    ],
+    items: btnConfig.miniBtns,
     playing: false,
-    stopUrl: '../../static/images/stop.png',
-    playUrl: '../../static/images/play.png',
-    songInfo: {}
+    hoverflag: false,
+    current: null
   },
   observers: {
 
   },
+  attached: function () {
+    console.log('attached')
+    this.listenPlaey()
+  },
+  detached: function () {
+    console.log('detached')
+    clearInterval(timer)
+  },
   lifetimes: {
     attached: function () {
-      console.log(this.data)
+
     },
     detached: function () {
-      // 在组件实例被从页面节点树移除时执行
+
     },
+    ready: function() {
+
+    }
   },
+  
   pageLifetimes: {
     show: function() {
-      // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
-      const canplay = wx.getStorageSync('canplay')
-      console.log('opoooo', app.globalData.songInfo)
-      if (app.globalData.songInfo && app.globalData.songInfo.name) {
-        this.setData({
-          songInfo: app.globalData.songInfo,
-          canplay: canplay
-        })
-      } 
-      const that = this;
-      // 监听歌曲播放状态，比如进度，时间
-      tool.playAlrc(that, app);
-      timer = setInterval(function () {
-        tool.playAlrc(that, app);
-      }, 1000);
+      
     },
     hide: function() {
-      clearInterval(timer)
+      
     }
   },
   methods: {
@@ -82,7 +72,7 @@ Component({
         case 'pre':
           this.pre()
           break;
-        case 'stop':
+        case 'toggle':
           this.togglePlay()
           break;
         case 'next':
@@ -125,6 +115,42 @@ Component({
       wx.navigateTo({
         url: '../playInfo/playInfo?noPlay=true'
       })
+    },
+    // 监听音乐播放的状态
+    listenPlaey() {
+      // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
+      const canplay = wx.getStorageSync('canplay')
+      console.log('opoooo', app.globalData.songInfo)
+      if (app.globalData.songInfo && app.globalData.songInfo.name) {
+        this.setData({
+          songInfo: app.globalData.songInfo,
+          canplay: canplay
+        })
+      } 
+      const that = this;
+      // 监听歌曲播放状态，比如进度，时间
+      tool.playAlrc(that, app);
+      timer = setInterval(function () {
+        tool.playAlrc(that, app);
+      }, 1000);
+    },
+    btnstart(e) {
+      console.log(1)
+      const index = e.currentTarget.dataset.index
+      this.setData({
+        hoverflag: true,
+        current: index
+
+      })
+    },
+    btend() {
+      console.log(2)
+      setTimeout(()=> {
+        this.setData({
+          hoverflag: false,
+          current: null
+        })
+      }, 150)
     }
   }
 })

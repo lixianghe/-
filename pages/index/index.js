@@ -2,7 +2,7 @@ import {options as indOpt} from '../../utils/pageOtpions/indexOpt'
 const app = getApp()
 
 Page({
-  data: indOpt,
+  data: {...indOpt, initPgae: false},
   // 跳转到最近收听页面
   tolatelyListen () {
     wx.navigateTo({
@@ -36,6 +36,13 @@ Page({
 
   },
   onShow() {
-
+    this.setData({
+      initPgae: true
+    })
+  },
+  onHide() {
+    this.setData({
+      initPgae: false
+    })
   }
 })

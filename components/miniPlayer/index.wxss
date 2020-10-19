@@ -1,9 +1,9 @@
 .playing-status {
   color: #fff;
-  padding: 0 6vh;
+  padding: 0 11vh;
   width: 100%;
-  height: 13vh;
-  background: #d9d9d9;
+  height: 17.3vh;
+  background:#151515;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -12,49 +12,43 @@
   align-items: center;
 }
 
-.playing-status progress {
+.playing-status .progress {
   display: flex;
   width: 100%;
   color: #000;
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 4rpx;
+  border-radius: 1vh;
 }
 
-.playing-status .playstate {
+/* .playing-status .playstate {
   position: absolute;
   display: block;
-  height: 5rpx;
-  width: 5rpx;
+  height: 1vh;
+  width: 1vh;
   overflow: hidden;
   background-color: #d33a31;
-  border: 5rpx solid #fff;
+  border: 1vh solid #fff;
   border-radius: 50%;
   top: 50%;
   transform: translate3d(-50%, -50%, 0);
   z-index: 2
-}
+} */
 
 .dpstate {
   position: absolute;
-  height: 2px;
+  height: 4px;
   width: 0;
-  background-color: #d33a31;
+  background-color: #fa6500;
   overflow: hidden;
   left: 0;
   top: 50%;
   margin-top: -1px;
 }
 
-.playing-status .time {
-  width: 80rpx;
-  text-align: center;
-  display: block;
-  font-size: 24rpx;
-}
 
-.playing-status slider {
+.playing-status .slider {
   position: absolute;
   left: 0;
   top: 0;
@@ -68,13 +62,36 @@
 .playing-status .btns {
   display: flex;
 }
-.playing-status .btns view image {
-  width: 25rpx;
-  height: 25rpx;
-  margin-right: 30rpx;
+.playing-status .btns .image {
+  width: 20vh;
+  height: 14vh;
   vertical-align: middle;
 }
-.playing-status .btns view text {
-  color: #000;
-  margin-left: -8rpx;
+.playing-status .btns .pic {
+  width: 12.66vh;
+  height: 12.66vh;
+  border-radius: 1vh;
+}
+.playing-status .btns .view{
+  display: flex;
+  margin-right: 6.67vh;
+  align-items: center;
+  position: relative;
+}
+.playing-status .btns .text {
+  color: #fff;
+  margin-left: 7.32vh;
+  font-size: 5.32vh;
+}
+
+
+.playing-status .btns .modal {
+  width: 20vh;
+  height: 14vh;
+  border-radius: 7.5vh;
+  background: #111111;
+  opacity: 0.32;
+  position: absolute;
+  left: 0;
+  top: 0;
 }

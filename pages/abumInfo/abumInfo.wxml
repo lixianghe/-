@@ -1,10 +1,34 @@
 <view class="page">
-  <view class="btns">
+  <view style="width: {{leftWith}};padding: {{leftPadding}}" class="left">
+    <view class="btns" style="width: {{btnsWidth}};">
+      <button hover-class="playAllHover" class="playAll" bindtap="playAll">
+        <image src="../../static/images/playAll.png" />
+        <text>播放全部</text>
+      </button>
+      <button class="select" bindtap="changeProp">
+        
+        <text>共{{Episode}}首</text>
+        <image src="../../static/images/selectWorks.png" />
+      </button>
+    </view>
+    <view class="songList">
+      <view bindtap="goPlayInfo" style="color: {{index === current ? '#ff6100' : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
+        <text>{{index + 1}}</text>
+        <text>{{item.name}}</text>
+        <text>{{item.formatDt}}</text>
+      </view>
+      
+    </view>
+  </view>
+  <view class="right">
+    <image src="{{src}}" style="width: {{imageWidth}};height: {{imageWidth}}" />
+  </view>
+  <!-- <view class="btns">
     <button bindtap="playAll">播放全部</button>
     <button bindtap="changeProp">共{{Episode}}首</button>
-  </view>
+  </view> -->
   <!-- 列表 -->
-  <view class="list">
+  <!-- <view class="list">
     <view class="songList">
       <view bindtap="goPlayInfo" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
         <text>{{index + 1}}</text>
@@ -16,8 +40,8 @@
     <view class="imgCard">
       <image src="{{src}}" />
     </view>
-  </view>
+  </view> -->
   <selectWorks id="selectWorks" bindchangeWords="changeWords"> </selectWorks>
-  <mini-player bindcurrent="changeCurrent"></mini-player>
+  <mini-player wx:if="{{initPgae}}" songInfo="{{songInfo}}" bindcurrent="changeCurrent"></mini-player>
 </view>
   

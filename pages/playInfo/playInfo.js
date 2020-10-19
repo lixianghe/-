@@ -1,6 +1,7 @@
 
 const app = getApp()
 import tool from '../../utils/util'
+import btnConfig from '../../utils/pageOtpions/buttonConfig'
 
 var timer = null
 
@@ -13,22 +14,43 @@ Page({
     drapPercent: 0,
     playtime: '00:00',
     showList: false,
-    current: null
+    current: null,
+    btns: btnConfig.playInfoBtns,
+    bigScreen:false
   },
   onLoad(options) {
     // 获取歌曲列表
     const canplay = wx.getStorageSync('canplay')
     const songInfo = app.globalData.songInfo
-    console.log(songInfo.dt)
     songInfo.dt = String(songInfo.dt).split(':').length > 1 ? songInfo.dt : tool.formatduration(Number(songInfo.dt))
     this.setData({
       songInfo: songInfo,
       canplay: canplay
     })
-    console.log('songInfosongInfo', songInfo)
     // 如果点击的还是当前播放的歌曲则不用重新播放
     if (options.noPlay !== 'true') {
       app.playing()
+    }
+
+    // 判断分辨率的比列
+    const windowWidth =  wx.getSystemInfoSync().windowWidth;
+    const windowHeight = wx.getSystemInfoSync().windowHeight;
+    console.log(windowWidth, windowHeight)
+    // 如果是小于1/2的情况
+    if (windowHeight / windowWidth <= 1/2) {
+      this.setData({
+        leftWith: windowWidth * 0.722 + 'px',
+        leftPadding: '0vh 9.8vh 20vh',
+        btnsWidth: '140vh',
+        imageWidth: windowWidth * 0.17 + 'px'
+      })
+    } else {
+      setData({
+        leftWith: '184vh',
+        leftPadding: '0vh 12.25vh 20vh',
+        btnsWidth: '165vh',
+        imageWidth: '49vh'
+      })
     }
   },
   onShow: function () {
@@ -44,6 +66,25 @@ Page({
   },
   onHide: function () {
     clearInterval(timer)
+  },
+  btnsPlay(e) {
+    const type = e.currentTarget.dataset.name
+      switch (type) {
+        case 'pre':
+          this.pre()
+          break;
+        case 'toggle':
+          this.togglePlay()
+          break;
+        case 'next':
+          this.next()
+          break;
+        case 'more':
+          this.more()
+          break;
+        default:
+          break;
+      }
   },
   // 上一首
   pre() {
@@ -63,9 +104,13 @@ Page({
   },
   // 播放列表
   more() {
+    this.data.canplay.forEach(item => {
+      item.dtFormat = tool.formatduration(Number(item.dt))
+    })
     this.setData({
       showList: true,
-      current: app.globalData.songInfo.index
+      current: app.globalData.songInfo.index,
+      canplay: this.data.canplay
     })
   },
   closeList() {
@@ -87,8 +132,6 @@ Page({
   },
   // 点击改变进度
   setPercent(e) {
-    // const cna
-    console.log('down')
     // 传入当前毫秒值
     const time = e.detail.value / 100 * tool.formatToSend(app.globalData.songInfo.dt)
     app.globalData.currentPosition = time

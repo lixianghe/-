@@ -15,7 +15,12 @@ Page({
     current: null,
     Episode: 10,
     zjNo: 0,
-    songInfo: {}
+    songInfo: {},
+    initPgae: false,
+    leftWith: '184vh',
+    leftPadding: '0vh 12.25vh  20vh',
+    btnsWidth: '165vh',
+    imageWidth: '49vh'
   },
   onLoad(options) {
     // 暂存专辑全部歌曲
@@ -24,18 +29,43 @@ Page({
       zjNo: options.no,
       src: options.src.replace('$', '==')
     })
+    // 判断分辨率的比列
+    const windowWidth =  wx.getSystemInfoSync().windowWidth;
+    const windowHeight = wx.getSystemInfoSync().windowHeight;
+    console.log(windowWidth, windowHeight)
+    // 如果是小于1/2的情况
+    if (windowHeight / windowWidth <= 1/2) {
+      this.setData({
+        leftWith: windowWidth * 0.722 + 'px',
+        leftPadding: '0vh 9.8vh 20vh',
+        btnsWidth: '140vh',
+        imageWidth: windowWidth * 0.17 + 'px'
+      })
+    } else {
+      setData({
+        leftWith: '184vh',
+        leftPadding: '0vh 12.25vh 20vh',
+        btnsWidth: '165vh',
+        imageWidth: '49vh'
+      })
+    }
   },
   onShow() {
     const index = app.globalData.songInfo && app.globalData.songInfo.name ? app.globalData.songInfo.index : null
     this.setData({
-      current: index
+      current: index,
+      initPgae: true
     })
     this.getPlayList()
+  },
+  onHide() {
+    this.setData({
+      initPgae: false
+    })
   },
   // 调用子组件的方法，进行通讯,传值true显示选集列表
   changeProp() {
     this.selectWorks = this.selectComponent('#selectWorks')
-    console.log(this.selectWorks)
     this.selectWorks.hideShow(true)
   },
   // 接受子组件传值
@@ -47,10 +77,8 @@ Page({
   goPlayInfo(e) {
     // 这里还要判断一下点击的歌曲是 否是正在播放的歌曲
     
-    console.log(e.currentTarget.dataset.song)
     // 点击歌曲的时候把歌曲信息存到globalData里面
     const songInfo = e.currentTarget.dataset.song
-    console.log(songInfo)
     app.globalData.songInfo = songInfo
     
 
@@ -60,7 +88,6 @@ Page({
     if(latFlag === 0) {
       latListenData.push(songInfo)
     }
-    console.log(latListenData)
     
     wx.setStorage({
       key: "latListenData",
@@ -75,7 +102,6 @@ Page({
   },
   // 改变current
   changeCurrent(index) {
-    console.log(index)
     this.setData({
       current: index.detail
     })
@@ -93,7 +119,6 @@ Page({
     canplay.forEach(item => {
       item.formatDt = tool.formatduration(Number(item.dt))
     })
-    console.log('canplay', canplay)
     this.setData({
       canplay: canplay
     })
@@ -104,12 +129,12 @@ Page({
   },
   // 播放全部
   playAll() {
-    console.log(this.data.canplay)
     app.globalData.canplay = this.data.canplay
     app.globalData.songInfo = this.data.canplay[0]
     app.playing()
     this.setData({
-      current: 0
+      current: 0,
+      songInfo: app.globalData.songInfo
     })
   }
 })

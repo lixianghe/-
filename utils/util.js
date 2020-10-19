@@ -21,7 +21,6 @@ function playAlrc(that, app, percent) {
   // 如果是拖拽的情况
   
   if (percent !== undefined) {
-    console.log(percent, formatToSend(app.globalData.songInfo.dt), formatduration(percent / 100 * formatToSend(app.globalData.songInfo.dt)))
     that.setData({
       playtime: percent ? formatduration(percent * 10 * formatToSend(app.globalData.songInfo.dt)) : '00:00',
       percent: percent

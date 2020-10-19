@@ -7,7 +7,9 @@ Page({
     avatar: adminOpt.avatarOut,
     userName: adminOpt.userName,
     data: adminOpt.info,
-    isLogin: app.globalData.haveLogin
+    isLogin: app.globalData.haveLogin,
+    songInfo: {},
+    initPgae: false
   },
   // 调用组件方法
   nofityComponent (e) {
@@ -102,6 +104,13 @@ Page({
 
   },
   onShow() {
-
+    this.setData({
+      initPgae: true
+    })
+  },
+  onHide() {
+    this.setData({
+      initPgae: false
+    })
   }
 })

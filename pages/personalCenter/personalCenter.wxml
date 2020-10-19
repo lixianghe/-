@@ -13,6 +13,6 @@
     <image src="{{ item.icon }}"></image>
     <view class="cardTit">{{ item.title }}</view>
   </view>
-  <mini-player></mini-player>
+  <mini-player songInfo="{{songInfo}}" wx:if="{{initPgae}}"></mini-player>
   <bgConfirm id="bgConfirm"></bgConfirm>
 </view>

@@ -2,53 +2,62 @@
   width: 100%;
   height: 100%;
   background: #272c3f;
-  padding: 0 10vh;
   display: flex;
   color: #fff;
   box-sizing: border-box;
 }
 .page .playLeft {
-  /* width: 130vh; */
-  flex: 1;
-  padding-top: 20vh;
+  width: 193vh;
+  padding: 15.3vh 12vh 16vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .page .playLeft .title {
-  font-size: 3.2vh;
+  font-size: 6.7vh;
 }
 .page .playLeft .player {
-  margin-top: 18vh;
-  padding-right: 12vh;
+  margin-top: 14.7vh;
   position: relative;
 }
-.page .playLeft .player slider {
+.page .playLeft .player .slider {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   margin: 0;
   opacity: 0;
-  z-index: 10
+  z-index: 10;
 }
-.page .playLeft .player progress {
+.page .playLeft .player .progress {
   position: relative;
+}
+.wx-progress-bar {
+  border-radius: 8px;
 }
 
 .page .playLeft .player .time {
   position: absolute;
   left: 0;
-  top: 8vh;
+  top: 3.6vh;
+  font-size: 4.3vh;
+  color: #696969;
 }
 
 .page .playLeft .player .duration {
   position: absolute;
-  right: 16vh;
-  top: 8vh;
+  right: 0vh;
+  top: 3.6vh;
+  font-size: 4.3vh;
+  color: #696969;
 }
 
 .page .playLeft .btns {
   display: flex;
-  margin-top: 32vh;
-  justify-content: space-between;
+  margin-top: 15vh;
+  height: 15.5vh;
+  justify-content: space-around;
+  align-items: center;
 }
 .page .playLeft image {
   width: 7vh;
@@ -57,17 +66,23 @@
 .page .playRight {
   height: 100%;
   display: flex;
+  flex: 1;
+  justify-content: center;
   align-items: center;
+}
+.page .playRight image {
+  width: 55vh;
+  height: 55vh;
+  border-radius: 2vh;
 }
 
 #playstate {
   position: absolute;
   display: block;
-  height: 2vh;
-  width: 2vh;
+  height: 5.2vh;
+  width: 5.2vh;
   overflow: hidden;
-  background-color: #d33a31;
-  border: 2vh solid #fff;
+  background-color: #ff6100;
   border-radius: 50%;
   top: 50%;
   transform: translate3d(-50%, -50%, 0);
@@ -76,36 +91,68 @@
 
 #dpstate {
   position: absolute;
-  height: 2px;
+  height: 8px;
   width: 0;
-  background-color: #d33a31;
+  background-color: #ff6100;
   overflow: hidden;
   left: 0;
   top: 50%;
-  margin-top: -1px;
+  margin-top: -4px;
+  border-radius: 8px
+}
+
+/* 1/2或者小于1/2的情况 */
+.page .songDc {
+  width: 100%;
+}
+.page .songDc .songDcTitle {
+  display: flex;
+  align-items: center;
+}
+.page .songDc .songDcTitle image {
+  width: 23vh;
+  height: 23vh;
+  border-radius: 2vh;
+  margin-right: 7.7vh;
+}
+..page .songDc .player {
+  margin-top: 14vh;
 }
 
 /* 弹出的播放列表 */
 .playList {
   position: fixed;
-  background: #eaeaea;
-  left: 50%;
-  bottom: 2vh;
-  width: 90%;
-  height: 80vh;
-  transform: translateX(-50%);
-  border-radius: 2vh;
+  background: #222222;
+  left: 0;
+  top: 0;
+  width: 180vh;
+  height: 100%;
   z-index: 999;
-  padding: 6vh;
+  padding: 0 12vh 5.5vh;
+  overflow: auto;
+}
+.playList .songList {
+  margin-top: 22vh;
 }
 .playList .songList view {
-  margin-bottom: 3.1vh;
-  color: #333;
+  margin-bottom: 6.3vh;
+  color: #fff;
+  overflow: hidden;
+  border-bottom: 1px solid #2d2d2d;
+  padding-bottom: 4.4vh;
+  padding-right: 2.42vh;
+}
+.playList .songList view:last-child {
+  margin-bottom: 0;
 }
 .playList .songList text {
-  
-  font-size: 3.2vh;
-  margin-right: 4vh;
+  font-size: 4.9vh;
+  margin-right: 7.4vh;
+  float: left;
+}
+.playList .songList text:nth-child(3) {
+  float: right;
+  margin-right: 0;
 }
 .playList button {
   border: none;
@@ -114,4 +161,30 @@
 }
 .playList button::after {
   content: none;
+}
+.playList .title {
+  display: flex;
+  color: #fff;
+  font-size: 6.1vh;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5.1vh;
+  padding: 8vh 0 0;
+  position: fixed;
+  width: 157vh;
+  background: #222222;
+}
+.playList .title button {
+  width: 19.6vh;
+  height: 10.4vh;
+  background: #333333;
+  border-radius: 10vh;
+  padding: 0;
+  margin: 0;
+  border: none;
+  transform: translateY(-3vh);
+}
+.playList .title button image {
+  width: 19.6vh;
+  height: 10.4vh;
 }

@@ -29,13 +29,12 @@ App({
     var that = this;
     //播放列表中下一首
     wx.onBackgroundAudioStop(function () { 
+      const pages = getCurrentPages()
+      const currentPage = pages[pages.length - 1]
+      console.log('playnext', currentPage)
       // 获取歌曲列表
       const canplay = wx.getStorageSync('canplay')
-      // 获取缓存的歌曲信息
-      const songInfo = wx.getStorageSync('songInfo')
-      that.nextplay(1, canplay, songInfo.index)
-      const page = getCurrentPages()
-      console.log(page)
+      that.cutplay(currentPage, 1, canplay)
     });
     //监听音乐暂停，保存播放进度广播暂停状态
     wx.onBackgroundAudioPause(function () {
@@ -51,24 +50,26 @@ App({
   
   vision: '1.0.0',
   cutplay: function (that, type, list) {
+    let canplay = JSON.parse(JSON.stringify(list))
     let no = this.globalData.songInfo.index
     let index
     if (type === 1) {
-      index = no + 1 > list.length - 1 ? 0 : no + 1
+      index = no + 1 > canplay.length - 1 ? 0 : no + 1
     } else {
-      index = no - 1 < 0 ? list.length - 1 : no - 1
+      index = no - 1 < 0 ? canplay.length - 1 : no - 1
     }
-    console.log(index)
     //播放列表中下一首
-    this.globalData.songInfo = list[index]
+    this.globalData.songInfo = canplay[index]
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
     this.playing(this.globalData.songInfo)
     // 切完歌改变songInfo的index
     this.globalData.songInfo.index = index
+    this.globalData.songInfo.dt = tool.formatduration(Number(this.globalData.songInfo.dt))
     that.setData({
-      songInfo: this.globalData.songInfo
+      songInfo: this.globalData.songInfo,
+      current: index
     })
   },
   stopmusic: function () {
@@ -77,13 +78,13 @@ App({
   playing: function (seek, cb) {
     var that = this
     const songInfo = that.globalData.songInfo
-    console.log('mmmm', songInfo)
+    // console.log('mmmm', songInfo)
     wx.playBackgroundAudio({
       dataUrl: songInfo.url,
       title: songInfo.name,
       success: function (res) {
-        if (seek != undefined) {
-          console.log(seek)
+        if (seek != undefined && typeof(seek) === 'number') {
+          console.log('seek', seek)
           wx.seekBackgroundAudio({ position: seek })
         };
         that.globalData.playing = true;
