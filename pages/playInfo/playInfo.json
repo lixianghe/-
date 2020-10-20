@@ -1,5 +1,4 @@
 {
-  "navigationBarBackgroundColor": "#353744",
   "navigationBarTitleText": "播放详情",
   "component": true,  
   "usingComponents": {
