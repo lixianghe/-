@@ -7,7 +7,7 @@
       </button>
       <button class="select" bindtap="changeProp">
         
-        <text>共{{Episode}}首</text>
+        <text>共{{total}}首</text>
         <image src="../../static/images/selectWorks.png" />
       </button>
     </view>

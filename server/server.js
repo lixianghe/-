@@ -28,6 +28,19 @@ var server= http.createServer(function(request, response){
                 }
             })
             break;
+        case '/api/abumInfo':
+            fs.readFile('./data/abumInfo.json', 'UTF-8', function(err, data){
+                if(!err){
+                    
+                    response.writeHead(200, {"Content-Type": "text/json;charset=UTF-8"});
+                    let res = JSON.parse(data)
+                    res.data = params && params.pageNo ? res.data.splice((params.pageNo -1) * 10, params.pageSize) : res.data
+                    response.end(JSON.stringify(res));
+                }else{
+                    throw err;
+                }
+            })
+            break;
     
         default:
             console.log("err");
