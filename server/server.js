@@ -6,7 +6,8 @@ var
 var server= http.createServer(function(request, response){
     var urls= request.url;
     var params = url.parse(urls, true).query;
-    switch (urls.substr(0, urls.indexOf("?"))) {
+    var route  = (urls.indexOf("?") > -1) ? urls.substr(0, urls.indexOf("?")) : urls
+    switch (route) {
         case '/':
             fs.readFile('./index.html',function(err, data){
                 if(!err){
