@@ -34,7 +34,7 @@ Page({
     const windowHeight = wx.getSystemInfoSync().windowHeight;
     console.log(windowWidth, windowHeight)
     // 如果是小于1/2的情况
-    if (windowHeight / windowWidth <= 1/2) {
+    if (windowHeight / windowWidth >= 1/2) {
       this.setData({
         leftWith: windowWidth * 0.722 + 'px',
         leftPadding: '0vh 9.8vh 20vh',
@@ -42,7 +42,7 @@ Page({
         imageWidth: windowWidth * 0.17 + 'px'
       })
     } else {
-      setData({
+      this.setData({
         leftWith: '184vh',
         leftPadding: '0vh 12.25vh 20vh',
         btnsWidth: '165vh',

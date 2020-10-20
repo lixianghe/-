@@ -30,5 +30,5 @@
     <view class="cardTit">{{ item.title }}</view>
   </view>
   <mini-player songInfo="{{songInfo}}" wx:if="{{initPgae}}"></mini-player>
-  <bgConfirm id="bgConfirm"></bgConfirm>
+  <bgConfirm id="bgConfirm1" msg="退出登录后，将无法获取账号相关服务，确认退出吗" confirm="退出" cancel="取消"></bgConfirm>
 </view>

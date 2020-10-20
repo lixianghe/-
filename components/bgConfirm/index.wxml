@@ -12,10 +12,10 @@
 
   <!-- 退出登录 -->
   <view class="bgContent" wx:if="{{contentName === 'out'}}" style="display: block">
-    <view class="outTit">退出登录后，将无法获取账号相关服务，确认退出吗？</view>
+    <view class="outTit">{{ msg }}</view>
     <view class="bottomBtn">
-      <button class="button loginOut" bindtap="loginOut">退出</button>
-      <button class="button cancle" bindtap="closeBgConfirm">取消</button>
+      <button class="button loginOut" bindtap="loginOut">{{ confirm }}</button>
+      <button class="button cancle" bindtap="closeBgConfirm">{{ cancel }}</button>
     </view>
   </view>
 </view>
