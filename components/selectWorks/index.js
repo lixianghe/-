@@ -10,7 +10,7 @@ Component({
     isSelectWorks: false,
     sum: 0,
     len: 10,
-    order: false
+    order: true
   },
   methods: {
     selectThis(e) {

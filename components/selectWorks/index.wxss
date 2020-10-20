@@ -1,3 +1,8 @@
+page view, 
+page button, 
+page image {
+  box-sizing: content-box
+}
 .selectWorks {
   height: 100vh;
   width: 100vw;
@@ -9,7 +14,7 @@
 }
 .contentWorks {
   position: relative;
-  height: 71.1vh;
+  height: 83.1vh;
   width: 142.2vh;
   padding: 7.8vh 9.8vh;
   padding-right: 5.5vh;
