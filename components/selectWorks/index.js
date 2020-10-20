@@ -17,7 +17,7 @@ Component({
       this.setData({
         selected: e.currentTarget.dataset.index
       })
-      this.triggerEvent('changeWords', {index: e.currentTarget.dataset.index, len: this.data.len})
+      this.triggerEvent('changeWords', {pageNo: e.currentTarget.dataset.index + 1, pageSize: this.data.len})
     },
     closeWords (e) {
       this.setData({

@@ -3,6 +3,7 @@ const app = getApp()
 import tool from '../../utils/util'
 
 import { playList, playList2, playList3 } from '../../utils/pageOtpions/songOtpions'
+import { getData } from '../../utils/httpOpt/http'
 
 Page({
   data: {
@@ -13,14 +14,16 @@ Page({
     name: null,
     index: null,
     current: null,
-    Episode: 205,
     zjNo: 0,
     songInfo: {},
     initPgae: false,
     leftWith: '184vh',
     leftPadding: '0vh 12.25vh  20vh',
     btnsWidth: '165vh',
-    imageWidth: '49vh'
+    imageWidth: '49vh',
+    pageNo: 1,
+    pageSize: 10,
+    total: 0
   },
   onLoad(options) {
     // 暂存专辑全部歌曲
@@ -56,7 +59,7 @@ Page({
       current: index,
       initPgae: true
     })
-    this.getPlayList()
+    this.getPlayList({pageNo: 1, pageSize: 10})
   },
   onHide() {
     this.setData({
@@ -69,15 +72,15 @@ Page({
     
     let val = {
       hidShow: true,
-      sum: this.data.Episode
+      sum: this.data.total
     }
     this.selectWorks.hideShow(val)
   },
   // 接受子组件传值
   changeWords(e) {
-    console.log(e)
-    
+    console.log(e.detail)
     // 请求新的歌曲列表
+    this.getPlayList(e.detail)
   },
 
   // 点击歌曲名称跳转到歌曲详情
@@ -114,20 +117,17 @@ Page({
     })
   },
   // 获取歌曲列表
-  getPlayList() {
-    var canplay;
-    if (this.data.zjNo === '0') {
-      canplay = playList
-    } else if (this.data.zjNo === '1') {
-      canplay = playList2
-    } else {
-      canplay = playList3
-    }
+  async getPlayList(params) {
+    // 数据请求
+    const res = await getData('abumInfo', params)
+    console.log('res', res)
+    const canplay = res.data
     canplay.forEach(item => {
       item.formatDt = tool.formatduration(Number(item.dt))
     })
     this.setData({
-      canplay: canplay
+      canplay: canplay,
+      total: res.total
     })
     wx.setStorage({
       key: "canplay",

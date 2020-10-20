@@ -10,7 +10,7 @@ const url = {
   // 主页\推荐-专辑封面
   index: {method: 'POST', url: `${hostDomain}/api/index`},
   // 专辑详情-歌曲列表
-  abumInfoList: {method: 'POST', url: `${hostDomain}/api/xxx`},
+  abumInfo: {method: 'GET', url: `${hostDomain}/api/abumInfo`},
   // 播放详情
   playInfo: {method: 'POST', url: `${hostDomain}/api/xxx`},
   // 个人中心-登录验证
@@ -56,8 +56,10 @@ const formation = {
    * }
    * 
    */
-  abumInfoList: (res) => {
-
+  abumInfo: (result) => { 
+    // const result = res ? JSON.parse(res) : null
+    // console.log(result)
+    return result
   },
   /**
    * 个人中心-登录验证
