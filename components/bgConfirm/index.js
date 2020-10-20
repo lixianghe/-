@@ -2,6 +2,9 @@ const app = getApp()
 
 Component({
   properties: {
+    msg: String,
+    confirm: String,
+    cancel: String
   },
   data: {
     isBgContent: false,
@@ -43,5 +46,8 @@ Component({
     }
   },
   attached(options) {
+    console.log(this.data.confirm)
+    console.log(this.data.cancel)
+    console.log(this.data.msg)
   }
 })

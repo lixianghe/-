@@ -3,6 +3,7 @@
   overflow: auto;
   padding: 2vh;
   height: 83vh;
+  box-sizing: content-box;
   align-items: center;
 }
 .h .adminCenter {

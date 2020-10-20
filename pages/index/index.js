@@ -6,7 +6,8 @@ Page({
     screen: app.globalData.screen,
     lalyLtn: {icon: '/images/zjst.png'},
     info: [],
-    initPgae: false
+    initPgae: false,
+    confirm: ''
   },
   // 跳转到最近收听页面
   tolatelyListen () {
@@ -31,12 +32,19 @@ Page({
   },
   onLoad(options) {
     // 数据请求
-    const promise = getData('index', {})
+    const promise = getData('index', {user: 'ljg'})
     promise.then(res => {
       console.log(res)
       this.setData({
         info: res
       })
+    }).catch(err => {
+      this.setData({
+        info: err.data,
+        confirm: err.err
+      })
+      this.bgConfirm = this.selectComponent('#bgConfirm')
+      this.bgConfirm.hideShow(true, 'out', ()=>{})
     })
   },
   onShow() {

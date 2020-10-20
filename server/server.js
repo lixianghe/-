@@ -1,12 +1,15 @@
 var 
-   http= require('http'),
+   http = require('http'),
    url = require('url'),
-   fs= require('fs')
+   fs = require('fs'),
+   querystring = require('querystring');
 
 var server= http.createServer(function(request, response){
     var urls= request.url;
     var params = url.parse(urls, true).query;
     var route  = (urls.indexOf("?") > -1) ? urls.substr(0, urls.indexOf("?")) : urls
+    var body = ''
+
     switch (route) {
         case '/':
             fs.readFile('./index.html',function(err, data){
@@ -19,11 +22,13 @@ var server= http.createServer(function(request, response){
             })
             break;
         case '/api/index':
-            fs.readFile('./data/index.json', function(err, data){
+            fs.readFile('./data/index.json', 'utf-8', function(err, data){
                 if(!err){
                     response.writeHead(200, {"Content-Type": "text/json;charset=UTF-8"});
+                    console.log(data)
                     response.end(data);
-                }else{
+                    
+                } else {
                     throw err;
                 }
             })
@@ -46,6 +51,7 @@ var server= http.createServer(function(request, response){
             console.log("err");
             break;
     }
+    
 });
 server.listen(5000);   
 console.log("server is running at http://127.0.0.1:5000");

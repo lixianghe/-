@@ -14,7 +14,11 @@ const getData = (key, query) => {
           resolve(result)
         },
         fail: function (err) {
-          reject(`数据请求失败: ${err}`)
+          let res = {
+            err: `数据请求失败,将为您展示静态数据`,
+            data: option.showData[key]
+          }
+          reject(res)
         }
       })
     }

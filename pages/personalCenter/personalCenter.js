@@ -46,7 +46,7 @@ Page({
       default:
         break;
     }
-    this.bgConfirm = this.selectComponent('#bgConfirm')
+    this.bgConfirm = this.selectComponent('#bgConfirm1')
     this.bgConfirm.hideShow(true, val, callback)
   },
   // 微信登录获取code
