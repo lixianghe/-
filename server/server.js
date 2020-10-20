@@ -24,20 +24,11 @@ var server= http.createServer(function(request, response){
         case '/api/index':
             fs.readFile('./data/index.json', 'utf-8', function(err, data){
                 if(!err){
-                    // request.on('data', function (chunk) {
-                    //     console.log(11111)
-                    //     body = chunk
-                    // })
-                    response.on('end', function () {
-                        console.log(222)
-                        body = querystring.parse(params)
-                        console.log(body+'=======================')
-                        response.writeHead(200, {"Content-Type": "text/json;charset=UTF-8"});
-                        console.log(data)
-                        response.end(data);
-                    })
+                    response.writeHead(200, {"Content-Type": "text/json;charset=UTF-8"});
+                    console.log(data)
+                    response.end(data);
                     
-                }else{
+                } else {
                     throw err;
                 }
             })

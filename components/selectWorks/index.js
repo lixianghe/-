@@ -17,7 +17,11 @@ Component({
       this.setData({
         selected: e.currentTarget.dataset.index
       })
-      this.triggerEvent('changeWords', {pageNo: e.currentTarget.dataset.index + 1, pageSize: this.data.len})
+      console.log(this.data.data.length)
+      console.log(e.currentTarget.dataset.index)
+      let pageNo = this.data.order ? e.currentTarget.dataset.index + 1 : (this.data.data.length - e.currentTarget.dataset.index)
+      this.triggerEvent('changeWords', {pageNo: pageNo, pageSize: this.data.len})
+      this.closeWords()
     },
     closeWords (e) {
       this.setData({
