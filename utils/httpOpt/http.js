@@ -1,4 +1,4 @@
-const option = require('./httpOpt')
+const option = require('./httpOpt.js')
 
 const getData = (key, query) => {
   return new Promise((resolve, reject) => {
@@ -6,11 +6,11 @@ const getData = (key, query) => {
       resolve(option.showData[key])
     } else if(option.api === 1) {
       wx.request({
-        url: option[key].url,
-        method: option[key].method,
+        url: option.url[key].url,
+        method: option.url[key].method,
         data: query,
         success: function(res) {
-          let result = formation[api](res.data)
+          let result = option.formation[key](res.data)
           resolve(result)
         },
         fail: function (err) {

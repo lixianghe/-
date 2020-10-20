@@ -33,6 +33,7 @@ Page({
     // 数据请求
     const promise = getData('index', {})
     promise.then(res => {
+      console.log(res)
       this.setData({
         info: res
       })
