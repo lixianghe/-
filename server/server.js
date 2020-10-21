@@ -25,7 +25,7 @@ var server= http.createServer(function(request, response){
             fs.readFile('./data/index.json', 'utf-8', function(err, data){
                 if(!err){
                     response.writeHead(200, {"Content-Type": "text/json;charset=UTF-8"});
-                    console.log(data)
+                    // console.log(data)
                     response.end(data);
                     
                 } else {
@@ -39,8 +39,14 @@ var server= http.createServer(function(request, response){
                     
                     response.writeHead(200, {"Content-Type": "text/json;charset=UTF-8"});
                     let res = JSON.parse(data)
-                    res.data = params && params.pageNo ? res.data.splice((params.pageNo -1) * 10, params.pageSize) : res.data
-                    response.end(JSON.stringify(res));
+                    if (res && res.length) {
+                        let playData = res.filter(item => item.id === Number(params.id))[0]
+                        playData.data = params && params.pageNo ? playData.data.splice((params.pageNo -1) * 10, params.pageSize) : playData.data
+                        response.end(JSON.stringify(playData)); 
+                    } else {
+                        res.data = params && params.pageNo ? res.data.splice((params.pageNo -1) * 10, params.pageSize) : res.data
+                        response.end(JSON.stringify(res));   
+                    }
                 }else{
                     throw err;
                 }

@@ -92,7 +92,7 @@ const formation = {
 // 5. 静态展示数据，展示界面时应用，不会请求后台服务
 const showData = {
   index: [{
-      id: '0',  
+      id: '1',  
       src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
       title: '超好听的翻唱合集'
     }],

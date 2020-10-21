@@ -52,6 +52,9 @@ Page({
         imageWidth: '49vh'
       })
     }
+    // 获取专辑列表
+    console.log(options)
+    this.getPlayList({pageNo: 1, pageSize: 10, id: options.id})
   },
   onShow() {
     const index = app.globalData.songInfo && app.globalData.songInfo.name ? app.globalData.songInfo.index : null
@@ -59,7 +62,6 @@ Page({
       current: index,
       initPgae: true
     })
-    this.getPlayList({pageNo: 1, pageSize: 10})
   },
   onHide() {
     this.setData({
