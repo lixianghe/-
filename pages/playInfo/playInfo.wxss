@@ -59,9 +59,23 @@
   justify-content: space-around;
   align-items: center;
 }
+.page .playLeft .btns > view {
+  position: relative;
+}
+.page .playLeft .btns .modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 21.5vh;
+  height: 21.5vh;
+  background: #000;
+  opacity: 0.35;
+  border-radius: 50%;
+}
 .page .playLeft image {
-  width: 7vh;
-  height: 7vh;
+  width: 15.3vh;
+  height: 15.3vh;
 }
 .page .playRight {
   height: 100%;
@@ -130,6 +144,7 @@
   z-index: 999;
   padding: 0 12vh 5.5vh;
   overflow: auto;
+  transform: translateX(-180vh);
 }
 .playList .songList {
   margin-top: 22vh;

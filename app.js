@@ -78,7 +78,8 @@ App({
     this.globalData.songInfo.dt = tool.formatduration(Number(this.globalData.songInfo.dt))
     that.setData({
       songInfo: this.globalData.songInfo,
-      current: index
+      current: index,
+      currentId: canplay[index].id
     })
   },
   stopmusic: function () {

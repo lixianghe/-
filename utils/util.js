@@ -44,6 +44,8 @@ function playAlrc(that, app, percent) {
         percent: time || 0,
         playing: playing
       })
+      // 设置abumInfo页面的播放状态用来控制gif是否展示
+      that.triggerEvent('setPlaying', playing)
     }
   });
 };

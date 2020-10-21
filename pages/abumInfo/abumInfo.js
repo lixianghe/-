@@ -14,6 +14,7 @@ Page({
     name: null,
     index: null,
     current: null,
+    currentId: null,
     zjNo: 0,
     songInfo: {},
     initPgae: false,
@@ -24,7 +25,8 @@ Page({
     pageNo: 1,
     pageSize: 10,
     total: 0,
-    optionId: ''
+    optionId: '',
+    palying: false
   },
   onLoad(options) {
     // 暂存专辑全部歌曲
@@ -36,8 +38,8 @@ Page({
     })
 
     // 判断分辨率的比列
-    const windowWidth =  wx.getSystemInfoSync().windowWidth;
-    const windowHeight = wx.getSystemInfoSync().windowHeight;
+    const windowWidth =  wx.getSystemInfoSync().screenWidth;
+    const windowHeight = wx.getSystemInfoSync().screenHeight;
     console.log(windowWidth, windowHeight)
     // 如果是小于1/2的情况
     if (windowHeight / windowWidth >= 1/2) {
@@ -61,8 +63,10 @@ Page({
   },
   onShow() {
     const index = app.globalData.songInfo && app.globalData.songInfo.name ? app.globalData.songInfo.index : null
+    const currentId = app.globalData.songInfo && app.globalData.songInfo.name ? app.globalData.songInfo.id : null
     this.setData({
       current: index,
+      currentId: currentId,
       initPgae: true
     })
   },
@@ -112,13 +116,15 @@ Page({
       url: '../playInfo/playInfo'
     })
     this.setData({
-      current: songInfo.index
+      current: songInfo.index,
+      currentId: songInfo.id
     })
   },
   // 改变current
   changeCurrent(index) {
     this.setData({
-      current: index.detail
+      current: index.detail,
+      currentId: this.data.canplay[index.detail].id
     })
   },
   // 获取歌曲列表
@@ -146,7 +152,13 @@ Page({
     app.playing()
     this.setData({
       current: 0,
+      currentId: app.globalData.songInfo.id,
       songInfo: app.globalData.songInfo
+    })
+  },
+  setPlaying(e) {
+    this.setData({
+      palying: e.detail
     })
   }
 })

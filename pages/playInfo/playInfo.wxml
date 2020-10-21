@@ -11,7 +11,8 @@
       </progress>
       <text class="duration">{{songInfo.dt}}</text>
       <view class="btns">
-        <view wx:for="{{btns}}" wx:key="{{index}}">
+        <view wx:for="{{btns}}" wx:key="{{index}}" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
+          <view wx:if="{{hoverflag && current === index}}" class="modal"></view>
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:else src="{{item.img}}" />
         </view>
@@ -38,7 +39,8 @@
       </progress>
       <text class="duration">{{songInfo.dt}}</text>
       <view class="btns">
-        <view wx:for="{{btns}}" wx:key="{{index}}">
+        <view wx:for="{{btns}}" wx:key="{{index}}" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
+          <view wx:if="{{btnCurrent === index}}" class="modal"></view>
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:else src="{{item.img}}" />
         </view>
@@ -48,7 +50,7 @@
 </view>
 
 <!-- 弹出播放列表 -->
-<view wx:if="{{showList}}" class="playList">
+<view class="playList" animation="{{animation}}">
   <view class="title">
     <text>播放列表({{canplay.length}})</text>
     <button bindtap="closeList">

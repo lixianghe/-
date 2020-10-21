@@ -12,8 +12,9 @@
       </button>
     </view>
     <view class="songList">
-      <view bindtap="goPlayInfo" style="color: {{index === current ? '#ff6100' : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
-        <text>{{index + 1}}</text>
+      <view bindtap="goPlayInfo" style="color: {{item.id === currentId ? '#ff6100' : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
+        <image class="playGif" wx:if="{{item.id === currentId && palying}}" src="../../static/images/playing.gif" />
+        <text wx:else>{{index + 1}}</text>
         <text>{{item.name}}</text>
         <text>{{item.formatDt}}</text>
       </view>
@@ -42,6 +43,6 @@
     </view>
   </view> -->
   <selectWorks id="selectWorks" bindchangeWords="changeWords"> </selectWorks>
-  <mini-player wx:if="{{initPgae}}" songInfo="{{songInfo}}" bindcurrent="changeCurrent"></mini-player>
+  <mini-player wx:if="{{initPgae}}" songInfo="{{songInfo}}" bindcurrent="changeCurrent" bindsetPlaying="setPlaying"></mini-player>
 </view>
   
