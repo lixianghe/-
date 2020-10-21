@@ -23,15 +23,18 @@ Page({
     imageWidth: '49vh',
     pageNo: 1,
     pageSize: 10,
-    total: 0
+    total: 0,
+    optionId: ''
   },
   onLoad(options) {
     // 暂存专辑全部歌曲
     app.globalData.abumInfoData = playList
     this.setData({
       zjNo: options.no,
-      src: options.src.replace('$', '==')
+      src: options.src.replace('$', '=='),
+      optionId: options.id
     })
+
     // 判断分辨率的比列
     const windowWidth =  wx.getSystemInfoSync().windowWidth;
     const windowHeight = wx.getSystemInfoSync().windowHeight;
@@ -82,7 +85,7 @@ Page({
   changeWords(e) {
     console.log(e.detail)
     // 请求新的歌曲列表
-    this.getPlayList(e.detail)
+    this.getPlayList({...e.detail, id: this.data.optionId})
   },
 
   // 点击歌曲名称跳转到歌曲详情
