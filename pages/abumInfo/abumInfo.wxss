@@ -89,11 +89,36 @@
   padding-top: 18vh;
   padding-left: 6vh;
 }
-.page .right image {
+.page .right .image {
   width: 49vh;
   height: 49vh;
   border-radius: 3vh;
 }
 .playAllHover {
   background: #ff6100!important;
+}
+
+/* 骨架屏样式 */
+.skeleton .songList view {
+  /* background: yellow; */
+  display: flex;
+}
+.skeleton .songList view text {
+  display: inline-block;
+  height: 100%;
+  background: #272727;
+  border-radius: 1vh;
+}
+.skeleton .songList view text:nth-child(1) {
+  width: 10vh!important;
+  margin-left: 0!important;
+}
+.skeleton .songList view text:nth-child(2) {
+  /* width: 109vh; */
+  flex: 1;
+  margin-left: 4vh!important;
+}
+.skeleton .right .image {
+  border-radius: 5vh;
+  background: #272727;
 }

@@ -1,6 +1,6 @@
 // 1.服务域名
 // const hostDomain = 'http://api.wecar.map.qq.com';
-const hostDomain = 'http://localhost:5000';
+const hostDomain = 'http://118.24.105.14:5000';
 
 // 2.配置数据来源 0静态数据，1接口数据  配置0时需要配置showData
 const api = 1

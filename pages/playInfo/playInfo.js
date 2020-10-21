@@ -21,7 +21,7 @@ Page({
   },
   onReady: function () {
     this.animation = wx.createAnimation({
-      duration: 300,
+      duration: 200,
       timingFunction: 'linear'
     })
   },

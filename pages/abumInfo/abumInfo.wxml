@@ -1,4 +1,4 @@
-<view class="page">
+<view class="page" wx:if="{{hasData}}">
   <view style="width: {{leftWith}};padding: {{leftPadding}}" class="left">
     <view class="btns" style="width: {{btnsWidth}};">
       <button hover-class="playAllHover" class="playAll" bindtap="playAll">
@@ -22,27 +22,36 @@
     </view>
   </view>
   <view class="right">
-    <image src="{{src}}" style="width: {{imageWidth}};height: {{imageWidth}}" />
+    <image class="image" src="{{src}}" style="width: {{imageWidth}};height: {{imageWidth}}" />
   </view>
-  <!-- <view class="btns">
-    <button bindtap="playAll">播放全部</button>
-    <button bindtap="changeProp">共{{Episode}}首</button>
-  </view> -->
-  <!-- 列表 -->
-  <!-- <view class="list">
+</view>
+
+  <!-- 骨架屏 -->
+<view class="page skeleton" wx:else>
+  <view style="width: {{leftWith}};padding: {{leftPadding}}" class="left">
+    <view class="btns" style="width: {{btnsWidth}};">
+      <button hover-class="playAllHover" class="playAll" bindtap="playAll">
+        <image src="../../static/images/playAll.png" />
+        <text>播放全部</text>
+      </button>
+      <button class="select" bindtap="changeProp">
+        
+        <text>共 首</text>
+        <image src="../../static/images/selectWorks.png" />
+      </button>
+    </view>
     <view class="songList">
-      <view bindtap="goPlayInfo" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
-        <text>{{index + 1}}</text>
-        <text>{{item.name}}</text>
-        <text>{{item.formatDt}}</text>
+      <view wx:key="index" wx:for="{{5}}">
+        <text class="A"></text>
+        <text class="B"></text>
       </view>
       
     </view>
-    <view class="imgCard">
-      <image src="{{src}}" />
-    </view>
-  </view> -->
-  <selectWorks id="selectWorks" bindchangeWords="changeWords"> </selectWorks>
-  <mini-player wx:if="{{initPgae}}" songInfo="{{songInfo}}" bindcurrent="changeCurrent" bindsetPlaying="setPlaying"></mini-player>
+  </view>
+  <view class="right">
+    <view class="image" style="width: {{imageWidth}};height: {{imageWidth}}"></view>
+  </view>
 </view>
-  
+
+<selectWorks id="selectWorks" bindchangeWords="changeWords"> </selectWorks>
+<mini-player wx:if="{{initPgae}}" songInfo="{{songInfo}}" bindcurrent="changeCurrent" bindsetPlaying="setPlaying"></mini-player>

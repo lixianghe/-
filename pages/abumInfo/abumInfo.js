@@ -2,7 +2,6 @@
 const app = getApp()
 import tool from '../../utils/util'
 
-import { playList, playList2, playList3 } from '../../utils/pageOtpions/songOtpions'
 import { getData } from '../../utils/httpOpt/http'
 
 Page({
@@ -26,11 +25,11 @@ Page({
     pageSize: 10,
     total: 0,
     optionId: '',
-    palying: false
+    palying: false,
+    hasData: false
   },
   onLoad(options) {
     // 暂存专辑全部歌曲
-    app.globalData.abumInfoData = playList
     this.setData({
       zjNo: options.no,
       src: options.src.replace('$', '=='),
@@ -144,6 +143,11 @@ Page({
       key: "canplay",
       data: canplay
     })
+    setTimeout(() => {
+      this.setData({
+        hasData: true
+      })
+    }, 100)
   },
   // 播放全部
   playAll() {
