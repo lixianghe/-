@@ -15,7 +15,7 @@
     <view class="outTit">{{ msg }}</view>
     <view class="bottomBtn">
       <button class="button loginOut" bindtap="loginOut">{{ confirm }}</button>
-      <button class="button cancle" bindtap="closeBgConfirm">{{ cancel }}</button>
+      <button class="button cancle" wx:if="{{cancel.length>0}}" bindtap="closeBgConfirm">{{ cancel }}</button>
     </view>
   </view>
 </view>

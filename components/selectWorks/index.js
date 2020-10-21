@@ -24,13 +24,22 @@ Component({
       this.closeWords()
     },
     closeWords (e) {
+      // this.setData({
+      //   isSelectWorks: false
+      // })
+
+      this.animation.translate('-160vh', 0).step()
       this.setData({
+        animation: this.animation.export(),
         isSelectWorks: false
       })
     },
     hideShow(val) {
+      console.log(this.animation)
+      this.animation.translate(0, 0).step()
       this.setData({
         isSelectWorks: val.hidShow,
+        animation: this.animation.export(),
         sum: val.sum
       })
       // 加载选集
@@ -94,6 +103,9 @@ Component({
     }
   },
   attached(options) {
-
+    this.animation = wx.createAnimation({
+      duration: 200,
+      timingFunction: 'linear'
+    })
   }
 })

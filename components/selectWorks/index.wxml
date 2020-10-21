@@ -1,5 +1,8 @@
 <view class="selectWorks" wx:if="{{isSelectWorks}}">
-  <view class="contentWorks">
+  
+</view>
+
+<view class="contentWorks" animation="{{animation}}">
     <image class="closeWords" src="/images/close-words.png" bindtap="closeWords"></image>
     <view class="orders" bindtap="changeOrder">
       {{order ? '正序' : '倒序'}}排列
@@ -17,5 +20,4 @@
         {{item.start}} ~ {{item.end}}
       </view>
     </view>
-  </view>
 </view>

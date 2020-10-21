@@ -21,7 +21,7 @@
     </view>
     <mini-player></mini-player>
   </view>
-  <bgConfirm id="bgConfirm" msg="{{confirm}}" confirm="确定" cancel="取消"></bgConfirm>
+  <bgConfirm id="bgConfirm" msg="{{confirm}}" confirm="确定" cancel=""></bgConfirm>
   <mini-player wx:if="{{initPgae}}" songInfo="{{songInfo}}"></mini-player>
 </view>
 

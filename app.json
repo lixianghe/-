@@ -2,9 +2,8 @@
   "pages": [
     "pages/index/index", 
     "pages/personalCenter/personalCenter",
-    
-    "pages/playInfo/playInfo",
     "pages/abumInfo/abumInfo",
+    "pages/playInfo/playInfo",
     "pages/latelyListen/latelyListen",
     "pages/latelyLtnList/latelyLtnList"
   ],

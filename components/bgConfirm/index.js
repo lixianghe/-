@@ -28,7 +28,6 @@ Component({
       if (name === 'login') {
         this.login()
       }
-      
     },
     login () {
       // 模拟扫码后登录成功
@@ -48,6 +47,5 @@ Component({
   attached(options) {
     console.log(this.data.confirm)
     console.log(this.data.cancel)
-    console.log(this.data.msg)
   }
 })
