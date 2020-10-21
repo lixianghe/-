@@ -35,6 +35,7 @@ Page({
     const promise = getData('index', {user: 'ljg'})
     promise.then(res => {
       console.log(res)
+      app.globalData.indexData = res
       this.setData({
         info: res
       })

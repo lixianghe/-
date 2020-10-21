@@ -28,7 +28,7 @@
       "pagePath": "pages/index/index",
       "iconPath": "images/index.png",
       "selectedIconPath": "images/index-select.png",
-      "text": "主页"
+      "text": "推荐"
     },
     {
       "pagePath": "pages/personalCenter/personalCenter",
