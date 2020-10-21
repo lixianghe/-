@@ -16,7 +16,14 @@ Page({
     showList: false,
     current: null,
     btns: btnConfig.playInfoBtns,
-    bigScreen:false
+    bigScreen:false,
+    btnCurrent: null
+  },
+  onReady: function () {
+    this.animation = wx.createAnimation({
+      duration: 300,
+      timingFunction: 'linear'
+    })
   },
   onLoad(options) {
     // 获取歌曲列表
@@ -33,19 +40,22 @@ Page({
     }
 
     // 判断分辨率的比列
-    const windowWidth =  wx.getSystemInfoSync().windowWidth;
-    const windowHeight = wx.getSystemInfoSync().windowHeight;
+    const windowWidth =  wx.getSystemInfoSync().screenWidth;
+    const windowHeight = wx.getSystemInfoSync().screenHeight;
     console.log(windowWidth, windowHeight)
     // 如果是小于1/2的情况
-    if (windowHeight / windowWidth <= 1/2) {
+    if (windowHeight / windowWidth >= 1/2) {
       this.setData({
+        bigScreen: false,
         leftWith: windowWidth * 0.722 + 'px',
         leftPadding: '0vh 9.8vh 20vh',
         btnsWidth: '140vh',
         imageWidth: windowWidth * 0.17 + 'px'
       })
     } else {
-      setData({
+      // 1920*720
+      this.setData({
+        bigScreen: true,
         leftWith: '184vh',
         leftPadding: '0vh 12.25vh 20vh',
         btnsWidth: '165vh',
@@ -108,14 +118,24 @@ Page({
       item.dtFormat = tool.formatduration(Number(item.dt))
     })
     this.setData({
-      showList: true,
+      // showList: true,
       current: app.globalData.songInfo.index,
       canplay: this.data.canplay
     })
+    // 显示的过度动画
+    this.animation.translate(0, 0).step()
+    this.setData({
+      animation: this.animation.export()
+    })
   },
   closeList() {
+    // this.setData({
+    //   showList: false
+    // })
+    // 显示的过度动画
+    this.animation.translate('-180vh', 0).step()
     this.setData({
-      showList: false
+      animation: this.animation.export()
     })
   },
   // 在播放列表里面点击播放歌曲
@@ -125,9 +145,13 @@ Page({
     songInfo.dt = tool.formatduration(Number(songInfo.dt))
     app.playing()
     this.setData({
-      showList: false,
+      // showList: false,
       songInfo: songInfo,
       current: e.currentTarget.dataset.no
+    })
+    this.animation.translate('-180vh', 0).step()
+    this.setData({
+      animation: this.animation.export()
     })
   },
   // 点击改变进度
@@ -157,5 +181,19 @@ Page({
       percent: e.detail.value,
       drapPercent: e.detail.value
     })
+  },
+  btnstart(e) {
+    const index = e.currentTarget.dataset.index
+    this.setData({
+      btnCurrent: index
+
+    })
+  },
+  btend() {
+    setTimeout(()=> {
+      this.setData({
+        btnCurrent: null
+      })
+    }, 150)
   }
 })

@@ -36,7 +36,9 @@ Component({
     canplay: []
   },
   observers: {
-
+    'playing': function() {
+      console.log('playing')
+    }
   },
   attached: function () {
     const canplay = wx.getStorageSync('canplay')
