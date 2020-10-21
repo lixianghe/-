@@ -14,7 +14,7 @@
     </view>
     <view class="view" bindtap="playInfo">
       <image class="pic" src="{{songInfo.al.picUrl}}" />
-      <text class="text">{{songInfo.name}}</text>
+      <text class="text" wx:if="{{songInfo.name}}">{{songInfo.name}} - {{songInfo.ar.name}}</text>
     </view>
   </view>
 </view>

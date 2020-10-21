@@ -27,7 +27,7 @@
   <view class="playLeft songDc">
     <view class="songDcTitle">
       <image src="{{songInfo.al.picUrl}}" />
-      <view class="title">{{songInfo.name}}</view>
+      <view class="title">{{songInfo.name}} - {{songInfo.ar.name}}</view>
     </view>
     <view class="player">
       <text class="time">{{playtime}}</text>
