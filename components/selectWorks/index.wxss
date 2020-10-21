@@ -5,16 +5,21 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
   background-color: rgba(0, 0, 0, 0.3);
 }
 .contentWorks {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 83.1vh;
   width: 142.2vh;
   padding: 7.8vh 9.8vh;
   padding-right: 5.5vh;
   background-color: #222222;
   box-sizing: content-box;
+  transform: translateX(-160vh);
+  z-index: 2;
 }
 .worksList {
   height: 60vh;
