@@ -17,7 +17,8 @@ Page({
     current: null,
     btns: btnConfig.playInfoBtns,
     bigScreen:false,
-    btnCurrent: null
+    btnCurrent: null,
+    noTransform: ''
   },
   onReady: function () {
     this.animation = wx.createAnimation({
@@ -118,7 +119,7 @@ Page({
       item.dtFormat = tool.formatduration(Number(item.dt))
     })
     this.setData({
-      // showList: true,
+      showList: true,
       current: app.globalData.songInfo.index,
       canplay: this.data.canplay
     })
@@ -127,11 +128,17 @@ Page({
     this.setData({
       animation: this.animation.export()
     })
+    setTimeout(() => {
+      this.setData({
+        noTransform: 'noTransform'
+      })
+    }, 300)
   },
   closeList() {
-    // this.setData({
-    //   showList: false
-    // })
+    this.setData({
+      showList: false,
+      noTransform: ''
+    })
     // 显示的过度动画
     this.animation.translate('-180vh', 0).step()
     this.setData({
@@ -145,7 +152,7 @@ Page({
     songInfo.dt = tool.formatduration(Number(songInfo.dt))
     app.playing()
     this.setData({
-      // showList: false,
+      showList: false,
       songInfo: songInfo,
       current: e.currentTarget.dataset.no
     })
@@ -154,32 +161,40 @@ Page({
       animation: this.animation.export()
     })
   },
-  // 点击改变进度
+  // 点击改变进度, 拖拽结束
   setPercent(e) {
+    clearInterval(timer)
+    const that = this
     // 传入当前毫秒值
     const time = e.detail.value / 100 * tool.formatToSend(app.globalData.songInfo.dt)
     app.globalData.currentPosition = time
+    console.log(that.data.playing, time, e.detail.value, this.data.drapType)
     if (app.globalData.songInfo.dt) {
-      if (this.data.playing) {
-        this.setData({
-          drapType: false
-        })
+      if (that.data.playing) {
+        // that.setData({
+        //   drapType: false
+        // })
         app.playing(time)
+        timer = setInterval(function () {
+          console.log('拖拽结束')
+          tool.playAlrc(that, app);
+        }, 1000);
       }
-      this.setData({
+      that.setData({
         percent: e.detail.value,
-        drapPercent: e.detail.value
+        // drapPercent: e.detail.value
       })
     }
   },
   // 拖拽改变进度
   dragPercent(e) {
     const that = this
+    clearInterval(timer)
     tool.playAlrc(that, app, e.detail.value);
-    this.setData({
-      drapType: true,
+    that.setData({
+      // drapType: true,
       percent: e.detail.value,
-      drapPercent: e.detail.value
+      // drapPercent: e.detail.value
     })
   },
   btnstart(e) {

@@ -28,6 +28,9 @@
   height: 21vh;
   align-items: center;
   width: 165vh;
+  padding-left: 5vh;
+  margin-left: -5vh;
+  z-index: 999;
 }
 .page .left .btns .playAll image {
   width: 10.64vh;

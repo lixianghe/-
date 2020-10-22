@@ -5,13 +5,15 @@
     <view class="player">
       <text class="time">{{playtime}}</text>
       <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343">
-        <text id="playstate" style="left:{{drapType ? drapPercent : percent}}%"></text>
-        <text id="dpstate" style="width:{{drapType ? drapPercent : percent}}%"></text>
+        <!-- <text id="playstate" style="left:{{drapType ? drapPercent : percent}}%"></text>
+        <text id="dpstate" style="width:{{drapType ? drapPercent : percent}}%"></text> -->
+        <text id="playstate" style="left:{{percent}}%"></text>
+        <text id="dpstate" style="width:{{percent}}%"></text>
         <slider class="slider" block-size="16" block-color="#888" bindchanging="dragPercent" bindchange="setPercent" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>
       </progress>
       <text class="duration">{{songInfo.dt}}</text>
       <view class="btns">
-        <view wx:for="{{btns}}" wx:key="{{index}}" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
+        <view wx:for="{{btns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
           <view wx:if="{{hoverflag && current === index}}" class="modal"></view>
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:else src="{{item.img}}" />
@@ -23,7 +25,7 @@
     <image src="{{songInfo.al.picUrl}}" />
   </view>
 </view>
-<!-- 1/2或者低于1/2的分辨率 -->
+<!-- 高于1/2的分辨率 -->
 <view class="page" wx:else>
   <view class="playLeft songDc">
     <view class="songDcTitle">
@@ -33,13 +35,15 @@
     <view class="player">
       <text class="time">{{playtime}}</text>
       <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343">
-        <text id="playstate" style="left:{{drapType ? drapPercent : percent}}%"></text>
-        <text id="dpstate" style="width:{{drapType ? drapPercent : percent}}%"></text>
+        <!-- <text id="playstate" style="left:{{drapType ? drapPercent : percent}}%"></text>
+        <text id="dpstate" style="width:{{drapType ? drapPercent : percent}}%"></text> -->
+        <text id="playstate" style="left:{{percent}}%"></text>
+        <text id="dpstate" style="width:{{percent}}%"></text>
         <slider class="slider" block-size="16" block-color="#888" bindchanging="dragPercent" bindchange="setPercent" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>
       </progress>
       <text class="duration">{{songInfo.dt}}</text>
       <view class="btns">
-        <view wx:for="{{btns}}" wx:key="{{index}}" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
+        <view wx:for="{{btns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
           <view wx:if="{{btnCurrent === index}}" class="modal"></view>
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:else src="{{item.img}}" />
@@ -50,7 +54,7 @@
 </view>
 
 <!-- 弹出播放列表 -->
-<view class="playList" animation="{{animation}}">
+<view class="playList {{noTransform}}" animation="{{animation}}">
   <view class="title">
     <text>播放列表({{canplay.length}})</text>
     <button bindtap="closeList">
@@ -66,3 +70,5 @@
       
     </view>
 </view>
+
+<view wx:if="{{showList}}" class="mask"></view>

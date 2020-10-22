@@ -25,7 +25,6 @@ App({
     canplay: []
   },
   
-  
   onLaunch: function () {
     // 判断横竖屏
     if (wx.getSystemInfoSync().windowWidth > wx.getSystemInfoSync().windowHeight) {
@@ -101,7 +100,7 @@ App({
         cb && cb();
       },
       fail: function () {
-        
+        console.log(888)
       }
     })
   }

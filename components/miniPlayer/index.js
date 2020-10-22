@@ -46,13 +46,14 @@ Component({
       canplay: canplay
     })
     this.listenPlaey()
+    console.log(9999)
   },
   detached: function () {
     clearInterval(timer)
   },
   lifetimes: {
     attached: function () {
-
+      
     },
     detached: function () {
 

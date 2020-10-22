@@ -36,7 +36,7 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "1.9.2",
+  "libVersion": "1.9.4",
   "appid": "wx489e0165383e5913",
   "projectname": "appTemlate",
   "isGameTourist": false,
