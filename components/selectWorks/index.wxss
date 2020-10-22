@@ -5,7 +5,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 999;
   background-color: rgba(0, 0, 0, 0.3);
 }
 .contentWorks {
@@ -19,7 +19,7 @@
   background-color: #222222;
   box-sizing: content-box;
   transform: translateX(-160vh);
-  z-index: 2;
+  z-index: 1000;
 }
 .worksList {
   height: 60vh;

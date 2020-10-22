@@ -5,7 +5,7 @@
       <view class="adminCenterName">{{userName}}</view>
       <view class="adminBtnIn" bindtap="nofityComponent" data-state="out">退出登录</view>
     </view>
-
+    <view class="tsBtn" bindtap="clearStorage"></view>
     <view class="adminCenter" wx:if="{{!isLogin}}">
       <view class="adminCenterZwdl">暂未登录</view>
       <view class="adminCenterDetail">请登录后查看详情</view>

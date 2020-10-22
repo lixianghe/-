@@ -339,6 +339,10 @@ Page({
       isLogin: app.globalData.haveLogin
     })
   },
+  // 测试用清除最近收听数据
+  clearStorage() {
+    wx.setStorageSync('indexData', null)
+  },
   onLoad(options) {
     console.log('sssssssssssss')
   },

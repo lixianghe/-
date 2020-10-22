@@ -1,5 +1,5 @@
 // 1.服务域名
-// const hostDomain = 'http://api.wecar.map.qq.com';
+const hostDomainLogin = 'http://api.wecar.map.qq.com';
 const hostDomain = 'http://118.24.105.14:5000';
 
 // 2.配置数据来源 0静态数据，1接口数据  配置0时需要配置showData
@@ -14,7 +14,7 @@ const url = {
   // 播放详情
   playInfo: {method: 'POST', url: `${hostDomain}/api/xxx`},
   // 个人中心-登录验证
-  codeSession: {method: 'POST', url: `${hostDomain}/account/mini/code2session`}
+  codeSession: {method: 'POST', url: `${hostDomainLogin}/account/mini/code2session`}
 }
 
 // 4.处理各界面请求的数据格式，开发者按注释的数据格式进行调整

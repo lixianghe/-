@@ -4,4 +4,7 @@
   align-items: center;
   width: 100vw;
   height: 82.7vh;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
