@@ -1,7 +1,7 @@
 <!-- 1920*720分辨率 -->
 <view class="page" wx:if="{{bigScreen}}">
   <view class="playLeft">
-    <view class="title">{{songInfo.name}}</view>
+    <view class="title">{{songInfo.name}} - {{songInfo.ar.name}}</view>
     <view class="player">
       <text class="time">{{playtime}}</text>
       <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343">

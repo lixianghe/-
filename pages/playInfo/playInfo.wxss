@@ -100,12 +100,14 @@
   border-radius: 50%;
   top: 50%;
   transform: translate3d(-50%, -50%, 0);
-  z-index: 2
+  z-index: 2;
+  /* border: 2vh solid transparent;
+  box-sizing: content-box; */
 }
 
 #dpstate {
   position: absolute;
-  height: 8px;
+  height: 1.23vh;
   width: 0;
   background-color: #ff6100;
   overflow: hidden;
@@ -115,7 +117,7 @@
   border-radius: 8px
 }
 
-/* 1/2或者小于1/2的情况 */
+/* 大于1/2的情况 */
 .page .songDc {
   width: 100%;
 }
@@ -129,7 +131,7 @@
   border-radius: 2vh;
   margin-right: 7.7vh;
 }
-..page .songDc .player {
+.page .songDc .player {
   margin-top: 14vh;
 }
 
@@ -217,4 +219,7 @@
 .noTransform {
   transition: none!important;
   transform: none!important;
+}
+.wx-progress-bar {
+  height: 1.23vh!important;
 }

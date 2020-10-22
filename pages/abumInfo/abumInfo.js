@@ -27,13 +27,15 @@ Page({
     total: 0,
     optionId: '',
     palying: false,
-    hasData: false
+    hasData: false,
+    msg: ''
   },
   onReady() {
     
   },
   onLoad(options) {
-    this.getNetWork()
+    const msg = '网络异常，请检查网络！'
+    this.getNetWork(msg)
     // 暂存专辑全部歌曲
     this.setData({
       zjNo: options.no,
@@ -46,7 +48,7 @@ Page({
     const windowHeight = wx.getSystemInfoSync().screenHeight;
     console.log(windowWidth, windowHeight)
     // 如果是小于1/2的情况
-    if (windowHeight / windowWidth >= 1/2) {
+    if (windowHeight / windowWidth >= 9/20) {
       this.setData({
         leftWith: windowWidth * 0.722 + 'px',
         leftPadding: '0vh 9.8vh 20vh',
@@ -165,10 +167,11 @@ Page({
   },
   // 播放全部
   playAll() {
-    // this.getNetWork()
+    const msg = '网络异常，无法播放！'
+    this.getNetWork(msg, app.playing)
     app.globalData.canplay = this.data.canplay
     app.globalData.songInfo = this.data.canplay[0]
-    app.playing()
+    // app.playing()
     this.setData({
       current: 0,
       currentId: app.globalData.songInfo.id,
@@ -181,16 +184,22 @@ Page({
     })
   },
   // 获取网络信息，给出相应操作
-  getNetWork() {
+  getNetWork(title, cb) {
+    const that = this
     // 监听网络状态
-    wx.onNetworkStatusChange(function (res) {
-      console.log(res)
-      console.log(res.isConnected)
-      console.log(res.networkType)
-      if (!res.isConnected) {
-        this.bgConfirm = this.selectComponent('#bgConfirm')
-        this.bgConfirm.hideShow(true, 'out', ()=>{})
-        return
+    wx.getNetworkType({
+      success (res) {
+        const networkType = res.networkType
+        console.log(res.networkType, that)
+        if (networkType === 'none') {
+          that.setData({
+            msg: title
+          })
+          that.bgConfirm = that.selectComponent('#bgConfirm')
+          that.bgConfirm.hideShow(true, 'out', ()=>{})
+        } else {
+          cb && cb()
+        }
       }
     })
   }
