@@ -45,7 +45,7 @@ Page({
     const windowHeight = wx.getSystemInfoSync().screenHeight;
     console.log(windowWidth, windowHeight)
     // 如果是小于1/2的情况
-    if (windowHeight / windowWidth >= 1/2) {
+    if (windowHeight / windowWidth >= 9/20) {
       this.setData({
         bigScreen: false,
         leftWith: windowWidth * 0.722 + 'px',
