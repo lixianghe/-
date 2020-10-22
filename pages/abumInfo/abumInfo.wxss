@@ -125,3 +125,9 @@
   border-radius: 5vh;
   background: #272727;
 }
+
+page view, 
+page button, 
+page image {
+  box-sizing: content-box
+}

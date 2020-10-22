@@ -45,7 +45,8 @@ Page({
     const windowHeight = wx.getSystemInfoSync().screenHeight;
     console.log(windowWidth, windowHeight)
     // 如果是小于1/2的情况
-    if (windowHeight / windowWidth >= 9/20) {
+    if (windowHeight / windowWidth >= 0.41) {
+      console.log(windowWidth+'-------------------小------------------'+windowHeight, windowHeight / windowWidth)
       this.setData({
         bigScreen: false,
         leftWith: windowWidth * 0.722 + 'px',
@@ -55,6 +56,7 @@ Page({
       })
     } else {
       // 1920*720
+      console.log(windowWidth+'-------------------大------------------'+windowHeight, (windowHeight / windowWidth))
       this.setData({
         bigScreen: true,
         leftWith: '184vh',
@@ -154,7 +156,8 @@ Page({
     this.setData({
       showList: false,
       songInfo: songInfo,
-      current: e.currentTarget.dataset.no
+      current: e.currentTarget.dataset.no,
+      noTransform: ''
     })
     this.animation.translate('-180vh', 0).step()
     this.setData({

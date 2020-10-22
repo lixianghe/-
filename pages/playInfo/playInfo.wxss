@@ -107,13 +107,13 @@
 
 #dpstate {
   position: absolute;
-  height: 1.23vh;
+  height: 1.24vh;
   width: 0;
   background-color: #ff6100;
   overflow: hidden;
   left: 0;
   top: 50%;
-  margin-top: -4px;
+  margin-top: -0.62px;
   border-radius: 8px
 }
 
@@ -221,5 +221,5 @@
   transform: none!important;
 }
 .wx-progress-bar {
-  height: 1.23vh!important;
+  height: 1.24vh!important;
 }

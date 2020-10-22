@@ -48,7 +48,7 @@ Page({
     const windowHeight = wx.getSystemInfoSync().screenHeight;
     console.log(windowWidth, windowHeight)
     // 如果是小于1/2的情况
-    if (windowHeight / windowWidth >= 9/20) {
+    if (windowHeight / windowWidth >= 0.41) {
       this.setData({
         leftWith: windowWidth * 0.722 + 'px',
         leftPadding: '0vh 9.8vh 20vh',
