@@ -2,7 +2,8 @@
 const app = getApp()
 import tool from '../../utils/util'
 
-import { getData } from '../../utils/httpOpt/http'
+// import { getData } from '../../utils/httpOpt/http'
+const { getData } = require('../../utils/https')
 
 Page({
   data: {

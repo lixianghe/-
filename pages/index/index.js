@@ -1,4 +1,5 @@
-import { getData } from '../../utils/httpOpt/http'
+// import { getData } from '../../utils/httpOpt/http'
+const { getData } = require('../../utils/https')
 const app = getApp()
 
 Page({

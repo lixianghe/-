@@ -1,13 +1,13 @@
-import {options as adminOpt} from '../../utils/pageOtpions/adminOpt'
-import {getData} from '../../utils/httpOpt/http'
+// import {getData} from '../../utils/httpOpt/http'
+const { getData } = require('../../utils/https')
 const signUtils = require('../../utils/sign')
 const app = getApp()
 
 Page({
   data: {
     screen: app.globalData.screen,
-    avatar: adminOpt.avatarOut,
-    userName: adminOpt.userName,
+    avatar: '',
+    userName: '',
     data: [{
       type: 'order',
       icon: '/images/icon-personCenter.png',
@@ -57,31 +57,30 @@ Page({
       success: function (res) {
         if (res.code) {
           // 测试开始
-          wx.getUserInfo({
-            success: function (res) {
-              console.log(JSON.stringify(res))
+          // wx.getUserInfo({
+          //   success: function (res) {
+          //     console.log(JSON.stringify(res))
               
-              const userInfo = res.userInfo
-              const nickName = userInfo.nickName
-              const avatarUrl = userInfo.avatarUrl
+          //     const userInfo = res.userInfo
+          //     const nickName = userInfo.nickName
+          //     const avatarUrl = userInfo.avatarUrl
 
-              app.globalData.haveLogin = true
-              that.setData({
-                avatar: avatarUrl,
-                userName: nickName,
-                isLogin: app.globalData.haveLogin
-              })
-            }
-          })
+          //     app.globalData.haveLogin = true
+          //     that.setData({
+          //       avatar: avatarUrl,
+          //       userName: nickName,
+          //       isLogin: app.globalData.haveLogin
+          //     })
+          //   }
+          // })
           // 测试结束
 
 
-
-          // console.log(2220000000022)
-          // // 改变登录状态
-          // app.globalData.haveLogin = true
-          // // 车联登录需要的环境
-          // that.code2Session(res.code);
+          console.log(2220000000022)
+          // 改变登录状态
+          app.globalData.haveLogin = true
+          // 车联登录需要的环境
+          that.code2Session(res.code);
 
         } else {
           wx.showToast({

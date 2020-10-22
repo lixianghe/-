@@ -54,7 +54,7 @@
   <view class="title">
     <text>播放列表({{canplay.length}})</text>
     <button bindtap="closeList">
-      <image src="../../static/images/closeList.png" />
+      <image src="/images/closeList.png" />
     </button>
   </view>
   <view class="songList">

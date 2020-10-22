@@ -2,18 +2,18 @@
   <view style="width: {{leftWith}};padding: {{leftPadding}}" class="left">
     <view class="btns" style="width: {{btnsWidth}};">
       <button hover-class="playAllHover" class="playAll" bindtap="playAll">
-        <image src="../../static/images/playAll.png" />
+        <image src="/images/playAll.png" />
         <text>播放全部</text>
       </button>
       <button class="select" bindtap="changeProp">
         
         <text>共{{total}}首</text>
-        <image src="../../static/images/selectWorks.png" />
+        <image src="/images/selectWorks.png" />
       </button>
     </view>
     <view class="songList">
       <view bindtap="goPlayInfo" style="color: {{item.id === currentId ? '#ff6100' : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
-        <image class="playGif" wx:if="{{item.id === currentId && palying}}" src="../../static/images/playing.gif" />
+        <image class="playGif" wx:if="{{item.id === currentId && palying}}" src="/images/playing.gif" />
         <text wx:else>{{index + 1}}</text>
         <text>{{item.name}}</text>
         <text>{{item.formatDt}}</text>
@@ -31,13 +31,13 @@
   <view style="width: {{leftWith}};padding: {{leftPadding}}" class="left">
     <view class="btns" style="width: {{btnsWidth}};">
       <button hover-class="playAllHover" class="playAll" bindtap="playAll">
-        <image src="../../static/images/playAll.png" />
+        <image src="/images/playAll.png" />
         <text>播放全部</text>
       </button>
       <button class="select" bindtap="changeProp">
         
         <text>共 首</text>
-        <image src="../../static/images/selectWorks.png" />
+        <image src="/images/selectWorks.png" />
       </button>
     </view>
     <view class="songList">

@@ -1,11 +1,10 @@
-import {options as latelyLtnOpt} from '../../utils/pageOtpions/latelyListenOpt'
 const app = getApp()
 
 Page({
   data: {
     screen: app.globalData.screen,
-    noContent: latelyLtnOpt.noContent,
-    info: latelyLtnOpt.info
+    noContent: '/images/nullContent.png',
+    info: ''
 
   },
   screen: app.globalData.screen,

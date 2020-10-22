@@ -4,40 +4,40 @@ const btnConfig = {
   miniBtns: [
     {
       name: 'pre',
-      img: '../../static/images/pre.png',
+      img: '/images/pre.png',
     },
     {
       name: 'toggle',
       img: {
-        stopUrl: '../../static/images/stop.png' ,
-        playUrl: '../../static/images/play.png'
+        stopUrl: '/images/stop.png' ,
+        playUrl: '/images/play.png'
       }
     },
     {
       name: 'next',
-      img: '../../static/images/next.png'
+      img: '/images/next.png'
     }
   ],
   // 播放详情页面按钮配置
   playInfoBtns: [
     {
       name: 'pre',
-      img: '../../static/images/pre2.png',
+      img: '/images/pre2.png',
     },
     {
       name: 'toggle',
       img: {
-        stopUrl: '../../static/images/stop2.png' ,
-        playUrl: '../../static/images/play2.png'
+        stopUrl: '/images/stop2.png' ,
+        playUrl: '/images/play2.png'
       }
     },
     {
       name: 'next',
-      img: '../../static/images/next2.png'
+      img: '/images/next2.png'
     },
     {
       name: 'more',
-      img: '../../static/images/more2.png'
+      img: '/images/more2.png'
     }
   ]
 }
