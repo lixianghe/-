@@ -22,13 +22,14 @@ Page({
     let indexData = wx.getStorageSync('indexData') || []
     const no = e.currentTarget.dataset.no
     const src = e.currentTarget.dataset.src.replace('==', '$')
+    const title = e.currentTarget.dataset.title
     if (indexData.filter(v => v.id === id).length === 0) {
       let item = app.globalData.indexData.filter(obj => obj.id === id)[0]
       indexData.push(item)
     }
     wx.setStorageSync('indexData', indexData)
     wx.navigateTo({
-      url: `../abumInfo/abumInfo?id=${id}&no=${no}&src=${src}`
+      url: `../abumInfo/abumInfo?id=${id}&no=${no}&src=${src}&title=${title}`
     })
   },
   onLoad(options) {

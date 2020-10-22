@@ -29,7 +29,11 @@ Page({
     palying: false,
     hasData: false
   },
+  onReady() {
+    
+  },
   onLoad(options) {
+    this.getNetWork()
     // 暂存专辑全部歌曲
     this.setData({
       zjNo: options.no,
@@ -58,8 +62,10 @@ Page({
       })
     }
     // 获取专辑列表
-    console.log(options)
     this.getPlayList({pageNo: 1, pageSize: 10, id: options.id})
+    wx.setNavigationBarTitle({
+      title: options.title
+    })
   },
   onShow() {
     const index = app.globalData.songInfo && app.globalData.songInfo.name ? app.globalData.songInfo.index : null
@@ -87,7 +93,6 @@ Page({
   },
   // 接受子组件传值
   changeWords(e) {
-    console.log(e.detail)
     // 请求新的歌曲列表
     this.getPlayList({...e.detail, id: this.data.optionId})
   },
@@ -129,17 +134,25 @@ Page({
   },
   // 获取歌曲列表
   async getPlayList(params) {
+    let canplay;
     // 数据请求
-    const res = await getData('abumInfo', params)
-    console.log('res', res)
-    const canplay = res.data
-    canplay.forEach(item => {
-      item.formatDt = tool.formatduration(Number(item.dt))
-    })
-    this.setData({
-      canplay: canplay,
-      total: res.total
-    })
+    try {
+      const res = await getData('abumInfo', params)
+      canplay = res.data
+      canplay.forEach(item => {
+        item.formatDt = tool.formatduration(Number(item.dt))
+      })
+      this.setData({
+        canplay: canplay,
+        total: res.total
+      })
+    } catch (error) {
+      canplay = error.data.data
+      this.setData({
+        canplay: canplay,
+        total: error.data.total
+      })
+    }
     wx.setStorage({
       key: "canplay",
       data: canplay
@@ -148,10 +161,11 @@ Page({
       this.setData({
         hasData: true
       })
-    }, 100)
+    }, 100)  
   },
   // 播放全部
   playAll() {
+    // this.getNetWork()
     app.globalData.canplay = this.data.canplay
     app.globalData.songInfo = this.data.canplay[0]
     app.playing()
@@ -164,6 +178,20 @@ Page({
   setPlaying(e) {
     this.setData({
       palying: e.detail
+    })
+  },
+  // 获取网络信息，给出相应操作
+  getNetWork() {
+    // 监听网络状态
+    wx.onNetworkStatusChange(function (res) {
+      console.log(res)
+      console.log(res.isConnected)
+      console.log(res.networkType)
+      if (!res.isConnected) {
+        this.bgConfirm = this.selectComponent('#bgConfirm')
+        this.bgConfirm.hideShow(true, 'out', ()=>{})
+        return
+      }
     })
   }
 })
