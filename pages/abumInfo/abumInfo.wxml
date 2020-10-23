@@ -14,6 +14,7 @@
     <view class="songList">
       <view bindtap="goPlayInfo" style="color: {{item.id === currentId ? '#ff6100' : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
         <image class="playGif" wx:if="{{item.id === currentId && palying}}" src="/images/playing.gif" />
+        
         <text wx:else>{{index + 1}}</text>
         <text>{{item.name}}</text>
         <text>{{item.formatDt}}</text>

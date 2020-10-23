@@ -113,7 +113,7 @@
   overflow: hidden;
   left: 0;
   top: 50%;
-  margin-top: -0.62px;
+  margin-top: -0.62vh;
   border-radius: 8px
 }
 

@@ -107,10 +107,9 @@ Component({
         const index = app.globalData.songInfo.index - 1 < 0 ? this.data.canplay.length - 1 : app.globalData.songInfo.index - 1
         this.triggerEvent('current', index)
       }
-      const canplay = this.data.canplay
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, - 1, canplay)
+      app.cutplay(that, - 1)
       
     },
     // 下一首
@@ -119,10 +118,9 @@ Component({
         const index = app.globalData.songInfo.index + 1 > this.data.canplay.length - 1 ? 0 : app.globalData.songInfo.index + 1
         this.triggerEvent('current', index)
       }
-      const canplay = this.data.canplay
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, + 1, canplay)
+      app.cutplay(that, + 1)
     },
     // 暂停
     togglePlay() {

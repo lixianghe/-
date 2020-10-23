@@ -4,6 +4,7 @@ import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/buttonConfig'
 
 var timer = null
+let copyData = []
 
 Page({
   data: {
@@ -18,7 +19,9 @@ Page({
     btns: btnConfig.playInfoBtns,
     bigScreen:false,
     btnCurrent: null,
-    noTransform: ''
+    noTransform: '',
+    typelist: ['listLoop', 'singleLoop', 'shufflePlayback'],
+    loopType: 'listLoop'   // 默认列表循环
   },
   onReady: function () {
     this.animation = wx.createAnimation({
@@ -30,6 +33,8 @@ Page({
     // 获取歌曲列表
     const canplay = wx.getStorageSync('canplay')
     const songInfo = app.globalData.songInfo
+    app.globalData.currentList = canplay
+    copyData =canplay
     songInfo.dt = String(songInfo.dt).split(':').length > 1 ? songInfo.dt : tool.formatduration(Number(songInfo.dt))
     this.setData({
       songInfo: songInfo,
@@ -43,7 +48,6 @@ Page({
     // 判断分辨率的比列
     const windowWidth =  wx.getSystemInfoSync().screenWidth;
     const windowHeight = wx.getSystemInfoSync().screenHeight;
-    console.log(windowWidth, windowHeight)
     // 如果是小于1/2的情况
     if (windowHeight / windowWidth >= 0.41) {
       console.log(windowWidth+'-------------------小------------------'+windowHeight, windowHeight / windowWidth)
@@ -92,6 +96,9 @@ Page({
         case 'next':
           this.next()
           break;
+        case 'loopType':
+          this.switchLoop()
+          break;
         case 'more':
           this.more()
           break;
@@ -102,14 +109,47 @@ Page({
   // 上一首
   pre() {
     const that = this
-    const canplay = this.data.canplay
-    app.cutplay(that, -1, canplay)
+    app.cutplay(that, -1)
   },
   // 下一首
   next() {
     const that = this
-    const canplay = this.data.canplay
-    app.cutplay(that, 1, canplay)
+    app.cutplay(that, 1)
+  },
+  // 切换播放模式
+  switchLoop() {
+    let nwIndex = this.data.typelist.findIndex(n => n === this.data.loopType)
+    let index = nwIndex < 2 ? nwIndex + 1 : 0
+    app.globalData.loopType = this.data.typelist[index]
+    // 根据播放模式切换currentList
+    app.globalData.currentList = this.checkLoop(this.data.typelist[index], copyData)
+    this.setData({
+      loopType: this.data.typelist[index]
+    })
+  },
+  // 判断循环模式
+  checkLoop(type, list) {
+    let loopList;
+    // 列表循环
+    if (type === 'listLoop') {
+      loopList = list
+    } else if (type === 'singleLoop') {
+      // 单曲循环
+      loopList = [list[app.globalData.songInfo.index]]
+    } else {
+      // 随机播放
+      loopList = this.randomList(list)
+    }
+    return loopList
+  },
+  // 打乱数组
+  randomList(arr) {
+    let len = arr.length;
+    while (len) {
+        let i = Math.floor(Math.random() * len--);
+        [arr[i], arr[len]] = [arr[len], arr[i]];
+    }
+    return arr;
   },
   // 暂停
   togglePlay() {
@@ -171,7 +211,6 @@ Page({
     // 传入当前毫秒值
     const time = e.detail.value / 100 * tool.formatToSend(app.globalData.songInfo.dt)
     app.globalData.currentPosition = time
-    console.log(that.data.playing, time, e.detail.value, this.data.drapType)
     if (app.globalData.songInfo.dt) {
       if (that.data.playing) {
         // that.setData({
@@ -179,7 +218,6 @@ Page({
         // })
         app.playing(time)
         timer = setInterval(function () {
-          console.log('拖拽结束')
           tool.playAlrc(that, app);
         }, 1000);
       }

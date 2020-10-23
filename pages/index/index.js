@@ -33,6 +33,7 @@ Page({
     })
   },
   onLoad(options) {
+    console.log('palying---------------' + app.globalData.playing)
     // 数据请求
     const promise = getData('index', {user: 'ljg'})
     promise.then(res => {

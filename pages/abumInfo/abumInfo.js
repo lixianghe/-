@@ -52,7 +52,7 @@ Page({
       this.setData({
         leftWith: windowWidth * 0.722 + 'px',
         leftPadding: '0vh 9.8vh 20vh',
-        btnsWidth: '140vh',
+        btnsWidth: windowWidth * 0.65 + 'px',
         imageWidth: windowWidth * 0.17 + 'px'
       })
     } else {
@@ -131,30 +131,28 @@ Page({
   changeCurrent(index) {
     this.setData({
       current: index.detail,
-      currentId: this.data.canplay[index.detail].id
+      currentId: app.globalData.currentList[index.detail].id
     })
   },
   // 获取歌曲列表
   async getPlayList(params) {
-    let canplay;
+    let canplay,total;
     // 数据请求
     try {
       const res = await getData('abumInfo', params)
       canplay = res.data
-      canplay.forEach(item => {
-        item.formatDt = tool.formatduration(Number(item.dt))
-      })
-      this.setData({
-        canplay: canplay,
-        total: res.total
-      })
+      total = res.total
     } catch (error) {
       canplay = error.data.data
-      this.setData({
-        canplay: canplay,
-        total: error.data.total
-      })
+      total = error.data.total
     }
+    canplay.forEach(item => {
+      item.formatDt = tool.formatduration(Number(item.dt))
+    })
+    this.setData({
+      canplay: canplay,
+      total: total
+    })
     wx.setStorage({
       key: "canplay",
       data: canplay
@@ -171,6 +169,7 @@ Page({
     this.getNetWork(msg, app.playing)
     app.globalData.canplay = this.data.canplay
     app.globalData.songInfo = this.data.canplay[0]
+    app.globalData.currentList = this.data.canplay
     // app.playing()
     this.setData({
       current: 0,
