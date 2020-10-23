@@ -32,6 +32,7 @@ Page({
       url: `../abumInfo/abumInfo?id=${id}&no=${no}&src=${src}&title=${title}`
     })
   },
+
   onLoad(options) {
     console.log('palying---------------' + app.globalData.playing)
     // 数据请求
@@ -52,6 +53,8 @@ Page({
     })
   },
   onShow() {
+    
+    console.log(JSON.stringify(app.globalData.playing)+"56行======================")
     this.setData({
       initPgae: true
     })
