@@ -1,7 +1,7 @@
 
 const app = getApp()
 import tool from '../../utils/util'
-import btnConfig from '../../utils/pageOtpions/buttonConfig'
+import btnConfig from '../../utils/pageOtpions/pageOtpions'
 
 var timer = null
 let copyData = []
@@ -34,6 +34,10 @@ Page({
     const canplay = wx.getStorageSync('canplay')
     const songInfo = app.globalData.songInfo
     app.globalData.currentList = canplay
+    wx.setStorage({
+      key: "currentList",
+      data: canplay
+    })
     copyData =canplay
     songInfo.dt = String(songInfo.dt).split(':').length > 1 ? songInfo.dt : tool.formatduration(Number(songInfo.dt))
     this.setData({
@@ -202,6 +206,10 @@ Page({
     this.animation.translate('-180vh', 0).step()
     this.setData({
       animation: this.animation.export()
+    })
+    wx.setStorage({
+      key: "songInfo",
+      data: songInfo
     })
   },
   // 点击改变进度, 拖拽结束

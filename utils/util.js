@@ -39,11 +39,15 @@ function playAlrc(that, app, percent) {
       }
       app.globalData.playing = playing;
       app.globalData.percent = time
-      console.log('========监听捕获========='+ playing+'==========='+time+'=============')
+      // console.log('========监听捕获========='+ playing+'==========='+time+'=============')
       that.setData({
         playtime: playtime ? formatduration(playtime * 1000) : '00:00',
         percent: time || 0,
         playing: playing
+      })
+      wx.setStorage({
+        key: "playing",
+        data: playing
       })
       // 设置abumInfo页面的播放状态用来控制gif是否展示
       that.triggerEvent('setPlaying', playing)

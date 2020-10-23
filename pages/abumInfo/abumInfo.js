@@ -106,7 +106,10 @@ Page({
     // 点击歌曲的时候把歌曲信息存到globalData里面
     const songInfo = e.currentTarget.dataset.song
     app.globalData.songInfo = songInfo
-    
+    wx.setStorage({
+      key: "songInfo",
+      data: songInfo
+    })
 
     // 缓存至最近收听
     let latListenData = wx.getStorageSync('latListenData') || []
@@ -175,6 +178,14 @@ Page({
       current: 0,
       currentId: app.globalData.songInfo.id,
       songInfo: app.globalData.songInfo
+    })
+    wx.setStorage({
+      key: "songInfo",
+      data: this.data.canplay[0]
+    })
+    wx.setStorage({
+      key: "currentList",
+      data: this.data.canplay
     })
   },
   setPlaying(e) {

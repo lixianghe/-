@@ -59,15 +59,21 @@ App({
   vision: '1.0.0',
   cutplay: function (that, type) {
     // 判断循环模式
-    let currentList = this.globalData.currentList
+    let currentList = this.globalData.currentList.length ? this.globalData.currentList : wx.getStorageSync('currentList')
+    console.log(currentList, this.globalData.songInfo, '+++++++++++++++++++++++==============================================++++++++++++++++++++++++++++++++')
     // 设置列表的index
     let no = this.globalData.songInfo.index
     let index = this.setIndex(type, no, currentList)
     //播放列表中下一首
     this.globalData.songInfo = currentList[index]
+    wx.setStorage({
+      key: "songInfo",
+      data: currentList[index]
+    })
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
+    console.log(this.globalData.songInfo.url+ '=====================================++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     this.globalData.loopType === 'singleLoop' ? this.playing(0) : this.playing()
     // 切完歌改变songInfo的index
     this.globalData.songInfo.index = index

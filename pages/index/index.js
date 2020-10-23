@@ -58,6 +58,7 @@ Page({
     this.setData({
       initPgae: true
     })
+    this.selectComponent('#miniPlayer').watchPlay();
   },
   onHide() {
     this.setData({

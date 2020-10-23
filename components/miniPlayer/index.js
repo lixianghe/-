@@ -1,6 +1,6 @@
 const app = getApp()
 import tool from '../../utils/util'
-import btnConfig from '../../utils/pageOtpions/buttonConfig'
+import btnConfig from '../../utils/pageOtpions/pageOtpions'
 
 var timer = null
 
@@ -33,7 +33,8 @@ Component({
     playing: false,
     hoverflag: false,
     current: null,
-    canplay: []
+    canplay: [],
+    _audio: null
   },
   observers: {
     'playing': function() {
@@ -47,6 +48,12 @@ Component({
     })
     this.listenPlaey()
     console.log(9999)
+
+    if (!this.data._audio) {
+      this.setData({
+        _audio: wx.getBackgroundAudioManager()
+      })
+  }
   },
   detached: function () {
     clearInterval(timer)
@@ -163,6 +170,21 @@ Component({
           current: null
         })
       }, 150)
+    },
+    watchPlay() {
+      app.globalData.songInfo = wx.getStorageSync('songInfo')
+      const playing = wx.getStorageSync('playing')
+      console.log('======能进去这个事件吗============++++++++++++++++++++++++++++++++++++++++++++++++++++=', app.globalData.songInfo, app.globalData.playing)
+      this.setData({
+        songInfo: app.globalData.songInfo 
+      })
+      // 如果上次退出是播放状态就继续播放
+      if (playing) {
+        app.playing()
+      }
+      this.data._audio.onTimeUpdate((res) => {  //监听音频播放进度
+        console.log(this.data._audio.currentTime + '=====================' + this.data._audio.duration)
+    })
     }
   }
 })
