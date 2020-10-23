@@ -32,6 +32,7 @@ Page({
       url: `../abumInfo/abumInfo?id=${id}&no=${no}&src=${src}&title=${title}`
     })
   },
+
   onLoad(options) {
     // 数据请求
     const promise = getData('index', {user: 'ljg'})
@@ -51,6 +52,8 @@ Page({
     })
   },
   onShow() {
+    
+    console.log(JSON.stringify(app.globalData.playing)+"56行======================")
     this.setData({
       initPgae: true
     })

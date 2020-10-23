@@ -1,14 +1,13 @@
 .h .personalCenter {
   display: flex;
   overflow: auto;
-  padding: 2vh;
   height: 83vh;
   box-sizing: content-box;
   align-items: center;
 }
 .h .adminCenter {
   flex: 0 0 72.3vh;
-  height: 89vh;
+  height: 79vh;
   overflow: hidden;
   text-align: center;
 }
@@ -28,7 +27,7 @@
 .h .adminCenterZwdl {
   font-size: 6.2vh;
   color: #e8e8e8;
-  margin-top: 20.8vh;
+  margin-top: 19.8vh;
 }
 .h .adminCenterDetail {
   font-size: 4.9vh;
@@ -36,7 +35,7 @@
   margin-top: 3.8vh;
 }
 .h .adminBtnOut {
-  margin-top: 10.9vh;
+  margin-top: 11.9vh;
   font-size: 4.9vh;
   background-color: #fa6501;
   width: 30.8vh;

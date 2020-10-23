@@ -2,10 +2,7 @@
 const hostDomainLogin = 'http://api.wecar.map.qq.com';
 const hostDomain = 'http://118.24.105.14:5000';
 
-// 2.配置数据来源 0静态数据，1接口数据  配置0时需要配置showData
-const api = 1
-
-// 3.接口地址
+// 2.请求方法和接口地址
 const url = {
   // 主页\推荐-专辑封面
   index: {method: 'POST', url: `${hostDomain}/api/index`},
@@ -17,7 +14,7 @@ const url = {
   codeSession: {method: 'POST', url: `${hostDomainLogin}/account/mini/code2session`}
 }
 
-// 4.处理各界面请求的数据格式，开发者按注释的数据格式进行调整
+// 3.处理各界面请求的数据格式，开发者按注释的数据格式进行调整
 const formation = {
   /**
    * 主页\推荐-专辑封面
@@ -88,9 +85,32 @@ const formation = {
   }
 }
 
+// 4.配置数据来源 0静态数据，1接口数据  配置0时需要配置showData
+const api = 1
+
 // 5. 静态展示数据，展示界面时应用，不会请求后台服务
 const showData = {
   index: [{
+      id: '1',  
+      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
+      title: '超好听的翻唱合集'
+    },{
+      id: '1',  
+      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
+      title: '超好听的翻唱合集'
+    },{
+      id: '1',  
+      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
+      title: '超好听的翻唱合集'
+    },{
+      id: '1',  
+      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
+      title: '超好听的翻唱合集'
+    },{
+      id: '1',  
+      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
+      title: '超好听的翻唱合集'
+    },{
       id: '1',  
       src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
       title: '超好听的翻唱合集'
