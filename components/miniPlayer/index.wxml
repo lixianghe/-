@@ -13,8 +13,8 @@
       <image class="image" bindtap="player" data-name="{{item.name}}" wx:else src="{{item.img}}" />
     </view>
     <view class="view" bindtap="playInfo">
-      <image class="pic" src="{{songInfo.al.picUrl}}" />
-      <text class="text" wx:if="{{songInfo.name}}">{{songInfo.name}} - {{songInfo.ar.name}}</text>
+      <image class="pic" src="{{songInfo.coverImgUrl}}" />
+      <text class="text" wx:if="{{songInfo.title}}">{{songInfo.title}} - {{songInfo.singer}}</text>
     </view>
   </view>
 </view>

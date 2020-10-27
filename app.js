@@ -57,7 +57,7 @@ App({
 
   
   vision: '1.0.0',
-  cutplay: function (that, type) {
+  cutplay: function (that, type, cb) {
     // 判断循环模式
     let currentList = this.globalData.currentList.length ? this.globalData.currentList : wx.getStorageSync('currentList')
     console.log(currentList, this.globalData.songInfo, '+++++++++++++++++++++++==============================================++++++++++++++++++++++++++++++++')
@@ -73,7 +73,7 @@ App({
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
-    console.log(this.globalData.songInfo.url+ '=====================================++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    console.log(this.globalData.songInfo.src+ '=====================================++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     this.globalData.loopType === 'singleLoop' ? this.playing(0) : this.playing()
     // 切完歌改变songInfo的index
     this.globalData.songInfo.index = index
@@ -83,6 +83,7 @@ App({
       current: index,
       currentId: currentList[index].id
     })
+    cb && cb()
   },
   // 根据循环模式设置切歌的index
   setIndex(type, no, list) {
@@ -108,8 +109,8 @@ App({
     const songInfo = that.globalData.songInfo
     // console.log('mmmm', songInfo)
     wx.playBackgroundAudio({
-      dataUrl: songInfo.url,
-      title: songInfo.name,
+      dataUrl: songInfo.src,
+      title: songInfo.title,
       success: function (res) {
         if (seek != undefined && typeof(seek) === 'number') {
           console.log('seek', seek)

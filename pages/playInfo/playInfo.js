@@ -21,7 +21,8 @@ Page({
     btnCurrent: null,
     noTransform: '',
     typelist: ['listLoop', 'singleLoop', 'shufflePlayback'],
-    loopType: 'listLoop'   // 默认列表循环
+    loopType: 'listLoop',   // 默认列表循环,
+    audioManager: {}
   },
   onReady: function () {
     this.animation = wx.createAnimation({
@@ -30,6 +31,7 @@ Page({
     })
   },
   onLoad(options) {
+   
     // 获取歌曲列表
     const canplay = wx.getStorageSync('canplay')
     const songInfo = app.globalData.songInfo
@@ -38,15 +40,18 @@ Page({
       key: "currentList",
       data: canplay
     })
-    copyData =canplay
+    copyData = canplay
     songInfo.dt = String(songInfo.dt).split(':').length > 1 ? songInfo.dt : tool.formatduration(Number(songInfo.dt))
     this.setData({
       songInfo: songInfo,
       canplay: canplay
     })
+    // 初始化audioManager
+    this.initAudioManager(canplay)
     // 如果点击的还是当前播放的歌曲则不用重新播放
     if (options.noPlay !== 'true') {
       app.playing()
+      this.playHandle()
     }
 
     // 判断分辨率的比列
@@ -73,6 +78,7 @@ Page({
         imageWidth: '49vh'
       })
     }
+    
   },
   onShow: function () {
     const that = this;
@@ -81,6 +87,7 @@ Page({
     timer = setInterval(function () {
       tool.playAlrc(that, app);
     }, 1000);
+    
   },
   onUnload: function () {
     clearInterval(timer);
@@ -113,12 +120,13 @@ Page({
   // 上一首
   pre() {
     const that = this
-    app.cutplay(that, -1)
+    app.cutplay(that, -1, this.playHandle)
   },
   // 下一首
   next() {
+    console.log('已经播放下一首了')
     const that = this
-    app.cutplay(that, 1)
+    app.cutplay(that, 1, this.playHandle)
   },
   // 切换播放模式
   switchLoop() {
@@ -162,7 +170,8 @@ Page({
   // 播放列表
   more() {
     this.data.canplay.forEach(item => {
-      item.dtFormat = tool.formatduration(Number(item.dt))
+      // item.dtFormat = tool.formatduration(Number(item.dt))
+      item.dtFormat = String(item.dt).split(':').length > 1 ? item.dt : tool.formatduration(Number(item.dt))
     })
     this.setData({
       showList: true,
@@ -259,5 +268,64 @@ Page({
         btnCurrent: null
       })
     }, 150)
+  },
+  // 初始化 BackgroundAudioManager
+  initAudioManager(list) {
+    console.log('list', list)
+    this.audioManager = wx.getBackgroundAudioManager()
+    this.audioManager.playList = list
+    // this.audioManager.srcType = 0
+    // this.audioManager.setPlayMode = 0
+    this.EventListener()
+  },
+  playHandle(){
+    let media = this.data.songInfo
+    console.log('播放触发',media, this.audioContext)
+    this.audioManager.src = media.src
+    this.audioManager.title = media.title
+    this.audioManager.coverImgUrl = media.coverImgUrl
+  },
+  // 监听播放，上一首，下一首
+  EventListener(){
+    //播放事件
+    this.audioManager.onPlay(() => {
+      console.log('onPlay')
+      if(!this.data.playing){
+        this.setData({
+          playing: true
+        })
+      }
+    })
+    //暂停事件
+    this.audioManager.onPause(() => {
+      console.log('触发播放暂停事件');
+      if(this.data.playing){
+        this.setData({
+          playing: false
+        })
+      }
+    })
+    //上一首事件
+    this.audioManager.onPrev(() => {
+      console.log('触发上一首事件');
+      this.pre()
+    })
+    //下一首事件
+    this.audioManager.onNext(() => {
+      console.log('触发下一首事件');
+      this.next();
+    })
+    //停止事件
+    this.audioManager.onStop(() => {
+      console.log('触发停止事件');
+    })
+    //播放错误事件
+    this.audioManager.onError(() => {
+      console.log('触发播放错误事件');
+    })
+    //播放完成事件
+    this.audioManager.onEnded(() => {
+      console.log('触发播放完成事件');
+    })
   }
 })

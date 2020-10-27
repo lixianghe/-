@@ -11,7 +11,7 @@ Page({
     percent: 0,
     id: null,
     songpic: null,
-    name: null,
+    title: null,
     index: null,
     current: null,
     currentId: null,
@@ -70,8 +70,8 @@ Page({
     })
   },
   onShow() {
-    const index = app.globalData.songInfo && app.globalData.songInfo.name ? app.globalData.songInfo.index : null
-    const currentId = app.globalData.songInfo && app.globalData.songInfo.name ? app.globalData.songInfo.id : null
+    const index = app.globalData.songInfo && app.globalData.songInfo.title ? app.globalData.songInfo.index : null
+    const currentId = app.globalData.songInfo && app.globalData.songInfo.title ? app.globalData.songInfo.id : null
     this.setData({
       current: index,
       currentId: currentId,
