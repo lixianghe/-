@@ -14,7 +14,7 @@ Component({
       type: String,
       default: null,
     },
-    name: {
+    title: {
       type: String,
       default: null,
     },
@@ -53,7 +53,7 @@ Component({
       this.setData({
         _audio: wx.getBackgroundAudioManager()
       })
-  }
+    }
   },
   detached: function () {
     clearInterval(timer)
@@ -74,7 +74,7 @@ Component({
     show: function() {
       // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
       const canplay = wx.getStorageSync('canplay')
-      if (app.globalData.songInfo && app.globalData.songInfo.name) {
+      if (app.globalData.songInfo && app.globalData.songInfo.title) {
         this.setData({
           songInfo: app.globalData.songInfo,
           canplay: canplay
@@ -110,7 +110,7 @@ Component({
     },
     // 上一首
     pre() {
-      if (app.globalData.songInfo.name) {
+      if (app.globalData.songInfo.title) {
         const index = app.globalData.songInfo.index - 1 < 0 ? this.data.canplay.length - 1 : app.globalData.songInfo.index - 1
         this.triggerEvent('current', index)
       }
@@ -121,7 +121,7 @@ Component({
     },
     // 下一首
     next() {
-      if (app.globalData.songInfo.name) {
+      if (app.globalData.songInfo.title) {
         const index = app.globalData.songInfo.index + 1 > this.data.canplay.length - 1 ? 0 : app.globalData.songInfo.index + 1
         this.triggerEvent('current', index)
       }
@@ -143,7 +143,7 @@ Component({
     listenPlaey() {
       const that = this;
       // 每次从缓存中拿到当前歌曲的相关信息，还有播放列表
-      if (app.globalData.songInfo && app.globalData.songInfo.name) {
+      if (app.globalData.songInfo && app.globalData.songInfo.title) {
         that.setData({
           songInfo: app.globalData.songInfo
         })
@@ -183,7 +183,7 @@ Component({
         app.playing()
       }
       this.data._audio.onTimeUpdate((res) => {  //监听音频播放进度
-        console.log(this.data._audio.currentTime + '=====================' + this.data._audio.duration)
+        // console.log(res, this.data._audio,  '=====================' + this.data._audio.duration)
     })
     }
   }

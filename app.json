@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index", 
+    "pages/testPlay/testPlay",
+    
     "pages/personalCenter/personalCenter",
     "pages/abumInfo/abumInfo",
     "pages/playInfo/playInfo",

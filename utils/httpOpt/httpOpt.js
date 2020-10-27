@@ -37,14 +37,12 @@ const formation = {
    *    page: 1,
    *    pagesize: 10,
    *    data: [{
-   *      name: '沉默是金',
+   *      title: '沉默是金',
    *      pid: 2,
    *      id: 1475436266,
    *      index: 0,
    *      url: 'https://music.163.com/song/media/outer/url?id=1456615795.mp3',
-   *      al: {
-   *        picUrl: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=774527905,3502625772&fm=26&gp=0.jpg'
-   *      },
+   *      coverImgUrl: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=774527905,3502625772&fm=26&gp=0.jpg',
    *      dt: 177000,
    *    },
    *  ....]
@@ -123,73 +121,53 @@ const showData = {
     pageSize: 10,
     data: [
       {
-        name: "是想你的声音啊",
+        title: "是想你的声音啊",
         pid: 0,
         id: 1481657185,
         index: 0,
-        url: "https://music.163.com/song/media/outer/url?id=1481657185.mp3",
-        ar: {
-          name: "傲七爷"
-        },
-        al: {
-          picUrl: "http://p4.music.126.net/cIR63lyPGgQ4mAyuOTg8lA==/109951165109878587.jpg"
-        },
+        src: "https://music.163.com/song/media/outer/url?id=1481657185.mp3",
+        singer: "傲七爷",
+        coverImgUrl: "http://p4.music.126.net/cIR63lyPGgQ4mAyuOTg8lA==/109951165109878587.jpg",
         dt: 159121
       },
       {
-        name: "他只是经过",
+        title: "他只是经过",
         pid: 0,
         id: 1443838552,
         index: 1,
-        url: "https://music.163.com/song/media/outer/url?id=1443838552.mp3",
-        ar: {
-          name: "Felix Bennett"
-        },
-        al: {
-          picUrl: "http://p4.music.126.net/wUog39IHoJb76pL0AVCFNQ==/109951165348116023.jpg"
-        },
+        src: "https://music.163.com/song/media/outer/url?id=1443838552.mp3",
+        singer: "Felix Bennett",
+        coverImgUrl: "http://p4.music.126.net/wUog39IHoJb76pL0AVCFNQ==/109951165348116023.jpg",
         dt: 215381
       },
       {
-        name: "爱的恰恰",
+        title: "爱的恰恰",
         pid: 0,
         id: 1456200611,
         index: 2,
-        url: "https://music.163.com/song/media/outer/url?id=1456200611.mp3",
-        ar: {
-          name: "宝石Gem"
-        },
-        al: {
-          picUrl: "http://p4.music.126.net/YWlJNcWJz8jo6-I31HUJBA==/109951165069475099.jpg"
-        },
+        src: "https://music.163.com/song/media/outer/url?id=1456200611.mp3",
+        singer: "宝石Gem",
+        coverImgUrl: "http://p4.music.126.net/YWlJNcWJz8jo6-I31HUJBA==/109951165069475099.jpg",
         dt: 194717
       },
       {
-        name: "画画的Baby",
+        title: "画画的Baby",
         pid: 0,
         id: 1474342935,
         index: 3,
-        url: "https://music.163.com/song/media/outer/url?id=1474342935.mp3",
-        ar: {
-          name: "黑猫警长Giao哥"
-        },
-        al: {
-          picUrl: "http://p3.music.126.net/MuhJIkUIN2_j7Cg38t3ogQ==/109951165273552799.jpg"
-        },
+        src: "https://music.163.com/song/media/outer/url?id=1474342935.mp3",
+        singer: "黑猫警长Giao哥",
+        coverImgUrl: "http://p3.music.126.net/MuhJIkUIN2_j7Cg38t3ogQ==/109951165273552799.jpg",
         dt: 97200
       },
       {
-        name: "所爱隔山海",
+        title: "所爱隔山海",
         pid: 0,
         id: 1348896822,
         index: 4,
-        url: "https://music.163.com/song/media/outer/url?id=1348896822.mp3",
-        ar: {
-          name: "CMJ"
-        },
-        al: {
-          picUrl: "http://p3.music.126.net/MOmuZfdM4aUBgleLUDevoA==/109951164269620044.jpg"
-        },
+        src: "https://music.163.com/song/media/outer/url?id=1348896822.mp3",
+        singer: "CMJ",
+        coverImgUrl: "http://p3.music.126.net/MOmuZfdM4aUBgleLUDevoA==/109951164269620044.jpg",
         dt: 112908
       }
     ]

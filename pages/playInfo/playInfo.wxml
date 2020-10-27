@@ -1,7 +1,7 @@
 <!-- 1920*720分辨率 -->
 <view class="page" wx:if="{{bigScreen}}">
   <view class="playLeft">
-    <view class="title">{{songInfo.name}} - {{songInfo.ar.name}}</view>
+    <view class="title">{{songInfo.title}} - {{songInfo.singer}}</view>
     <view class="player">
       <text class="time">{{playtime}}</text>
       <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343">
@@ -22,15 +22,15 @@
     </view>
   </view>
   <view class="playRight">
-    <image src="{{songInfo.al.picUrl}}" />
+    <image src="{{songInfo.coverImgUrl}}" />
   </view>
 </view>
 <!-- 高于1/2的分辨率 -->
 <view class="page" wx:else>
   <view class="playLeft songDc">
     <view class="songDcTitle">
-      <image src="{{songInfo.al.picUrl}}" />
-      <view class="title">{{songInfo.name}} - {{songInfo.ar.name}}</view>
+      <image src="{{songInfo.coverImgUrl}}" />
+      <view class="title">{{songInfo.title}} - {{songInfo.singer}}</view>
     </view>
     <view class="player">
       <text class="time">{{playtime}}</text>
@@ -57,7 +57,7 @@
 <!-- 弹出播放列表 -->
 <view class="playList {{noTransform}}" animation="{{animation}}">
   <view class="title">
-    <text>播放列表({{canplay.length}})</text>
+    <text>播放列表11:01({{canplay.length}})</text>
     <button bindtap="closeList">
       <image src="/images/closeList.png" />
     </button>
@@ -65,7 +65,7 @@
   <view class="songList">
       <view bindtap="playSong" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-no='{{index}}' data-song="{{item}}" wx:key="index" wx:for="{{canplay}}">
         <text>{{index + 1}}</text>
-        <text>{{item.name}}</text>
+        <text>{{item.title}}</text>
         <text>{{item.dtFormat}}</text>
       </view>
       

@@ -16,7 +16,7 @@
         <image class="playGif" wx:if="{{item.id === currentId && palying}}" src="/images/playing.gif" />
         
         <text wx:else>{{index + 1}}</text>
-        <text>{{item.name}}</text>
+        <text>{{item.title}}</text>
         <text>{{item.formatDt}}</text>
       </view>
       
