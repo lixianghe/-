@@ -92,3 +92,69 @@
   },
 ```
 
+开发者在 pageOtpions.js中配置mini player相关信息
+```json
+  // mini player按钮配置
+  miniBtns: [
+    {
+      name: 'pre',                          // 上一首
+      img: '/images/pre.png',               // 对应的图标
+    },
+    {
+      name: 'toggle',                       // 暂停
+      img: {
+        stopUrl: '/images/stop.png' ,      // 播放状态的图标
+        playUrl: '/images/play.png'        // 暂停状态的图标
+      }
+    },
+    {
+      name: 'next',                        // 下一首
+      img: '/images/next.png'              // 下一首对应的图标
+    }，
+    {
+      name: 'like',                        // 收藏
+      img: {
+        likeNone: '/images/like_none.png' ,// 未收藏时的图标
+        like: '/images/like.png'           // 收藏后的图标
+      }
+    }
+  ]
+```
+对开发者的要求：
+btn  1~4个，播放/暂停必选，其他可选；
+图标：必须，.png、.jpg、.jpeg 格式；
+
+播放详情相关配置
+```json
+// 播放详情页面按钮配置
+  playInfoBtns: [
+    {
+      name: 'pre',                                             // 上一首                
+      img: '/images/pre2.png',                                 // 上一首对应的图标
+    },
+    {
+      name: 'toggle',                                          // 播放/暂停
+      img: {
+        stopUrl: '/images/stop2.png' ,                         // 播放状态的图标
+        playUrl: '/images/play2.png'                           // 暂停状态的图标
+      }
+    },
+    {
+      name: 'next',                                             // 下一首
+      img: '/images/next2.png'                                  // 下一首对应的图标
+    },
+    {
+      name: 'loopType',                                         // 循环模式
+      img: {
+        listLoop: '/images/listLoop.png' ,                      // 列表循环对应的图标
+        singleLoop: '/images/singleLoop.png',                   // 单曲循环对应的图标
+        shufflePlayback: '/images/shufflePlayback.png'          // 随即循环对应的图标
+      }
+    },
+    {
+      name: 'more',                                             // 弹出播放列表
+      img: '/images/more2.png'                                  // 弹出播放列表对应的图标
+    }
+  ]
+  ```
+  对开发者要求： 同上
