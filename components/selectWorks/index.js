@@ -2,7 +2,11 @@ const app = getApp()
 
 Component({
   properties: {
-    prop: String // 0 正常 1 无数据 2 网络异常 3 服务器异常 4 请求失败
+    prop: String, // 0 正常 1 无数据 2 网络异常 3 服务器异常 4 请求失败
+    selected: {
+      type: Number,
+      default: 0
+    }
   },
   data: {
     data: [],
@@ -89,6 +93,7 @@ Component({
     },
     loadWorks () {
       let result = this.data.order ? this.loadWorksUp() : this.loadWorksDown()
+      console.log(result)
       this.setData({
         data: result
       })

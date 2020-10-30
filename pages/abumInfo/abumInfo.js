@@ -1,10 +1,17 @@
 
 const app = getApp()
 import tool from '../../utils/util'
+import btnConfig from '../../utils/pageOtpions/pageOtpions'
 
 // import { getData } from '../../utils/httpOpt/http'
 const { getData } = require('../../utils/https')
+// const createRecycleContext = require('../../components/recycle-view/index')
 
+// 记录上拉拉刷新了多少次
+let scrollTopNo = 0
+
+// 选择的选集
+let selectedNo = 0
 Page({
   data: {
     canplay: [],
@@ -17,9 +24,8 @@ Page({
     currentId: null,
     zjNo: 0,
     songInfo: {},
-    initPgae: false,
     leftWith: '184vh',
-    leftPadding: '0vh 12.25vh  20vh',
+    leftPadding: '0vh 7.25vh  20vh 12.75vh',
     btnsWidth: '165vh',
     imageWidth: '49vh',
     pageNo: 1,
@@ -28,12 +34,27 @@ Page({
     optionId: '',
     palying: false,
     hasData: false,
-    msg: ''
+    msg: '',
+    batchSetRecycleData: true,
+    showLoadTop: false,
+    showLoadEnd: false,
+    scrollTop: 0,
+    pageNo: 1,
+    initPageNo: 1,
+    pageSize: 10,
+    selected: 0,
+    startY: 0,
+    loadAnimate: null,
+    tenHeight: 0,
+    mainColor: btnConfig.colorOptions.mainColor,
+    selectWordBtn: btnConfig.selectWordBtn
   },
+  audioManager: null,
+  ctx: null,
   onReady() {
     
   },
-  onLoad(options) {
+  async onLoad(options) {
     const msg = '网络异常，请检查网络！'
     this.getNetWork(msg)
     // 暂存专辑全部歌曲
@@ -46,42 +67,43 @@ Page({
     // 判断分辨率的比列
     const windowWidth =  wx.getSystemInfoSync().screenWidth;
     const windowHeight = wx.getSystemInfoSync().screenHeight;
-    console.log(windowWidth, windowHeight)
     // 如果是小于1/2的情况
     if (windowHeight / windowWidth >= 0.41) {
       this.setData({
         leftWith: windowWidth * 0.722 + 'px',
-        leftPadding: '0vh 9.8vh 20vh',
+        leftPadding: '0vh 4.8vh 20vh 9.8vh',
         btnsWidth: windowWidth * 0.65 + 'px',
         imageWidth: windowWidth * 0.17 + 'px'
       })
     } else {
       this.setData({
         leftWith: '184vh',
-        leftPadding: '0vh 12.25vh 20vh',
+        leftPadding: '0vh 7.25vh 20vh  12.75vh',
         btnsWidth: '165vh',
         imageWidth: '49vh'
       })
     }
+    this.getAllList()
     // 获取专辑列表
-    this.getPlayList({pageNo: 1, pageSize: 10, id: options.id})
+    const canplay = await this.getPlayList({pageNo: 1, pageSize: 10, id: options.id})
+    this.setCanplay(canplay)
     wx.setNavigationBarTitle({
       title: options.title
     })
+    // 获取十首歌得高度
+    setTimeout(() => {
+      this.getTenHeight()
+    }, 500)
   },
   onShow() {
-    const index = app.globalData.songInfo && app.globalData.songInfo.title ? app.globalData.songInfo.index : null
     const currentId = app.globalData.songInfo && app.globalData.songInfo.title ? app.globalData.songInfo.id : null
     this.setData({
-      current: index,
-      currentId: currentId,
-      initPgae: true
+      currentId: currentId
     })
+    this.selectComponent('#miniPlayer').setOnShow()
   },
   onHide() {
-    this.setData({
-      initPgae: false
-    })
+    this.selectComponent('#miniPlayer').setOnHide()
   },
   // 调用子组件的方法，进行通讯,传值true显示选集列表
   changeProp() {
@@ -92,11 +114,25 @@ Page({
       sum: this.data.total
     }
     this.selectWorks.hideShow(val)
+    this.setData({
+      selected: selectedNo + this.data.pageNo - 1
+    })
   },
   // 接受子组件传值
-  changeWords(e) {
+  async changeWords(e) {
     // 请求新的歌曲列表
-    this.getPlayList({...e.detail, id: this.data.optionId})
+    this.setData({
+      scrollTop: 0
+    })
+    // 重置
+    scrollTopNo = 0
+    this.setData({
+      pageNo: e.detail.pageNo,
+      pageSize: e.detail.pageSize,
+      initPageNo: e.detail.pageNo
+    })
+    const canplay = await this.getPlayList({...e.detail, id: this.data.optionId})
+    this.setCanplay(canplay)
   },
 
   // 点击歌曲名称跳转到歌曲详情
@@ -123,18 +159,16 @@ Page({
       data: latListenData
     })
     wx.navigateTo({
-      url: '../playInfo/playInfo'
+      url: '../playInfo/playInfo?id=' + this.data.optionId
     })
     this.setData({
-      current: songInfo.index,
       currentId: songInfo.id
     })
   },
   // 改变current
   changeCurrent(index) {
     this.setData({
-      current: index.detail,
-      currentId: app.globalData.currentList[index.detail].id
+      currentId: app.globalData.allList[index.detail].id
     })
   },
   // 获取歌曲列表
@@ -153,39 +187,57 @@ Page({
       item.formatDt = tool.formatduration(Number(item.dt))
     })
     this.setData({
-      canplay: canplay,
       total: total
     })
     wx.setStorage({
       key: "canplay",
       data: canplay
     })
+    
     setTimeout(() => {
       this.setData({
         hasData: true
       })
-    }, 100)  
+    }, 100)
+    return canplay
+  },
+  // 获取专辑全部歌曲
+  async getAllList() {
+    let allList
+    const params = {id: 1, pageNo: 1, pageSize: 40}
+    // 数据请求
+    const res = await getData('abumInfo', params)
+    allList = res.data
+    app.globalData.allList = allList
+    wx.setStorage({
+      key: "allList",
+      data: allList
+    })
+  },
+  setCanplay(canplay) {
+    this.setData({
+      canplay: canplay
+    })
+    wx.setStorage({
+      key: "canplay",
+      data: canplay
+    })
   },
   // 播放全部
   playAll() {
     const msg = '网络异常，无法播放！'
-    this.getNetWork(msg, app.playing)
     app.globalData.canplay = this.data.canplay
     app.globalData.songInfo = this.data.canplay[0]
-    app.globalData.currentList = this.data.canplay
     // app.playing()
+    this.initAudioManager(this.data.canplay)
     this.setData({
-      current: 0,
       currentId: app.globalData.songInfo.id,
       songInfo: app.globalData.songInfo
     })
+    this.getNetWork(msg, app.playing)
     wx.setStorage({
       key: "songInfo",
       data: this.data.canplay[0]
-    })
-    wx.setStorage({
-      key: "currentList",
-      data: this.data.canplay
     })
   },
   setPlaying(e) {
@@ -200,7 +252,6 @@ Page({
     wx.getNetworkType({
       success (res) {
         const networkType = res.networkType
-        console.log(res.networkType, that)
         if (networkType === 'none') {
           that.setData({
             msg: title
@@ -208,9 +259,129 @@ Page({
           that.bgConfirm = that.selectComponent('#bgConfirm')
           that.bgConfirm.hideShow(true, 'out', ()=>{})
         } else {
-          cb && cb()
+          setTimeout(() => {
+            cb && cb()
+          }, 200)
         }
       }
+    })
+  },
+  // 初始化 BackgroundAudioManager
+  initAudioManager(list) {
+    this.audioManager = wx.getBackgroundAudioManager()
+    this.audioManager.playInfo = {playList: list};
+  },
+  // 列表滚动事件
+  listScroll: tool.debounce(async function(res) {
+    let top = res.detail.scrollTop
+    selectedNo = parseInt(top / this.data.tenHeight)
+  }, 50),
+  // 滚到顶部
+  listTop: tool.throttle(async function(res) {
+    console.log('滚到顶部')
+  }, 2000),
+  // 滚到底部
+  listBehind: tool.throttle(async function(res) {
+    // 滑倒最底下
+    if ((scrollTopNo + this.data.initPageNo) * 10 >= this.data.total) {
+      this.setData({
+        showLoadEnd: false
+      })
+      return false
+    } else {
+      this.setData({
+        showLoadEnd: true
+      })
+    }
+    scrollTopNo++
+    const getList = await this.getPlayList({pageNo: this.data.initPageNo + scrollTopNo, pageSize: 10, id: this.data.optionId})
+    const list = this.data.canplay.concat(getList)
+    setTimeout(() => {
+      this.setData({
+        canplay: list,
+        showLoadEnd: false
+      })
+      wx.setStorage({
+        key: "canplay",
+        data: list
+      })
+    }, 800)
+  }, 1000),
+  getTenHeight() {
+    let query = wx.createSelectorQuery();
+    query.select('.songList').boundingClientRect(rect=>{
+      let listHeight = rect.height;
+      this.setData({
+        tenHeight: listHeight
+      })
+    }).exec();
+  },
+  // 为了实现上拉可以加载更多
+  touchStart(e) {
+    this.setData({
+      startY: e.changedTouches[0].pageY
+    })
+    
+  },
+  // 触摸移动
+  touchMove(e) {
+      let endY = e.changedTouches[0].pageY
+      let startY = this.data.startY
+      let dis = endY - startY
+      // 判断是否下拉
+      if (dis <= 0 || this.data.pageNo <= 1) {
+          return false
+      }
+      if (dis < 60) {
+          // 下拉60内随下拉高度增加
+          this.move = wx.createAnimation({
+              duration: 100,
+              timingFunction: 'linear'
+          })
+          this.move.translate(0, '6vh').step()
+          this.setData({
+              loadAnimate: this.move.export(),
+              showLoadTop: true
+          })
+      }
+      // 滑动距离大于20开始刷新
+      this.showRefresh = dis > 20
+  },
+  // 触摸结束
+  touchEnd(e) {
+    if (this.data.pageNo <= 1 || !this.showRefresh) {
+      return false
+  }
+    if (this.showRefresh) {
+        // 在此执行下拉后的刷新操作 
+        console.log('开始加载')
+    }
+    //1s后回弹
+    setTimeout(() => {
+         // 创建动画实例
+        this.animation = wx.createAnimation({
+            duration: 300,
+            timingFunction: 'ease',
+            delay: 0,
+        })    
+        this.animation.translate(0, 0).step()
+        this.setData({
+          loadAnimate: this.animation.export(),
+          showLoadTop: false
+        })
+        this.topHandle()
+        this.showRefresh = false
+    }, 1000)
+  },
+  // 下拉结束后的处理
+  async topHandle() {
+    const getList = await this.getPlayList({pageNo: this.data.pageNo - 1, pageSize: 10, id: this.data.optionId})
+    const list = getList.concat(this.data.canplay)
+    this.setData({
+      canplay: list,
+      showLoadTop: false,
+      scrollTop: 0,
+      pageNo: this.data.pageNo - 1
     })
   }
 })

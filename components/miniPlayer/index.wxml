@@ -1,8 +1,8 @@
 <view class="playing-status">
   
-  <progress class="progress" backgroundColor="#383838" stroke-width="4">
+  <progress class="progress" backgroundColor="#383838" stroke-width="4" wx:if="{{percentBar}}">
     <!-- <text class="playstate" style="left:{{percent}}%"></text> -->
-    <text class="dpstate" style="width:{{percent}}%"></text>
+    <text class="dpstate" style="width:{{percent}}%;background-color:{{mianColor}}"></text>
     <slider class="slider" bindchange="museek" color="#d33a31" left-icon="cancel" value="{{percent}}"/>
   </progress>
   
@@ -12,9 +12,10 @@
       <image class="image" bindtap="player" data-name="{{item.name}}" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
       <image class="image" bindtap="player" data-name="{{item.name}}" wx:else src="{{item.img}}" />
     </view>
-    <view class="view" bindtap="playInfo">
+    <view class="view" catchtap="playInfo">
       <image class="pic" src="{{songInfo.coverImgUrl}}" />
       <text class="text" wx:if="{{songInfo.title}}">{{songInfo.title}} - {{songInfo.singer}}</text>
     </view>
   </view>
+  <view catchtap="playInfo" style="flex: 1;height: 100%"></view>
 </view>

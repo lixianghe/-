@@ -2,6 +2,7 @@
 const { getData } = require('../../utils/https')
 const signUtils = require('../../utils/sign')
 const app = getApp()
+import btnConfig from '../../utils/pageOtpions/pageOtpions'
 
 Page({
   data: {
@@ -23,14 +24,15 @@ Page({
     }, {
       type: 'us',
       icon: '/images/icon-personCenter.png',
-      title: '关于我们'
+      title: '关于我们(1.0.8)'
     }] ,
     isLogin: app.globalData.haveLogin,
     withCredentials: true,
     userInfo: null,
     debugLog: '',
     songInfo: {},
-    initPgae: false
+    initPgae: false,
+    mainColor: btnConfig.colorOptions.mainColor
   },
   // 调用组件方法
   nofityComponent (e) {

@@ -96,20 +96,18 @@
   height: 5.2vh;
   width: 5.2vh;
   overflow: hidden;
-  background-color: #ff6100;
+  /* background-color: #ff6100; */
   border-radius: 50%;
   top: 50%;
   transform: translate3d(-50%, -50%, 0);
   z-index: 2;
-  /* border: 2vh solid transparent;
-  box-sizing: content-box; */
 }
 
 #dpstate {
   position: absolute;
   height: 1.24vh;
   width: 0;
-  background-color: #ff6100;
+  /* background-color: #ff6100; */
   overflow: hidden;
   left: 0;
   top: 50%;
@@ -155,10 +153,10 @@
   left: 0;
   top: 0;
   background: #000;
-  opacity: 0.4;
+  opacity: 0.6;
 }
 .playList .songList {
-  margin-top: 22vh;
+  width: 160vh;
 }
 .playList .songList view {
   margin-bottom: 6.3vh;
@@ -167,13 +165,18 @@
   border-bottom: 1px solid #2d2d2d;
   padding-bottom: 4.4vh;
   padding-right: 2.42vh;
+  height: 11vh;
+  padding-left: 5vh;
+}
+.playList .songList view text:nth-child(1) {
+  width: 8vh;
 }
 .playList .songList view:last-child {
   margin-bottom: 0;
 }
 .playList .songList text {
   font-size: 4.9vh;
-  margin-right: 7.4vh;
+  margin-right: 2.4vh;
   float: left;
 }
 .playList .songList text:nth-child(3) {
@@ -209,11 +212,15 @@
   padding: 0;
   margin: 0;
   border: none;
-  /* transform: translateY(-3vh); */
+  transform: translateY(-3vh);
+  position: relative;
 }
 .playList .title button image {
   width: 19.6vh;
   height: 10.4vh;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .noTransform {
@@ -222,4 +229,13 @@
 }
 .wx-progress-bar {
   height: 1.24vh!important;
+}
+.playGif {
+  width: 7.6vh;
+  height: 7.6vh;
+  margin-left: -5vh;
+  /* vertical-align: middle; */
+  transform: translateX(2.5vh);
+  float: left;
+  margin-right: 7.6vh;
 }

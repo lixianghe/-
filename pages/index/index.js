@@ -7,7 +7,6 @@ Page({
     screen: app.globalData.screen,
     lalyLtn: {icon: '/images/zjst.png'},
     info: [],
-    initPgae: false,
     confirm: ''
   },
   // 跳转到最近收听页面
@@ -38,7 +37,7 @@ Page({
     // 数据请求
     const promise = getData('index', {user: 'ljg'})
     promise.then(res => {
-      console.log(res)
+      // console.log(res)
       app.globalData.indexData = res
       this.setData({
         info: res
@@ -53,16 +52,10 @@ Page({
     })
   },
   onShow() {
-    
-    console.log(JSON.stringify(app.globalData.playing)+"56行======================")
-    this.setData({
-      initPgae: true
-    })
-    this.selectComponent('#miniPlayer').watchPlay();
+    this.selectComponent('#miniPlayer').watchPlay()
+    this.selectComponent('#miniPlayer').setOnShow()
   },
   onHide() {
-    this.setData({
-      initPgae: false
-    })
+    this.selectComponent('#miniPlayer').setOnHide()
   }
 })

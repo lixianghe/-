@@ -8,7 +8,7 @@
 }
 .page .left {
   width: 184vh;
-  padding: 0vh 12.25vh  20vh;
+  padding: 0vh 7.25vh  20vh  12.75vh;
   box-sizing: border-box;
   overflow: auto;
 }
@@ -31,6 +31,9 @@
   padding-left: 5vh;
   margin-left: -5vh;
   z-index: 999;
+}
+.page .left .btns .playAll {
+  /* background: #ff6100; */
 }
 .page .left .btns .playAll image {
   width: 10.64vh;
@@ -55,16 +58,19 @@
   margin-right: 3vh;
   color: #fff;
 }
+.scrollView {
+  margin-top: 15vh;
+  margin-left: -5vh;
+}
 .page .left .songList {
   /* width: 162vh; */
   font-size: 4.9vh;
   flex: 1;
-  margin-top: 21vh;
 }
 .page .left .songList .playGif {
   width: 7.6vh;
   height: 7.6vh;
-  margin-left: -5vh;
+  /* margin-left: -5vh; */
   vertical-align: middle;
   transform: translateX(2vh);
 }
@@ -80,7 +86,7 @@
   width: 7.6vh;
   display: inline-block;
   text-align: right;
-  margin-left: -5vh;
+  /* margin-left: -5vh; */
 }
 .page .left .songList view text:nth-child(2) {
   margin-left: 7.35vh;
@@ -98,7 +104,7 @@
   border-radius: 3vh;
 }
 .playAllHover {
-  background: #ff6100!important;
+  /* background: #ff6100!important; */
 }
 
 /* 骨架屏样式 */
@@ -130,4 +136,13 @@ page view,
 page button, 
 page image {
   box-sizing: content-box
+}
+
+/* loading */
+.loading {
+  width: 100%;
+  font-size: 4.5vh;
+  color: #fff;
+  text-align: center;
+  transform: translateY(-2vh);
 }
