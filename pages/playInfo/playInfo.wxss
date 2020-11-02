@@ -142,7 +142,7 @@
   width: 180vh;
   height: 100%;
   z-index: 999;
-  padding: 0 12vh 5.5vh;
+  padding: 0 10.5vh 5.5vh;
   overflow: auto;
   transform: translateX(-180vh);
 }
@@ -156,22 +156,21 @@
   opacity: 0.6;
 }
 .playList .songList {
-  width: 160vh;
+  width: 163vh;
+  padding: 1.5vh;
 }
-.playList .songList view {
-  margin-bottom: 6.3vh;
+.playList .songList .view {
+  margin-bottom: 4.3vh;
   color: #fff;
   overflow: hidden;
   border-bottom: 1px solid #2d2d2d;
-  padding-bottom: 4.4vh;
-  padding-right: 2.42vh;
-  height: 11vh;
-  padding-left: 5vh;
+  height: 13vh;
+  padding: 2vh 2.42vh 4.4vh 5vh;
 }
-.playList .songList view text:nth-child(1) {
+.playList .songList .view text:nth-child(1) {
   width: 8vh;
 }
-.playList .songList view:last-child {
+.playList .songList .view:last-child {
   margin-bottom: 0;
 }
 .playList .songList text {
@@ -198,9 +197,9 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 5.1vh;
-  padding: 8vh 0 0;
+  padding: 8vh 1.5vh 0;
   position: fixed;
-  width: 157vh;
+  width: 160vh;
   top: 0;
   background: #222222;
 }

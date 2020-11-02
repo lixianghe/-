@@ -3,9 +3,7 @@ const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
 
-// import { getData } from '../../utils/httpOpt/http'
 const { getData } = require('../../utils/https')
-// const createRecycleContext = require('../../components/recycle-view/index')
 
 // 记录上拉拉刷新了多少次
 let scrollTopNo = 0
@@ -25,7 +23,7 @@ Page({
     zjNo: 0,
     songInfo: {},
     leftWith: '184vh',
-    leftPadding: '0vh 7.25vh  20vh 12.75vh',
+    leftPadding: '0vh 5.75vh  20vh 11.25vh',
     btnsWidth: '165vh',
     imageWidth: '49vh',
     pageNo: 1,
@@ -71,14 +69,14 @@ Page({
     if (windowHeight / windowWidth >= 0.41) {
       this.setData({
         leftWith: windowWidth * 0.722 + 'px',
-        leftPadding: '0vh 4.8vh 20vh 9.8vh',
+        leftPadding: '0vh 3.3vh 20vh 8.3vh',
         btnsWidth: windowWidth * 0.65 + 'px',
         imageWidth: windowWidth * 0.17 + 'px'
       })
     } else {
       this.setData({
         leftWith: '184vh',
-        leftPadding: '0vh 7.25vh 20vh  12.75vh',
+        leftPadding: '0vh 5.75vh 20vh  11.25vh',
         btnsWidth: '165vh',
         imageWidth: '49vh'
       })
@@ -136,9 +134,7 @@ Page({
   },
 
   // 点击歌曲名称跳转到歌曲详情
-  goPlayInfo(e) {
-    // 这里还要判断一下点击的歌曲是 否是正在播放的歌曲
-    
+  goPlayInfo(e) {  
     // 点击歌曲的时候把歌曲信息存到globalData里面
     const songInfo = e.currentTarget.dataset.song
     app.globalData.songInfo = songInfo
@@ -188,12 +184,7 @@ Page({
     })
     this.setData({
       total: total
-    })
-    wx.setStorage({
-      key: "canplay",
-      data: canplay
-    })
-    
+    }) 
     setTimeout(() => {
       this.setData({
         hasData: true
@@ -204,7 +195,7 @@ Page({
   // 获取专辑全部歌曲
   async getAllList() {
     let allList
-    const params = {id: 1, pageNo: 1, pageSize: 40}
+    const params = {id: this.data.optionId, pageNo: 1, pageSize: 999}
     // 数据请求
     const res = await getData('abumInfo', params)
     allList = res.data
@@ -228,7 +219,6 @@ Page({
     const msg = '网络异常，无法播放！'
     app.globalData.canplay = this.data.canplay
     app.globalData.songInfo = this.data.canplay[0]
-    // app.playing()
     this.initAudioManager(this.data.canplay)
     this.setData({
       currentId: app.globalData.songInfo.id,
@@ -282,6 +272,7 @@ Page({
   }, 2000),
   // 滚到底部
   listBehind: tool.throttle(async function(res) {
+    console.log('滑倒底部')
     // 滑倒最底下
     if ((scrollTopNo + this.data.initPageNo) * 10 >= this.data.total) {
       this.setData({
@@ -352,10 +343,6 @@ Page({
     if (this.data.pageNo <= 1 || !this.showRefresh) {
       return false
   }
-    if (this.showRefresh) {
-        // 在此执行下拉后的刷新操作 
-        console.log('开始加载')
-    }
     //1s后回弹
     setTimeout(() => {
          // 创建动画实例

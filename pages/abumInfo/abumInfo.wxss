@@ -8,7 +8,7 @@
 }
 .page .left {
   width: 184vh;
-  padding: 0vh 7.25vh  20vh  12.75vh;
+  padding: 0vh 5.75vh  20vh  11.25vh;
   box-sizing: border-box;
   overflow: auto;
 }
@@ -25,12 +25,14 @@
   justify-content: flex-start;
   position: fixed;
   background: #151515;
-  height: 21vh;
+  height: 19vh;
   align-items: center;
   width: 165vh;
   padding-left: 5vh;
   margin-left: -5vh;
   z-index: 999;
+  padding-top: 4.6vh;
+  box-sizing: border-box!important;
 }
 .page .left .btns .playAll {
   /* background: #ff6100; */
@@ -59,13 +61,14 @@
   color: #fff;
 }
 .scrollView {
-  margin-top: 15vh;
+  margin-top: 13vh;
   margin-left: -5vh;
 }
 .page .left .songList {
   /* width: 162vh; */
   font-size: 4.9vh;
   flex: 1;
+  padding: 2vh 1.5vh;
 }
 .page .left .songList .playGif {
   width: 7.6vh;

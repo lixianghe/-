@@ -96,7 +96,6 @@ App({
     this.globalData.songInfo.dt = String(this.globalData.songInfo.dt).split(':').length > 1 ? this.globalData.songInfo.dt : tool.formatduration(Number(this.globalData.songInfo.dt))
     that.setData({
       songInfo: this.globalData.songInfo,
-      current: index,
       currentId: allList[index].id
     })
   },
@@ -139,11 +138,13 @@ App({
   },
   // 非车载情况的播放
   wxPlayHandle(songInfo, seek, cb) {
+    console.log('songInfo', songInfo)
     var that = this
     wx.playBackgroundAudio({
       dataUrl: songInfo.src,
       title: songInfo.title,
       success: function (res) {
+        console.log('res', res)
         if (seek != undefined && typeof(seek) === 'number') {
           console.log('seek', seek)
           wx.seekBackgroundAudio({ position: seek })

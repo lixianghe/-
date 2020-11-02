@@ -15,7 +15,6 @@ Page({
     drapPercent: 0,
     playtime: '00:00',
     showList: false,
-    current: null,
     currentId: null,
     btns: btnConfig.playInfoBtns,
     bigScreen:false,
@@ -148,11 +147,11 @@ Page({
   togglePlay() {
     const that = this
     clearInterval(timer)
-    if (!this.data.playing) {
+    // if (!this.data.playing) {
       timer = setInterval(function () {
         tool.playAlrc(that, app);
       }, 1000);
-    }
+    // }
     tool.toggleplay(this, app)
   },
   // 播放列表
@@ -162,7 +161,6 @@ Page({
     })
     this.setData({
       showList: true,
-      current: app.globalData.songInfo.episode,
       currentId: app.globalData.songInfo.id,
       canplay: this.data.canplay
     })
@@ -196,8 +194,8 @@ Page({
     
     this.setData({
       songInfo: songInfo,
-      current: e.currentTarget.dataset.no,
-      currentId: app.globalData.songInfo.id
+      currentId: app.globalData.songInfo.id,
+      playing: true
       // noTransform: ''
     })
     app.playing()

@@ -62,17 +62,19 @@
   <scroll-view
       class="scrollView"
       scroll-top="{{scrolltop}}"
-      scroll-y style="width: 100%; height: 78vh;margin-top:22vh;margin-left: -5vh;width: 160vh"
+      scroll-y style="width: 100%; height: 80vh;margin-top:18.5vh;margin-left: -5vh;width: 163vh"
       bindscroll="listScroll"
       bindscrolltoupper="listTop"
       bindscrolltolower="listBehind"
     >
   <view class="songList">
-      <view bindtap="playSong" style="color: {{item.id === currentId ? '#c64f31' : '#fff'}}" data-no='{{index}}' data-song="{{item}}" wx:key="index" wx:for="{{canplay}}">
-        <image class="playGif" wx:if="{{item.id === currentId && playing}}" src="/images/playing.gif" />
-        <text wx:else>{{index + 1}}</text>
-        <text>{{item.title}}</text>
-        <text>{{item.dtFormat}}</text>
+      <view class="view" style="color: {{item.id === currentId ? '#c64f31' : '#fff'}}"  wx:key="index" wx:for="{{canplay}}">
+        <view  bindtap="playSong" data-no='{{index}}' data-song="{{item}}" style="width: 100%;height: 6.6vh;line-height: 6.6vh">
+          <image class="playGif" wx:if="{{item.id === currentId && playing}}" src="/images/playing.gif" />
+          <text wx:else>{{index + 1}}</text>
+          <text>{{item.title}}</text>
+          <text>{{item.dtFormat}}</text>
+        </view>
       </view>
     </view>
 
