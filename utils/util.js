@@ -73,9 +73,84 @@ function toggleplay(that, app, cb) {
 }
 
 
+// 初始化 BackgroundAudioManager
+function initAudioManager(that, list) {
+  that.audioManager = wx.getBackgroundAudioManager()
+  that.audioManager.playInfo = {playList: list};
+  EventListener(that)
+}
+
+// 监听播放，上一首，下一首
+function EventListener(that){
+  //播放事件
+  that.audioManager.onPlay(() => {
+    console.log('onPlay')
+    wx.setStorageSync('playing', true)
+  })
+  //暂停事件
+  that.audioManager.onPause(() => {
+    console.log('触发播放暂停事件');
+    wx.setStorageSync('playing', false)
+  })
+  //上一首事件
+  that.audioManager.onPrev(() => {
+    console.log('触发上一首事件');
+    that.pre()
+  })
+  //下一首事件
+  that.audioManager.onNext(() => {
+    console.log('触发onNext事件');
+    that.next();
+  })
+  //停止事件
+  that.audioManager.onStop(() => {
+    console.log('触发停止事件');
+  })
+  //播放错误事件
+  that.audioManager.onError(() => {
+    console.log('触发播放错误事件');
+  })
+  //播放完成事件
+  that.audioManager.onEnded(() => {
+    console.log('触发播放完成事件');
+  })
+}
+
+// 函数节流
+function throttle(fn, interval) {
+  var enterTime = 0;//触发的时间
+  var gapTime = interval || 100;//间隔时间，如果interval不传，则默认300ms
+  return function () {
+    var context = this;
+    var backTime = new Date();//第一次函数return即触发的时间
+    if (backTime - enterTime > gapTime) {
+      fn.call(context, arguments);
+      enterTime = backTime;//赋值给第一次触发的时间，这样就保存了第二次触发的时间
+    }
+  };
+}
+
+// 函数防抖
+function debounce(fn, interval = 300) {
+  let canRun = true;
+  return function () {
+      if (!canRun) return;
+      canRun = false;
+      setTimeout(() => {
+          fn.apply(this, arguments);
+          canRun = true;
+      }, interval);
+  };
+}
+
+
 module.exports = {
   formatToSend: formatToSend,
   formatduration: formatduration,
   playAlrc: playAlrc,
-  toggleplay: toggleplay
+  toggleplay: toggleplay,
+  initAudioManager: initAudioManager,
+  EventListener: EventListener,
+  throttle: throttle,
+  debounce: debounce
 }

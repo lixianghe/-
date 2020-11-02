@@ -3,18 +3,16 @@
   <view class="playLeft">
     <view class="title">{{songInfo.title}} - {{songInfo.singer}}</view>
     <view class="player">
-      <text class="time">{{playtime}}</text>
-      <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343">
-        <!-- <text id="playstate" style="left:{{drapType ? drapPercent : percent}}%"></text>
-        <text id="dpstate" style="width:{{drapType ? drapPercent : percent}}%"></text> -->
-        <text id="playstate" style="left:{{percent}}%"></text>
-        <text id="dpstate" style="width:{{percent}}%"></text>
+      <text class="time" wx:if="{{percentBar}}">{{playtime}}</text>
+      <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343" wx:if="{{percentBar}}">
+        <text id="playstate" style="left:{{percent}}%;background-color:{{mainColor}}"></text>
+        <text id="dpstate" style="width:{{percent}}%;background-color:{{mainColor}}"></text>
         <slider class="slider" block-size="16" block-color="#888" bindchanging="dragPercent" bindchange="setPercent" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>
       </progress>
-      <text class="duration">{{songInfo.dt}}</text>
+      <text class="duration" wx:if="{{percentBar}}">{{songInfo.dt}}</text>
       <view class="btns">
         <view wx:for="{{btns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
-          <view wx:if="{{hoverflag && current === index}}" class="modal"></view>
+          <view wx:if="{{btnCurrent === index}}" class="modal"></view>
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:else src="{{item.img}}" />
         </view>
@@ -33,15 +31,13 @@
       <view class="title">{{songInfo.title}} - {{songInfo.singer}}</view>
     </view>
     <view class="player">
-      <text class="time">{{playtime}}</text>
-      <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343">
-        <!-- <text id="playstate" style="left:{{drapType ? drapPercent : percent}}%"></text>
-        <text id="dpstate" style="width:{{drapType ? drapPercent : percent}}%"></text> -->
-        <text id="playstate" style="left:{{percent}}%"></text>
-        <text id="dpstate" style="width:{{percent}}%"></text>
+      <text class="time" wx:if="{{percentBar}}">{{playtime}}</text>
+      <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343" wx:if="{{percentBar}}">
+        <text id="playstate" style="left:{{percent}}%;background-color:{{mainColor}}"></text>
+        <text id="dpstate" style="width:{{percent}}%;background-color:{{mainColor}}"></text>
         <slider class="slider" block-size="16" block-color="#888" bindchanging="dragPercent" bindchange="setPercent" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>
       </progress>
-      <text class="duration">{{songInfo.dt}}</text>
+      <text class="duration" wx:if="{{percentBar}}">{{songInfo.dt}}</text>
       <view class="btns">
         <view wx:for="{{btns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
           <view wx:if="{{btnCurrent === index}}" class="modal"></view>
@@ -57,19 +53,30 @@
 <!-- 弹出播放列表 -->
 <view class="playList {{noTransform}}" animation="{{animation}}">
   <view class="title">
-    <text>播放列表11:01({{canplay.length}})</text>
+    <text>播放列表({{total}})</text>
     <button bindtap="closeList">
       <image src="/images/closeList.png" />
     </button>
   </view>
+
+  <scroll-view
+      class="scrollView"
+      scroll-top="{{scrolltop}}"
+      scroll-y style="width: 100%; height: 78vh;margin-top:22vh;margin-left: -5vh;width: 160vh"
+      bindscroll="listScroll"
+      bindscrolltoupper="listTop"
+      bindscrolltolower="listBehind"
+    >
   <view class="songList">
-      <view bindtap="playSong" style="color: {{index === current ? '#c64f31' : '#fff'}}" data-no='{{index}}' data-song="{{item}}" wx:key="index" wx:for="{{canplay}}">
-        <text>{{index + 1}}</text>
+      <view bindtap="playSong" style="color: {{item.id === currentId ? '#c64f31' : '#fff'}}" data-no='{{index}}' data-song="{{item}}" wx:key="index" wx:for="{{canplay}}">
+        <image class="playGif" wx:if="{{item.id === currentId && playing}}" src="/images/playing.gif" />
+        <text wx:else>{{index + 1}}</text>
         <text>{{item.title}}</text>
         <text>{{item.dtFormat}}</text>
       </view>
-      
     </view>
-</view>
 
-<view wx:if="{{showList}}" class="mask"></view>
+  </scroll-view>
+  </view>
+
+<view wx:if="{{showList}}" bindtap="closeList" class="mask"></view>

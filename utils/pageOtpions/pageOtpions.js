@@ -1,5 +1,16 @@
 // 一些基础配置，比如按钮个数
 const btnConfig = {
+  // 小程序的主色值
+  colorOptions: {
+    // 进度条、播放全部、登录按钮色值
+    mainColor: '#ff6100',
+    // 小程序背景色值
+    bgColor: '#151515'
+  },
+  // 选集按钮是否展示
+  selectWordBtn: true,
+  // 进度条是否展示
+  percentBar: true,
   // mini player按钮配置
   miniBtns: [
     {
@@ -35,14 +46,14 @@ const btnConfig = {
       name: 'next',                                             // 下一首
       img: '/images/next2.png'                                  // 下一首对应的图标
     },
-    {
-      name: 'loopType',                                         // 循环模式
-      img: {
-        listLoop: '/images/listLoop.png' ,                      // 列表循环对应的图标
-        singleLoop: '/images/singleLoop.png',                   // 单曲循环对应的图标
-        shufflePlayback: '/images/shufflePlayback.png'          // 随即循环对应的图标
-      }
-    },
+    // {
+    //   name: 'loopType',                                         // 循环模式
+    //   img: {
+    //     listLoop: '/images/listLoop.png' ,                      // 列表循环对应的图标
+    //     singleLoop: '/images/singleLoop.png',                   // 单曲循环对应的图标
+    //     shufflePlayback: '/images/shufflePlayback.png'          // 随即循环对应的图标
+    //   }
+    // },
     {
       name: 'more',                                             // 弹出播放列表
       img: '/images/more2.png'                                  // 弹出播放列表对应的图标
