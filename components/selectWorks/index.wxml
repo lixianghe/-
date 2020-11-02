@@ -21,11 +21,10 @@
     <image class="closeWords" src="/images/close-words.png" bindtap="closeWords"></image>
     <view class="worksList">
       <view 
-        class="worksItem" 
+        class="worksItem {{ selected === m1.filterNo(item.start, item.end) ? 'selectedWork': 'normalWork' }}" 
         wx:for="{{data}}" 
         wx:key="index" 
         data-index="{{index}}"
-        style="border: {{selected === m1.filterNo(item.start, item.end) ? '0.35vh solid #ff6700' : 'none'}}; background-color: {{selected === m1.filterNo(item.start, item.end) ? 'rgba(255,103,0,0.3)' : 'rgba(255,255,255,0.1)'}};flex: {{selected === index ? '0 0 42.4vh' : '0 0 43.1vh'}}; height: {{selected === index ? '14vh' : '14.7vh'}}"
         bindtap="selectThis"  
       >
         {{item.start}} ~ {{item.end}}

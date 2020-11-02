@@ -28,6 +28,9 @@
   flex-wrap: wrap;
   align-content: baseline;
   overflow: auto;
+  padding: 1.5vh;
+  margin-left: -1.5vh;
+  margin-top: -1.5vh;
 }
 .closeWords {
   position: absolute;
@@ -64,3 +67,15 @@
   box-sizing: content-box;
   /* background-color: #313131; */
 } 
+.selectedWork {
+  border: 0.35vh solid #ff6700;
+  background-color: rgba(255,103,0,0.3);
+  flex: 0 0 42.4vh;
+  height: 14vh;
+}
+.normalWork {
+  border: none;
+  background-color: rgba(255,255,255,0.1);
+  flex: 0 0 43.05vh;
+  height: 14.7vh;
+}
