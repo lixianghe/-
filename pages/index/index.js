@@ -52,8 +52,8 @@ Page({
     })
   },
   onShow() {
-    this.selectComponent('#miniPlayer').watchPlay()
     this.selectComponent('#miniPlayer').setOnShow()
+    // this.selectComponent('#miniPlayer').watchPlay()
   },
   onHide() {
     this.selectComponent('#miniPlayer').setOnHide()

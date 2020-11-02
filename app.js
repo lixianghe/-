@@ -1,5 +1,3 @@
-// var myPlugin = requirePlugin('inCar')
-// var bsurl = 'http://localhost:3000/v1/'
 import tool from './utils/util'
 
 App({
@@ -62,13 +60,13 @@ App({
         success: (res)=> {
           let playing = res.data.playStatus
           wx.setStorageSync('playing', playing)
-          console.log('res.data.playStatus!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' + JSON.stringify(res.data) + '!!!!!!!!!' + res.data.playStatus)
         }
       })
     }
+    // 测试getPlayInfoSync
     if (wx.canIUse('getPlayInfoSync')) {
       let res = wx.getPlayInfoSync()
-      console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'+JSON.stringify(res))
+      console.log('$$$$$$getPlayInfoSync'+JSON.stringify(res))
     }
     
   },

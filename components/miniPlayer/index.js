@@ -109,7 +109,6 @@ Component({
           songInfo: app.globalData.songInfo
         })
       }
-      
       // 监听歌曲播放状态，比如进度，时间
       tool.playAlrc(that, app);
       timer = setInterval(() => {
@@ -132,21 +131,17 @@ Component({
         })
       }, 150)
     },
-    watchPlay() {
-      app.globalData.songInfo = wx.getStorageSync('songInfo')
-      const playing = wx.getStorageSync('playing')
-      // console.log('======能进去这个事件吗+++++++++++++++++++++++++++++++++=', JSON.stringify(app.globalData.songInfo), JSON.stringify(app.globalData.playing))
-      this.setData({
-        songInfo: app.globalData.songInfo 
-      })
-      // 如果上次退出是播放状态就继续播放
-      if (playing) {
-        app.playing()
-      }
-      // this.audioManager.onTimeUpdate((res) => {  //监听音频播放进度
-      //   console.log('85555888855888888888888888=====================' + this.audioManager.duration)
-      // })
-    },
+    // watchPlay() {
+    //   app.globalData.songInfo = wx.getStorageSync('songInfo')
+    //   const playing = wx.getStorageSync('playing')
+    //   this.setData({
+    //     songInfo: app.globalData.songInfo 
+    //   })
+    //   // 如果上次退出是播放状态就继续播放
+    //   if (playing) {
+    //     app.playing()
+    //   }
+    // },
     // 因为1.9.2版本无法触发onshow和onHide所以事件由它父元素触发
     setOnShow() {
       clearInterval(timer)

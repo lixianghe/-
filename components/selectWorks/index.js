@@ -102,7 +102,7 @@ Component({
       let currentOrder = !this.data.order
       this.setData({
         order: currentOrder,
-        selected: null
+        // selected: null
       })
       this.loadWorks()
     }

@@ -232,6 +232,7 @@ Page({
       percent: e.detail.value
     })
   },
+  // ******按钮点击态处理********/
   btnstart(e) {
     const index = e.currentTarget.dataset.index
     this.setData({
@@ -246,6 +247,8 @@ Page({
       })
     }, 150)
   },
+   // ******按钮点击态处理********/
+   
   // 根据分辨率判断显示哪种样式
   setStyle() {
     // 判断分辨率的比列
