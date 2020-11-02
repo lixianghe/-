@@ -13,7 +13,7 @@
   top: 0;
   left: 0;
   height: 83.1vh;
-  width: 142.2vh;
+  width: 142.5vh;
   padding: 7.8vh 9.8vh;
   padding-right: 5.5vh;
   background-color: #222222;
@@ -70,12 +70,12 @@
 .selectedWork {
   border: 0.35vh solid #ff6700;
   background-color: rgba(255,103,0,0.3);
-  flex: 0 0 42.4vh;
+  flex: 0 0 42.3vh;
   height: 14vh;
 }
 .normalWork {
   border: none;
   background-color: rgba(255,255,255,0.1);
-  flex: 0 0 43.05vh;
+  flex: 0 0 43vh;
   height: 14.7vh;
 }
