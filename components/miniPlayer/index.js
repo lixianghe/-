@@ -131,17 +131,18 @@ Component({
         })
       }, 150)
     },
-    // watchPlay() {
-    //   app.globalData.songInfo = wx.getStorageSync('songInfo')
-    //   const playing = wx.getStorageSync('playing')
-    //   this.setData({
-    //     songInfo: app.globalData.songInfo 
-    //   })
-    //   // 如果上次退出是播放状态就继续播放
-    //   if (playing) {
-    //     app.playing()
-    //   }
-    // },
+    watchPlay() {
+      app.globalData.songInfo = wx.getStorageSync('songInfo')
+      console.log('app.globalData.songInfo', app.globalData.songInfo)
+      const playing = wx.getStorageSync('playing')
+      this.setData({
+        songInfo: app.globalData.songInfo 
+      })
+      // 如果上次退出是播放状态就继续播放
+      if (playing) {
+        app.playing()
+      }
+    },
     // 因为1.9.2版本无法触发onshow和onHide所以事件由它父元素触发
     setOnShow() {
       clearInterval(timer)

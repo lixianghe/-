@@ -79,6 +79,7 @@ App({
     // 设置列表的index
     let no = this.globalData.songInfo.episode
     let index = this.setIndex(type, no, allList) - 1
+    console.log('index', index)
     //播放列表中下一首
     this.globalData.songInfo = allList[index]
     wx.setStorage({
@@ -107,7 +108,7 @@ App({
         index = no - 1 < 0 ? list.length - 1 : no - 1
       }
     } else {
-      index = 0
+      index = no
     }
     return index
   },
@@ -119,20 +120,23 @@ App({
   playing: function (seek, cb) {
     const songInfo = this.globalData.songInfo
     // 如果是车载情况
-    if (this.globalData.useCarPlay) {
-      this.carHandle()
+    if (!this.globalData.useCarPlay) {
+      this.carHandle(seek)
     } else {
       this.wxPlayHandle(songInfo, seek, cb)
     }
     
   },
   // 车载情况下的播放
-  carHandle() {
+  carHandle(seek) {
     let media = wx.getStorageSync('songInfo') || {} 
     console.log('！！！！！！！！！！！！！！！！！！！！！！！' + JSON.stringify(media))
     this.audioManager.src = media.src
     this.audioManager.title = media.title
     this.audioManager.coverImgUrl = media.coverImgUrl
+    if (seek != undefined && typeof(seek) === 'number') {
+      wx.seekBackgroundAudio({ position: seek })
+    }
   },
   // 非车载情况的播放
   wxPlayHandle(songInfo, seek, cb) {
