@@ -27,15 +27,12 @@
   background: #151515;
   height: 19vh;
   align-items: center;
-  width: 165vh;
+  width: 167vh;
   padding-left: 5vh;
   margin-left: -5vh;
   z-index: 999;
   padding-top: 4.6vh;
   box-sizing: border-box!important;
-}
-.page .left .btns .playAll {
-  /* background: #ff6100; */
 }
 .page .left .btns .playAll image {
   width: 10.64vh;

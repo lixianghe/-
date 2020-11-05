@@ -51,6 +51,7 @@ Component({
   },
   methods: {
     player(e) {
+      if (!this.data.songInfo || !this.data.songInfo.title) return false
       const type = e.currentTarget.dataset.name
       switch (type) {
         case 'pre':

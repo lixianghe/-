@@ -23,7 +23,7 @@ Page({
     songInfo: {},
     leftWith: '184vh',
     leftPadding: '0vh 5.75vh  20vh 11.25vh',
-    btnsWidth: '165vh',
+    btnsWidth: '167vh',
     imageWidth: '49vh',
     pageNo: 1,
     pageSize: 10,
@@ -67,14 +67,14 @@ Page({
       this.setData({
         leftWith: windowWidth * 0.722 + 'px',
         leftPadding: '0vh 3.3vh 20vh 8.3vh',
-        btnsWidth: windowWidth * 0.65 + 'px',
+        btnsWidth: windowWidth * 0.67 + 'px',
         imageWidth: windowWidth * 0.17 + 'px',
       })
     } else {
       this.setData({
         leftWith: '184vh',
         leftPadding: '0vh 5.75vh 20vh  11.25vh',
-        btnsWidth: '165vh',
+        btnsWidth: '167vh',
         imageWidth: '49vh',
       })
     }
@@ -317,7 +317,8 @@ Page({
     this.showRefresh = dis > 20
   },
   // 触摸结束
-  touchEnd(e) {
+  touchEnd: tool.throttle(function(e) {
+    console.log('结束=================')
     if (this.data.pageNo <= 1 || !this.showRefresh) {
       return false
     }
@@ -337,7 +338,10 @@ Page({
       this.topHandle()
       this.showRefresh = false
     }, 1000)
-  },
+  }, 2000),
+  // touchEnd(e) {
+    
+  // },
   // 下拉结束后的处理
   async topHandle() {
     const getList = await this.getPlayList({ pageNo: this.data.pageNo - 1, pageSize: 10, id: this.data.optionId })

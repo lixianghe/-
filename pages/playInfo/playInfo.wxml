@@ -1,7 +1,8 @@
 <!-- 1920*720分辨率 -->
 <view class="page" wx:if="{{bigScreen}}">
   <view class="playLeft">
-    <view class="title">{{songInfo.title}} - {{songInfo.singer}}</view>
+    <view class="title" wx:if="{{songInfo.title}}">{{songInfo.title}} - {{songInfo.singer}}</view>
+    <view class="noReady" wx:else></view>
     <view class="player">
       <text class="time" wx:if="{{percentBar}}">{{playtime}}</text>
       <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343" wx:if="{{percentBar}}">
@@ -21,15 +22,24 @@
     </view>
   </view>
   <view class="playRight">
-    <image src="{{songInfo.coverImgUrl}}" />
+    <image bindload="imgOnLoad" style="display:{{showImg ? 'block' : 'none'}}" src="{{songInfo.coverImgUrl}}" />
+    <view class="image" wx:if="{{!showImg}}"></view>
   </view>
 </view>
 <!-- 高于1/2的分辨率 -->
 <view class="page" wx:else>
   <view class="playLeft songDc">
     <view class="songDcTitle">
-      <image src="{{songInfo.coverImgUrl}}" />
-      <view class="title">{{songInfo.title}} - {{songInfo.singer}}</view>
+      <image bindload="imgOnLoad" style="display:{{showImg ? 'block' : 'none'}}" src="{{songInfo.coverImgUrl}}" />
+
+      <view class="image" wx:if="{{!showImg}}"></view>
+
+
+      <view class="title" wx:if="{{songInfo.title}}">{{songInfo.title}} - {{songInfo.singer}}</view>
+
+      
+      <view class="noReady" wx:else></view>
+
     </view>
     <view class="player">
       <text class="time" wx:if="{{percentBar}}">{{playtime}}</text>

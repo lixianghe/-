@@ -8,7 +8,7 @@
         <text>{{ item.title }}</text>
       </view>
     </view>
-    <mini-player></mini-player>
+    <mini-player id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
   </view>
 </view>
 

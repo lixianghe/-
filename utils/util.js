@@ -18,6 +18,7 @@ function formatToSend(dt) {
 
 //音乐播放监听
 function playAlrc(that, app, percent) {
+  // console.log('==========999999==========')
   // 如果是拖拽的情况
  
   if (percent !== undefined) {
@@ -36,6 +37,7 @@ function playAlrc(that, app, percent) {
         playtime = res.currentPosition;
       } if (res.status == 1) {
         playing = true;
+        // wx.hideLoading()
       }
       app.globalData.playing = playing;
       app.globalData.percent = time
@@ -85,6 +87,7 @@ function EventListener(that){
   //播放事件
   that.audioManager.onPlay(() => {
     console.log('onPlay')
+    // wx.hideLoading()
     wx.setStorageSync('playing', true)
   })
   //暂停事件

@@ -2,7 +2,7 @@ import tool from './utils/util'
 
 App({
   globalData: {
-    appName: 'listenTemplate',
+    appName: 'starsRefueling',
     // 屏幕类型
     screen: '',
     // 登录相关
@@ -24,10 +24,13 @@ App({
     canplay: [],
     currentList: [],
     loopType: 'listLoop',   // 默认列表循环
-    useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio')
+    useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio'),
+    PIbigScreen: null
   },
   audioManager: null,
   onLaunch: function () {
+    // 判断playInfo页面样式，因为这里最快执行所以放在这
+    this.setStyle()
     this.audioManager = wx.getBackgroundAudioManager()
     // 判断横竖屏
     if (wx.getSystemInfoSync().windowWidth > wx.getSystemInfoSync().windowHeight) {
@@ -103,9 +106,9 @@ App({
     let index
     if (this.globalData.loopType === 'listLoop' || this.globalData.loopType === 'shufflePlayback') {
       if (type === 1) {
-        index = no + 1 > list.length - 1 ? 0 : no + 1
+        index = no + 1 > list.length ? 1 : no + 1
       } else {
-        index = no - 1 < 0 ? list.length - 1 : no - 1
+        index = no - 1 < 1 ? list.length : no - 1
       }
     } else {
       index = no
@@ -120,9 +123,11 @@ App({
   playing: function (seek, cb) {
     const songInfo = this.globalData.songInfo
     // 如果是车载情况
-    if (!this.globalData.useCarPlay) {
+    if (this.globalData.useCarPlay) {
+      console.log('车载情况')
       this.carHandle(seek)
     } else {
+      console.log('非车载情况')
       this.wxPlayHandle(songInfo, seek, cb)
     }
     
@@ -130,7 +135,6 @@ App({
   // 车载情况下的播放
   carHandle(seek) {
     let media = wx.getStorageSync('songInfo') || {} 
-    console.log('！！！！！！！！！！！！！！！！！！！！！！！' + JSON.stringify(media))
     this.audioManager.src = media.src
     this.audioManager.title = media.title
     this.audioManager.coverImgUrl = media.coverImgUrl
@@ -158,5 +162,18 @@ App({
         console.log(888)
       }
     })
+  },
+  // 根据分辨率判断显示哪种样式
+  setStyle() {
+    // 判断分辨率的比列
+    const windowWidth =  wx.getSystemInfoSync().screenWidth;
+    const windowHeight = wx.getSystemInfoSync().screenHeight;
+    // 如果是小于1/2的情况
+    if (windowHeight / windowWidth >= 0.41) {
+      this.globalData.PIbigScreen = false
+    } else {
+      // 1920*720
+      this.globalData.PIbigScreen = true
+    }
   }
 })

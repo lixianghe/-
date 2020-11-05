@@ -13,6 +13,11 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.page .playLeft .noReady {
+  width: 100vh;
+  height: 10vh;
+  background: #272727;
+}
 .page .playLeft .title {
   font-size: 6.7vh;
 }
@@ -90,6 +95,13 @@
   border-radius: 2vh;
 }
 
+.page .playRight .image {
+  width: 55vh;
+  height: 55vh;
+  border-radius: 2vh;
+  background: #272727;
+}
+
 #playstate {
   position: absolute;
   display: block;
@@ -129,6 +141,16 @@
   border-radius: 2vh;
   margin-right: 7.7vh;
 }
+
+.page .songDc .songDcTitle .image {
+  width: 23vh;
+  height: 23vh;
+  border-radius: 2vh;
+  margin-right: 7.7vh;
+  background: #272727;
+}
+
+
 .page .songDc .player {
   margin-top: 14vh;
 }
@@ -237,4 +259,10 @@
   transform: translateX(2.5vh);
   float: left;
   margin-right: 7.6vh;
+}
+.wx-slider-handle {
+  width: 10vh!important;
+  height: 10vh!important;
+  margin-top: -5vh!important;
+  margin-left: -5vh!important;
 }

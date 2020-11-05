@@ -28,5 +28,12 @@ Page({
     this.setData({
       info: indexData
     })
+  },
+  onShow() {
+    this.selectComponent('#miniPlayer').setOnShow()
+    this.selectComponent('#miniPlayer').watchPlay()
+  },
+  onHide() {
+    this.selectComponent('#miniPlayer').setOnHide()
   }
 })
