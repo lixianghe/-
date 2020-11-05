@@ -39,6 +39,8 @@ Page({
     promise.then(res => {
       // console.log(res)
       app.globalData.indexData = res
+      let srcPress = app.impressImg(res[1].src)
+      console.log(srcPress)
       this.setData({
         info: res
       })

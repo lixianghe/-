@@ -26,10 +26,14 @@ App({
     canplay: [],
     currentList: [],
     loopType: 'listLoop',   // 默认列表循环
-    useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio')
+    useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio'),
+    canUseImgCompress: false,
+    imgCompresDomain: "",
   },
   audioManager: null,
   onLaunch: function () {
+    // 初始化图片压缩
+    this.initImgPress()
     this.audioManager = wx.getBackgroundAudioManager()
     // 判断横竖屏
     if (wx.getSystemInfoSync().windowWidth > wx.getSystemInfoSync().windowHeight) {
@@ -156,5 +160,69 @@ App({
         console.log(888)
       }
     })
-  }
+  },
+   /**
+   * 初始化图片压缩
+   */
+  initImgPress: function () {
+    let that = this
+    let canUseImgCompress = false;
+    let imgCompresDomain = "";
+    console.log('===========准备====171========')
+    if (wx.canIUse('getMossApiSync') && wx.canIUse('getMossApi')) {
+      console.log('===========可以使用===========')
+      const ret = wx.getMossApiSync({
+        type: "image-compress"
+      })
+      console.log('getMossApiSync=======176========'+JSON.stringify(ret))
+      if (typeof ret == null || ret == "" || ret == "undefined") {
+        wx.getMossApi({
+          type: "image-compress",
+          success(ret) {
+            console.log('getMossApi=======187========'+JSON.stringify(ret))
+            that.globalData.canUseImgCompress = true;
+            that.globalData.imgCompresDomain = ret.url;
+          },
+        });
+      } else {
+        console.log('getMossApiSync不好使=======188========')
+        canUseImgCompress = true;
+        imgCompresDomain = ret;
+      }
+    }
+    this.globalData.canUseImgCompress = canUseImgCompress;
+    this.globalData.imgCompresDomain = imgCompresDomain;
+  },
+
+
+  /**
+   * 压缩图片
+   */
+  impressImg(imgUrl, widthheight) {
+    const originImg = imgUrl;
+    let impressImg = '';
+    const canUseImgCompress = this.globalData.canUseImgCompress;
+    const imgCompresDomain = this.globalData.imgCompresDomain;
+    if (canUseImgCompress) { //可以使用压缩服务
+      console.log('可以使用压缩服务=======207========')
+      if (imgCompresDomain.length > 0) { //压缩域名获取成功
+        console.log('压缩域名获取成功=======209========')
+        const encodeImgUrl = encodeURIComponent(imgUrl);
+        if (widthheight) {
+          impressImg = `${imgCompresDomain}${widthheight}&url=${encodeImgUrl}`;
+          console.log('压缩图片成功=======213========')
+        } else {
+          impressImg = `${imgCompresDomain}w=400&h=544&url=${encodeImgUrl}`;
+        }
+      } else { //压缩域名获取失败
+        console.log('压缩域名获取失败=======218========')
+        this.initImgPress();
+        impressImg = ''; //显示默认图
+      }
+    } else { //不可以使用压缩服务，pad环境使用原图
+      console.log('不可以使用压缩服务，pad环境使用原图=======223========')
+      impressImg = originImg;
+    }
+    return impressImg;
+  },
 })
