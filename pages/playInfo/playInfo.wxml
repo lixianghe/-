@@ -22,7 +22,7 @@
     </view>
   </view>
   <view class="playRight">
-    <image bindload="imgOnLoad" style="display:{{showImg ? 'block' : 'none'}}" src="{{songInfo.coverImgUrl}}" />
+    <image class="rightImg" bindload="imgOnLoad" style="display:{{showImg ? 'block' : 'none'}}" src="{{songInfo.coverImgUrl}}" />
     <view class="image" wx:if="{{!showImg}}"></view>
   </view>
 </view>

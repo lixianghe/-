@@ -42,7 +42,7 @@ Page({
     // 根据分辨率设置样式
     this.setStyle()
     // 获取歌曲列表
-    const canplay = options.id ? await this.getPlayList({pageNo: 1, pageSize: 40, id: options.id}) : wx.getStorageSync('canplay')
+    const canplay = options.id ? await this.getPlayList({pageNo: 1, pageSize: 999, id: options.id}) : wx.getStorageSync('canplay')
     const songInfo = app.globalData.songInfo
     // 用于切换模式，复制一个canplay
     songInfo.dt = String(songInfo.dt).split(':').length > 1 ? songInfo.dt : tool.formatduration(Number(songInfo.dt))

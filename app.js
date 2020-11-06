@@ -2,7 +2,7 @@ import tool from './utils/util'
 
 App({
   globalData: {
-    appName: 'starsRefueling',
+    appName: 'listenTemplate',
     // 屏幕类型
     screen: '',
     // 登录相关
@@ -134,7 +134,7 @@ App({
   },
   // 车载情况下的播放
   carHandle(seek) {
-    let media = wx.getStorageSync('songInfo') || {} 
+    let media = this.globalData.songInfo || wx.getStorageSync('songInfo')
     this.audioManager.src = media.src
     this.audioManager.title = media.title
     this.audioManager.coverImgUrl = media.coverImgUrl

@@ -143,12 +143,10 @@ Page({
     if (latFlag === 0) latListenData.push(songInfo)
     this.setData({ currentId: songInfo.id })
     wx.setStorage({ key: 'latListenData', data: latListenData })
-    if (!this.getNetWork(msg)) return false
-    wx.navigateTo({ url: '../playInfo/playInfo?id=' + this.data.optionId })
-    
+    this.getNetWork(msg, this.toInfo)
   },
-  hasNetPlay() {
-
+  toInfo() {
+    wx.navigateTo({ url: '../playInfo/playInfo?id=' + this.data.optionId })
   },
   // 改变current
   changeCurrent(index) {
@@ -238,7 +236,6 @@ Page({
           })
           that.bgConfirm = that.selectComponent('#bgConfirm')
           that.bgConfirm.hideShow(true, 'out', () => {})
-          return false
         } else {
           setTimeout(() => {
             cb && cb()
