@@ -64,7 +64,7 @@
 <!-- 弹出播放列表 -->
 <view class="playList {{noTransform}}" animation="{{animation}}">
   <view class="title">
-    <text>播放列表({{total}})</text>
+    <text>播放列表({{canplay.length}})</text>
     <button bindtap="closeList">
       <image src="/images/closeList.png" />
     </button>

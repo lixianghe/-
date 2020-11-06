@@ -131,6 +131,8 @@ Page({
 
   // 点击歌曲名称跳转到歌曲详情
   goPlayInfo(e) {
+    const msg = '网络异常，无法播放！'
+    
     // 点击歌曲的时候把歌曲信息存到globalData里面
     const songInfo = e.currentTarget.dataset.song
     app.globalData.songInfo = songInfo
@@ -139,9 +141,14 @@ Page({
     let latListenData = wx.getStorageSync('latListenData') || []
     let latFlag = latListenData.filter((v) => v.id === songInfo.id).length
     if (latFlag === 0) latListenData.push(songInfo)
-    wx.setStorage({ key: 'latListenData', data: latListenData })
-    wx.navigateTo({ url: '../playInfo/playInfo?id=' + this.data.optionId })
     this.setData({ currentId: songInfo.id })
+    wx.setStorage({ key: 'latListenData', data: latListenData })
+    if (!this.getNetWork(msg)) return false
+    wx.navigateTo({ url: '../playInfo/playInfo?id=' + this.data.optionId })
+    
+  },
+  hasNetPlay() {
+
   },
   // 改变current
   changeCurrent(index) {
@@ -156,8 +163,10 @@ Page({
       canplay = res.data
       total = res.total
     } catch (error) {
-      canplay = error.data.data
-      total = error.data.total
+      // canplay = error.data.data
+      // total = error.data.total
+      canplay = []
+      total = 0
     }
     canplay.forEach((item) => {
       item.formatDt = tool.formatduration(Number(item.dt))
@@ -200,11 +209,12 @@ Page({
     app.globalData.canplay = this.data.canplay
     app.globalData.songInfo = this.data.canplay[0]
     this.initAudioManager(this.data.canplay)
+    this.getNetWork(msg, app.playing)
     this.setData({
       currentId: app.globalData.songInfo.id,
       songInfo: app.globalData.songInfo,
     })
-    this.getNetWork(msg, app.playing)
+    
     wx.setStorage({
       key: 'songInfo',
       data: this.data.canplay[0],
@@ -228,6 +238,7 @@ Page({
           })
           that.bgConfirm = that.selectComponent('#bgConfirm')
           that.bgConfirm.hideShow(true, 'out', () => {})
+          return false
         } else {
           setTimeout(() => {
             cb && cb()

@@ -224,6 +224,7 @@
   width: 160vh;
   top: 0;
   background: #222222;
+  z-index: 999;
 }
 .playList .title button {
   width: 19.6vh;

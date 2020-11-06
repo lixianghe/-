@@ -38,10 +38,11 @@ Page({
     })
   },
   async onLoad(options) {
+    console.log(options)
     // 根据分辨率设置样式
     this.setStyle()
     // 获取歌曲列表
-    const canplay = await this.getPlayList({pageNo: 1, pageSize: 40, id: 1})
+    const canplay = options.id ? await this.getPlayList({pageNo: 1, pageSize: 40, id: options.id}) : wx.getStorageSync('canplay')
     const songInfo = app.globalData.songInfo
     // 用于切换模式，复制一个canplay
     songInfo.dt = String(songInfo.dt).split(':').length > 1 ? songInfo.dt : tool.formatduration(Number(songInfo.dt))
@@ -49,7 +50,6 @@ Page({
       songInfo: songInfo,
       canplay: canplay
     })
-    this.setScrollTop()
     // 初始化audioManager
     let that = this
     tool.initAudioManager(that, canplay)
@@ -162,6 +162,7 @@ Page({
   },
   // 播放列表
   more() {
+    this.setScrollTop()
     this.data.canplay.forEach(item => {
       item.dtFormat = String(item.dt).split(':').length > 1 ? item.dt : tool.formatduration(Number(item.dt))
     })
@@ -236,7 +237,7 @@ Page({
   // 拖拽改变进度
   dragPercent(e) {
     const that = this
-    // console.log('e.detail.value', e.detail.value)
+    console.log('e.detail.value', e.detail.value)
     clearInterval(timer)
     tool.playAlrc(that, app, e.detail.value);
     that.setData({
@@ -295,7 +296,7 @@ Page({
       let listHeight = rect.height;
       console.log('listHeight', listHeight);
       this.setData({
-        scrolltop: listHeight / this.data.total *index
+        scrolltop: index > 2 ? listHeight / this.data.total * (index - 2) : 0
       })
     }).exec();
   },
