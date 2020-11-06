@@ -17,7 +17,7 @@ Page({
     showList: false,
     currentId: null,
     btns: btnConfig.playInfoBtns,
-    bigScreen:false,
+    
     btnCurrent: null,
     noTransform: '',
     typelist: ['listLoop', 'singleLoop', 'shufflePlayback'],
@@ -25,19 +25,21 @@ Page({
     total: 0,
     scrolltop: 0,
     mainColor: btnConfig.colorOptions.mainColor,
-    percentBar: btnConfig.percentBar
+    percentBar: btnConfig.percentBar,
+    showImg: false,
+    bigScreen: app.globalData.PIbigScreen
   },
   // 播放器实例
   audioManager: null,
   onReady: function () {
-    // 根据分辨率设置样式
-    this.setStyle()
     this.animation = wx.createAnimation({
       duration: 200,
       timingFunction: 'linear'
     })
   },
   async onLoad(options) {
+    // 根据分辨率设置样式
+    this.setStyle()
     // 获取歌曲列表
     const canplay = await this.getPlayList({pageNo: 1, pageSize: 40, id: 1})
     const songInfo = app.globalData.songInfo
@@ -54,7 +56,6 @@ Page({
     // 从统一播放界面切回来，根据playing判断播放状态options.noPlay为true代表从minibar过来的
     const playing = wx.getStorageSync('playing')
     if (playing || options.noPlay !== 'true') app.playing()
-    
   },
   onShow: function () {
     const that = this;
@@ -71,6 +72,9 @@ Page({
   },
   onHide: function () {
     clearInterval(timer)
+  },
+  imgOnLoad() {
+    this.setData({ showImg: true })
   },
   btnsPlay(e) {
     const type = e.currentTarget.dataset.name
@@ -96,11 +100,13 @@ Page({
   },
   // 上一首
   pre() {
+    this.setData({ showImg: false })
     const that = this
     app.cutplay(that, -1)
   },
   // 下一首
   next() {
+    this.setData({ showImg: false })
     console.log('已经播放下一首了')
     const that = this
     app.cutplay(that, 1)
@@ -206,11 +212,15 @@ Page({
   },
   // 点击改变进度, 拖拽结束
   setPercent(e) {
+    console.log('拖拽结束')
+    // if (this.data.playing) wx.showLoading({ title: '加载中...', mask: true })
     clearInterval(timer)
+    wx.pauseBackgroundAudio();
     const that = this
     // 传入当前毫秒值
     const time = e.detail.value / 100 * tool.formatToSend(app.globalData.songInfo.dt)
     app.globalData.currentPosition = time
+    console.log(that.data.playing, app.globalData.songInfo.dt)
     if (app.globalData.songInfo.dt) {
       if (that.data.playing) {
         app.playing(time)
@@ -226,12 +236,14 @@ Page({
   // 拖拽改变进度
   dragPercent(e) {
     const that = this
+    // console.log('e.detail.value', e.detail.value)
     clearInterval(timer)
     tool.playAlrc(that, app, e.detail.value);
     that.setData({
       percent: e.detail.value
     })
   },
+  // ******按钮点击态处理********/
   btnstart(e) {
     const index = e.currentTarget.dataset.index
     this.setData({
@@ -246,6 +258,8 @@ Page({
       })
     }, 150)
   },
+   // ******按钮点击态处理********/
+   
   // 根据分辨率判断显示哪种样式
   setStyle() {
     // 判断分辨率的比列

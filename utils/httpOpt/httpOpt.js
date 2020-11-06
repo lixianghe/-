@@ -122,7 +122,7 @@ const showData = {
     data: [
       {
         title: "是想你的声音啊",
-        pid: 0,
+        episode: 1,
         id: 1481657185,
         index: 0,
         src: "https://music.163.com/song/media/outer/url?id=1481657185.mp3",
@@ -132,7 +132,7 @@ const showData = {
       },
       {
         title: "他只是经过",
-        pid: 0,
+        episode: 2,
         id: 1443838552,
         index: 1,
         src: "https://music.163.com/song/media/outer/url?id=1443838552.mp3",
@@ -142,7 +142,7 @@ const showData = {
       },
       {
         title: "爱的恰恰",
-        pid: 0,
+        episode: 3,
         id: 1456200611,
         index: 2,
         src: "https://music.163.com/song/media/outer/url?id=1456200611.mp3",
@@ -152,7 +152,7 @@ const showData = {
       },
       {
         title: "画画的Baby",
-        pid: 0,
+        episode: 4,
         id: 1474342935,
         index: 3,
         src: "https://music.163.com/song/media/outer/url?id=1474342935.mp3",
@@ -162,7 +162,7 @@ const showData = {
       },
       {
         title: "所爱隔山海",
-        pid: 0,
+        episode: 5,
         id: 1348896822,
         index: 4,
         src: "https://music.163.com/song/media/outer/url?id=1348896822.mp3",

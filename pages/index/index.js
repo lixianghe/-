@@ -7,7 +7,8 @@ Page({
     screen: app.globalData.screen,
     lalyLtn: {icon: '/images/zjst.png'},
     info: [],
-    confirm: ''
+    confirm: '',
+    retcode: 1
   },
   // 跳转到最近收听页面
   tolatelyListen () {
@@ -39,23 +40,22 @@ Page({
     promise.then(res => {
       // console.log(res)
       app.globalData.indexData = res
-      let srcPress = app.impressImg(res[1].src)
-      console.log(srcPress)
       this.setData({
-        info: res
+        info: res,
+        retcode: 1
       })
     }).catch(err => {
       this.setData({
-        info: err.data,
-        confirm: err.err
+        confirm: err.err,
+        retcode: 0
       })
       this.bgConfirm = this.selectComponent('#bgConfirm')
       this.bgConfirm.hideShow(true, 'out', ()=>{})
     })
   },
   onShow() {
-    this.selectComponent('#miniPlayer').watchPlay()
     this.selectComponent('#miniPlayer').setOnShow()
+    this.selectComponent('#miniPlayer').watchPlay()
   },
   onHide() {
     this.selectComponent('#miniPlayer').setOnHide()

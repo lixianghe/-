@@ -18,7 +18,6 @@ function formatToSend(dt) {
 
 //音乐播放监听
 function playAlrc(that, app, percent) {
-  // console.log('==========999999==========')
   // 如果是拖拽的情况
  
   if (percent !== undefined) {
@@ -37,7 +36,6 @@ function playAlrc(that, app, percent) {
         playtime = res.currentPosition;
       } if (res.status == 1) {
         playing = true;
-        // wx.hideLoading()
       }
       app.globalData.playing = playing;
       app.globalData.percent = time
@@ -58,19 +56,19 @@ function playAlrc(that, app, percent) {
 };
 
 
-function toggleplay(that, app, cb) {
+function toggleplay(that) {
   if (that.data.playing) {
     console.log("暂停播放");
     that.setData({ 
       playing: false 
     });
-    app.stopmusic();
+    that.stopmusic();
   } else {
     console.log("继续播放")
     that.setData({
       playing: true
     });
-    app.playing(app.globalData.currentPosition, cb);
+    that.playing();
   }
 }
 
@@ -87,7 +85,6 @@ function EventListener(that){
   //播放事件
   that.audioManager.onPlay(() => {
     console.log('onPlay')
-    // wx.hideLoading()
     wx.setStorageSync('playing', true)
   })
   //暂停事件
@@ -119,32 +116,6 @@ function EventListener(that){
   })
 }
 
-// 函数节流
-function throttle(fn, interval) {
-  var enterTime = 0;//触发的时间
-  var gapTime = interval || 100;//间隔时间，如果interval不传，则默认300ms
-  return function () {
-    var context = this;
-    var backTime = new Date();//第一次函数return即触发的时间
-    if (backTime - enterTime > gapTime) {
-      fn.call(context, arguments);
-      enterTime = backTime;//赋值给第一次触发的时间，这样就保存了第二次触发的时间
-    }
-  };
-}
-
-// 函数防抖
-function debounce(fn, interval = 300) {
-  let canRun = true;
-  return function () {
-      if (!canRun) return;
-      canRun = false;
-      setTimeout(() => {
-          fn.apply(this, arguments);
-          canRun = true;
-      }, interval);
-  };
-}
 
 
 module.exports = {
@@ -153,7 +124,5 @@ module.exports = {
   playAlrc: playAlrc,
   toggleplay: toggleplay,
   initAudioManager: initAudioManager,
-  EventListener: EventListener,
-  throttle: throttle,
-  debounce: debounce
+  EventListener: EventListener
 }
