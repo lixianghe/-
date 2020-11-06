@@ -7,7 +7,8 @@ Page({
     screen: app.globalData.screen,
     lalyLtn: {icon: '/images/zjst.png'},
     info: [],
-    confirm: ''
+    confirm: '',
+    retcode: 1
   },
   // 跳转到最近收听页面
   tolatelyListen () {
@@ -40,12 +41,13 @@ Page({
       // console.log(res)
       app.globalData.indexData = res
       this.setData({
-        info: res
+        info: res,
+        retcode: 1
       })
     }).catch(err => {
       this.setData({
-        info: err.data,
-        confirm: err.err
+        confirm: err.err,
+        retcode: 0
       })
       this.bgConfirm = this.selectComponent('#bgConfirm')
       this.bgConfirm.hideShow(true, 'out', ()=>{})
