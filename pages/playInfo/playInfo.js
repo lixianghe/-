@@ -38,7 +38,6 @@ Page({
     })
   },
   async onLoad(options) {
-    console.log(options)
     // 根据分辨率设置样式
     this.setStyle()
     // 获取歌曲列表
@@ -62,7 +61,6 @@ Page({
     // 监听歌曲播放状态，比如进度，时间
     tool.playAlrc(that, app);
     timer = setInterval(function () {
-      console.log('在playinfo')
       tool.playAlrc(that, app);
     }, 1000);
     
@@ -237,7 +235,6 @@ Page({
   // 拖拽改变进度
   dragPercent(e) {
     const that = this
-    console.log('e.detail.value', e.detail.value)
     clearInterval(timer)
     tool.playAlrc(that, app, e.detail.value);
     that.setData({

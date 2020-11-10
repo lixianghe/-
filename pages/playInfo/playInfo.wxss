@@ -96,8 +96,8 @@
 }
 
 .page .playRight .image {
-  width: 55vh;
-  height: 55vh;
+  width: 18.65vw;
+  height: 18.65vw;
   border-radius: 2vh;
   background: #272727;
 }
