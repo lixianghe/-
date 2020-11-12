@@ -1,4 +1,5 @@
 import tool from './utils/util'
+require('./utils/minixs')
 
 App({
   globalData: {

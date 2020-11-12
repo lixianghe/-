@@ -2,7 +2,7 @@ const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
 
-const { getData } = require('../../utils/https')
+// const { getData } = require('../../utils/https')
 
 // 记录上拉拉刷新了多少次
 let scrollTopNo = 0
@@ -10,6 +10,7 @@ let scrollTopNo = 0
 // 选择的选集
 let selectedNo = 0
 Page({
+  mixins: [require('../../developerHandle/abumInfo')],
   data: {
     canplay: [],
     percent: 0,
@@ -30,7 +31,6 @@ Page({
     total: 0,
     optionId: '',
     palying: false,
-    hasData: false,
     msg: '',
     batchSetRecycleData: true,
     showLoadTop: false,
@@ -50,6 +50,7 @@ Page({
   ctx: null,
   onReady() {},
   async onLoad(options) {
+    console.log('page onLonde')
     const msg = '网络异常，请检查网络！'
     this.getNetWork(msg)
     // 暂存专辑全部歌曲
@@ -78,10 +79,6 @@ Page({
         imageWidth: '49vh',
       })
     }
-    this.getAllList()
-    // 获取专辑列表
-    const canplay = await this.getPlayList({ pageNo: 1, pageSize: 10, id: options.id })
-    this.setCanplay(canplay)
     wx.setNavigationBarTitle({
       title: options.title,
     })
@@ -151,46 +148,6 @@ Page({
   // 改变current
   changeCurrent(index) {
     this.setData({ currentId: app.globalData.allList[index.detail].id })
-  },
-  // 获取歌曲列表
-  async getPlayList(params) {
-    let canplay, total
-    // 数据请求
-    try {
-      const res = await getData('abumInfo', params)
-      canplay = res.data
-      total = res.total
-    } catch (error) {
-      // canplay = error.data.data
-      // total = error.data.total
-      canplay = []
-      total = 0
-    }
-    canplay.forEach((item) => {
-      item.formatDt = tool.formatduration(Number(item.dt))
-    })
-    this.setData({
-      total: total,
-    })
-    setTimeout(() => {
-      this.setData({
-        hasData: true,
-      })
-    }, 100)
-    return canplay
-  },
-  // 获取专辑全部歌曲
-  async getAllList() {
-    let allList
-    const params = { id: this.data.optionId, pageNo: 1, pageSize: 999 }
-    // 数据请求
-    const res = await getData('abumInfo', params)
-    allList = res.data
-    app.globalData.allList = allList
-    wx.setStorage({
-      key: 'allList',
-      data: allList,
-    })
   },
   setCanplay(canplay) {
     this.setData({
