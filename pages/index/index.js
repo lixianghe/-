@@ -11,8 +11,12 @@ Page({
     retcode: 1,
     currentTap: 0,
     labels: [
-      '标题一',
-      '标题二'
+      {index: 0, name: '推荐', type: '0'},
+      {index: 1, name: '精品', type: '1'},
+      {index: 2, name: '睡前故事', type: 2},
+      {index: 3, name: '语言启蒙', type: 3},
+      {index: 4, name: '亲子陪伴', type: 4},
+      {index: 5, name: '凯叔儿歌', type: 5},
     ],
   },
   // 跳转到最近收听页面
@@ -43,17 +47,19 @@ Page({
     this.setData({
       currentTap: index
     })
+    this.getData(index)
   },
-  onLoad(options) {
-    this.animation = wx.createAnimation({
-      duration: 200,
-      timingFunction: 'ease'
-    })
+  getData(idx) {
+    let res = showData.index.slice(0, idx+1).reverse()
     setTimeout(()=> {
       this.setData({
-        info: showData.index
+        info: res
       })
-    }, 1000)
+    }, 500)
+  },
+  onLoad(options) {
+    this.getData(0)
+    
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()
