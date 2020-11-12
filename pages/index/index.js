@@ -1,5 +1,5 @@
-// import { getData } from '../../utils/httpOpt/http'
-const { getData } = require('../../utils/https')
+// import { getData } from '../../utils/httpOpt/httpOpt'
+const { showData } = require('../../utils/httpOpt/httpOpt')
 const app = getApp()
 
 Page({
@@ -8,7 +8,12 @@ Page({
     lalyLtn: {icon: '/images/zjst.png'},
     info: [],
     confirm: '',
-    retcode: 1
+    retcode: 1,
+    currentTap: 0,
+    labels: [
+      '标题一',
+      '标题二'
+    ],
   },
   // 跳转到最近收听页面
   tolatelyListen () {
@@ -33,25 +38,22 @@ Page({
     })
   },
 
-  onLoad(options) {
-    console.log('palying---------------' + app.globalData.playing)
-    // 数据请求
-    const promise = getData('index', {user: 'ljg'})
-    promise.then(res => {
-      // console.log(res)
-      app.globalData.indexData = res
-      this.setData({
-        info: res,
-        retcode: 1
-      })
-    }).catch(err => {
-      this.setData({
-        confirm: err.err,
-        retcode: 0
-      })
-      this.bgConfirm = this.selectComponent('#bgConfirm')
-      this.bgConfirm.hideShow(true, 'out', ()=>{})
+  selectTap(e) {
+    const index = e.currentTarget.dataset.index
+    this.setData({
+      currentTap: index
     })
+  },
+  onLoad(options) {
+    this.animation = wx.createAnimation({
+      duration: 200,
+      timingFunction: 'ease'
+    })
+    setTimeout(()=> {
+      this.setData({
+        info: showData.index
+      })
+    }, 1000)
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()

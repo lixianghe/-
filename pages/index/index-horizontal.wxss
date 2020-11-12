@@ -64,3 +64,22 @@
   height: 5vh;
   margin: 4vh 0;
 }
+.label-view {
+  display: flex;
+  color: #fff;
+  font-size: 5.5vh;
+}
+.label-view .title {
+  padding: 2vh 1vh;
+  margin-right: 5vh;
+}
+.label-view .active-tap {
+  color: #fa6500;
+  border-bottom: 1vh solid #fa6500;
+}
+.underLine {
+  height: 1vh;
+  width: 19vh;
+  background: #fa6500;
+  border-radius: 3vh;
+}
