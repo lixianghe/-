@@ -1,4 +1,4 @@
-<view class="page" wx:if="{{hasData}}">
+<view class="page" wx:if="{{canplay.length}}">
   <view style="width: {{leftWith}};padding: {{leftPadding}}" class="left">
     <view class="btns" style="width: {{btnsWidth}};">
       <button hover-class="playAllHover" class="playAll" bindtap="playAll" style="background-color: {{mainColor}}">

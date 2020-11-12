@@ -111,6 +111,7 @@
 .skeleton .songList view {
   /* background: yellow; */
   display: flex;
+  width: 95%;
 }
 .skeleton .songList view text {
   display: inline-block;

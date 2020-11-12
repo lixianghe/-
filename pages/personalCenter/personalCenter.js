@@ -24,7 +24,7 @@ Page({
     }, {
       type: 'us',
       icon: '/images/icon-personCenter.png',
-      title: '关于我们(1.1.0)'
+      title: '关于我们(1.1.1)'
     }] ,
     isLogin: app.globalData.haveLogin,
     withCredentials: true,
