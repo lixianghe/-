@@ -1,4 +1,5 @@
 import tool from './utils/util'
+import { init } from './utils/httpOpt/api'
 require('./utils/minixs')
 
 App({
@@ -30,6 +31,7 @@ App({
   },
   audioManager: null,
   onLaunch: function () {
+    this.initCode()
     // 判断playInfo页面样式，因为这里最快执行所以放在这
     this.setStyle()
     this.audioManager = wx.getBackgroundAudioManager()
@@ -177,5 +179,27 @@ App({
       // 1920*720
       this.globalData.PIbigScreen = true
     }
+  },
+  // 初始化token、deviceId、refreshToken
+  initCode() {
+    const token = wx.getStorageSync('token')
+    if (token) return false
+    let deviceInfo = {phoneDeviceCode: this.uuid()}
+    wx.getSystemInfo({
+      success: async (res) => {
+        deviceInfo.phoneModel = res.system
+        deviceInfo.sysVersion = res.version
+        let initData = await init(deviceInfo)
+        wx.setStorageSync('deviceId', initData.deviceId)
+        wx.setStorageSync('refreshToken', initData.refreshToken)
+        wx.setStorageSync('token', initData.token)
+      }
+    })
+  },
+  uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    })
   }
 })

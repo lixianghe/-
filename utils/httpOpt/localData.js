@@ -1,11 +1,3 @@
-/*
- * @Descripttion: 
- * @version: 
- * @Author: sueRimn
- * @Date: 2020-10-19 18:57:13
- * @LastEditors: sueRimn
- * @LastEditTime: 2020-11-12 17:30:51
- */
 // 静态展示数据，展示界面时应用，不会请求后台服务
 const showData = {
   index: [{

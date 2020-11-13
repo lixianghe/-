@@ -19,8 +19,9 @@ export function request(url, data = {}, method = 'GET') {
         'token': wx.getStorageSync('token') || ''
       },
       success: function (res) {
+        console.log('code', res)
         if (res.statusCode === 200) {
-          if (res.data.code === '200') {
+          if (res.data.code === 0) {
             wx.hideLoading()
             if (res.data.message !== '') {
               setTimeout(() => {

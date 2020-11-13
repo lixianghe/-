@@ -1,11 +1,3 @@
-/*
- * @Descripttion: 
- * @version: 
- * @Author: sueRimn
- * @Date: 2020-11-12 10:16:17
- * @LastEditors: sueRimn
- * @LastEditTime: 2020-11-12 17:46:32
- */
 /**
  * @name: abumInfo
  * 开发者编写的专辑详情abumInfo,通过专辑id获取播放列表，id在onLoad的options.id取
@@ -17,7 +9,7 @@
  */
 const app = getApp()
 import tool from '../utils/util'
-import { init } from '../utils/httpOpt/api'
+const { showData } = require('../utils/httpOpt/localData')
 
 module.exports = {
   data: {
@@ -37,29 +29,17 @@ module.exports = {
     wx.setStorageSync('canplay', canplay)
   },
   onReady() {
-    this.getAllList()
+
   },
   // 获取歌曲列表
   async getPlayList(params) {
-    let canplay, total
-    // 数据请求
-    try {
-      const res = await getData('abumInfo', params)
-      canplay = res.data
-      total = res.total
-    } catch (error) {
-      canplay = []
-      total = 0
-    }
+    let canplay = showData.abumInfo.data
+    let total = showData.abumInfo.total
     canplay.forEach((item) => {
       item.formatDt = tool.formatduration(Number(item.dt))
     })
     this.setData({total})
     return canplay
-    
-  },
-  getList() {
-    init()
   },
   async getAllList() {
     let allList

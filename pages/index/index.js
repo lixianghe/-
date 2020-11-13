@@ -1,5 +1,5 @@
 // import { getData } from '../../utils/httpOpt/httpOpt'
-const { showData } = require('../../utils/httpOpt/httpOpt')
+const { showData } = require('../../utils/httpOpt/localData')
 const app = getApp()
 
 Page({
