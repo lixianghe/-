@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: sueRimn
+ * @Date: 2020-11-12 10:16:17
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2020-11-12 17:46:32
+ */
 /**
  * @name: abumInfo
  * 开发者编写的专辑详情abumInfo,通过专辑id获取播放列表，id在onLoad的options.id取
@@ -9,7 +17,7 @@
  */
 const app = getApp()
 import tool from '../utils/util'
-const { getData } = require('../utils/https')
+import { init } from '../utils/httpOpt/api'
 
 module.exports = {
   data: {
@@ -49,6 +57,9 @@ module.exports = {
     this.setData({total})
     return canplay
     
+  },
+  getList() {
+    init()
   },
   async getAllList() {
     let allList
