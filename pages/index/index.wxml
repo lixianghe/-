@@ -7,20 +7,14 @@
     </view>
   </view>
 
-  <view class="index">
+  <scroll-view class="index" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920" bindscrolltolower="getLayoutData">
     <view class="latelyListen" bindtap="tolatelyListen">
       <image src="{{ lalyLtn.icon }}"></image>
       <view class="latelyLtnTit">最近收听</view>
     </view>
     <!-- 页面盒子 -->
-    <view class="albumCard" wx:if="{{info.length>0 && retcode === 1}}" wx:for="{{info}}" wx:key="index"
-      data-src="{{item.src}}" data-no="{{index}}" data-id="{{item.id}}" data-title="{{item.title}}"
-      bindtap="linkAbumInfo">
-      <image src="{{item.src}}"></image>
-      <view class="albumTit">
-        <text>{{ item.title }}</text>
-      </view>
-    </view>
+    <story wx:if="{{info.length>0 && retcode === 1}}" wx:for="{{info}}" wx:key="index" data-no="{{index}}" data-id="{{item.id}}" data-title="{{item.title}}" data-src="{{item.src}}"
+      bindtap="linkAbumInfo" title="{{item.title}}" src="{{item.src}}" className="{{screen}}"></story>
     <!-- 加载中盒子 -->
     <view class="albumCard" wx:if="{{info.length === 0 && retcode === 1}}" wx:for="{{5}}" wx:key="index">
       <view class="imgB bone"></view>
@@ -29,7 +23,8 @@
         <view class="tb bone"></view>
       </view>
     </view>
-  </view>
+  </scroll-view>
+
   <bgConfirm id="bgConfirm" msg="{{confirm}}" confirm="确定" cancel=""></bgConfirm>
   <mini-player id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
 </view>

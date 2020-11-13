@@ -10,6 +10,7 @@ Page({
     confirm: '',
     retcode: 1,
     currentTap: 0,
+    scrollLeft: 0,
     labels: [
       {index: 0, name: '推荐', type: '0'},
       {index: 1, name: '精品', type: '1'},
@@ -45,17 +46,24 @@ Page({
   selectTap(e) {
     const index = e.currentTarget.dataset.index
     this.setData({
-      currentTap: index
+      currentTap: index,
+      retcode: 0
     })
     this.getData(index)
   },
   getData(idx) {
-    let res = showData.index.slice(0, idx+1).reverse()
+    let res = showData.index.slice(0, idx+1)
+    app.globalData.indexData = res
     setTimeout(()=> {
       this.setData({
-        info: res
+        info: res,
+        retcode: 1
       })
     }, 500)
+  },
+  // 懒加载
+  getLayoutData() {
+
   },
   onLoad(options) {
     this.getData(0)
