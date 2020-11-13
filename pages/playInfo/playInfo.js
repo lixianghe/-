@@ -2,7 +2,7 @@
 const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
-const { getData } = require('../../utils/https')
+// const { getData } = require('../../utils/https')
 
 var timer = null
 
