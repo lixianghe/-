@@ -1,5 +1,5 @@
 // import {getData} from '../../utils/httpOpt/http'
-const { getData } = require('../../utils/https')
+// const { getData } = require('../../utils/https')
 const signUtils = require('../../utils/sign')
 const app = getApp()
 import btnConfig from '../../utils/pageOtpions/pageOtpions'

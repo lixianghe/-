@@ -1,0 +1,6 @@
+<view class="{{className}}albumCard" >
+      <image class="image" src="{{src}}"></image>
+      <view class="albumTit">
+        <text>{{ title }}</text>
+      </view>
+    </view>

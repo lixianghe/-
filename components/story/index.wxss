@@ -1,0 +1,26 @@
+.halbumCard {
+  /* flex: 0 0 46.6vh; */
+  width: 46.6vh;
+  display: inline-block;
+  margin-right: 7.6vh;
+  height: 68.6vh;
+  overflow: hidden;
+}
+.halbumCard .image {
+  width: 46.6vh;
+  height: 46.6vh;
+  border-radius: 2vh;
+  vertical-align: bottom;
+}
+.halbumCard .albumTit {
+  margin-top: 4vh;
+  color: #ffffff;
+  font-size: 6vh;
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+  padding: 0 1vh;
+  box-sizing: content-box;
+  line-height: 9vh;
+  white-space: pre-wrap;
+}

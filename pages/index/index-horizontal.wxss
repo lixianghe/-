@@ -1,10 +1,9 @@
 .h .index {
-  display: flex;
   overflow: auto;
-  padding-left: 8vh;
-  padding-top: 9vh;
-  box-sizing: content-box;
+  padding-left: 7.3vh;
+  box-sizing: border-box;
   height: 83vh;
+  white-space: nowrap;
 }
 
 .h .latelyListen>image {
@@ -19,7 +18,9 @@
   line-height: 5.3vh;
 }
 .h .latelyListen{
-  flex: 0 0 41.3vh;
+  /* flex: 0 0 41.3vh; */
+  width: 41.3vh;
+  display: inline-block;
   margin-right: 7.3vh;
   height: 68.6vh;
   border-radius: 2vh;
@@ -29,27 +30,11 @@
   background-color: #272727;
 }
 .h .albumCard {
-  flex: 0 0 46.6vh;
+  width: 46.6vh;
+  display: inline-block;
   margin-right: 7.6vh;
   height: 68.6vh;
   overflow: hidden;
-}
-.h .albumCard>image {
-  width: 46.6vh;
-  height: 46.6vh;
-  border-radius: 2vh;
-  vertical-align: bottom;
-}
-.h .albumTit {
-  margin-top: 4vh;
-  color: #ffffff;
-  font-size: 6vh;
-  display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
-  padding: 0 1vh;
-  box-sizing: content-box;
-  line-height: 9vh;
 }
 .h .imgB {
   width: 46.6vh;
@@ -68,6 +53,7 @@
   display: flex;
   color: #fff;
   font-size: 5.5vh;
+  padding-left: 7.3vh;
 }
 .label-view .title {
   padding: 2vh 1vh;
