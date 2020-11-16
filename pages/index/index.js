@@ -1,46 +1,26 @@
 // import { getData } from '../../utils/httpOpt/httpOpt'
-const { showData } = require('../../utils/httpOpt/localData')
 const app = getApp()
 
 Page({
+  mixins: [require('../../developerHandle/index')],
   data: {
     screen: app.globalData.screen,
-    lalyLtn: {icon: '/images/zjst.png'},
-    info: [],
+    lalyLtn: [
+      {icon: '/images/zjst.png', title: "最近收听"},
+      {icon: '/images/icon_collect.png', title: "我的收藏"}
+    ],
     confirm: '',
     retcode: 1,
     currentTap: 0,
     scrollLeft: 0,
     labels: [
-      {index: 0, name: '推荐', type: '0'},
-      {index: 1, name: '精品', type: '1'},
-      {index: 2, name: '睡前故事', type: 2},
-      {index: 3, name: '语言启蒙', type: 3},
-      {index: 4, name: '亲子陪伴', type: 4},
-      {index: 5, name: '凯叔儿歌', type: 5},
+      {index: 0, name: '相声评书', type: 0},
+      {index: 1, name: '人文', type: 1},
+      {index: 2, name: '历史', type: 2},
+      {index: 3, name: '有声小说', type: 3},
+      {index: 4, name: '脱口秀', type: 4},
+      {index: 5, name: '情感治愈', type: 5}
     ],
-  },
-  // 跳转到最近收听页面
-  tolatelyListen () {
-    wx.navigateTo({
-      url: '../latelyListen/latelyListen?a=1'
-    })
-  },
-  // 跳转到播放详情界面
-  linkAbumInfo (e) {
-    let id = e.currentTarget.dataset.id
-    let indexData = wx.getStorageSync('indexData') || []
-    const no = e.currentTarget.dataset.no
-    const src = e.currentTarget.dataset.src.replace('==', '$')
-    const title = e.currentTarget.dataset.title
-    if (indexData.filter(v => v.id === id).length === 0) {
-      let item = app.globalData.indexData.filter(obj => obj.id === id)[0]
-      indexData.push(item)
-    }
-    wx.setStorageSync('indexData', indexData)
-    wx.navigateTo({
-      url: `../abumInfo/abumInfo?id=${id}&no=${no}&src=${src}&title=${title}`
-    })
   },
 
   selectTap(e) {
@@ -51,23 +31,9 @@ Page({
     })
     this.getData(index)
   },
-  getData(idx) {
-    let res = showData.index.slice(0, idx+1)
-    app.globalData.indexData = res
-    setTimeout(()=> {
-      this.setData({
-        info: res,
-        retcode: 1
-      })
-    }, 500)
-  },
-  // 懒加载
-  getLayoutData() {
-
-  },
+ 
   onLoad(options) {
-    this.getData(0)
-    
+    // this.getData(0)
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()

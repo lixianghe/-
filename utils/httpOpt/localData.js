@@ -1,38 +1,43 @@
 // 静态展示数据，展示界面时应用，不会请求后台服务
 const showData = {
   index: [{
-      id: '1',  
-      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
-      title: '超好听的翻唱合集'
-    },{
-      id: '1',  
-      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
-      title: '超好听的翻唱合集'
-    },{
-      id: '1',  
-      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
-      title: '超好听的翻唱合集'
-    },{
-      id: '1',  
-      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
-      title: '超好听的翻唱合集'
-    },{
-      id: '1',  
-      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
-      title: '超好听的翻唱合集'
-    },{
-      id: '1',  
-      src: 'http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg',
-      title: '超好听的翻唱合集'
-    }],
+      id: "1",
+      src: "http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg",
+      title: "超好听的翻唱合集"
+    },
+    {
+      id: "2",
+      src: "http://p3.music.126.net/M-Are2JONsEGnOWOtNGomg==/109951164906980396.jpg",
+      title: "睡前轻快音乐"
+    },
+    {
+      id: "3",
+      src: "http://p3.music.126.net/UOhYjUFS7V-_RgXxQmrRKw==/109951165088874864.jpg",
+      title: "甜甜夏日"
+    },
+    {
+      id: "1",
+      src: "http://p1.music.126.net/pq6wgGmqiseGTVlNrP0Mkw==/109951164948535052.jpg",
+      title: "超好听的翻唱合集"
+    },
+    {
+      id: "2",
+      src: "http://p3.music.126.net/M-Are2JONsEGnOWOtNGomg==/109951164906980396.jpg",
+      title: "睡前轻快音乐"
+    },
+    {
+      id: "3",
+      src: "http://p3.music.126.net/UOhYjUFS7V-_RgXxQmrRKw==/109951165088874864.jpg",
+      title: "甜甜夏日"
+    }
+  ],
   // 专辑-歌曲列表
   abumInfo: {
     id: 1,
     total: 5,
     pageNo: 1,
     pageSize: 10,
-    data: [
-      {
+    data: [{
         title: "是想你的声音啊",
         episode: 1,
         id: 1481657185,

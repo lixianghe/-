@@ -1,6 +1,7 @@
 <view class="{{className}}albumCard" >
-      <image class="image" src="{{src}}"></image>
-      <view class="albumTit">
-        <text>{{ title }}</text>
-      </view>
-    </view>
+  <image class="image" src="{{src}}"></image>
+  <view class="albumTit">
+    <text class="vip" wx:if="{{true}}">VIP</text>
+    <text>{{ title }}</text>
+  </view>
+</view>

@@ -15,7 +15,8 @@ App({
     haveLogin: false,
     token: '',
     isNetConnected: true,
-    indexData: [],
+    indexData: [],  // 静态首页数据
+    latelyListenId: [], // 静态记录播放id
     abumInfoData: [],
 
     playing: false,

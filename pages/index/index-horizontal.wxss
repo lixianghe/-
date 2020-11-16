@@ -2,7 +2,8 @@
   overflow: auto;
   padding-left: 7.3vh;
   box-sizing: border-box;
-  height: 83vh;
+  height: 82vh;
+  padding: 5.5vh 0;
   white-space: nowrap;
 }
 
@@ -12,22 +13,35 @@
   margin-top: 17.8vh;
 }
 .h .latelyLtnTit {
-  margin-top: 3.3vh;
-  font-size: 6vh;
+  margin-top: 0.89vh;
+  font-size: 4.58vh;
   color: #fff;
   line-height: 5.3vh;
 }
-.h .latelyListen{
+.h .quickEntry{
   /* flex: 0 0 41.3vh; */
-  width: 41.3vh;
+  width: 43.65vh;
+  padding: 0 6.12vh 0 7.35vh;
+  vertical-align: top;
   display: inline-block;
-  margin-right: 7.3vh;
   height: 68.6vh;
-  border-radius: 2vh;
   overflow: hidden;
-  background-size: 100%;
+} 
+.h .quickEntrybox {
   text-align: center;
   background-color: #272727;
+  background-size: 100%;
+  border-radius: 2vh;
+  margin-bottom: 5.5vh;
+} 
+.h .quickEntryicon {
+  width: 14.76vh;
+  height: 14.76vh;
+  margin-top: 11%;
+  vertical-align: bottom;
+}
+.h .mianContent {
+  display: inline-block;
 }
 .h .albumCard {
   width: 46.6vh;
@@ -53,15 +67,17 @@
   display: flex;
   color: #fff;
   font-size: 5.5vh;
-  padding-left: 7.3vh;
+  margin-bottom: 4.89vh;
 }
 .label-view .title {
   padding: 2vh 1vh;
   margin-right: 5vh;
+  padding: 1.81vh 5.35vh 1.5vh 5.35vh;
+  background-color: #282828;
+  border-radius: 5.5vh;
 }
 .label-view .active-tap {
   color: #fa6500;
-  border-bottom: 1vh solid #fa6500;
 }
 .underLine {
   height: 1vh;

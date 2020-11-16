@@ -1,33 +1,29 @@
 const app = getApp()
-
 Page({
+  mixins: [require('../../developerHandle/latelyListen')],
   data: {
     screen: app.globalData.screen,
     noContent: '/images/nullContent.png',
-    info: ''
+    info: '',
+    currentTap: 0,
+    scrollLeft: 0,
+    retcode: 1,
+    labels: [
+      {index: 0, name: '专辑', type: '0'},
+      {index: 1, name: '故事', type: '1'},
+    ],
 
   },
   screen: app.globalData.screen,
-  // 跳转到播放详情界面
-  linkInfoList (e) {
-    let id = e.currentTarget.dataset.id
-    let indexData = wx.getStorageSync('indexData') || []
-    const no = e.currentTarget.dataset.no
-    const src = e.currentTarget.dataset.src.replace('==', '$')
-    if (indexData.filter(v => v.id === id).length === 0) {
-      let item = app.globalData.indexData.filter(obj => obj.id === id)[0]
-      indexData.push(item)
-    }
-    wx.setStorageSync('indexData', indexData)
-    wx.navigateTo({
-      url: `../abumInfo/abumInfo?id=${id}&no=${no}&src=${src}`
+  selectTap(e) {
+    const index = e.currentTarget.dataset.index
+    this.setData({
+      currentTap: index,
+      retcode: 0
     })
+    this.getData(index)
   },
   onLoad(options) {
-    let indexData = wx.getStorageSync('indexData') || []
-    this.setData({
-      info: indexData
-    })
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()
