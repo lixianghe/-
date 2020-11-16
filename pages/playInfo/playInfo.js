@@ -7,6 +7,7 @@ import btnConfig from '../../utils/pageOtpions/pageOtpions'
 var timer = null
 
 Page({
+  mixins: [require('../../developerHandle/playInfo')],
   data: {
     songInfo: {},
     playing: false,
@@ -41,20 +42,15 @@ Page({
     // 根据分辨率设置样式
     this.setStyle()
     // 获取歌曲列表
-    const canplay = options.id ? await this.getPlayList({pageNo: 1, pageSize: 999, id: options.id}) : wx.getStorageSync('canplay')
+    const canplay = wx.getStorageSync('canplay')
     const songInfo = app.globalData.songInfo
     // 用于切换模式，复制一个canplay
     songInfo.dt = String(songInfo.dt).split(':').length > 1 ? songInfo.dt : tool.formatduration(Number(songInfo.dt))
     this.setData({
       songInfo: songInfo,
-      canplay: canplay
-    })
-    // 初始化audioManager
-    let that = this
-    tool.initAudioManager(that, canplay)
-    // 从统一播放界面切回来，根据playing判断播放状态options.noPlay为true代表从minibar过来的
-    const playing = wx.getStorageSync('playing')
-    if (playing || options.noPlay !== 'true') app.playing()
+      canplay: canplay,
+      noPlay: options.noPlay
+    }) 
   },
   onShow: function () {
     const that = this;
@@ -73,6 +69,14 @@ Page({
   },
   imgOnLoad() {
     this.setData({ showImg: true })
+  },
+  play() {
+    // 初始化audioManager
+    let that = this
+    tool.initAudioManager(that, this.data.canplay)
+    // 从统一播放界面切回来，根据playing判断播放状态options.noPlay为true代表从minibar过来的
+    const playing = wx.getStorageSync('playing')
+    if (playing || this.data.noPlay !== 'true') app.playing()
   },
   btnsPlay(e) {
     const type = e.currentTarget.dataset.name
@@ -99,15 +103,16 @@ Page({
   // 上一首
   pre() {
     this.setData({ showImg: false })
+
     const that = this
-    app.cutplay(that, -1)
+    app.cutplay(that, -1, this.data.songInfo.episode, this.getInfo)
   },
   // 下一首
   next() {
     this.setData({ showImg: false })
     console.log('已经播放下一首了')
     const that = this
-    app.cutplay(that, 1)
+    app.cutplay(that, 1, this.data.songInfo.episode, this.getInfo)
   },
   // 切换播放模式
   switchLoop() {
@@ -296,35 +301,5 @@ Page({
         scrolltop: index > 2 ? listHeight / this.data.total * (index - 2) : 0
       })
     }).exec();
-  },
-  // 获取歌曲列表
-  async getPlayList(params) {
-    let canplay,total;
-    // 数据请求
-    try {
-      const res = await getData('abumInfo', params)
-      canplay = res.data
-      total = res.total
-    } catch (error) {
-      canplay = error.data.data
-      total = error.data.total
-    }
-    canplay.forEach(item => {
-      item.formatDt = tool.formatduration(Number(item.dt))
-    })
-    this.setData({
-      total: total
-    })
-    wx.setStorage({
-      key: "canplay",
-      data: canplay
-    })
-    
-    setTimeout(() => {
-      this.setData({
-        hasData: true
-      })
-    }, 100)
-    return canplay
   }
 })

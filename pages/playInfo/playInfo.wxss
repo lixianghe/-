@@ -14,12 +14,34 @@
   justify-content: space-between;
 }
 .page .playLeft .noReady {
+  /* width: 100vh; */
+  /* height: 10vh; */
+  /* background: #272727; */
+}
+.page .playLeft .noReady .title-name {
   width: 100vh;
   height: 10vh;
   background: #272727;
+  display: block;
+}
+.page .playLeft .noReady .title-abumInfo {
+  width: 70vh;
+  height: 8vh;
+  background: #272727;
+  display: block;
+  margin-top: 3vh;
 }
 .page .playLeft .title {
   font-size: 6.7vh;
+}
+.page .playLeft .title .title-name {
+  display: block;
+}
+.page .playLeft .title .title-abumInfo {
+  display: block;
+  font-size: 5.2vh;
+  color: #afafaf;
+  margin-top: 3vh;
 }
 .page .playLeft .player {
   margin-top: 14.7vh;

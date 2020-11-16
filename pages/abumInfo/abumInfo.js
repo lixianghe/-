@@ -25,7 +25,7 @@ Page({
     leftWith: '184vh',
     leftPadding: '0vh 5.75vh  20vh 11.25vh',
     btnsWidth: '167vh',
-    imageWidth: '49vh',
+    imageWidth: '55.36vh',
     pageNo: 1,
     pageSize: 10,
     total: 0,
@@ -45,6 +45,7 @@ Page({
     tenHeight: 0,
     mainColor: btnConfig.colorOptions.mainColor,
     selectWordBtn: btnConfig.selectWordBtn,
+    likeIcon: '../../images/like_none.png'
   },
   audioManager: null,
   ctx: null,
@@ -69,14 +70,14 @@ Page({
         leftWith: windowWidth * 0.722 + 'px',
         leftPadding: '0vh 3.3vh 20vh 8.3vh',
         btnsWidth: windowWidth * 0.67 + 'px',
-        imageWidth: windowWidth * 0.17 + 'px',
+        imageWidth: windowWidth * 0.21 + 'px',
       })
     } else {
       this.setData({
         leftWith: '184vh',
         leftPadding: '0vh 5.75vh 20vh  11.25vh',
         btnsWidth: '167vh',
-        imageWidth: '49vh',
+        imageWidth: '55.36vh',
       })
     }
     wx.setNavigationBarTitle({
@@ -129,21 +130,15 @@ Page({
   // 点击歌曲名称跳转到歌曲详情
   goPlayInfo(e) {
     const msg = '网络异常，无法播放！'
-    
     // 点击歌曲的时候把歌曲信息存到globalData里面
     const songInfo = e.currentTarget.dataset.song
     app.globalData.songInfo = songInfo
     wx.setStorage({ key: 'songInfo', data: songInfo })
-    // 缓存至最近收听
-    let latListenData = wx.getStorageSync('latListenData') || []
-    let latFlag = latListenData.filter((v) => v.id === songInfo.id).length
-    if (latFlag === 0) latListenData.push(songInfo)
     this.setData({ currentId: songInfo.id })
-    wx.setStorage({ key: 'latListenData', data: latListenData })
     this.getNetWork(msg, this.toInfo)
   },
   toInfo() {
-    wx.navigateTo({ url: '../playInfo/playInfo?id=' + this.data.optionId })
+    wx.navigateTo({ url: '../playInfo/playInfo?id=' + app.globalData.songInfo.id })
   },
   // 改变current
   changeCurrent(index) {
@@ -219,14 +214,14 @@ Page({
   listBehind: tool.throttle(async function (res) {
     console.log('滑倒底部')
     // 滑倒最底下
-    if ((scrollTopNo + this.data.initPageNo) * 10 >= this.data.total) {
+    if (this.data.canplay.length >= this.data.total) {
       this.setData({ showLoadEnd: false })
       return false
     } else {
       this.setData({ showLoadEnd: true })
     }
     scrollTopNo++
-    const getList = await this.getPlayList({ pageNo: this.data.initPageNo + scrollTopNo, pageSize: 10, id: this.data.optionId })
+    const getList = await this.getList({ pageNum: this.data.initPageNo + scrollTopNo, albumId: 961 })
     const list = this.data.canplay.concat(getList)
     setTimeout(() => {
       this.setData({

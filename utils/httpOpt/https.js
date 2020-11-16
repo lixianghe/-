@@ -23,14 +23,6 @@ export function request(url, data = {}, method = 'GET') {
         if (res.statusCode === 200) {
           if (res.data.code === 0) {
             wx.hideLoading()
-            if (res.data.message !== '') {
-              setTimeout(() => {
-                wx.showToast({
-                  title: res.data.message,
-                  icon: 'none'
-                })
-              }, 2000)
-            }
             resolve(res.data.data)
           } else {
             if (res.data.error === '1111') {
