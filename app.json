@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index", 
     "pages/personalCenter/personalCenter",
-    
     "pages/abumInfo/abumInfo",
     "pages/playInfo/playInfo",
     "pages/latelyListen/latelyListen"

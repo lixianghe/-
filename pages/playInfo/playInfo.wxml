@@ -1,8 +1,31 @@
+<wxs module="m1">
+  var showSinger = function (singer) {
+    if (singer) return ' - ' + singer
+  }
+  var filterTime = function (dt) {
+    var n = num / 10000
+    if (n > 1) {
+      return n.toFixed(1) + 'w'
+    } else {
+      return n
+    }
+  }
+
+  module.exports.showSinger = showSinger;
+  module.exports.filterTime = filterTime;
+</wxs>
+
 <!-- 1920*720分辨率 -->
 <view class="page" wx:if="{{bigScreen}}">
   <view class="playLeft">
-    <view class="title" wx:if="{{songInfo.title}}">{{songInfo.title}} - {{songInfo.singer}}</view>
-    <view class="noReady" wx:else></view>
+    <view class="title" wx:if="{{songInfo.title}}">
+      <text class="title-name">{{songInfo.title}}{{m1.showSinger(songInfo.singer)}}</text>
+      <text class="title-abumInfo">专辑：{{songInfo.title}}</text>
+    </view>
+    <view class="noReady" wx:else>
+      <text class="title-name"></text>
+      <text class="title-abumInfo"></text>
+    </view>
     <view class="player">
       <text class="time" wx:if="{{percentBar}}">{{playtime}}</text>
       <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343" wx:if="{{percentBar}}">
@@ -35,10 +58,16 @@
       <view class="image" wx:if="{{!showImg}}"></view>
 
 
-      <view class="title" wx:if="{{songInfo.title}}">{{songInfo.title}} - {{songInfo.singer}}</view>
+      <view class="title" wx:if="{{songInfo.title}}">
+        <text class="title-name">{{songInfo.title}}{{m1.showSinger(songInfo.singer)}}</text>
+        <text class="title-abumInfo">专辑：{{songInfo.title}}</text>
+      </view>
 
       
-      <view class="noReady" wx:else></view>
+      <view class="noReady" wx:else>
+        <text class="title-name"></text>
+        <text class="title-abumInfo"></text>
+      </view>
 
     </view>
     <view class="player">

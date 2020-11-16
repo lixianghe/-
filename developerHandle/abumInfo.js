@@ -9,6 +9,7 @@
  */
 const app = getApp()
 import tool from '../utils/util'
+import { albumMedia } from '../utils/httpOpt/api'
 const { showData } = require('../utils/httpOpt/localData')
 
 module.exports = {
@@ -24,9 +25,12 @@ module.exports = {
   },
   async onLoad(options) {
     console.log('options.id', options.id)
-    const canplay = await this.getPlayList({ ...this.data.params, id: options.id })
+    // const canplay = await this.getPlayList({ ...this.data.params, id: options.id })
+    let params = {pageNum: 1, albumId: 961}
+    const canplay = await this.getList(params)
     this.setData({canplay})
     wx.setStorageSync('canplay', canplay)
+    this.getList()
   },
   onReady() {
 
@@ -40,6 +44,26 @@ module.exports = {
     })
     this.setData({total})
     return canplay
+  },
+  async getList(params) {
+    let canplay, total
+    try {
+      let res = await albumMedia(params)
+      canplay = res.mediaList
+      total = res.totalCount
+      canplay.map((item, index) => {
+        item.title = item.mediaName
+        item.id = item.mediaId
+        item.dt = item.timeText
+        item.coverImgUrl = item.coverUrl
+        item.episode = index * params.pageNum + 1
+      })
+      console.log(res, canplay)
+      this.setData({total})
+      return canplay
+    } catch (error) {
+      return []
+    }
   },
   async getAllList() {
     let allList

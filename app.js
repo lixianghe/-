@@ -79,30 +79,28 @@ App({
   },
   
   vision: '1.0.0',
-  cutplay: function (that, type) {
+  cutplay: async function (that, type, no, getUrl) {
+    console.log('this.globalData', this.globalData)
     // 判断循环模式
-    let allList = wx.getStorageSync('allList')
-    console.log('this.globalData.songInfo.episode', this.globalData.songInfo.episode)
-    // 设置列表的index
-    let no = this.globalData.songInfo.episode
+    let allList = wx.getStorageSync('canplay')
     let index = this.setIndex(type, no, allList) - 1
-    console.log('index', index)
-    //播放列表中下一首
-    this.globalData.songInfo = allList[index]
-    wx.setStorage({
-      key: "songInfo",
-      data: allList[index]
-    })
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
+    // 获取歌曲的url
+    console.log('allList[index]', allList, index, allList[index])
+    let params = {mediaId: allList[index].id, contentType: 'story'}
+    if (getUrl) await getUrl(params)
     this.globalData.loopType === 'singleLoop' ? this.playing(0) : this.playing()
     // 切完歌改变songInfo的index
     this.globalData.songInfo.episode = index + 1
-    this.globalData.songInfo.dt = String(this.globalData.songInfo.dt).split(':').length > 1 ? this.globalData.songInfo.dt : tool.formatduration(Number(this.globalData.songInfo.dt))
     that.setData({
       songInfo: this.globalData.songInfo,
       currentId: allList[index].id
+    })
+    wx.setStorage({
+      key: "songInfo",
+      data: allList[index]
     })
   },
   // 根据循环模式设置切歌的index

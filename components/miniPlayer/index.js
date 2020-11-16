@@ -1,6 +1,7 @@
 const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
+import { getInfo } from '../../developerHandle/playInfo'
 
 var timer = null
 
@@ -76,10 +77,11 @@ Component({
       }
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, - 1)
+      app.cutplay(that, - 1, app.globalData.songInfo.episode, getInfo)
     },
     // 下一首
     next() {
+      console.log(getInfo)
       let allList = wx.getStorageSync('allList')
       console.log(app.globalData.songInfo.episode)
       if (app.globalData.songInfo.title) {
@@ -89,7 +91,7 @@ Component({
       }
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, + 1)
+      app.cutplay(that, + 1, this.data.songInfo.episode, getInfo)
     },
     // 暂停
     togglePlay() {
