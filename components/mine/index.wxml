@@ -1,0 +1,13 @@
+<view class="mine">
+  <view class="adminCenter" wx:if="{{isLogin}}">
+    <image class="image" src="{{avatar}}"></image>
+    <view class="adminCenterName">{{userName}}</view>
+    <view class="adminBtnIn" bindtap="nofityComponent" data-state="out">退出登录</view>
+  </view>
+  <!-- <view class="tsBtn" bindtap="clearStorage"></view> -->
+  <view class="adminCenter" wx:if="{{!isLogin}}">
+    <view class="adminCenterZwdl">暂未登录</view>
+    <view class="adminCenterDetail">请登录后查看详情</view>
+    <view class="adminBtnOut" bindtap="loginIn" data-state="login" style="background-color: {{mainColor}}">立即登录10</view>
+  </view>
+</view>

@@ -1,9 +1,21 @@
 const base = 'https://api.kaishustory.com'
-const appId = '786474'
+// const base = 'https://tapi.kaishustory.com'
+const appId = 786474
 /**
  * 封封微信的的request
  */
+
 export function request(url, data = {}, method = 'GET') {
+  let aa = {
+    'Content-Type': 'application/json',
+    'appId': appId,
+    'device': 'wxapp-car',
+    'channel': 'wxapp-car',
+    'platform': 'tencent-open',
+    'deviceId': wx.getStorageSync('deviceId') || '',
+    'token': wx.getStorageSync('token') || ''
+  }
+  console.log(JSON.stringify(aa)+'17行')
   return new Promise(function (resolve, reject) {
     wx.request({
       url: base + url,
@@ -15,7 +27,7 @@ export function request(url, data = {}, method = 'GET') {
         'device': 'wxapp-car',
         'channel': 'wxapp-car',
         'platform': 'tencent-open',
-        'deviceId': wx.getStorageSync('token') || '',
+        'deviceId': wx.getStorageSync('deviceId') || '',
         'token': wx.getStorageSync('token') || ''
       },
       success: function (res) {

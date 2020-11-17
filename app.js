@@ -9,13 +9,39 @@ App({
     screen: '',
     // 登录相关
     openid: '',
-    userInfo: null,
     appId: '60008',
     userId: '-1',
     haveLogin: false,
     token: '',
+    // API域名
+    // domain: http.domain.prod,
+    // 服务端appId
+    // backendAppId: http.appId.prod,
+    // AppId
+    appId: '60180',
+    // 版本号
+    version: '1.0.195.20200928',
+    // 用户信息
+    userInfo: {
+      userId: null,
+      token: '',
+      refreshToken: ''
+    },
+    // 用户认证信息
+    authInfo: {
+      openId: '',
+      unionId: '',
+      authCode: '',
+      deviceId: ''
+    },
+    // 访客信息
+    guestInfo: {
+      token: '',
+      refreshToken: '',
+      deviceId: ''
+    },
     isNetConnected: true,
-    indexData: [],  // 静态首页数据
+    indexData: [], // 静态首页数据
     latelyListenId: [], // 静态记录播放id
     abumInfoData: [],
 
@@ -26,10 +52,12 @@ App({
     currentPosition: 0,
     canplay: [],
     currentList: [],
-    loopType: 'listLoop',   // 默认列表循环
+    loopType: 'listLoop', // 默认列表循环
     useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio'),
     PIbigScreen: null
   },
+  // 日志文本
+  logText: '',
   audioManager: null,
   onLaunch: function () {
     this.initCode()
@@ -46,7 +74,7 @@ App({
     // 关于音乐播放的
     var that = this;
     //播放列表中下一首
-    wx.onBackgroundAudioStop(function () { 
+    wx.onBackgroundAudioStop(function () {
       const pages = getCurrentPages()
       const currentPage = pages[pages.length - 1]
       console.log('playnext', currentPage)
@@ -64,7 +92,7 @@ App({
     if (wx.canIUse('getShareData')) {
       wx.getShareData({
         name: this.globalData.appName,
-        success: (res)=> {
+        success: (res) => {
           let playing = res.data.playStatus
           wx.setStorageSync('playing', playing)
         }
@@ -73,11 +101,24 @@ App({
     // 测试getPlayInfoSync
     if (wx.canIUse('getPlayInfoSync')) {
       let res = wx.getPlayInfoSync()
-      console.log('$$$$$$getPlayInfoSync'+JSON.stringify(res))
+      console.log('$$$$$$getPlayInfoSync' + JSON.stringify(res))
     }
-    
+
   },
-  
+
+  // 保存用户信息
+  setUserInfo(userInfo) {
+    this.userInfo = userInfo
+    wx.setStorageSync('userInfo', userInfo)
+  },
+  // 获取用户信息
+  getUserInfo(key) {
+    let userInfo = this.userInfo.userId ? this.userInfo : wx.getStorageSync('userInfo')
+    if (key) {
+      return userInfo[key]
+    }
+    return userInfo
+  },
   vision: '1.0.0',
   cutplay: async function (that, type, no, getUrl) {
     console.log('this.globalData', this.globalData)
@@ -89,7 +130,10 @@ App({
     wx.pauseBackgroundAudio();
     // 获取歌曲的url
     console.log('allList[index]', allList, index, allList[index])
-    let params = {mediaId: allList[index].id, contentType: 'story'}
+    let params = {
+      mediaId: allList[index].id,
+      contentType: 'story'
+    }
     if (getUrl) await getUrl(params)
     this.globalData.loopType === 'singleLoop' ? this.playing(0) : this.playing()
     // 切完歌改变songInfo的index
@@ -132,7 +176,7 @@ App({
       console.log('非车载情况')
       this.wxPlayHandle(songInfo, seek, cb)
     }
-    
+
   },
   // 车载情况下的播放
   carHandle(seek) {
@@ -140,8 +184,10 @@ App({
     this.audioManager.src = media.src
     this.audioManager.title = media.title
     this.audioManager.coverImgUrl = media.coverImgUrl
-    if (seek != undefined && typeof(seek) === 'number') {
-      wx.seekBackgroundAudio({ position: seek })
+    if (seek != undefined && typeof (seek) === 'number') {
+      wx.seekBackgroundAudio({
+        position: seek
+      })
     }
   },
   // 非车载情况的播放
@@ -153,9 +199,11 @@ App({
       title: songInfo.title,
       success: function (res) {
         console.log('res', res)
-        if (seek != undefined && typeof(seek) === 'number') {
+        if (seek != undefined && typeof (seek) === 'number') {
           console.log('seek', seek)
-          wx.seekBackgroundAudio({ position: seek })
+          wx.seekBackgroundAudio({
+            position: seek
+          })
         };
         that.globalData.playing = true;
         cb && cb();
@@ -169,7 +217,7 @@ App({
   // 根据分辨率判断显示哪种样式
   setStyle() {
     // 判断分辨率的比列
-    const windowWidth =  wx.getSystemInfoSync().screenWidth;
+    const windowWidth = wx.getSystemInfoSync().screenWidth;
     const windowHeight = wx.getSystemInfoSync().screenHeight;
     // 如果是小于1/2的情况
     if (windowHeight / windowWidth >= 0.41) {
@@ -183,7 +231,9 @@ App({
   initCode() {
     const token = wx.getStorageSync('token')
     if (token) return false
-    let deviceInfo = {phoneDeviceCode: this.uuid()}
+    let deviceInfo = {
+      phoneDeviceCode: this.uuid()
+    }
     wx.getSystemInfo({
       success: async (res) => {
         deviceInfo.phoneModel = res.system
@@ -197,8 +247,45 @@ App({
   },
   uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      var r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     })
+  },
+  /**
+   * 记录日志
+   */
+  log(...text){
+    for(let e of text){
+      if(typeof e == 'object'){
+        try{
+          if(e===null){
+            this.logText += 'null'
+          } else if(e.stack){
+            this.logText += e.stack
+          } else{
+            this.logText += JSON.stringify(e)
+          }
+        }catch(err){
+          this.logText += err.stack
+        }
+      } else {
+        this.logText += e
+      }
+      this.logText += '\n'
+    }
+    this.logText += '########################\n'
+  },
+  _log(val, num) {
+    console.log(val, num)
+    if(typeof val == 'string') {
+      console.log(1)
+      this.logText += val + '---' + num + '行'
+    }
+    if (typeof val == 'object') {
+      console.log(2)
+      this.logText += JSON.stringify(val) + '---' + num + '行'
+    }
+    console.log(this.logText)
   }
 })
