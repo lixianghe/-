@@ -14,7 +14,7 @@
     </view>
     <view class="view" catchtap="playInfo">
       <image class="pic" src="{{songInfo.coverImgUrl}}" />
-      <text class="text" wx:if="{{songInfo.title}}">{{songInfo.title}} - {{songInfo.singer}}</text>
+      <text class="text" wx:if="{{songInfo.title}}">{{songInfo.title}}</text>
     </view>
   </view>
   <view catchtap="playInfo" style="flex: 1;height: 100%"></view>

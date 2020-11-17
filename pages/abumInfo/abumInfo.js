@@ -26,8 +26,6 @@ Page({
     leftPadding: '0vh 5.75vh  20vh 11.25vh',
     btnsWidth: '167vh',
     imageWidth: '55.36vh',
-    pageNo: 1,
-    pageSize: 10,
     total: 0,
     optionId: '',
     palying: false,
@@ -38,14 +36,17 @@ Page({
     scrollTop: 0,
     pageNo: 1,
     initPageNo: 1,
-    pageSize: 10,
+    pageSize: 15,
     selected: 0,
     startY: 0,
     loadAnimate: null,
     tenHeight: 0,
     mainColor: btnConfig.colorOptions.mainColor,
     selectWordBtn: btnConfig.selectWordBtn,
-    likeIcon: '../../images/like_none.png'
+    likeIcon: '../../images/like_none.png',
+    abumInfoName: '',
+    pageNoName: 'pageNum',
+    pageSizeName: 'pageSize'
   },
   audioManager: null,
   ctx: null,
@@ -59,6 +60,7 @@ Page({
       zjNo: options.no,
       src: options.src.replace('$', '=='),
       optionId: options.id,
+      abumInfoName: options.title
     })
 
     // 判断分辨率的比列
@@ -134,6 +136,7 @@ Page({
     const songInfo = e.currentTarget.dataset.song
     app.globalData.songInfo = songInfo
     wx.setStorage({ key: 'songInfo', data: songInfo })
+    wx.setStorage({ key: 'abumInfoName', data: this.data.abumInfoName })
     this.setData({ currentId: songInfo.id })
     this.getNetWork(msg, this.toInfo)
   },
@@ -205,6 +208,7 @@ Page({
   listScroll: tool.debounce(async function (res) {
     let top = res.detail.scrollTop
     selectedNo = parseInt(top / this.data.tenHeight)
+    console.log('selectedNo', selectedNo)
   }, 50),
   // 滚到顶部
   listTop: tool.throttle(async function (res) {
@@ -221,7 +225,9 @@ Page({
       this.setData({ showLoadEnd: true })
     }
     scrollTopNo++
-    const getList = await this.getList({ pageNum: this.data.initPageNo + scrollTopNo, albumId: 961 })
+    let pageNoName = this.data.pageNoName
+    let params = { [pageNoName]: this.data.initPageNo + scrollTopNo, albumId: 961 }
+    const getList = await this.getList(params)
     const list = this.data.canplay.concat(getList)
     setTimeout(() => {
       this.setData({
@@ -241,7 +247,7 @@ Page({
       .boundingClientRect((rect) => {
         let listHeight = rect.height
         this.setData({
-          tenHeight: listHeight,
+          tenHeight: listHeight - 40,
         })
       })
       .exec()
@@ -304,7 +310,8 @@ Page({
   // },
   // 下拉结束后的处理
   async topHandle() {
-    const getList = await this.getPlayList({ pageNo: this.data.pageNo - 1, pageSize: 10, id: this.data.optionId })
+    let pageNoName = this.data.pageNoName
+    const getList = await this.getPlayList({ [pageNoName]: this.data.pageNo - 1, id: this.data.optionId })
     const list = getList.concat(this.data.canplay)
     this.setData({
       canplay: list,

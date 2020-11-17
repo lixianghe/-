@@ -1,8 +1,7 @@
 <wxs module="m1">
-  var filterNo = function (start, end) {
-    console.log(start, end)
+  var filterNo = function (start, end, pageSize) {
     var num = start > end ? start : end
-    return num / 10 -1
+    return Math.ceil(num / pageSize) -1
   }
 
   module.exports.filterNo = filterNo;
@@ -21,12 +20,13 @@
     <image class="closeWords" src="/images/close-words.png" bindtap="closeWords"></image>
     <view class="worksList">
       <view 
-        class="worksItem {{ selected === m1.filterNo(item.start, item.end) ? 'selectedWork': 'normalWork' }}" 
+        class="worksItem {{ selected === m1.filterNo(item.start, item.end, pageSize) ? 'selectedWork': 'normalWork' }}" 
         wx:for="{{data}}" 
         wx:key="index" 
         data-index="{{index}}"
         bindtap="selectThis"  
       >
+      <!-- {{m1.filterNo(item.start, item.end, pageSize)}} - {{selected}} -->
         {{item.start}} ~ {{item.end}}
       </view>
     </view>

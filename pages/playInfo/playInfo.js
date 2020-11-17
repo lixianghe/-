@@ -28,7 +28,8 @@ Page({
     mainColor: btnConfig.colorOptions.mainColor,
     percentBar: btnConfig.percentBar,
     showImg: false,
-    bigScreen: app.globalData.PIbigScreen
+    bigScreen: app.globalData.PIbigScreen,
+    abumInfoName: null
   },
   // 播放器实例
   audioManager: null,
@@ -49,7 +50,8 @@ Page({
     this.setData({
       songInfo: songInfo,
       canplay: canplay,
-      noPlay: options.noPlay
+      noPlay: options.noPlay,
+      abumInfoName: wx.getStorageSync('abumInfoName') || null
     }) 
   },
   onShow: function () {

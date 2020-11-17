@@ -6,6 +6,10 @@ Component({
     selected: {
       type: Number,
       default: 0
+    },
+    pageSize: {
+      type: Number,
+      default: 10
     }
   },
   data: {
@@ -13,7 +17,7 @@ Component({
     selected: 0,
     isSelectWorks: false,
     sum: 0,
-    len: 10,
+    len: 15,
     order: true
   },
   methods: {
@@ -21,17 +25,11 @@ Component({
       this.setData({
         selected: e.currentTarget.dataset.index
       })
-      console.log(this.data.data.length)
-      console.log(e.currentTarget.dataset.index)
       let pageNo = this.data.order ? e.currentTarget.dataset.index + 1 : (this.data.data.length - e.currentTarget.dataset.index)
       this.triggerEvent('changeWords', {pageNo: pageNo, pageSize: this.data.len})
       this.closeWords()
     },
     closeWords (e) {
-      // this.setData({
-      //   isSelectWorks: false
-      // })
-
       this.animation.translate('-160vh', 0).step()
       this.setData({
         animation: this.animation.export(),
@@ -39,7 +37,6 @@ Component({
       })
     },
     hideShow(val) {
-      console.log(this.animation)
       this.animation.translate(0, 0).step()
       this.setData({
         isSelectWorks: val.hidShow,
@@ -75,7 +72,6 @@ Component({
       for (let i = this.data.sum; i >= 1; i--) {
         let temp = this.data.sum - i
         if (temp % this.data.len === 0 && i > endRes) {
-          console.log(temp)
           arr.push({
             start: i,
             end:  i - this.data.len + 1
@@ -93,7 +89,6 @@ Component({
     },
     loadWorks () {
       let result = this.data.order ? this.loadWorksUp() : this.loadWorksDown()
-      console.log(result)
       this.setData({
         data: result
       })

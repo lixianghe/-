@@ -24,18 +24,15 @@ module.exports = {
     console.log('Log from mixin!')
   },
   async onLoad(options) {
-    console.log('options.id', options.id)
-    // const canplay = await this.getPlayList({ ...this.data.params, id: options.id })
     let params = {pageNum: 1, albumId: 961}
     const canplay = await this.getList(params)
     this.setData({canplay})
     wx.setStorageSync('canplay', canplay)
-    this.getList()
   },
   onReady() {
 
   },
-  // 获取歌曲列表
+  // 获取歌曲列表，假数据
   async getPlayList(params) {
     let canplay = showData.abumInfo.data
     let total = showData.abumInfo.total
@@ -45,12 +42,14 @@ module.exports = {
     this.setData({total})
     return canplay
   },
+  // 凯叔api数据
   async getList(params) {
     let canplay, total
     try {
       let res = await albumMedia(params)
       canplay = res.mediaList
       total = res.totalCount
+      // 处理字段不一样的情况
       canplay.map((item, index) => {
         item.title = item.mediaName
         item.id = item.mediaId
@@ -58,23 +57,22 @@ module.exports = {
         item.coverImgUrl = item.coverUrl
         item.episode = index * params.pageNum + 1
       })
-      console.log(res, canplay)
       this.setData({total})
       return canplay
     } catch (error) {
       return []
     }
   },
-  async getAllList() {
-    let allList
-    const params = { id: this.data.optionId, pageNo: 1, pageSize: 999 }
-    // 数据请求
-    const res = await getData('abumInfo', params)
-    allList = res.data
-    app.globalData.allList = allList
-    wx.setStorage({
-      key: 'allList',
-      data: allList,
-    })
-  }
+  // async getAllList() {
+  //   let allList
+  //   const params = { id: this.data.optionId, pageNo: 1, pageSize: 999 }
+  //   // 数据请求
+  //   const res = await getData('abumInfo', params)
+  //   allList = res.data
+  //   app.globalData.allList = allList
+  //   wx.setStorage({
+  //     key: 'allList',
+  //     data: allList,
+  //   })
+  // }
 }

@@ -20,7 +20,7 @@
   <view class="playLeft">
     <view class="title" wx:if="{{songInfo.title}}">
       <text class="title-name">{{songInfo.title}}{{m1.showSinger(songInfo.singer)}}</text>
-      <text class="title-abumInfo">专辑：{{songInfo.title}}</text>
+      <text class="title-abumInfo" wx:if="{{abumInfoName}}">专辑：{{abumInfoName}}</text>
     </view>
     <view class="noReady" wx:else>
       <text class="title-name"></text>
@@ -60,7 +60,7 @@
 
       <view class="title" wx:if="{{songInfo.title}}">
         <text class="title-name">{{songInfo.title}}{{m1.showSinger(songInfo.singer)}}</text>
-        <text class="title-abumInfo">专辑：{{songInfo.title}}</text>
+        <text class="title-abumInfo" wx:if="{{abumInfoName}}">专辑：{{abumInfoName}}</text>
       </view>
 
       
