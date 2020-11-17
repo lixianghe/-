@@ -1,5 +1,15 @@
 import { request, apiFormat } from './https'
-
+// API域名
+const domain = {
+  'test':'https://tapi.kaishustory.com', // 测试环境
+  'gamma':'https://gapi.kaishustory.com', // 测试环境
+  'prod': 'https://api.kaishustory.com' // 生产环境
+}
+const appId = {
+  'test': 268174,
+  'gamma': 786474,
+  'prod': 786474
+}
 // 页面初始化
 const initApi = '/open/user/initialize'                                    // post
 // 校验用户状态信息
@@ -88,3 +98,6 @@ export const buy = (data) => request(buyApi, data, 'POST')
 export const buyResult = (params) => request(buyResultApi, params)
 export const userInfo = (params) => request(userInfoApi, params)
 export const vipInfo = (params) => request(vipInfoApi, params)
+
+// export const domain = domain
+// export const appId = appId

@@ -5,61 +5,7 @@
   box-sizing: content-box;
   align-items: center;
 }
-.h .adminCenter {
-  flex: 0 0 72.3vh;
-  height: 79vh;
-  overflow: hidden;
-  text-align: center;
-}
-.h .adminCenter>image {
-  width: 28.5vh;
-  height: 28.5vh;
-  margin-top: 11.1vh;
-  border-radius: 15vh;
-  border: 0.9vh solid #232323;
-  vertical-align: top;
-}
-.h .adminCenterName {
-  margin-top: 3.8vh;
-  color: #fff;
-  font-size: 6.2vh;
-}
-.h .adminCenterZwdl {
-  font-size: 6.2vh;
-  color: #e8e8e8;
-  margin-top: 19.8vh;
-}
-.h .adminCenterDetail {
-  font-size: 4.9vh;
-  color: #e8e8e8;
-  margin-top: 3.8vh;
-}
-.h .adminBtnOut {
-  margin-top: 11.9vh;
-  font-size: 4.9vh;
-  /* background-color: #fa6501; */
-  width: 30.8vh;
-  height: 12.3vh;
-  line-height: 12.3vh;
-  color: #fff;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  border-radius: 6.2vh;
-  /* padding: 3rpx 4rpx; */
-}
-.h .adminBtnIn {
-  margin-top: 3vh;
-  font-size: 4.9vh;
-  width: 28.9vh;
-  height: 11.1vh;
-  line-height: 11.1vh;
-  background-color: #1f1f1f;
-  color: #e8e8e8;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  border-radius: 5.5vh;
-  /* padding: 3rpx 4rpx; */
-}
+
 .h .cardListen{
   flex: 0 0 61.5vh;
   margin-right: 6.2vh;
