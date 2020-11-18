@@ -95,6 +95,7 @@ module.exports = {
             id: item.contentId,
             title: item.album ? item.album.albumName : item.media.mediaName,
             src: item.coverUrl,
+            contentType: item.contentType,
             isVip: item[item.contentType].feeType == '01' && (item[item.contentType].product || item[item.contentType].product && [2, 3].indexOf(item[item.contentType].product.vipLabelType) < 0)
           })
         })
