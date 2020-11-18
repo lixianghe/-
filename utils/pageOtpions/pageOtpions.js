@@ -65,7 +65,20 @@ const btnConfig = {
       name: 'more',                                             // 弹出播放列表
       img: '/images/more2.png'                                  // 弹出播放列表对应的图标
     }
-  ]
+  ],
+  personalCenter: [{
+    type: 'order',
+    icon: '/images/icon-personCenter.png',
+    title: '开通/续费会员'
+  }, {
+    type: 'coupon',
+    icon: '/images/icon-personCenter.png',
+    title: '我喜欢的' 
+  }, {
+    type: 'VIP',
+    icon: '/images/icon-personCenter.png',
+    title: '我购买的'
+  }]
 }
 
 export default btnConfig

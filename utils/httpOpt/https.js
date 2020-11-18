@@ -18,11 +18,11 @@ export function request(url, data = {}, method = 'GET') {
         'device': 'wxapp-car',
         'channel': 'wxapp-car',
         'platform': 'tencent-open',
-        'deviceId': wx.getStorageSync('deviceId') || '236B3FA0D4C81912777AD460EDC97329',
-        'token': wx.getStorageSync('token') || ''
+        'deviceId': wx.getStorageSync('deviceId') || '',
+        'token':  wx.getStorageSync('token') || ''
       },
       success: function (res) {
-        // console.log('code', res)
+        console.log('code',url, res)
         if (res.statusCode === 200) {
           if (res.data.code === 0) {
             resolve(res.data.data)

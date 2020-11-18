@@ -1,5 +1,5 @@
 {
-  "description": "项目配置文件。",
+  "description": "项目配置文件",
   "packOptions": {
     "ignore": []
   },
@@ -34,13 +34,15 @@
     "userConfirmedUseCompilerModuleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "enableEngineNative": false,
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
   "libVersion": "1.9.4",
   "appid": "wx489e0165383e5913",
-  "projectname": "appTemplate",
+  "projectname": "moss-kaishu",
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
   "isGameTourist": false,
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
@@ -51,23 +53,12 @@
     "conversation": {
       "list": []
     },
-    "plugin": {
-      "list": []
-    },
     "game": {
       "currentL": -1,
       "list": []
     },
     "miniprogram": {
-      "list": [
-        {
-          "id": 0,
-          "name": "自定义预览",
-          "pathName": "pages/index/index",
-          "query": "name=can",
-          "scene": 1011
-        }
-      ]
+      "list": []
     }
   }
 }
