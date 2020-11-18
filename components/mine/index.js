@@ -294,6 +294,6 @@ Component({
   },
 
   attached: function () {
-    this.login()
+    // this.login()
   }
 })

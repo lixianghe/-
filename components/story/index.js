@@ -10,13 +10,13 @@ Component({
       type: String,
       value: false
     },
-    src: { 
-      type: String,
-      value: false
-    },
-    title: {
-      type: String,
-      value: false
+    datasource: {
+      type: Object,
+      value: {
+        src: '',
+        title: '',
+        isVip: false
+      }
     }
   },
 
