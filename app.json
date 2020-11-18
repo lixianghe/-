@@ -5,7 +5,8 @@
     "pages/personalCenter/personalCenter",
     "pages/abumInfo/abumInfo",
     "pages/playInfo/playInfo",
-    "pages/latelyListen/latelyListen"
+    "pages/latelyListen/latelyListen",
+    "pages/member/member"
   ],
   "window": {
     "backgroundTextStyle": "light",

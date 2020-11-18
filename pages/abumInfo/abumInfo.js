@@ -2,6 +2,7 @@ const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
 import { getInfo } from '../../developerHandle/playInfo'
+import { albumFavoriteAdd, albumFavoriteCancel } from '../../utils/httpOpt/api'
 
 // const { getData } = require('../../utils/https')
 

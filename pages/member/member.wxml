@@ -1,0 +1,25 @@
+<view class="page" wx:if="{{vipList.length}}">
+  <view class="vipCard" wx:for="{{vipList}}">
+    <view class="tagDesc" wx:if="{{item.tagDesc}}">{{item.tagDesc}}</view>
+    <view class="cardTitle">{{item.cardTitle}}</view>
+    <view class="cardPrice">￥{{item.cardPrice}}</view>
+    <view class="subTitle" wx:if="{{item.subTitle}}" bindtap="showInfo" data-info="{{item.subTitle}}">{{item.subTitle}}</view>
+    <button>开通</button>
+  </view>
+  <view wx:if="{{showInfo}}" class="model" bindtap="close"></view>
+  <view wx:if="{{showInfo}}" class="showInfo">
+    <view class="close" bindtap="close">
+      <image src="../../images/closeList.png" />
+    </view>
+    <view class="info">
+      {{info}}
+    </view>
+    <button>开通</button>
+  </view>
+</view>
+
+  <!-- 骨架屏 -->
+<view class="page skeleton" wx:else>
+  
+</view>
+
