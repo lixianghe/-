@@ -1,8 +1,9 @@
 .halbumCard {
   /* flex: 0 0 46.6vh; */
-  width: 46.6vh;
+  width: 41.81vh;
   display: inline-block;
   margin-right: 7.6vh;
+  margin-top: 15.7vh;
   height: 68.6vh;
   overflow: hidden;
 }
@@ -22,7 +23,7 @@
   text-overflow: ellipsis;
 }
 .halbumCard .vip {
-  padding: 0vh 1.2vh 0.43vh 1.66vh;
+  padding: 0vh 1.2vh 0vh 1.66vh;
   background-color: #fa6500;
   border-radius: 0.89vh;
   font-size: 4.2vh;

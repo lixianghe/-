@@ -26,13 +26,15 @@
   display: inline-block;
   height: 68.6vh;
   overflow: hidden;
+  margin-right: 6.12vh;
+  border-right: 0.58vh solid #1a1a1a;
 } 
 .h .quickEntrybox {
   text-align: center;
   background-color: #272727;
   background-size: 100%;
   border-radius: 2vh;
-  margin-bottom: 5.5vh;
+  margin-bottom: 6.3vh;
 } 
 .h .quickEntryicon {
   width: 14.76vh;
@@ -69,6 +71,7 @@
   color: #fff;
   font-size: 5.5vh;
   margin-bottom: 4.89vh;
+  position: fixed;
 }
 .label-view .title {
   padding: 2vh 1vh;

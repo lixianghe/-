@@ -8,20 +8,58 @@
  * @return {*}
  */
 const app = getApp()
-const { showData } = require('../utils/httpOpt/localData')
-
+import { layout, layoutGroup } from '../utils/httpOpt/api'
 module.exports = {
   data: {
     info: [],
+  },
+  // 页面后台数据(不参与渲染)
+  pageData: {
+    pageName: 'index',
+    pageType: 'tab',
+    pageLoaded: false,
+    // 各频道列表页码，根据groupId获取
+    pageNum: 1,
+    hasNext: true,
+    loading: false,
+    retcode: 1,
+    labels: [],
   },
   onShow() {
     console.log('Log from mixin!')
   },
   onLoad(options) {
-    this.getData(0)
+    // 接入凯叔频道数据
+    layoutGroup().then(res => {
+      const formatData = res.map((item, idx) => {
+        let obj = {
+          index: idx,
+          id: item.groupId,
+          name: item.groupTitle,
+          type: item.groupType,
+          groupTitleConfig: item.groupTitleConfig
+        }
+        return obj
+      })
+      this.setData({
+        labels: formatData
+      })
+      this.getListData(formatData[0].id)
+    }).catch(err => {
+      console.log(JSON.stringify(err))
+    })
   },
   onReady() {
 
+  },
+  selectTap(e) {
+    const index = e.currentTarget.dataset.index
+    const id = e.currentTarget.dataset.groupid
+    this.setData({
+      currentTap: index,
+      retcode: 0
+    })
+    this.getListData(id)
   },
   // 跳转到最近收听页面
   tolatelyListen () {
@@ -44,16 +82,32 @@ module.exports = {
       url: `../abumInfo/abumInfo?id=${id}&no=${no}&src=${src}&title=${title}`
     })
   },
-  getData(idx) {
-    let res = showData.index.slice(0, idx+1)
-    console.log(111)
-    app.globalData.indexData = res
-    setTimeout(()=> {
+  getListData(id) {
+    console.log(id)
+    // 接入凯叔列表数据
+    let params = {groupId: id, pageNum: this.pageData.pageNum}
+    layout(params).then(res => {
+      console.log(res)
+      let layoutData = []
+      res.list.forEach(v => {
+        v.content.forEach(item => {
+          layoutData.push({
+            id: item.contentId,
+            title: item.album ? item.album.albumName : item.media.mediaName,
+            src: item.coverUrl,
+            contentType: item.contentType,
+            isVip: item[item.contentType].feeType == '01' && (item[item.contentType].product || item[item.contentType].product && [2, 3].indexOf(item[item.contentType].product.vipLabelType) < 0)
+          })
+        })
+
+      })
       this.setData({
-        info: res,
+        info: layoutData,
         retcode: 1
       })
-    }, 500)
+    }).catch(err => {
+      console.log(JSON.stringify(err))
+    })
   },
   // 懒加载
   getLayoutData() {
