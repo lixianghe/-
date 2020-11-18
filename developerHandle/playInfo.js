@@ -8,7 +8,7 @@
  * @return {*}
  */
 const app = getApp()
-import { mediaPlay } from '../utils/httpOpt/api'
+import { mediaPlay, mediaFavoriteAdd, mediaFavoriteCancel } from '../utils/httpOpt/api'
 const { showData } = require('../utils/httpOpt/localData')
 
 module.exports = {
@@ -33,5 +33,27 @@ module.exports = {
     app.globalData.songInfo.id = data.nediaId
     app.globalData.songInfo.dt = data.timeText
     app.globalData.songInfo.coverImgUrl = data.coverUrl
+  },
+  // 收藏和取消收藏
+  like(params) {
+    if (!app.userInfo || !app.userInfo.token) {
+      wx.showToast({ icon: 'none', title: '请登录后进行操作' })
+      return;
+    }
+    if (this.data.liked) {
+      mediaFavoriteCancel(params).then(res => {
+        wx.showToast({ icon: 'none', title: '取消收藏成功' })
+        this.setData({
+          liked: false
+        })
+      })
+    } else {
+      mediaFavoriteAdd(params).then(res => {
+        wx.showToast({ icon: 'none', title: '收藏成功' })
+        this.setData({
+          liked: true
+        })
+      })
+    }
   }
 }

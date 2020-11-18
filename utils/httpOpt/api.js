@@ -56,7 +56,7 @@ const loginApi = '/open/user/mobile/login'                                 // po
 const loginWxApi = '/open/user/wechat/login'                               // post
 // 刷新token
 const refreshTokenApi = '/open/user/refreshToken'                          // post
-// vip档位列表
+// 开通会员
 const vipListApi = '/open/vip/openPage'                                    // get
 // 获取购买签名
 const signatureApi = '/open/buy/signature'                                 // post
@@ -66,7 +66,7 @@ const buyApi = '/open/buy/create'                                          // po
 const buyResultApi = '/open/buy/payResult'                                 // get
 // 获取用户信息
 const userInfoApi = '/open/user/info'                                      // get
-// vip信息
+// 会员信息
 const vipInfoApi = '/open/vip/basicInfo'                                   // get
 
 export const init = (data) => request(initApi, data, 'POST')

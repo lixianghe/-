@@ -35,7 +35,8 @@ Page({
     percentBar: btnConfig.percentBar,
     showImg: false,
     bigScreen: app.globalData.PIbigScreen,
-    abumInfoName: null
+    abumInfoName: null,
+    liked: false
   },
   // 播放器实例
   audioManager: null,
@@ -52,7 +53,6 @@ Page({
     const canplay = wx.getStorageSync('canplay')
     const songInfo = app.globalData.songInfo
     // 用于切换模式，复制一个canplay
-    songInfo.dt = String(songInfo.dt).split(':').length > 1 ? songInfo.dt : tool.formatduration(Number(songInfo.dt))
     this.setData({
       songInfo: songInfo,
       canplay: canplay,
@@ -89,33 +89,13 @@ Page({
   },
   btnsPlay(e) {
     const type = e.currentTarget.dataset.name
-      switch (type) {
-        case 'pre':
-          this.pre()
-          break;
-        case 'toggle':
-          this.togglePlay()
-          break;
-        case 'next':
-          this.next()
-          break;
-        case 'like':
-          this.like()
-          break;
-        case 'loopType':
-          this.switchLoop()
-          break;
-        case 'more':
-          this.more()
-          break;
-        default:
-          break;
-      }
+    console.log('type', type)
+    let params = {mediaId: this.data.songInfo.mediaId}
+    if (type) this[type](params)
   },
   // 上一首
   pre() {
     this.setData({ showImg: false })
-
     const that = this
     app.cutplay(that, -1, this.data.songInfo.episode, this.getInfo)
   },
@@ -127,7 +107,7 @@ Page({
     app.cutplay(that, 1, this.data.songInfo.episode, this.getInfo)
   },
   // 切换播放模式
-  switchLoop() {
+  loopType() {
     const canplay = wx.getStorageSync('canplay')
     console.log('copy', canplay)
     let nwIndex = this.data.typelist.findIndex(n => n === this.data.loopType)
@@ -147,9 +127,7 @@ Page({
     let loopList;
     // 列表循环
     if (type === 'listLoop') {
-      loopList = list
-      
-      
+      loopList = list     
     } else if (type === 'singleLoop') {
       // 单曲循环
       loopList = [list[app.globalData.songInfo.episode]]
@@ -171,7 +149,7 @@ Page({
     return arr;
   },
   // 暂停/播放
-  togglePlay() {
+  toggle() {
     const that = this
     clearInterval(timer)
     // if (!this.data.playing) {
@@ -180,10 +158,6 @@ Page({
       }, 1000);
     // }
     tool.toggleplay(this, app)
-  },
-  // 收藏
-  like() {
-    wx.showToast({ title: '请登录后进行操作', icon: 'none' })
   },
   // 播放列表
   more() {

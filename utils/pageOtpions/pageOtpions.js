@@ -77,7 +77,7 @@ const btnConfig = {
   }, {
     type: 'VIP',
     icon: '/images/icon-personCenter.png',
-    title: '我购买的'
+    title: '我购买的1.2'
   }]
 }
 

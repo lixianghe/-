@@ -5,6 +5,7 @@ const app = getApp()
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
 
 Page({
+  mixins: [require('../../developerHandle/member')],
   data: {
     screen: app.globalData.screen,
     avatar: '',
@@ -19,11 +20,7 @@ Page({
     mainColor: btnConfig.colorOptions.mainColor
   },
 
-  order() {
-    wx.showToast({
-      title: '敬请期待',
-    })
-  },
+  
   coupon() {
     wx.showToast({
       title: '敬请期待',

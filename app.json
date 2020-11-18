@@ -4,14 +4,15 @@
     "pages/personalCenter/personalCenter",
     "pages/abumInfo/abumInfo",
     "pages/playInfo/playInfo",
-    "pages/latelyListen/latelyListen"
+    "pages/latelyListen/latelyListen",
+    "pages/member/member"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#202020",
     "navigationBarTitleText": "小程序模板",
     "navigationBarTextStyle": "white",
-    "mossPkgName": "60339"
+    "mossPkgName": "kaishustory"
   },
   "permission": {
     "scope.userLocation": {
