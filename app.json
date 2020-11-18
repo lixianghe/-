@@ -10,7 +10,8 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#202020",
     "navigationBarTitleText": "小程序模板",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white",
+    "mossPkgName": "kaishustory"
   },
   "permission": {
     "scope.userLocation": {

@@ -21,25 +21,7 @@ App({
     appId: '60180',
     // 版本号
     version: '1.0.195.20200928',
-    // 用户信息
-    userInfo: {
-      userId: null,
-      token: '',
-      refreshToken: ''
-    },
-    // 用户认证信息
-    authInfo: {
-      openId: '',
-      unionId: '',
-      authCode: '',
-      deviceId: ''
-    },
-    // 访客信息
-    guestInfo: {
-      token: '',
-      refreshToken: '',
-      deviceId: ''
-    },
+   
     isNetConnected: true,
     indexData: [], // 静态首页数据
     latelyListenId: [], // 静态记录播放id
@@ -56,6 +38,26 @@ App({
     useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio'),
     PIbigScreen: null
   },
+   // 用户信息
+   userInfo: {
+    userId: null,
+    token: '',
+    refreshToken: ''
+  },
+  // 用户认证信息
+  authInfo: {
+    openId: '',
+    unionId: '',
+    authCode: ''
+  },
+  // 访客信息
+  guestInfo: {
+    token: '',
+    refreshToken: '',
+    deviceId: ''
+  },
+   // token状态，0-正常，1001-token过期，1003-refresh-token过期，1004-登录过期
+  tokenStatus: 0,
   // 日志文本
   logText: '',
   audioManager: null,
@@ -287,5 +289,6 @@ App({
       this.logText += JSON.stringify(val) + '---' + num + '行'
     }
     console.log(this.logText)
-  }
+  },
+  
 })

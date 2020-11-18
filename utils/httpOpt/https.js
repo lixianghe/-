@@ -6,16 +6,6 @@ const appId = 786474
  */
 
 export function request(url, data = {}, method = 'GET') {
-  let aa = {
-    'Content-Type': 'application/json',
-    'appId': appId,
-    'device': 'wxapp-car',
-    'channel': 'wxapp-car',
-    'platform': 'tencent-open',
-    'deviceId': wx.getStorageSync('deviceId') || '',
-    'token': wx.getStorageSync('token') || ''
-  }
-  console.log(JSON.stringify(aa)+'17行')
   return new Promise(function (resolve, reject) {
     wx.request({
       url: base + url,
@@ -28,10 +18,10 @@ export function request(url, data = {}, method = 'GET') {
         'channel': 'wxapp-car',
         'platform': 'tencent-open',
         'deviceId': wx.getStorageSync('deviceId') || '',
-        'token': wx.getStorageSync('token') || ''
+        'token':  wx.getStorageSync('token') || ''
       },
       success: function (res) {
-        console.log('code', res)
+        console.log('code',url, res)
         if (res.statusCode === 200) {
           if (res.data.code === 0) {
             wx.hideLoading()

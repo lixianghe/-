@@ -9,23 +9,7 @@ Page({
     screen: app.globalData.screen,
     avatar: '',
     userName: '',
-    data: [{
-      type: 'order',
-      icon: '/images/icon-personCenter.png',
-      title: '我的订单'
-    }, {
-      type: 'coupon',
-      icon: '/images/icon-personCenter.png',
-      title: '我的收藏' 
-    }, {
-      type: 'VIP',
-      icon: '/images/icon-personCenter.png',
-      title: '会员等级'
-    }, {
-      type: 'us',
-      icon: '/images/icon-personCenter.png',
-      title: '关于我们(1.1.1)'
-    }] ,
+    data: btnConfig.personalCenter ,
     isLogin: app.globalData.haveLogin,
     withCredentials: true,
     userInfo: null,
@@ -35,7 +19,21 @@ Page({
     mainColor: btnConfig.colorOptions.mainColor
   },
 
-  
+  order() {
+    wx.showToast({
+      title: '敬请期待',
+    })
+  },
+  coupon() {
+    wx.showToast({
+      title: '敬请期待',
+    })
+  },
+  VIP() {
+    wx.showToast({
+      title: '敬请期待',
+    })
+  },
   // 测试用清除最近收听数据
   clearStorage() {
     wx.setStorageSync('indexData', null)
