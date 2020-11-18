@@ -9,6 +9,7 @@
  */
 const app = getApp()
 const { showData } = require('../utils/httpOpt/localData')
+import { layout } from '../utils/httpOpt/api'
 
 module.exports = {
   data: {

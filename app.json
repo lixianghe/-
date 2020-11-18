@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/like/like",
     "pages/index/index", 
     "pages/personalCenter/personalCenter",
     "pages/abumInfo/abumInfo",

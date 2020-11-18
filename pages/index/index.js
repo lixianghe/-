@@ -6,8 +6,8 @@ Page({
   data: {
     screen: app.globalData.screen,
     lalyLtn: [
-      {icon: '/images/zjst.png', title: "最近收听"},
-      {icon: '/images/icon_collect.png', title: "我的收藏"}
+      {icon: '/images/zjst.png', title: "最近收听",name: 'latelyListen'},
+      {icon: '/images/icon_collect.png', title: "我喜欢的", name:'like'}
     ],
     confirm: '',
     currentTap: 0,

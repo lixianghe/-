@@ -1,8 +1,8 @@
 <view class="{{screen}}">
   <scroll-view class="index" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920"bindscrolltolower="getLayoutData">
     <!-- 快捷入口 -->
-    <view class="quickEntry" bindtap="tolatelyListen">
-      <view class="quickEntrybox" style="height: 30.73vh" wx:for="{{lalyLtn}}" wx:key="index">
+    <view class="quickEntry">
+      <view class="quickEntrybox" style="height: 30.73vh" wx:for="{{lalyLtn}}" wx:key="index"  bindtap="tolatelyListen" data-page="{{item.name}}">
         <image class="quickEntryicon" src="{{ item.icon }}"></image>
         <view class="latelyLtnTit">{{ item.title }}</view>
       </view>
