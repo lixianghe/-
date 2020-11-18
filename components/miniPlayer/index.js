@@ -81,7 +81,6 @@ Component({
     },
     // 下一首
     next() {
-      console.log(getInfo)
       let allList = wx.getStorageSync('allList')
       console.log(app.globalData.songInfo.episode)
       if (app.globalData.songInfo.title) {

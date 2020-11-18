@@ -39,7 +39,7 @@
       <view bindtap="goPlayInfo" style="color: {{item.id === currentId ? '#ff6100' : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
         <image class="playGif" wx:if="{{item.id === currentId && palying}}" src="/images/playing.gif" />
         
-        <text wx:else>{{index + 1}}</text>
+        <text wx:else>{{item.episode}}</text>
         <text>{{item.title}}</text>
         <!-- <text class="playCount">{{m1.filterNum(item.playCount)}}</text> -->
         <text class="audition">试听</text>
@@ -54,7 +54,7 @@
   </view>
   <view class="right">
     <view class="image" style="width: {{imageWidth}};height: {{imageWidth}};background: url({{src}}) no-repeat top left / 100% 100%">
-      <view class="like" style="background: rgba(0, 0, 0, 0.35) url({{likeIcon}}) no-repeat center center / 17vh 13vh;">
+      <view class="like" style="background: rgba(0, 0, 0, 0.35) url({{likeIcon}}) no-repeat center center / 17vh 13vh;" bindtap="likeAbum">
         <!-- <image src="../../images/like_none.png" /> -->
       </view>
     </view>

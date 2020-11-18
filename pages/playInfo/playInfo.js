@@ -22,7 +22,13 @@ Page({
     btnCurrent: null,
     noTransform: '',
     typelist: ['listLoop', 'singleLoop', 'shufflePlayback'],
-    loopType: 'listLoop',   // 默认列表循环
+    typeName: {
+      "listLoop": '循环播放',
+      "singleLoop": '单曲循环',
+      "shufflePlayback": '随机播放',
+    },
+    loopType: wx.getStorageSync('loopType') || 'listLoop',   // 默认列表循环
+    likeType: 'noLike',
     total: 0,
     scrolltop: 0,
     mainColor: btnConfig.colorOptions.mainColor,
@@ -50,9 +56,10 @@ Page({
     this.setData({
       songInfo: songInfo,
       canplay: canplay,
-      noPlay: options.noPlay,
+      noPlay: options.noPlay || null,
       abumInfoName: wx.getStorageSync('abumInfoName') || null
-    }) 
+    })
+    wx.showLoading({ title: '加载中...', mask: true })
   },
   onShow: function () {
     const that = this;
@@ -91,6 +98,9 @@ Page({
           break;
         case 'next':
           this.next()
+          break;
+        case 'like':
+          this.like()
           break;
         case 'loopType':
           this.switchLoop()
@@ -132,16 +142,22 @@ Page({
   },
   // 判断循环模式
   checkLoop(type, list) {
+    wx.setStorageSync('loopType', type)
+    wx.showToast({ title: this.data.typeName[type], icon: 'none' })
     let loopList;
     // 列表循环
     if (type === 'listLoop') {
       loopList = list
+      
+      
     } else if (type === 'singleLoop') {
       // 单曲循环
       loopList = [list[app.globalData.songInfo.episode]]
+      wx.showToast({ title: this.data.typeName['singleLoop'], icon: 'none' })
     } else {
       // 随机播放
       loopList = this.randomList(list)
+      wx.showToast({ title: this.data.typeName['shufflePlayback'], icon: 'none' })
     }
     return loopList
   },
@@ -164,6 +180,10 @@ Page({
       }, 1000);
     // }
     tool.toggleplay(this, app)
+  },
+  // 收藏
+  like() {
+    wx.showToast({ title: '请登录后进行操作', icon: 'none' })
   },
   // 播放列表
   more() {

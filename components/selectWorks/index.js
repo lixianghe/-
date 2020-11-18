@@ -26,7 +26,7 @@ Component({
         selected: e.currentTarget.dataset.index
       })
       let pageNo = this.data.order ? e.currentTarget.dataset.index + 1 : (this.data.data.length - e.currentTarget.dataset.index)
-      this.triggerEvent('changeWords', {pageNo: pageNo, pageSize: this.data.len})
+      this.triggerEvent('changeWords', {pageNum: pageNo, pageSize: this.data.len})
       this.closeWords()
     },
     closeWords (e) {

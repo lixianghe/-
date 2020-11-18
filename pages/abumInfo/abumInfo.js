@@ -1,6 +1,7 @@
 const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
+import { getInfo } from '../../developerHandle/playInfo'
 
 // const { getData } = require('../../utils/https')
 
@@ -46,7 +47,8 @@ Page({
     likeIcon: '../../images/like_none.png',
     abumInfoName: '',
     pageNoName: 'pageNum',
-    pageSizeName: 'pageSize'
+    pageSizeName: 'pageSize',
+    liked: false
   },
   audioManager: null,
   ctx: null,
@@ -62,29 +64,11 @@ Page({
       optionId: options.id,
       abumInfoName: options.title
     })
-
-    // 判断分辨率的比列
-    const windowWidth = wx.getSystemInfoSync().screenWidth
-    const windowHeight = wx.getSystemInfoSync().screenHeight
-    // 如果是小于1/2的情况
-    if (windowHeight / windowWidth >= 0.41) {
-      this.setData({
-        leftWith: windowWidth * 0.722 + 'px',
-        leftPadding: '0vh 3.3vh 20vh 8.3vh',
-        btnsWidth: windowWidth * 0.67 + 'px',
-        imageWidth: windowWidth * 0.21 + 'px',
-      })
-    } else {
-      this.setData({
-        leftWith: '184vh',
-        leftPadding: '0vh 5.75vh 20vh  11.25vh',
-        btnsWidth: '167vh',
-        imageWidth: '55.36vh',
-      })
-    }
     wx.setNavigationBarTitle({
       title: options.title,
     })
+    // 设置样式
+    this.setStyle()
     // 获取十首歌得高度
     setTimeout(() => {
       this.getTenHeight()
@@ -120,12 +104,13 @@ Page({
     })
     // 重置
     scrollTopNo = 0
+    console.log('e', e)
     this.setData({
-      pageNo: e.detail.pageNo,
+      pageNo: e.detail.pageNum,
       pageSize: e.detail.pageSize,
-      initPageNo: e.detail.pageNo,
+      initPageNo: e.detail.pageNum,
     })
-    const canplay = await this.getPlayList({ ...e.detail, id: this.data.optionId })
+    const canplay = await this.getList({ ...e.detail, albumId: 961 })
     this.setCanplay(canplay)
   },
 
@@ -156,17 +141,48 @@ Page({
       data: canplay,
     })
   },
+  // 收藏专辑
+  likeAbum() {
+    if (!app.userInfo || !app.userInfo.token) {
+      wx.showToast({ icon: 'none', title: '请登录后进行操作' })
+      return;
+    }
+    let params = {albumId: 961}
+    if (this.data.liked) {
+      albumFavoriteCancel(params).then(res => {
+        wx.showToast({ icon: 'none', title: '取消收藏成功' })
+        this.setData({
+          liked: false,
+          likeIcon: '../../images/like_none.png'
+        })
+      })
+    } else {
+      albumFavoriteAdd(params).then(res => {
+        wx.showToast({ icon: 'none', title: '收藏成功' })
+        this.setData({
+          liked: true,
+          likeIcon: '../../images/like.png'
+        })
+      })
+    }
+    
+  },
   // 播放全部
-  playAll() {
+  async playAll() {
     const msg = '网络异常，无法播放！'
-    app.globalData.canplay = this.data.canplay
-    app.globalData.songInfo = this.data.canplay[0]
+    app.globalData.canplay = JSON.parse(JSON.stringify(this.data.canplay))
+    app.globalData.songInfo = app.globalData.canplay[0]
     this.initAudioManager(this.data.canplay)
-    this.getNetWork(msg, app.playing)
+    let params = {
+      mediaId: app.globalData.songInfo.id,
+      contentType: 'story'
+    }
     this.setData({
       currentId: app.globalData.songInfo.id,
       songInfo: app.globalData.songInfo,
     })
+    if (getInfo) await getInfo(params)
+    this.getNetWork(msg, app.playing)
     
     wx.setStorage({
       key: 'songInfo',
@@ -183,7 +199,7 @@ Page({
     const that = this
     // 监听网络状态
     wx.getNetworkType({
-      success(res) {
+      async success(res) {
         const networkType = res.networkType
         if (networkType === 'none') {
           that.setData({
@@ -311,7 +327,7 @@ Page({
   // 下拉结束后的处理
   async topHandle() {
     let pageNoName = this.data.pageNoName
-    const getList = await this.getPlayList({ [pageNoName]: this.data.pageNo - 1, id: this.data.optionId })
+    const getList = await this.getList({ [pageNoName]: this.data.pageNo - 1, albumId: 961 })
     const list = getList.concat(this.data.canplay)
     this.setData({
       canplay: list,
@@ -320,4 +336,26 @@ Page({
       pageNo: this.data.pageNo - 1,
     })
   },
+  // 根据分辨率设置样式
+  setStyle() {
+    // 判断分辨率的比列
+    const windowWidth = wx.getSystemInfoSync().screenWidth
+    const windowHeight = wx.getSystemInfoSync().screenHeight
+    // 如果是小于1/2的情况
+    if (windowHeight / windowWidth >= 0.41) {
+      this.setData({
+        leftWith: windowWidth * 0.722 + 'px',
+        leftPadding: '0vh 3.3vh 20vh 8.3vh',
+        btnsWidth: windowWidth * 0.67 + 'px',
+        imageWidth: windowWidth * 0.21 + 'px',
+      })
+    } else {
+      this.setData({
+        leftWith: '184vh',
+        leftPadding: '0vh 5.75vh 20vh  11.25vh',
+        btnsWidth: '167vh',
+        imageWidth: '55.36vh',
+      })
+    }
+  }
 })

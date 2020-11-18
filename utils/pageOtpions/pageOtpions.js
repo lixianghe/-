@@ -3,7 +3,7 @@ const btnConfig = {
   // 小程序的主色值
   colorOptions: {
     // 进度条、播放全部、登录按钮色值
-    mainColor: '#ffac2d',
+    mainColor: '#fa6500',
     // 小程序背景色值
     bgColor: '#151515'
   },
@@ -46,14 +46,21 @@ const btnConfig = {
       name: 'next',                                             // 下一首
       img: '/images/next2.png'                                  // 下一首对应的图标
     },
-    // {
-    //   name: 'loopType',                                         // 循环模式
-    //   img: {
-    //     listLoop: '/images/listLoop.png' ,                      // 列表循环对应的图标
-    //     singleLoop: '/images/singleLoop.png',                   // 单曲循环对应的图标
-    //     shufflePlayback: '/images/shufflePlayback.png'          // 随即循环对应的图标
-    //   }
-    // },
+    {
+      name: 'like',                                             // 收藏
+      img: {
+        noLike: '/images/info_like_no.png' ,                    // 未收藏的图标
+        liked: '/images/info_like.png'                          // 已收藏的图标
+      }
+    },
+    {
+      name: 'loopType',                                         // 循环模式
+      img: {
+        listLoop: '/images/listLoop.png' ,                      // 列表循环对应的图标
+        singleLoop: '/images/singleLoop.png',                   // 单曲循环对应的图标
+        shufflePlayback: '/images/shufflePlayback.png'          // 随即循环对应的图标
+      }
+    },
     {
       name: 'more',                                             // 弹出播放列表
       img: '/images/more2.png'                                  // 弹出播放列表对应的图标

@@ -53,34 +53,21 @@ Component({
     /**
      * 登录
      */
-    loginIn(event) {
-      console.log(1111)
-      if (this.authRequest) {
-        return
-      }
+    login(event) {
       wx.login({
         success: (loginRes) => {
-          app._log('扫码成功', 63)
-          app._log(loginRes, 64)
-          // this.authRequest = true
-          // app.post({
-          //   url: 'auth',
-          //   data: {
-          //     code: loginRes.code
-          //   }
-          // }, (res) => {
-            
-          // })
+          console.log('扫码成功', 63)
+          console.log(loginRes, 64)
           auth({code: loginRes.code}).then(res => {
-            app._log('登录成功', 65)
-            app._log(res, 76);
+            console.log('登录成功', 65)
+            console.log(res, 76);
             if (res.code === 0) { 
-              app._log('请求成功', 65)
+              console.log('请求成功', 65)
               app.authInfo = res.data;
               this.setData({
                 showWxLogin: false
               })
-              app._log(app.authInfo, 82);
+              console.log(app.authInfo, 82);
               if (!event && app.authInfo.mobileFlag && this.data.isLogin) {
                 this.loginWx()
               }
@@ -93,15 +80,15 @@ Component({
             }
             this.authRequest = false
           }).catch(err => {
-            app._log(err, 95)
+            console.log(err, 95)
           })
         },
         fail: (err) => {
-          app.log('扫码失败', JSON.stringify(err))
+          console.log('扫码失败', JSON.stringify(err))
           this.authRequest = false
         },
         complete: (res) => {
-          app.log('扫码complete', JSON.stringify(res))
+          console.log('扫码complete', JSON.stringify(res))
         }
       })
     },
@@ -114,5 +101,7 @@ Component({
     }
   },
 
-  attached: function () {}
+  attached: function () {
+    this.login()
+  }
 })

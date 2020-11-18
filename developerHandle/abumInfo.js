@@ -28,6 +28,7 @@ module.exports = {
     const canplay = await this.getList(params)
     this.setData({canplay})
     wx.setStorageSync('canplay', canplay)
+    this.getAllList()
   },
   onReady() {
 
@@ -55,24 +56,33 @@ module.exports = {
         item.id = item.mediaId
         item.dt = item.timeText
         item.coverImgUrl = item.coverUrl
-        item.episode = index * params.pageNum + 1
+        item.episode = (params.pageNum - 1) * 15 + index + 1
       })
+      console.log(params.pageSize, canplay)
       this.setData({total})
       return canplay
     } catch (error) {
       return []
     }
   },
-  // async getAllList() {
-  //   let allList
-  //   const params = { id: this.data.optionId, pageNo: 1, pageSize: 999 }
-  //   // 数据请求
-  //   const res = await getData('abumInfo', params)
-  //   allList = res.data
-  //   app.globalData.allList = allList
-  //   wx.setStorage({
-  //     key: 'allList',
-  //     data: allList,
-  //   })
-  // }
+  async getAllList() {
+    let allList
+    const params = {pageNum: 1, pageSize: 999, albumId: 961}
+    // 数据请求
+    const res = await albumMedia(params)
+    
+    allList = res.mediaList
+    allList.map((item, index) => {
+      item.title = item.mediaName
+      item.id = item.mediaId
+      item.dt = item.timeText
+      item.coverImgUrl = item.coverUrl
+      item.episode = index * params.pageNum + 1
+    })
+    app.globalData.allList = allList
+    wx.setStorage({
+      key: 'allList',
+      data: allList,
+    })
+  }
 }

@@ -35,9 +35,12 @@ function playAlrc(that, app, percent) {
       if (res.status != 2) {
         time = res.currentPosition / res.duration * 100;
         playtime = res.currentPosition;
-      } if (res.status == 1) {
+      }
+      if (res.status == 1) {
         playing = true;
-        // wx.hideLoading()
+        setTimeout(()=> {
+          wx.hideLoading()
+        }, 1000)
       }
       app.globalData.playing = playing;
       app.globalData.percent = time

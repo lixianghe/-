@@ -34,6 +34,62 @@ Page({
  
   onLoad(options) {
     // this.getData(0)
+    this.login()
+  },
+  login(event) {
+    wx.login({
+      success (res) {
+        console.log('res', res)
+        if (res.code) {
+          //发起网络请求
+          // wx.request({
+          //   url: 'https://test.com/onLogin',
+          //   data: {
+          //     code: res.code
+          //   }
+          // })
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    })
+    // wx.login({
+    //   success: (loginRes) => {
+    //     console.log('扫码成功', 63)
+    //     console.log(loginRes, 64)
+    //     // auth({code: loginRes.code}).then(res => {
+    //     //   console.log('登录成功', 65)
+    //     //   console.log(res, 76);
+    //     //   if (res.code === 0) { 
+    //     //     console.log('请求成功', 65)
+    //     //     app.authInfo = res.data;
+    //     //     this.setData({
+    //     //       showWxLogin: false
+    //     //     })
+    //     //     console.log(app.authInfo, 82);
+    //     //     if (!event && app.authInfo.mobileFlag && this.data.isLogin) {
+    //     //       this.loginWx()
+    //     //     }
+    //     //     wx.setStorageSync('authInfo', app.authInfo)
+    //     //   } else {
+    //     //     wx.showToast({
+    //     //       icon: 'none',
+    //     //       title: res.message || '网络异常'
+    //     //     })
+    //     //   }
+    //     //   this.authRequest = false
+    //     // }).catch(err => {
+    //     //   console.log(err, 95)
+    //     // })
+    //   },
+    //   fail: (err) => {
+    //     console.log('扫码失败', JSON.stringify(err))
+    //     this.authRequest = false
+    //   },
+    //   complete: (res) => {
+    //     console.log('扫码complete', JSON.stringify(res))
+    //   }
+    // })
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()

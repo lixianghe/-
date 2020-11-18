@@ -121,7 +121,6 @@ App({
   },
   vision: '1.0.0',
   cutplay: async function (that, type, no, getUrl) {
-    console.log('this.globalData', this.globalData)
     // 判断循环模式
     let allList = wx.getStorageSync('canplay')
     let index = this.setIndex(type, no, allList) - 1
@@ -129,7 +128,6 @@ App({
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
     // 获取歌曲的url
-    console.log('allList[index]', allList, index, allList[index])
     let params = {
       mediaId: allList[index].id,
       contentType: 'story'
@@ -192,13 +190,11 @@ App({
   },
   // 非车载情况的播放
   wxPlayHandle(songInfo, seek, cb) {
-    console.log('songInfo', songInfo)
     var that = this
     wx.playBackgroundAudio({
       dataUrl: songInfo.src,
       title: songInfo.title,
       success: function (res) {
-        console.log('res', res)
         if (seek != undefined && typeof (seek) === 'number') {
           console.log('seek', seek)
           wx.seekBackgroundAudio({

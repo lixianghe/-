@@ -6,52 +6,33 @@ const appId = 786474
  */
 
 export function request(url, data = {}, method = 'GET') {
-  let aa = {
-    'Content-Type': 'application/json',
-    'appId': appId,
-    'device': 'wxapp-car',
-    'channel': 'wxapp-car',
-    'platform': 'tencent-open',
-    'deviceId': wx.getStorageSync('deviceId') || '',
-    'token': wx.getStorageSync('token') || ''
-  }
-  console.log(JSON.stringify(aa)+'17行')
   return new Promise(function (resolve, reject) {
     wx.request({
       url: base + url,
       data: data,
       method: method,
+      dataType: 'json',
       header: {
         'content-type': 'application/json',
         'appId': appId,
         'device': 'wxapp-car',
         'channel': 'wxapp-car',
         'platform': 'tencent-open',
-        'deviceId': wx.getStorageSync('deviceId') || '',
+        'deviceId': wx.getStorageSync('deviceId') || '236B3FA0D4C81912777AD460EDC97329',
         'token': wx.getStorageSync('token') || ''
       },
       success: function (res) {
-        console.log('code', res)
+        // console.log('code', res)
         if (res.statusCode === 200) {
           if (res.data.code === 0) {
-            wx.hideLoading()
             resolve(res.data.data)
           } else {
             if (res.data.error === '1111') {
-              wx.hideLoading()
               wx.showToast({
                 title: '登录信息已过期,请重新登录',
                 icon: 'none'
               })
-              wx.removeStorageSync('userInfo')
-              wx.removeStorageSync('token')
-              wx.removeStorageSync('openId')
-              wx.removeStorageSync('order')
-              wx.navigateTo({
-                url: '/pages/login/login'
-              })
             } else {
-              wx.hideLoading()
               wx.showToast({
                 title: res.data.message,
                 icon: 'none'
@@ -60,12 +41,10 @@ export function request(url, data = {}, method = 'GET') {
             }
           }
         } else {
-          wx.hideLoading()
           reject(res.data.message)
         }
       },
       fail: function (err) {
-        wx.hideLoading()
         reject(err)
       }
     })
