@@ -21,43 +21,46 @@ module.exports = {
     // 拿到歌曲的id: options.id
     let params = {mediaId: options.id, contentType: 'story'}
     if (options.noPlay !== 'true') {
-      await this.getInfo(params)
+      await this.getInfo(params, this.isFavorite)
       this.play()
     }
   },
   onReady() {
 
   },
-  async getInfo(params) {
-    this.isFavorite(params.mediaId || app.globalData.songInfo.mediaId)
+  async getInfo(params, that = this, cb) {
+    console.log('this', that)
+    cb && cb(params.mediaId || app.globalData.songInfo.mediaId)
     let data = await mediaPlay(params)
     app.globalData.songInfo.src = data.mediaUrl
     app.globalData.songInfo.title = data.mediaName
     app.globalData.songInfo.id = data.nediaId
     app.globalData.songInfo.dt = data.timeText
     app.globalData.songInfo.coverImgUrl = data.coverUrl
-    this.setData({
+    that.setData({
       songInfo: app.globalData.songInfo
     })
     wx.setStorageSync('songInfo', app.globalData.songInfo)
   },
   // 收藏和取消收藏
-  like(params) {
+  like(params, that = this) {
     if (!app.userInfo || !app.userInfo.token) {
       wx.showToast({ icon: 'none', title: '请登录后进行操作' })
       return;
     }
-    if (this.data.existed) {
+    if (that.data.existed) {
+      console.log('mediaFavoriteCancel')
       mediaFavoriteCancel(params).then(res => {
         wx.showToast({ icon: 'none', title: '取消收藏成功' })
-        this.setData({
+        that.setData({
           existed: false
         })
       })
     } else {
+      console.log('mediaFavoriteAdd')
       mediaFavoriteAdd(params).then(res => {
         wx.showToast({ icon: 'none', title: '收藏成功' })
-        this.setData({
+        that.setData({
           existed: true
         })
       })
@@ -67,8 +70,6 @@ module.exports = {
   async isFavorite(id, that = this) {
     let params = {mediaId: id}
     let res = await isFavorite(params)
-    console.log('existed222', res)
-    console.log('this', this)
     that.setData({existed: res.existed})
   }
 }

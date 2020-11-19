@@ -11,8 +11,9 @@ let scrollTopNo = 0
 
 // 选择的选集
 let selectedNo = 0
+let abumInfoMixin = require('../../developerHandle/abumInfo')
 Page({
-  mixins: [require('../../developerHandle/abumInfo')],
+  mixins: [abumInfoMixin],
   data: {
     canplay: [],
     percent: 0,
@@ -179,7 +180,8 @@ Page({
       currentId: app.globalData.songInfo.id,
       songInfo: app.globalData.songInfo,
     })
-    if (getInfo) await getInfo(params)
+    let that = this
+    if (getInfo) await getInfo(params, that)
     this.getNetWork(msg, app.playing)
     
     wx.setStorage({
