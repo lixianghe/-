@@ -54,7 +54,7 @@
   </view>
   <view class="right">
     <view class="image" style="width: {{imageWidth}};height: {{imageWidth}};background: url({{src}}) no-repeat top left / 100% 100%">
-      <view class="like" style="background: rgba(0, 0, 0, 0.35) url({{likeIcon}}) no-repeat center center / 17vh 13vh;" bindtap="likeAbum">
+      <view decode="true" class="like" style="background: rgba(0, 0, 0, 0.6) url({{existed ? likeIcon1 : likeIcon2}}) no-repeat center center / 17vh 13vh;" bindtap="likeAbum">
         <!-- <image src="../../images/like_none.png" /> -->
       </view>
     </view>

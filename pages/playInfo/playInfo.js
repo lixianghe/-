@@ -36,7 +36,7 @@ Page({
     showImg: false,
     bigScreen: app.globalData.PIbigScreen,
     abumInfoName: null,
-    liked: false
+    existed: false
   },
   // 播放器实例
   audioManager: null,
@@ -57,9 +57,9 @@ Page({
       songInfo: songInfo,
       canplay: canplay,
       noPlay: options.noPlay || null,
-      abumInfoName: wx.getStorageSync('abumInfoName') || null
+      abumInfoName: options.abumInfoName || null
     })
-    wx.showLoading({ title: '加载中...', mask: true })
+    if (options.noPlay !== 'true') wx.showLoading({ title: '加载中...', mask: true })
   },
   onShow: function () {
     const that = this;
@@ -162,13 +162,12 @@ Page({
   // 播放列表
   more() {
     this.setScrollTop()
-    this.data.canplay.forEach(item => {
-      item.dtFormat = String(item.dt).split(':').length > 1 ? item.dt : tool.formatduration(Number(item.dt))
-    })
+    let allPlay = wx.getStorageSync('allList')
+    console.log('allPlay', allPlay)
     this.setData({
       showList: true,
       currentId: app.globalData.songInfo.id,
-      canplay: this.data.canplay
+      canplay: allPlay
     })
     // 显示的过度动画
     this.animation.translate(0, 0).step()

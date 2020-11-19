@@ -45,11 +45,12 @@ Page({
     tenHeight: 0,
     mainColor: btnConfig.colorOptions.mainColor,
     selectWordBtn: btnConfig.selectWordBtn,
-    likeIcon: '../../images/like_none.png',
+    likeIcon1: '../../images/like.png',
+    likeIcon2: '../../images/like_none.png',
     abumInfoName: '',
     pageNoName: 'pageNum',
     pageSizeName: 'pageSize',
-    liked: false
+    existed: false
   },
   audioManager: null,
   ctx: null,
@@ -60,8 +61,7 @@ Page({
     this.getNetWork(msg)
     // 暂存专辑全部歌曲
     this.setData({
-      zjNo: options.no,
-      src: options.src.replace('$', '=='),
+      src: wx.getStorageSync('img'),
       optionId: options.id,
       abumInfoName: options.title
     })
@@ -122,12 +122,11 @@ Page({
     const songInfo = e.currentTarget.dataset.song
     app.globalData.songInfo = songInfo
     wx.setStorage({ key: 'songInfo', data: songInfo })
-    wx.setStorage({ key: 'abumInfoName', data: this.data.abumInfoName })
     this.setData({ currentId: songInfo.id })
     this.getNetWork(msg, this.toInfo)
   },
   toInfo() {
-    wx.navigateTo({ url: '../playInfo/playInfo?id=' + app.globalData.songInfo.id })
+    wx.navigateTo({ url: '../playInfo/playInfo?id=' + app.globalData.songInfo.id + '&abumInfoName=' + this.data.abumInfoName })
   },
   // 改变current
   changeCurrent(index) {
@@ -149,20 +148,18 @@ Page({
       return;
     }
     let params = {albumId: 961}
-    if (this.data.liked) {
+    if (this.data.existed) {
       albumFavoriteCancel(params).then(res => {
         wx.showToast({ icon: 'none', title: '取消收藏成功' })
         this.setData({
-          liked: false,
-          likeIcon: '../../images/like_none.png'
+          existed: false
         })
       })
     } else {
       albumFavoriteAdd(params).then(res => {
         wx.showToast({ icon: 'none', title: '收藏成功' })
         this.setData({
-          liked: true,
-          likeIcon: '../../images/like.png'
+          existed: true
         })
       })
     }

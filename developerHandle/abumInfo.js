@@ -9,7 +9,7 @@
  */
 const app = getApp()
 import tool from '../utils/util'
-import { albumMedia } from '../utils/httpOpt/api'
+import { albumMedia, isAlbumFavorite } from '../utils/httpOpt/api'
 const { showData } = require('../utils/httpOpt/localData')
 
 module.exports = {
@@ -24,27 +24,20 @@ module.exports = {
     console.log('Log from mixin!')
   },
   async onLoad(options) {
-    let params = {pageNum: 1, albumId: 961}
+    let params = {pageNum: 1, albumId: options.id}
+    let allParams = {pageNum: 1, pageSize: 999, albumId: options.id}
     const canplay = await this.getList(params)
     this.setData({canplay})
     wx.setStorageSync('canplay', canplay)
-    this.getAllList()
+    this.getAllList(allParams)
   },
   onReady() {
 
   },
-  // 获取歌曲列表，假数据
-  async getPlayList(params) {
-    let canplay = showData.abumInfo.data
-    let total = showData.abumInfo.total
-    canplay.forEach((item) => {
-      item.formatDt = tool.formatduration(Number(item.dt))
-    })
-    this.setData({total})
-    return canplay
-  },
   // 凯叔api数据
   async getList(params) {
+    // 是否被收藏
+    this.isAlbumFavorite(params.albumId)
     let canplay, total
     try {
       let res = await albumMedia(params)
@@ -65,11 +58,10 @@ module.exports = {
       return []
     }
   },
-  async getAllList() {
+  async getAllList(allParams) {
     let allList
-    const params = {pageNum: 1, pageSize: 999, albumId: 961}
     // 数据请求
-    const res = await albumMedia(params)
+    const res = await albumMedia(allParams)
     
     allList = res.mediaList
     allList.map((item, index) => {
@@ -77,12 +69,29 @@ module.exports = {
       item.id = item.mediaId
       item.dt = item.timeText
       item.coverImgUrl = item.coverUrl
-      item.episode = index * params.pageNum + 1
+      item.episode = (allParams.pageNum - 1) * 15 + index + 1
     })
     app.globalData.allList = allList
     wx.setStorage({
       key: 'allList',
       data: allList,
     })
-  }
+  },
+  // 专辑是否被收藏
+  async isAlbumFavorite(id) {
+    let params = {albumId: id}
+    let res = await isAlbumFavorite(params)
+    console.log('existed', res.existed)
+    this.setData({existed: res.existed})
+  },
+  // 获取歌曲列表，假数据
+  // async getPlayList(params) {
+  //   let canplay = showData.abumInfo.data
+  //   let total = showData.abumInfo.total
+  //   canplay.forEach((item) => {
+  //     item.formatDt = tool.formatduration(Number(item.dt))
+  //   })
+  //   this.setData({total})
+  //   return canplay
+  // },
 }
