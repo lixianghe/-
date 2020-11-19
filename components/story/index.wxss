@@ -6,6 +6,7 @@
   margin-top: 15.7vh;
   height: 68.6vh;
   overflow: hidden;
+  position: relative;
 }
 .halbumCard .image {
   width: 41.81vh;
@@ -29,4 +30,13 @@
   font-size: 4.2vh;
   display: inline-block;
   margin-right: 1.81vh;
+}
+.halbumCard .like {
+  width: 11.03vh;
+  height: 11.03vh;
+  border-radius: 50%;
+  position: absolute;
+  left: 2.73vh;
+  bottom: 28.72vh;
+  background: rgba(0, 0, 0, 0.6) no-repeat center 0.3vh / 11vh 11vh
 }

@@ -17,7 +17,11 @@ Component({
         title: '',
         isVip: false
       }
-    }
+    },
+    likePic:{
+      type: Array,
+      value: []
+    },
   },
 
   /**
@@ -28,14 +32,24 @@ Component({
     // colorStyle: app.sysInfo.colorStyle,
     // // 系统背景色
     // backgroundColor: app.sysInfo.backgroundColor
+    src: [],
+    flag: 0
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
-    likeOne() {
-      this.triggerEvent('clickHadle', { id: 123});
+    likeOne(e) {
+      let flag = !this.data.flag
+      let num = Number(flag)
+      this.setData({
+        src: this.data.likePic[num],
+        flag: flag
+      })
+      let typeid = e.currentTarget.dataset.typeid
+      let contentType = e.currentTarget.dataset.contenttype
+      this.triggerEvent('clickHadle', { typeid: typeid, contentType: contentType, flag: flag});
     },
     //加载图片失败
     loadImgError: function (res) {
@@ -46,5 +60,10 @@ Component({
   },
 
   attached: function () {
+    if(this.data.likePic && this.data.likePic.length > 1) {
+      this.setData({
+        src: this.data.likePic[this.data.flag]
+      })
+    }
   }
 })
