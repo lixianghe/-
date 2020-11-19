@@ -40,3 +40,29 @@
   bottom: 28.72vh;
   background: rgba(0, 0, 0, 0.6) no-repeat center 0.3vh / 11vh 11vh
 }
+.halbumCard .conut {
+  position: absolute;
+  top: -6vh;
+  right: 3vh;
+  width: 10vh;
+  height: 6vh;
+}
+.halbumCard .linerbg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 9.81vh;
+  background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0));
+}
+.halbumCard .countpic {
+  width: 4.58vh;
+  height: 4.58vh;
+  margin-right: 1.5vh;
+}
+.halbumCard .countxt {
+  font-size: 4.27vh;
+  color: #fff;
+  position: relative;
+  top: -0.5vh;
+}
