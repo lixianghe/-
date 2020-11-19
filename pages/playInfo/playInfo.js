@@ -90,7 +90,7 @@ Page({
   },
   btnsPlay(e) {
     const type = e.currentTarget.dataset.name
-    let params = {mediaId: this.data.songInfo.mediaId}
+    let params = {mediaId: this.data.songInfo.id}
     if (type) this[type](params)
   },
   // 上一首

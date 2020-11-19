@@ -32,7 +32,6 @@ module.exports = {
   async getInfo(params, that = this, cb) {
     cb && cb(params.mediaId || app.globalData.songInfo.mediaId)
     let data = await mediaPlay(params)
-    console.log('data', data)
     app.globalData.songInfo.src = data.mediaUrl
     app.globalData.songInfo.title = data.mediaName
     app.globalData.songInfo.id = params.mediaId
