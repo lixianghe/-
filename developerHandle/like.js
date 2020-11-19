@@ -9,7 +9,7 @@
  */
 const app = getApp()
 const { showData } = require('../utils/httpOpt/localData')
-import { layout } from '../utils/httpOpt/api'
+import { albumFavorite } from '../utils/httpOpt/api'
 
 module.exports = {
   data: {
@@ -19,8 +19,7 @@ module.exports = {
     console.log('Log from mixin!')
   },
   onLoad(options) {
-    console.log(111)
-    this.getData(0)
+    this.getData()
   },
   onReady() {
 
@@ -46,15 +45,31 @@ module.exports = {
       url: `../abumInfo/abumInfo?id=${id}&no=${no}&src=${src}&title=${title}`
     })
   },
-  getData(idx) {
-    let res = showData.index.slice(0, idx+1)
-    app.globalData.indexData = res
-    setTimeout(()=> {
+  getData() {
+    let params = {
+      pageNum: 1,
+      pageSize: 20
+    }
+    albumFavorite(params).then(res => {
+      let layoutData = []
+      res.albumList.forEach(v => {
+        v.forEach(item => {
+          layoutData.push({
+            title: item.albumName,
+            src: item.coverUrl,
+            contentType: 'album',
+            isVip: item.feeType == '01' && (item.product || item.product && [2, 3].indexOf(item.product.vipLabelType) < 0)
+          })
+        })
+
+      })
       this.setData({
-        info: res,
+        info: layoutData,
         retcode: 1
       })
-    }, 500)
+    }).catch(err => {
+      console.log(JSON.stringify(err))
+    })
   },
   // 懒加载
   getLayoutData() {

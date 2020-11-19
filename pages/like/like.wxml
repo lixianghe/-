@@ -1,17 +1,9 @@
 <view class="{{screen}}">
-  <scroll-view class="index" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920"bindscrolltolower="getLayoutData">
-    <!-- 快捷入口 -->
-    <view class="quickEntry">
-      <view class="quickEntrybox" style="height: 30.73vh" wx:for="{{lalyLtn}}" wx:key="index"  bindtap="tolatelyListen" data-page="{{item.name}}">
-        <image class="quickEntryicon" src="{{ item.icon }}"></image>
-        <view class="latelyLtnTit">{{ item.title }}</view>
-      </view>
-    </view>
-
+  <scroll-view class="like" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920"bindscrolltolower="getLayoutData">
     <view class="mianContent">
       <view class="label-view">
         <view class="title{{index === currentTap ? ' active-tap' : ''}}" wx:for="{{labels}}" wx:key="index"
-          data-index="{{index}}"  data-groupid="{{item.id}}" bindtap="selectTap">
+          data-index="{{index}}" bindtap="selectTap">
           <text>{{item.name}}</text>
         </view>
       </view>
@@ -29,7 +21,8 @@
       </view>
     </view>
   </scroll-view>
-
-  <bgConfirm id="bgConfirm" msg="{{confirm}}" confirm="确定" cancel=""></bgConfirm>
   <mini-player id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
 </view>
+
+
+

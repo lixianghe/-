@@ -30,9 +30,9 @@ const boughtApi = '/open/content/bought'                                   // ge
 const historyApi = '/open/play/history'                                    // get  
 // 添加历史记录
 const saveHistoryApi = '/ubd/open/listenHistory/batch/save'                // post
-// 收藏专辑
-const mediaFavoriteApi = '/open/media/favorites'                           // get
 // 收藏故事
+const mediaFavoriteApi = '/open/media/favorites'                           // get
+// 收藏专辑
 const albumFavoriteApi = '/open/album/favorites'                           // get  
 // 添加故事收藏
 const mediaFavoriteAddApi = '/open/media/favorite/add'                     // get    

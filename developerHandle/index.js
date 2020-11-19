@@ -62,9 +62,10 @@ module.exports = {
     this.getListData(id)
   },
   // 跳转到最近收听页面
-  tolatelyListen () {
+  tolatelyListen (e) {
+    let page = e.currentTarget.dataset.page
     wx.navigateTo({
-      url: '../latelyListen/latelyListen'
+      url: `../${page}/${page}`
     })
   },
   // 跳转到播放详情界面

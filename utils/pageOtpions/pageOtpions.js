@@ -75,6 +75,10 @@ const btnConfig = {
     icon: '/images/icon-personCenter.png',
     title: '我喜欢的' 
   }, {
+    type: 'latelyListen',
+    icon: '/images/icon-personCenter.png',
+    title: '最近收听' 
+  }, {
     type: 'VIP',
     icon: '/images/icon-personCenter.png',
     title: '我购买的0'
