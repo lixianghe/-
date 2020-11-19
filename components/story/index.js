@@ -22,6 +22,10 @@ Component({
       type: Array,
       value: []
     },
+    countpic:{
+      type: String,
+      value: ''
+    },
   },
 
   /**
@@ -60,6 +64,7 @@ Component({
   },
 
   attached: function () {
+    console.log(this.data.countpic)
     if(this.data.likePic && this.data.likePic.length > 1) {
       this.setData({
         src: this.data.likePic[this.data.flag]

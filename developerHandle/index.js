@@ -12,6 +12,7 @@ import { layout, layoutGroup } from '../utils/httpOpt/api'
 module.exports = {
   data: {
     info: [],
+    countPic: '/images/media_num.png'
   },
   // 页面后台数据(不参与渲染)
   pageData: {
