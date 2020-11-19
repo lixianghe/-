@@ -27,6 +27,13 @@ const btnConfig = {
     {
       name: 'next',
       img: '/images/next.png'
+    },
+    {
+      name: 'like',                                             // 收藏
+      img: {
+        noLike: '/images/like_none.png' ,                    // 未收藏的图标
+        liked: '/images/like.png'                          // 已收藏的图标
+      }
     }
   ],
   // 播放详情页面按钮配置

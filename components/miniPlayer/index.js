@@ -1,7 +1,7 @@
 const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
-import { getInfo } from '../../developerHandle/playInfo'
+import { getInfo, isFavorite, like } from '../../developerHandle/playInfo'
 
 var timer = null
 
@@ -36,7 +36,8 @@ Component({
     current: null,
     canplay: [],
     mianColor: btnConfig.colorOptions.mainColor,
-    percentBar: btnConfig.percentBar
+    percentBar: btnConfig.percentBar,
+    existed: false
   },
   audioManager: null,
   observers: {
@@ -54,19 +55,8 @@ Component({
     player(e) {
       if (!this.data.songInfo || !this.data.songInfo.title) return false
       const type = e.currentTarget.dataset.name
-      switch (type) {
-        case 'pre':
-          this.pre()
-          break;
-        case 'toggle':
-          this.togglePlay()
-          break;
-        case 'next':
-          this.next()
-          break;
-        default:
-          break;
-      }
+      let params = {mediaId: this.data.songInfo.mediaId}
+      if (type) this[type](params)
     },
     // 上一首
     pre() {
@@ -133,8 +123,16 @@ Component({
         })
       }, 150)
     },
+    // 收藏和取消
+    like(params) {
+      console.log(params)
+      like(params)
+    },
     watchPlay() {
+      let that = this
       app.globalData.songInfo = wx.getStorageSync('songInfo')
+      // 是否被收藏
+      isFavorite(app.globalData.songInfo.mediaId, that)
       console.log('app.globalData.songInfo', app.globalData.songInfo)
       const playing = wx.getStorageSync('playing')
       this.setData({

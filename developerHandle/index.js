@@ -71,16 +71,24 @@ module.exports = {
   // 跳转到播放详情界面
   linkAbumInfo (e) {
     let id = e.currentTarget.dataset.id
-    const no = e.currentTarget.dataset.no
-    const src = e.currentTarget.dataset.src.replace('==', '$')
+    const src = e.currentTarget.dataset.src
     const title = e.currentTarget.dataset.title
+    wx.setStorageSync('img', src)
+    const routeType = e.currentTarget.dataset.contentype
     // 静态实现最近收听
     if (!app.globalData.latelyListenId.includes(id)) {
       app.globalData.latelyListenId.push(id)
     }
-    console.log(app.globalData.latelyListenId)
+    console.log(app.globalData.latelyListenId, routeType)
+    let url
+    if (routeType === 'album') {
+      url = `../abumInfo/abumInfo?id=${id}&title=${title}`
+    } else if (routeType === 'media') {
+      url = `../playInfo/playInfo?id=${id}`
+    }
+    
     wx.navigateTo({
-      url: `../abumInfo/abumInfo?id=${id}&no=${no}&src=${src}&title=${title}`
+      url: url
     })
   },
   getListData(id) {

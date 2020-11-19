@@ -8,7 +8,7 @@
  * @return {*}
  */
 const app = getApp()
-import { mediaPlay, mediaFavoriteAdd, mediaFavoriteCancel } from '../utils/httpOpt/api'
+import { mediaPlay, mediaFavoriteAdd, mediaFavoriteCancel, isFavorite } from '../utils/httpOpt/api'
 const { showData } = require('../utils/httpOpt/localData')
 
 module.exports = {
@@ -20,19 +20,26 @@ module.exports = {
   async onLoad(options) {
     // 拿到歌曲的id: options.id
     let params = {mediaId: options.id, contentType: 'story'}
-    await this.getInfo(params)
-    this.play()
+    if (options.noPlay !== 'true') {
+      await this.getInfo(params)
+      this.play()
+    }
   },
   onReady() {
 
   },
   async getInfo(params) {
+    this.isFavorite(params.mediaId || app.globalData.songInfo.mediaId)
     let data = await mediaPlay(params)
     app.globalData.songInfo.src = data.mediaUrl
     app.globalData.songInfo.title = data.mediaName
     app.globalData.songInfo.id = data.nediaId
     app.globalData.songInfo.dt = data.timeText
     app.globalData.songInfo.coverImgUrl = data.coverUrl
+    this.setData({
+      songInfo: app.globalData.songInfo
+    })
+    wx.setStorageSync('songInfo', app.globalData.songInfo)
   },
   // 收藏和取消收藏
   like(params) {
@@ -40,20 +47,28 @@ module.exports = {
       wx.showToast({ icon: 'none', title: '请登录后进行操作' })
       return;
     }
-    if (this.data.liked) {
+    if (this.data.existed) {
       mediaFavoriteCancel(params).then(res => {
         wx.showToast({ icon: 'none', title: '取消收藏成功' })
         this.setData({
-          liked: false
+          existed: false
         })
       })
     } else {
       mediaFavoriteAdd(params).then(res => {
         wx.showToast({ icon: 'none', title: '收藏成功' })
         this.setData({
-          liked: true
+          existed: true
         })
       })
     }
+  },
+  // 获取已经收藏歌曲
+  async isFavorite(id, that = this) {
+    let params = {mediaId: id}
+    let res = await isFavorite(params)
+    console.log('existed222', res)
+    console.log('this', this)
+    that.setData({existed: res.existed})
   }
 }
