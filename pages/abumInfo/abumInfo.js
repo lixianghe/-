@@ -147,7 +147,7 @@ Page({
       wx.showToast({ icon: 'none', title: '请登录后进行操作' })
       return;
     }
-    let params = {albumId: 961}
+    let params = {albumId: this.data.optionId}
     if (this.data.existed) {
       albumFavoriteCancel(params).then(res => {
         wx.showToast({ icon: 'none', title: '取消收藏成功' })

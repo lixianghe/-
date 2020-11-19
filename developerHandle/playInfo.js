@@ -29,7 +29,6 @@ module.exports = {
 
   },
   async getInfo(params) {
-    console.log('app.globalData.songInfo', app.globalData.songInfo)
     this.isFavorite(params.mediaId || app.globalData.songInfo.mediaId)
     let data = await mediaPlay(params)
     app.globalData.songInfo.src = data.mediaUrl
@@ -65,10 +64,11 @@ module.exports = {
     }
   },
   // 获取已经收藏歌曲
-  async isFavorite(id) {
+  async isFavorite(id, that = this) {
     let params = {mediaId: id}
     let res = await isFavorite(params)
     console.log('existed222', res)
-    this.setData({existed: res.existed})
+    console.log('this', this)
+    that.setData({existed: res.existed})
   }
 }
