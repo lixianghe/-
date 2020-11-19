@@ -12,7 +12,7 @@ Page({
       {index: 0, name: '专辑', type: '0'},
       {index: 1, name: '故事', type: '1'},
     ],
-
+    likePic: ['/images/info_like_no2.png', '/images/info_like.png']
   },
   screen: app.globalData.screen,
   selectTap(e) {
@@ -22,6 +22,9 @@ Page({
       retcode: 0
     })
     this.getData(index)
+  },
+  likeAbum(e) {
+    console.log(e.detail)
   },
   onLoad(options) {
     

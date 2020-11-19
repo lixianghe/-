@@ -34,7 +34,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    likeOne() {
+      this.triggerEvent('clickHadle', { id: 123});
+    },
     //加载图片失败
     loadImgError: function (res) {
       this.setData({
