@@ -77,7 +77,7 @@ Page({
     }, 500)
   },
   onShow() {
-    const currentId = app.globalData.songInfo && app.globalData.songInfo.title ? app.globalData.songInfo.id : null
+    const currentId = wx.getStorageSync('songInfo').mediaId
     this.setData({
       currentId: currentId,
     })
@@ -106,13 +106,12 @@ Page({
     })
     // 重置
     scrollTopNo = 0
-    console.log('e', e)
     this.setData({
       pageNo: e.detail.pageNum,
       pageSize: e.detail.pageSize,
       initPageNo: e.detail.pageNum,
     })
-    const canplay = await this.getList({ ...e.detail, albumId: 961 })
+    const canplay = await this.getList({ ...e.detail, albumId: this.data.optionId })
     this.setCanplay(canplay)
   },
 
@@ -242,7 +241,7 @@ Page({
     }
     scrollTopNo++
     let pageNoName = this.data.pageNoName
-    let params = { [pageNoName]: this.data.initPageNo + scrollTopNo, albumId: 961 }
+    let params = { [pageNoName]: this.data.initPageNo + scrollTopNo, albumId: this.data.optionId }
     const getList = await this.getList(params)
     const list = this.data.canplay.concat(getList)
     setTimeout(() => {
@@ -327,7 +326,7 @@ Page({
   // 下拉结束后的处理
   async topHandle() {
     let pageNoName = this.data.pageNoName
-    const getList = await this.getList({ [pageNoName]: this.data.pageNo - 1, albumId: 961 })
+    const getList = await this.getList({ [pageNoName]: this.data.pageNo - 1, albumId: this.data.optionId })
     const list = getList.concat(this.data.canplay)
     this.setData({
       canplay: list,

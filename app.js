@@ -122,10 +122,14 @@ App({
     return userInfo
   },
   vision: '1.0.0',
-  cutplay: async function (that, type, no, getUrl) {
+  cutplay: async function (that, type, getUrl) {
     // 判断循环模式
-    let allList = wx.getStorageSync('canplay')
-    let index = this.setIndex(type, no, allList) - 1
+    let allList = wx.getStorageSync('allList')
+    // 根据循环模式设置数组
+    let loopType = wx.getStorageSync('loopType')
+    allList = this.setList(loopType, allList)
+    let no = this.globalData.songInfo.episode
+    let index = this.setIndex(type, no, allList, loopType) - 1
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
@@ -134,23 +138,26 @@ App({
       mediaId: allList[index].id,
       contentType: 'story'
     }
-    if (getUrl) await getUrl(params)
+    if (getUrl) await getUrl(params, that)
     this.globalData.loopType === 'singleLoop' ? this.playing(0) : this.playing()
     // 切完歌改变songInfo的index
     this.globalData.songInfo.episode = index + 1
     that.setData({
-      songInfo: this.globalData.songInfo,
-      currentId: allList[index].id
+      currentId: allList[index].mediaId
     })
     wx.setStorage({
       key: "songInfo",
       data: allList[index]
     })
   },
+  // 根据循环模式设置播放列表
+  setList(loopType, allList){
+    
+  },
   // 根据循环模式设置切歌的index
-  setIndex(type, no, list) {
+  setIndex(type, no, list, loopType) {
     let index
-    if (this.globalData.loopType === 'listLoop' || this.globalData.loopType === 'shufflePlayback') {
+    if (loopType === 'listLoop' || loopType === 'shufflePlayback') {
       if (type === 1) {
         index = no + 1 > list.length ? 1 : no + 1
       } else {

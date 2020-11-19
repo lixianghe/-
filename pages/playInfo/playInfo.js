@@ -27,7 +27,7 @@ Page({
       "singleLoop": '单曲循环',
       "shufflePlayback": '随机播放',
     },
-    loopType: wx.getStorageSync('loopType') || 'listLoop',   // 默认列表循环
+    loopType: 'listLoop',   // 默认列表循环
     likeType: 'noLike',
     total: 0,
     scrolltop: 0,
@@ -50,14 +50,15 @@ Page({
     // 根据分辨率设置样式
     this.setStyle()
     // 获取歌曲列表
-    const canplay = wx.getStorageSync('canplay')
+    const canplay = wx.getStorageSync('allList')
     const songInfo = app.globalData.songInfo
     // 用于切换模式，复制一个canplay
     this.setData({
       songInfo: songInfo,
       canplay: canplay,
       noPlay: options.noPlay || null,
-      abumInfoName: options.abumInfoName || null
+      abumInfoName: options.abumInfoName || null,
+      loopType: wx.getStorageSync('loopType')
     })
     if (options.noPlay !== 'true') wx.showLoading({ title: '加载中...', mask: true })
   },
@@ -89,7 +90,6 @@ Page({
   },
   btnsPlay(e) {
     const type = e.currentTarget.dataset.name
-    console.log('type', type)
     let params = {mediaId: this.data.songInfo.mediaId}
     if (type) this[type](params)
   },
@@ -97,24 +97,25 @@ Page({
   pre() {
     this.setData({ showImg: false })
     const that = this
-    app.cutplay(that, -1, this.data.songInfo.episode, this.getInfo)
+    app.cutplay(that, -1, this.getInfo)
   },
   // 下一首
   next() {
     this.setData({ showImg: false })
     console.log('已经播放下一首了')
     const that = this
-    app.cutplay(that, 1, this.data.songInfo.episode, this.getInfo)
+    app.cutplay(that, 1, this.getInfo)
   },
   // 切换播放模式
   loopType() {
-    const canplay = wx.getStorageSync('canplay')
-    console.log('copy', canplay)
+    const canplay = wx.getStorageSync('allList')
     let nwIndex = this.data.typelist.findIndex(n => n === this.data.loopType)
     let index = nwIndex < 2 ? nwIndex + 1 : 0
     app.globalData.loopType = this.data.typelist[index]
     // 根据播放模式切换currentList
     const list = this.checkLoop(this.data.typelist[index], canplay)
+    console.log('list', list)
+    wx.setStorageSync('allList', canplay)
     this.setData({
       loopType: this.data.typelist[index],
       canplay: list
@@ -161,12 +162,13 @@ Page({
   },
   // 播放列表
   more() {
-    this.setScrollTop()
+    setTimeout(()=> {
+      this.setScrollTop()
+    }, 100)
     let allPlay = wx.getStorageSync('allList')
-    console.log('allPlay', allPlay)
     this.setData({
       showList: true,
-      currentId: app.globalData.songInfo.id,
+      currentId: this.data.currentId || Number(this.data.songInfo.id),
       canplay: allPlay
     })
     // 显示的过度动画
@@ -287,13 +289,14 @@ Page({
   },
   // 处理scrollTop的高度
   setScrollTop() {
-    let index = this.data.canplay.findIndex(n => n.id === app.globalData.songInfo.id)
+    let index = this.data.canplay.findIndex(n => n.mediaId === Number(this.data.songInfo.id))
+    console.log('index', index, this.data.songInfo, this.data.canplay)
     let query = wx.createSelectorQuery();
     query.select('.songList').boundingClientRect(rect=>{
       let listHeight = rect.height;
-      console.log('listHeight', listHeight);
+      console.log('listHeight', listHeight, listHeight / this.data.canplay.length * (index - 1));
       this.setData({
-        scrolltop: index > 2 ? listHeight / this.data.total * (index - 2) : 0
+        scrolltop: index > 2 ? listHeight / this.data.canplay.length * (index - 2) : 0
       })
     }).exec();
   }
