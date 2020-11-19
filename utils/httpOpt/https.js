@@ -22,7 +22,7 @@ export function request(url, data = {}, method = 'GET') {
         'token':  wx.getStorageSync('token') || ''
       },
       success: function (res) {
-        console.log('code',url, res)
+        // console.log('code',url, res)
         if (res.statusCode === 200) {
           if (res.data.code === 0) {
             resolve(res.data.data)

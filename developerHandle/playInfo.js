@@ -15,13 +15,14 @@ module.exports = {
   data: {
   },
   onShow() {
-    console.log('Log from mixin!')
+
   },
   async onLoad(options) {
+    let that = this
     // 拿到歌曲的id: options.id
     let params = {mediaId: options.id, contentType: 'story'}
     if (options.noPlay !== 'true') {
-      await this.getInfo(params, this.isFavorite)
+      await this.getInfo(params,  that, this.isFavorite)
       this.play()
     }
   },
@@ -29,12 +30,12 @@ module.exports = {
 
   },
   async getInfo(params, that = this, cb) {
-    console.log('this', that)
     cb && cb(params.mediaId || app.globalData.songInfo.mediaId)
     let data = await mediaPlay(params)
+    console.log('data', data)
     app.globalData.songInfo.src = data.mediaUrl
     app.globalData.songInfo.title = data.mediaName
-    app.globalData.songInfo.id = data.nediaId
+    app.globalData.songInfo.id = params.mediaId
     app.globalData.songInfo.dt = data.timeText
     app.globalData.songInfo.coverImgUrl = data.coverUrl
     that.setData({
@@ -49,7 +50,6 @@ module.exports = {
       return;
     }
     if (that.data.existed) {
-      console.log('mediaFavoriteCancel')
       mediaFavoriteCancel(params).then(res => {
         wx.showToast({ icon: 'none', title: '取消收藏成功' })
         that.setData({
@@ -57,7 +57,6 @@ module.exports = {
         })
       })
     } else {
-      console.log('mediaFavoriteAdd')
       mediaFavoriteAdd(params).then(res => {
         wx.showToast({ icon: 'none', title: '收藏成功' })
         that.setData({

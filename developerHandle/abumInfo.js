@@ -21,7 +21,7 @@ module.exports = {
     }
   },
   onShow() {
-    console.log('Log from mixin!')
+
   },
   async onLoad(options) {
     let params = {pageNum: 1, albumId: options.id}
@@ -51,7 +51,6 @@ module.exports = {
         item.coverImgUrl = item.coverUrl
         item.episode = (params.pageNum - 1) * 15 + index + 1
       })
-      console.log(params.pageSize, canplay)
       this.setData({total})
       return canplay
     } catch (error) {
@@ -81,7 +80,6 @@ module.exports = {
   async isAlbumFavorite(id) {
     let params = {albumId: id}
     let res = await isAlbumFavorite(params)
-    console.log('existed', res.existed)
     this.setData({existed: res.existed})
   },
   // 获取歌曲列表，假数据

@@ -67,7 +67,7 @@ Component({
       }
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, - 1, app.globalData.songInfo.episode, getInfo)
+      app.cutplay(that, - 1, getInfo)
     },
     // 下一首
     next() {
@@ -80,10 +80,10 @@ Component({
       }
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, + 1, this.data.songInfo.episode, getInfo)
+      app.cutplay(that, + 1, getInfo)
     },
     // 暂停
-    togglePlay() {
+    toggle() {
       tool.toggleplay(this, app)
     },
     // 进入播放详情
