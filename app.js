@@ -152,7 +152,18 @@ App({
   },
   // 根据循环模式设置播放列表
   setList(loopType, allList){
-    
+    // 列表循环
+    if (loopType === 'listLoop') {
+      loopList = allList     
+    } else if (loopType === 'singleLoop') {
+      // 单曲循环
+      loopList = [allList[this.globalData.songInfo.episode]]
+      wx.showToast({ title: this.data.typeName['singleLoop'], icon: 'none' })
+    } else {
+      // 随机播放
+      loopList = this.randomList(allList)
+      wx.showToast({ title: this.data.typeName['shufflePlayback'], icon: 'none' })
+    }
   },
   // 根据循环模式设置切歌的index
   setIndex(type, no, list, loopType) {
