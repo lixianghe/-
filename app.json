@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/like/like",
     "pages/index/index", 
     "pages/personalCenter/personalCenter",
+    "pages/like/like",
     "pages/abumInfo/abumInfo",
     "pages/playInfo/playInfo",
     "pages/latelyListen/latelyListen",

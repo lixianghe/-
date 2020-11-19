@@ -1,6 +1,6 @@
 const app = getApp()
 Page({
-  mixins: [require('../../developerHandle/latelyListen')],
+  mixins: [require('../../developerHandle/like')],
   data: {
     screen: app.globalData.screen,
     noContent: '/images/nullContent.png',
@@ -24,11 +24,7 @@ Page({
     this.getData(index)
   },
   onLoad(options) {
-    albumFavoriteApi().then(res => {
-
-    }).catch(err => {
-      console.log(JSON.stringify(err))
-    })
+    
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()

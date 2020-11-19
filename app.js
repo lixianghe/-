@@ -227,6 +227,23 @@ App({
   },
   // 初始化token、deviceId、refreshToken
   initCode() {
+    let guestInfo = wx.getStorageSync('guestInfo');
+    let userInfo = wx.getStorageSync('userInfo');
+    let authInfo = wx.getStorageSync('authInfo');
+    if (authInfo){
+      console.log(authInfo)
+      this.authInfo = authInfo;
+    }
+    if (userInfo){
+      this.userInfo = userInfo;
+      this.guestInfo = guestInfo;
+      return;
+    }
+    if (guestInfo){
+      this.guestInfo = guestInfo;
+      return;
+    }
+
     const token = wx.getStorageSync('token')
     if (token) return false
     let deviceInfo = {
@@ -240,6 +257,47 @@ App({
         wx.setStorageSync('deviceId', initData.deviceId)
         wx.setStorageSync('refreshToken', initData.refreshToken)
         wx.setStorageSync('token', initData.token)
+      }
+    })
+  },
+  checkStatus(){
+    console.log('校验!!')
+    if(!this.userInfo.token){
+      return
+    }
+    this.get({
+      url: 'checkStatus',
+      data: {
+      }
+    }, (res) => {
+      // console.log(res)
+      // 若code不为0，退出登录
+      if (res.code !== 0) {
+        wx.showToast({
+          icon: '',
+          title: res.message || 'checkStatus失败',
+        })
+        // this.userInfo.token = ''
+        // wx.removeStorageSync('userInfo');
+        // let targetPath = '/pages/index/index';
+        // if (this.getCurrentPath() != targetPath) {
+        //   wx.switchTab({
+        //     url: targetPath,
+        //   })
+        // }
+      }
+      // 若code为0且changeFlag为true，更新token和refreshToken
+      if (res.code === 0) {
+        if (res.changeFlag){
+          this.userInfo.token = resRefresh.data.token
+          this.userInfo.refreshToken = resRefresh.data.refreshToken
+        }
+        this.tokenStatus = 0
+        // for (let e of this.requestQueue) {
+        //   this.http(e.param, e.method, e.callback);
+        // }
+        // this.requestQueue = []
+        wx.setStorageSync('userInfo', this.userInfo)
       }
     })
   },
