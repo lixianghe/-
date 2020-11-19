@@ -46,7 +46,7 @@ Component({
     }
   },
   attached: function () {
-
+    
   },
   detached: function () {
 
@@ -125,15 +125,12 @@ Component({
     },
     // 收藏和取消
     like(params) {
+      let that = this
       console.log(params)
-      like(params)
+      like(params, that)
     },
     watchPlay() {
-      let that = this
       app.globalData.songInfo = wx.getStorageSync('songInfo')
-      // 是否被收藏
-      isFavorite(app.globalData.songInfo.mediaId, that)
-      console.log('app.globalData.songInfo', app.globalData.songInfo)
       const playing = wx.getStorageSync('playing')
       this.setData({
         songInfo: app.globalData.songInfo 
@@ -157,6 +154,9 @@ Component({
       tool.initAudioManager(that, canplay)
       const playing = wx.getStorageSync('playing')
       if (playing) app.playing()
+      // 是否被收藏
+      let songInfo = wx.getStorageSync('songInfo')
+      isFavorite(songInfo.mediaId, that)
     },
     setOnHide() {
       console.log('进入OnHide')
