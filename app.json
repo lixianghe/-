@@ -1,5 +1,6 @@
 {
   "pages": [
+    
     "pages/index/index", 
     "pages/personalCenter/personalCenter",
     "pages/like/like",
@@ -8,6 +9,7 @@
     "pages/latelyListen/latelyListen",
     "pages/member/member",
     "pages/search/search"
+    
   ],
   "window": {
     "backgroundTextStyle": "light",
