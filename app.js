@@ -1,5 +1,7 @@
 import tool from './utils/util'
 import { init } from './utils/httpOpt/api'
+import btnConfig from './utils/pageOtpions/pageOtpions'
+
 require('./utils/minixs')
 
 App({
@@ -7,6 +9,7 @@ App({
     appName: 'listenTemplate',
     // 屏幕类型
     screen: '',
+    mainColor: btnConfig.colorOptions.mainColor,
     // 登录相关
     openid: '',
     appId: '60008',

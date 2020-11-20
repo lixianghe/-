@@ -81,11 +81,5 @@
   border-radius: 5.5vh;
 }
 .label-view .active-tap {
-  color: #fa6500;
-}
-.underLine {
-  height: 1vh;
-  width: 19vh;
-  background: #fa6500;
-  border-radius: 3vh;
+  /* color: #fa6500; */
 }

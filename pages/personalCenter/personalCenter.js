@@ -3,7 +3,6 @@
 
 const app = getApp()
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
-
 Page({
   mixins: [require('../../developerHandle/member')],
   data: {

@@ -36,6 +36,7 @@ Component({
     // colorStyle: app.sysInfo.colorStyle,
     // // 系统背景色
     // backgroundColor: app.sysInfo.backgroundColor
+    mainColor: app.globalData.mainColor,
     src: [],
     flag: 0
   },
@@ -64,7 +65,7 @@ Component({
   },
 
   attached: function () {
-    // console.log(this.data.countpic)
+    console.log(this.data.mianColor)
     if(this.data.likePic && this.data.likePic.length > 1) {
       this.setData({
         src: this.data.likePic[this.data.flag]

@@ -35,10 +35,10 @@
   margin-top: 11.9vh;
   font-size: 4.9vh;
   /* background-color: #fa6501; */
-  width: 30.8vh;
+  width: 37.8vh;
   height: 12.3vh;
   line-height: 12.3vh;
-  color: #fff;
+  color: #000;
   margin-left: 50%;
   transform: translateX(-50%);
   border-radius: 6.2vh;

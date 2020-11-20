@@ -25,7 +25,7 @@
 }
 .halbumCard .vip {
   padding: 0vh 1.2vh 0vh 1.66vh;
-  background-color: #fa6500;
+  /* background-color: #fa6500; */
   border-radius: 0.89vh;
   font-size: 4.2vh;
   display: inline-block;
