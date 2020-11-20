@@ -22,23 +22,26 @@
     }
   },
   "tabBar": {
-    "color": "#cacbd0",
+    "color": "#bebebe",
     "selectedColor": "#ffac2d",
     "backgroundColor": "#202020",
     "list": [
     {
+      "index": 0, 
       "pagePath": "pages/index/index",
       "iconPath": "images/index.png",
       "selectedIconPath": "images/index-select.png",
       "text": "推荐"
     },
     {
+      "index": 1, 
       "pagePath": "pages/search/search",
       "iconPath": "images/search.png",
       "selectedIconPath": "images/searched.png",
       "text": "搜索"
     },
     {
+      "index": 2, 
       "pagePath": "pages/personalCenter/personalCenter",
       "iconPath": "images/admin.png",
       "selectedIconPath": "images/admin-select.png",
