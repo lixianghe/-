@@ -17,7 +17,6 @@
       <view class="imgB bone"></view>
       <view class="albumTitB">
         <view class="tb bone"></view>
-        <view class="tb bone"></view>
       </view>
     </view>
   </scroll-view>
