@@ -13,7 +13,8 @@ Page({
       {index: 0, name: '专辑'},
       {index: 1, name: '故事'},
     ],
-    likePic: ['/images/info_like.png', '/images/info_like_no.png']
+    likePic: ['/images/info_like.png', '/images/info_like_no.png'],
+    mainColor: app.globalData.mainColor
   },
   screen: app.globalData.screen,
   selectTap(e) {

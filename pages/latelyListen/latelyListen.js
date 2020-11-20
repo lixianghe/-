@@ -11,7 +11,8 @@ Page({
     labels: [
       {index: 0, name: '专辑', contentType: 'album'},
       {index: 1, name: '故事', contentType: 'media'}
-    ]
+    ],
+    mainColor: app.globalData.mainColor
   },
   screen: app.globalData.screen,
   selectTap(e) {

@@ -196,6 +196,11 @@ Component({
           isLogin: true
         })
         app.userInfo.userId = appUserId;
+        wx.setStorageSync('username', nickname)
+        wx.setTabBarItem({
+          index: 2, 
+          text: nickname,
+        })
         this.setForbidStatus(forbid, forbidText)
         if (showGzh) {
           this.setData({
@@ -265,6 +270,11 @@ Component({
       app.userInfo.vipStatus = '';
       app.userInfo.expireTime = '';
       wx.removeStorageSync('userInfo');
+      wx.removeStorageSync('username')
+      wx.setTabBarItem({
+        index: 2, 
+        text: '我的',
+      })
       this.setData({
         isLogin: false,
         userInfo:{

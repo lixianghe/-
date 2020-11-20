@@ -15,7 +15,7 @@
       data-contentType="{{datasource.contentType}}">
   </view>
   <view class="albumTit">
-    <text class="vip" wx:if="{{datasource.isVip}}">VIP</text>
+    <text class="vip" wx:if="{{datasource.isVip}}" style="background-color:{{mainColor}}">VIP</text>
     <text>{{ datasource.title }}</text>
   </view>
 </view>

@@ -1,5 +1,7 @@
 import tool from './utils/util'
 import { init } from './utils/httpOpt/api'
+import btnConfig from './utils/pageOtpions/pageOtpions'
+
 require('./utils/minixs')
 
 App({
@@ -7,6 +9,7 @@ App({
     appName: 'listenTemplate',
     // 屏幕类型
     screen: '',
+    mainColor: btnConfig.colorOptions.mainColor,
     // 登录相关
     openid: '',
     appId: '60008',
@@ -66,6 +69,9 @@ App({
     // 判断playInfo页面样式，因为这里最快执行所以放在这
     this.setStyle()
     this.audioManager = wx.getBackgroundAudioManager()
+    // 判断用户是否已经登录了
+    // wx.setStorageSync('username', 'T-mac')
+    
     // 判断横竖屏
     if (wx.getSystemInfoSync().windowWidth > wx.getSystemInfoSync().windowHeight) {
       this.globalData.screen = 'h'

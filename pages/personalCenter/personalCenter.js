@@ -3,7 +3,6 @@
 
 const app = getApp()
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
-
 Page({
   mixins: [require('../../developerHandle/member')],
   data: {
@@ -36,7 +35,9 @@ Page({
     wx.setStorageSync('indexData', null)
   },
   onLoad(options) {
-    console.log('sssssssssssss')
+    console.log('判断用户是否已经登录了38行')
+    console.log(JSON.stringify(wx.getStorageSync('username'))+'判断用户是否已经登录了38行')
+    console.log('判断用户是否已经登录了40行')
   },
   onShow() {
     this.setData({
