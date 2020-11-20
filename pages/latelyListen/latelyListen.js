@@ -9,10 +9,9 @@ Page({
     scrollLeft: 0,
     retcode: 1,
     labels: [
-      {index: 0, name: '专辑', type: '0'},
-      {index: 1, name: '故事', type: '1'},
-    ],
-
+      {index: 0, name: '专辑', contentType: 'album'},
+      {index: 1, name: '故事', contentType: 'media'}
+    ]
   },
   screen: app.globalData.screen,
   selectTap(e) {
@@ -21,9 +20,11 @@ Page({
       currentTap: index,
       retcode: 0
     })
-    this.getData(index)
+    console.log(this.data.labels[index].contentType+'23232323232行')
+    this.getData(this.data.labels[index].contentType)
   },
   onLoad(options) {
+    
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()

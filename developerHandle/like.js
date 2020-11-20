@@ -24,12 +24,6 @@ module.exports = {
   onReady() {
 
   },
-  // 跳转到最近收听页面
-  tolatelyListen () {
-    wx.navigateTo({
-      url: '../latelyListen/latelyListen'
-    })
-  },
   // 跳转到播放详情界面
   linkAbumInfo (e) {
     let id = e.currentTarget.dataset.id
