@@ -3,7 +3,7 @@
   padding-left: 7.3vh;
   box-sizing: border-box;
   height: 82vh;
-  padding: 5.5vh 7.35vh;
+  padding: 5.5vh 9vh;
   white-space: nowrap;
 }
 .h .quickEntry{
@@ -32,17 +32,53 @@
   display: inline-block;
   vertical-align: top;
 }
+.h .mianContent .search {
+  width: 126vh;
+  height: 11vh;
+  background: #272727;
+  display: flex;
+  align-items: center;
+  border-radius: 11vh;
+  overflow: hidden;
+  position: fixed;
+  left: 9vh;
+  top: 4.3vh;
+}
+.h .mianContent .search image {
+  width: 10vh;
+  height: 10vh;
+  margin: 0 2vh;
+}
+.h .mianContent .search input {
+  background: #272727;
+  height: 11vh;
+  width: 105vh;
+  color: #bbbbbb;
+  font-size: 4.9vh;
+}
+.h .cancel {
+  width: 20vh;
+  height: 9.8vh;
+  line-height: 9.8vh;
+  border-radius: 9.8vh;
+  background: #ffac2d;
+  color:#060401;
+  font-size: 4.6vh;
+  position: fixed;
+  left: 141vh;
+  top: 4.6vh;
+}
 .h .albumCard {
-  width: 41.81vh;
+  width: 36vh;
   display: inline-block;
   margin-right: 7.6vh;
-  margin-top: 15.7vh;
+  margin-top: 28vh;
   height: 68.6vh;
   overflow: hidden;
 }
 .h .imgB {
-  width: 41.8vh;
-  height: 41.8vh;
+  width: 36vh;
+  height: 36vh;
   border-radius: 2vh;
 }
 .label-view {
@@ -51,6 +87,8 @@
   font-size: 5.5vh;
   margin-bottom: 4.89vh;
   position: fixed;
+  left: 9vh;
+  top: 19vh;
 }
 .label-view .title {
   padding: 2vh 1vh;
@@ -61,4 +99,75 @@
 }
 .label-view .active-tap {
   color: #fa6500;
+}
+
+/* 卡片的样式 */
+.halbumCard {
+  /* flex: 0 0 46.6vh; */
+  width: 41.81vh;
+  display: inline-block;
+  margin-right: 7.6vh;
+  margin-top: 28vh;
+  height: 68.6vh;
+  overflow: hidden;
+  position: relative;
+}
+.halbumCard .image {
+  width: 41.81vh;
+  height: 41.81vh;
+  border-radius: 2vh;
+  vertical-align: bottom;
+}
+.halbumCard .albumTit {
+  margin-top: 3.5vh;
+  color: #ffffff;
+  font-size: 5.2vh;
+  box-sizing: content-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.halbumCard .vip {
+  padding: 0vh 1.2vh 0vh 1.66vh;
+  background-color: #fa6500;
+  border-radius: 0.89vh;
+  font-size: 4.2vh;
+  display: inline-block;
+  margin-right: 1.81vh;
+}
+.halbumCard .like {
+  width: 11.03vh;
+  height: 11.03vh;
+  border-radius: 50%;
+  position: absolute;
+  left: 2.73vh;
+  bottom: 28.72vh;
+  background: rgba(0, 0, 0, 0.6) no-repeat center 0.3vh / 11vh 11vh
+}
+.halbumCard .conut {
+  position: absolute;
+  top: 3vh;
+  right: 3vh;
+}
+.halbumCard .linerbg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 9.81vh;
+  border-radius: 2vh;
+  background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0));
+}
+.halbumCard .countpic {
+  width: 4.58vh;
+  height: 4.58vh;
+  margin-right: 1.5vh;
+  float: left;
+}
+.halbumCard .countxt {
+  font-size: 4.27vh;
+  color: #fff;
+  position: relative;
+  top: -0.5vh;
+  float: left;
 }

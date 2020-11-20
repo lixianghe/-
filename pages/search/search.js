@@ -1,82 +1,101 @@
-import { albumFavoriteCancel,albumFavoriteAdd,mediaFavoriteCancel,mediaFavoriteAdd } from '../../utils/httpOpt/api'
+import { search } from '../../utils/httpOpt/api'
+import tool from '../../utils/util'
 const app = getApp()
 Page({
-  mixins: [require('../../developerHandle/like')],
   data: {
     screen: app.globalData.screen,
     noContent: '/images/nullContent.png',
-    info: '',
+    info: [],
     currentTap: 0,
     scrollLeft: 0,
-    retcode: 1,
     labels: [
       {index: 0, name: '专辑'},
       {index: 1, name: '故事'},
     ],
-    likePic: ['/images/info_like.png', '/images/info_like_no.png']
+    picWidth: '33vh'
   },
-  screen: app.globalData.screen,
+  onLoad() {
+    
+  },
+  // 函数节流防止请求过多
+  search: tool.throttle(function (e) {
+    this.setData({keyWord: e[0].detail.value})
+    this.getData(this.data.currentTap)
+  }, 200),
+  cancel() {
+    this.setData({
+      keyWord: null,
+      info: []
+    })
+  },
   selectTap(e) {
     const index = e.currentTarget.dataset.index
     this.setData({
-      currentTap: index,
-      retcode: 0
+      currentTap: index
     })
     this.getData(index)
   },
-  like (e) {
-    if(e.detail.contentType === 'album') {
-      this.likeAbum(e.detail.flag, e.detail.typeid)
-    } else if(e.detail.contentType === 'media') {
-      this.likeMedia(e.detail.flag, e.detail.typeid)
-    }
-  },
-  likeAbum(flag, id) {
-    if (flag) {
-      console.log('albumFavoriteAdd')
-      albumFavoriteCancel({albumId: id}).then(res => {
-        wx.showToast({ icon: 'none', title: '取消收藏成功' })
-        this.setData({
-          existed: false
-        })
-      })
-    } else {
-      albumFavoriteAdd({albumId: id}).then(res => {
-        wx.showToast({ icon: 'none', title: '收藏成功' })
-        this.setData({
-          existed: true
-        })
-      })
-    }
+   // 跳转到播放详情界面
+   linkAbumInfo (e) {
+    let id = e.currentTarget.dataset.id
+    const src = e.currentTarget.dataset.src
+    const title = e.currentTarget.dataset.title
+    wx.setStorageSync('img', src)
+    const routeType = e.currentTarget.dataset.contentype
 
-    
+    console.log(app.globalData.latelyListenId, routeType)
+    let url
+    if (routeType === 'album') {
+      url = `../abumInfo/abumInfo?id=${id}&title=${title}`
+    } else if (routeType === 'media') {
+      url = `../playInfo/playInfo?id=${id}`
+    } 
+    wx.navigateTo({
+      url: url
+    })
   },
-  likeMedia (flag, id) {
-    if (flag) {
-      mediaFavoriteCancel({mediaId: id}).then(res => {
-        wx.showToast({ icon: 'none', title: '取消收藏成功' })
-        that.setData({
-          existed: false
-        })
-      })
-    } else {
-      console.log('mediaFavoriteAdd')
-      mediaFavoriteAdd({mediaId: id}).then(res => {
-        wx.showToast({ icon: 'none', title: '收藏成功' })
-        that.setData({
-          existed: true
-        })
-      })
+  getData(index) {
+    console.log(index)
+    if (index == 0){
+      this.getSearch('album')
+    } else if (index == 1){
+      this.getSearch('media')
     }
   },
-  onLoad(options) {
-    
-  },
-  onShow() {
-    this.selectComponent('#miniPlayer').setOnShow()
-    this.selectComponent('#miniPlayer').watchPlay()
-  },
-  onHide() {
-    this.selectComponent('#miniPlayer').setOnHide()
+  getSearch(type) {
+    let params = {
+      pageNum: 1,
+      pageSize: 20,
+      contentType: type,
+      keyWord: this.data.keyWord
+    }
+    search(params).then(res => {
+      let layoutData = []
+      console.log(res)
+      res.list.forEach(item => {
+        if (type === 'album') {
+          layoutData.push({
+            id: item.album.albumId,
+            title: item.album.albumName,
+            src: item.album.coverUrl, 
+            contentType: item.contentType
+          })
+        } else {
+          layoutData.push({
+            id: item.media.mediaId,
+            title: item.media.mediaName,
+            src: item.media.coverUrl, 
+            contentType: item.contentType
+          })
+        }
+        
+      })
+      console.log('layoutData', layoutData)
+      this.setData({
+        info: layoutData
+      })
+    }).catch(err => {
+      console.log(JSON.stringify(err)+'73行')
+    })
   }
 })

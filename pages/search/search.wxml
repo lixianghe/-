@@ -1,16 +1,38 @@
 <view class="{{screen}}">
   <scroll-view class="like" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920"bindscrolltolower="getLayoutData">
     <view class="mianContent">
-      <view class="label-view">
+      <view class="search">
+        <image src="../../images/search.png" alt="" />
+        <input type="text" value="{{keyWord}}" bindinput="search" placeholder="请输入进行搜索"/>
+      </view>
+      <button class="cancel" wx:if="{{keyWord}}" bindtap="cancel">取消</button>
+      <view class="label-view" wx:if="{{info.length>0}}">
         <view class="title{{index === currentTap ? ' active-tap' : ''}}" wx:for="{{labels}}" wx:key="index"
           data-index="{{index}}" bindtap="selectTap">
           <text>{{item.name}}</text>
         </view>
       </view>
       <!-- 页面盒子 -->
-      <story wx:if="{{info.length>0 && retcode === 1}}" wx:for="{{info}}" wx:key="index" data-no="{{index}}"
-        data-id="{{item.id}}" data-title="{{item.title}}" data-src="{{item.src}}" data-contentype="{{item.contentType}}" bindtap="linkAbumInfo"
-        datasource="{{item}}" likePic="{{likePic}}"  bind:clickHadle="like" className="{{screen}}"></story>
+      <view 
+        wx:if="{{info.length>0}}"
+        wx:for="{{info}}"
+        wx:key="index"
+        data-id="{{item.id}}"
+        data-title="{{item.title}}"
+        data-src="{{item.src}}"
+        data-contentype="{{item.contentType}}"
+        bindtap="linkAbumInfo"
+        class="{{screen}}albumCard"
+        style="width: {{picWidth}}">
+        <image class="image" src="{{item.src}}" style="width: {{picWidth}};height: {{picWidth}}"></image>
+        <view class="linerbg">
+        </view>
+        <view class="albumTit">
+          <text class="vip" wx:if="{{item.isVip}}">VIP</text>
+          <text>{{ item.title }}</text>
+        </view>
+      </view>
+    <!-- 页面盒子 -->
     </view>
     <!-- 加载中盒子 -->
     <view class="albumCard" wx:if="{{info.length === 0 && retcode === 1}}" wx:for="{{5}}" wx:key="index">
