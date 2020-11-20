@@ -13,6 +13,8 @@ const { showData } = require('../utils/httpOpt/localData')
 
 module.exports = {
   data: {
+    showModal: false,               // 控制弹框
+    content: '该内容为会员付费内容，您需要先成为会员后再购买此内容就可以收听精品内容啦'
   },
   onShow() {
 
@@ -22,22 +24,25 @@ module.exports = {
     // 拿到歌曲的id: options.id
     let params = {mediaId: options.id, contentType: 'story'}
     if (options.noPlay !== 'true') {
-      await this.getInfo(params,  that, this.isFavorite)
+      await this.isFavorite({mediaId: options.id})
+      await this.getInfo(params,  that)
+      // 检测是否是付费的
+      await this.needFee()
       this.play()
     }
   },
   onReady() {
 
   },
-  async getInfo(params, that = this, cb) {
-    cb && cb(params.mediaId || app.globalData.songInfo.mediaId)
+  async getInfo(params) {
     let data = await mediaPlay(params)
+    // app.globalData.songInfo = Object.assign({}, data)
     app.globalData.songInfo.src = data.mediaUrl
     app.globalData.songInfo.title = data.mediaName
     app.globalData.songInfo.id = params.mediaId
     app.globalData.songInfo.dt = data.timeText
     app.globalData.songInfo.coverImgUrl = data.coverUrl
-    that.setData({
+    this.setData({
       songInfo: app.globalData.songInfo
     })
     wx.setStorageSync('songInfo', app.globalData.songInfo)
@@ -60,6 +65,13 @@ module.exports = {
     saveHistory(opt).then(res => {
       console.log('saveHistory', res)
     })
+  },
+  // 如果mediaUrl没有给出弹框并跳到首页
+  needFee() {
+    if (!this.data.songInfo.src) {
+      this.setData({showModal: true})
+      wx.hideLoading()
+    }
   },
   // 收藏和取消收藏
   like(params, that = this) {
@@ -84,8 +96,8 @@ module.exports = {
     }
   },
   // 获取已经收藏歌曲
-  async isFavorite(id, that = this) {
-    let params = {mediaId: id}
+  async isFavorite(params, that = this) {
+    if (!params.mediaId) return
     let res = await isFavorite(params)
     that.setData({existed: res.existed})
   }

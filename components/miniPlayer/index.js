@@ -155,7 +155,7 @@ Component({
       if (playing) app.playing()
       // 是否被收藏
       let songInfo = wx.getStorageSync('songInfo')
-      isFavorite(songInfo.mediaId, that)
+      isFavorite({mediaId: songInfo.mediaId}, that)
     },
     setOnHide() {
       clearInterval(timer)

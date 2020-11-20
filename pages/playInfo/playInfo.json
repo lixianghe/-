@@ -2,6 +2,6 @@
   "navigationBarTitleText": "播放中",
   "component": true,  
   "usingComponents": {
-    
+    "modal": "/components/modal/index"
   }
 }

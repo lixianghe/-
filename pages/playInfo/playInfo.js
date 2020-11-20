@@ -59,7 +59,7 @@ Page({
       noPlay: options.noPlay || null,
       abumInfoName: options.abumInfoName || null,
       abumInfoId: options.abumInfoId || null,
-      loopType: wx.getStorageSync('loopType')
+      loopType: wx.getStorageSync('loopType') || 'listLoop'
     })
     if (options.noPlay !== 'true') wx.showLoading({ title: '加载中...', mask: true })
   },

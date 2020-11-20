@@ -124,3 +124,6 @@
   </view>
 
 <view wx:if="{{showList}}" bindtap="closeList" class="mask"></view>
+
+<!-- 弹框组件 -->
+<modal showModal="{{showModal}}" content="{{content}}" />
