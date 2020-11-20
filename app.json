@@ -6,7 +6,8 @@
     "pages/abumInfo/abumInfo",
     "pages/playInfo/playInfo",
     "pages/latelyListen/latelyListen",
-    "pages/member/member"
+    "pages/member/member",
+    "pages/search/search"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -30,6 +31,12 @@
       "iconPath": "images/index.png",
       "selectedIconPath": "images/index-select.png",
       "text": "推荐"
+    },
+    {
+      "pagePath": "pages/search/search",
+      "iconPath": "images/search.png",
+      "selectedIconPath": "images/searched.png",
+      "text": "搜索"
     },
     {
       "pagePath": "pages/personalCenter/personalCenter",

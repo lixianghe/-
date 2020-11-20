@@ -8,7 +8,7 @@
  * @return {*}
  */
 const app = getApp()
-import { mediaPlay, mediaFavoriteAdd, mediaFavoriteCancel, isFavorite } from '../utils/httpOpt/api'
+import { mediaPlay, mediaFavoriteAdd, mediaFavoriteCancel, isFavorite, saveHistory } from '../utils/httpOpt/api'
 const { showData } = require('../utils/httpOpt/localData')
 
 module.exports = {
@@ -41,6 +41,21 @@ module.exports = {
       songInfo: app.globalData.songInfo
     })
     wx.setStorageSync('songInfo', app.globalData.songInfo)
+    // 添加历史记录
+    let opt = {
+      historys: [
+        {
+          ablumId: this.data.abumInfoId,
+          storyId: params.mediaId,
+          // duration: durationSecond,
+          // playTime: 0,
+
+        }
+      ]
+    }
+    saveHistory(opt).then(res => {
+      console.log('saveHistory', res)
+    })
   },
   // 收藏和取消收藏
   like(params, that = this) {

@@ -143,7 +143,6 @@ Component({
     // 因为1.9.2版本无法触发onshow和onHide所以事件由它父元素触发
     setOnShow() {
       clearInterval(timer)
-      console.log('进入attached')
       const canplay = wx.getStorageSync('canplay')
       this.setData({
         canplay: canplay
@@ -159,7 +158,6 @@ Component({
       isFavorite(songInfo.mediaId, that)
     },
     setOnHide() {
-      console.log('进入OnHide')
       clearInterval(timer)
     }
   }

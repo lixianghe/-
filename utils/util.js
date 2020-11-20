@@ -89,7 +89,7 @@ function initAudioManager(that, list) {
 function EventListener(that){
   //播放事件
   that.audioManager.onPlay(() => {
-    console.log('onPlay')
+    console.log('-------------------------------onPlay-----------------------------------')
     // wx.hideLoading()
     wx.setStorageSync('playing', true)
   })
