@@ -95,14 +95,15 @@ Page({
   },
   // 上一首
   pre() {
-    this.setData({ showImg: false })
+    let loopType = wx.getStorageSync('loopType')
+    if (loopType !== 'singleLoop') this.setData({ showImg: false })
     const that = this
     app.cutplay(that, -1, this.getInfo)
   },
   // 下一首
   next() {
-    this.setData({ showImg: false })
-    console.log('已经播放下一首了')
+    let loopType = wx.getStorageSync('loopType')
+    if (loopType !== 'singleLoop') this.setData({ showImg: false })
     const that = this
     app.cutplay(that, 1, this.getInfo)
   },
@@ -114,7 +115,6 @@ Page({
     app.globalData.loopType = this.data.typelist[index]
     // 根据播放模式切换currentList
     const list = this.checkLoop(this.data.typelist[index], canplay)
-    console.log('list', list)
     wx.setStorageSync('allList', canplay)
     this.setData({
       loopType: this.data.typelist[index],

@@ -139,7 +139,7 @@ App({
       contentType: 'story'
     }
     if (getUrl) await getUrl(params, that)
-    this.globalData.loopType === 'singleLoop' ? this.playing(0) : this.playing()
+    loopType === 'singleLoop' ? this.playing(0) : this.playing()
     // 切完歌改变songInfo的index
     this.globalData.songInfo.episode = index + 1
     that.setData({
@@ -152,18 +152,27 @@ App({
   },
   // 根据循环模式设置播放列表
   setList(loopType, allList){
+    let loopList = []
     // 列表循环
     if (loopType === 'listLoop') {
       loopList = allList     
     } else if (loopType === 'singleLoop') {
       // 单曲循环
-      loopList = [allList[this.globalData.songInfo.episode]]
-      wx.showToast({ title: this.data.typeName['singleLoop'], icon: 'none' })
+      loopList = [this.globalData.songInfo]
     } else {
       // 随机播放
       loopList = this.randomList(allList)
-      wx.showToast({ title: this.data.typeName['shufflePlayback'], icon: 'none' })
     }
+    return loopList
+  },
+  // 打乱数组
+  randomList(arr) {
+    let len = arr.length;
+    while (len) {
+        let i = Math.floor(Math.random() * len--);
+        [arr[i], arr[len]] = [arr[len], arr[i]];
+    }
+    return arr;
   },
   // 根据循环模式设置切歌的index
   setIndex(type, no, list, loopType) {
@@ -175,7 +184,7 @@ App({
         index = no - 1 < 1 ? list.length : no - 1
       }
     } else {
-      index = no
+      index = 1
     }
     return index
   },
