@@ -33,16 +33,17 @@
   vertical-align: top;
 }
 .h .albumCard {
-  width: 46.6vh;
+  width: 41.81vh;
   display: inline-block;
   margin-right: 7.6vh;
   height: 68.6vh;
   overflow: hidden;
 }
 .h .imgB {
-  width: 46.6vh;
-  height: 46.6vh;
+  width: 41.81vh;
+  height: 41.81vh;
   border-radius: 2vh;
+  margin-top: 15.7vh;
 }
 .label-view {
   display: flex;

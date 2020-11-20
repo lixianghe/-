@@ -47,19 +47,20 @@
   vertical-align: top;
 }
 .h .albumCard {
-  width: 46.6vh;
+  width: 41.81vh;
   display: inline-block;
   margin-right: 7.6vh;
   height: 68.6vh;
   overflow: hidden;
+  margin-top: 14.7vh;
 }
 .h .imgB {
-  width: 46.6vh;
-  height: 46.6vh;
+  width: 41.81vh;
+  height: 41.81vh;
   border-radius: 2vh;
 }
 .albumTitB {
-  margin-top: 6vh;
+  /* margin-top: 6vh; */
   height: 14vh;
 }
 .albumTitB .tb {
@@ -71,7 +72,6 @@
   color: #fff;
   font-size: 5.5vh;
   margin-bottom: 4.89vh;
-  position: fixed;
 }
 .label-view .title {
   padding: 2vh 1vh;
@@ -81,6 +81,19 @@
   color: "#bebebe";
   border-radius: 5.5vh;
 }
-.label-view .active-tap {
-  /* color: #fa6500; */
+.label-view .titleBg {
+  padding: 2vh 1vh;
+  margin-right: 5vh;
+  height: 10vh;
+  width: 24vh;
+  background-color: #282828;
+  border-radius: 5.5vh;
+}
+
+.fixeds {
+  position: fixed;
+  left: 7.6vh;
+}
+.absolutes {
+  position: absolute;
 }

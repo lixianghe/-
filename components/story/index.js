@@ -65,7 +65,6 @@ Component({
   },
 
   attached: function () {
-    console.log(this.data.mianColor)
     if(this.data.likePic && this.data.likePic.length > 1) {
       this.setData({
         src: this.data.likePic[this.data.flag]

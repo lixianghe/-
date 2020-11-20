@@ -28,4 +28,6 @@ html{
 }
 .bone {
   background-color: #272727;
+  height: 5vh;
+  margin-top: 3vh;
 }

@@ -12,15 +12,24 @@ Page({
     confirm: '',
     currentTap: 0,
     scrollLeft: 0,
-    mainColor: app.globalData.mainColor
+    mainColor: app.globalData.mainColor,
+    isFixed: false,
   },
- 
+  scrollhandle(e) {
+    if (e.detail.scrollLeft > 250) {
+      this.setData({
+        isFixed: true
+      })
+    } else {
+      this.setData({
+        isFixed: false
+      })
+    }
+    
+  },
   onLoad(options) {
-    console.log(JSON.stringify(wx.getStorageSync('username'))+'判断用户是否已经登录了19行')
     setTimeout(() => {
-      console.log('判断用户是否已经登录了21行')
       if(JSON.stringify(wx.getStorageSync('username'))) {
-        console.log('判断用户是否已经登录了23行')
         wx.setTabBarItem({
           index: 2, 
           text: wx.getStorageSync('username'),

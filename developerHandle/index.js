@@ -12,7 +12,9 @@ import { layout, layoutGroup } from '../utils/httpOpt/api'
 module.exports = {
   data: {
     info: [],
-    countPic: '/images/media_num.png'
+    countPic: '/images/media_num.png',
+    reqS: false,
+    reqL: false
   },
   // 页面后台数据(不参与渲染)
   pageData: {
@@ -43,7 +45,8 @@ module.exports = {
         return obj
       })
       this.setData({
-        labels: formatData
+        labels: formatData,
+        reqS: true
       })
       this.getListData(formatData[0].id)
     }).catch(err => {
@@ -114,7 +117,7 @@ module.exports = {
       })
       this.setData({
         info: layoutData,
-        retcode: 1
+        reqL: true
       })
     }).catch(err => {
       console.log(JSON.stringify(err))

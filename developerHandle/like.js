@@ -60,8 +60,6 @@ module.exports = {
     albumFavorite(params).then(res => {
       let layoutData = []
       res.albumList.forEach(item => {
-          console.log(`${item}58行`)
-          // console.log(item.feeType == '01' && (item.product || item.product && [2, 3].indexOf(item.product.vipLabelType) < 0)+'57行')
           layoutData.push({
             id: item.albumId,
             title: item.albumName,
@@ -72,7 +70,6 @@ module.exports = {
           })
 
       })
-      console.log(`${layoutData}67行`)
       this.setData({
         info: layoutData,
         // info: [{id: 'qd223',title: '哈哈',src: "https://cdn.kaishuhezi.com/kstory/ablum/image/389e9f12-0c12-4df3-a06e-62a83fd923ab_info_w=450&h=450.jpg",contentType: 'album',isVip:true}],
