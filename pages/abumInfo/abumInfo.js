@@ -57,7 +57,6 @@ Page({
   ctx: null,
   onReady() {},
   async onLoad(options) {
-    console.log('page onLonde')
     const msg = '网络异常，请检查网络！'
     this.getNetWork(msg)
     // 暂存专辑全部歌曲
@@ -126,7 +125,7 @@ Page({
     this.getNetWork(msg, this.toInfo)
   },
   toInfo() {
-    wx.navigateTo({ url: '../playInfo/playInfo?id=' + app.globalData.songInfo.id + '&abumInfoName=' + this.data.abumInfoName })
+    wx.navigateTo({ url: `../playInfo/playInfo?id=${app.globalData.songInfo.id}&abumInfoName=${this.data.abumInfoName}&abumInfoId=${this.data.optionId}` })
   },
   // 改变current
   changeCurrent(index) {
