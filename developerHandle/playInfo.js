@@ -42,17 +42,21 @@ module.exports = {
     })
     wx.setStorageSync('songInfo', app.globalData.songInfo)
     // 添加历史记录
+    if (!app.userInfo || !app.userInfo.token) {
+      return;
+    }
     let opt = {
       historys: [
         {
-          ablumId: this.data.abumInfoId,
+          ablumId: this.data.abumInfoId || params.mediaId,
           storyId: params.mediaId,
-          // duration: durationSecond,
-          // playTime: 0,
+          duration: data.duration,
+          playTime: 0,
 
         }
       ]
     }
+    console.log('-------------------opt----------------------', opt)
     saveHistory(opt).then(res => {
       console.log('saveHistory', res)
     })
