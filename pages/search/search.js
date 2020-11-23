@@ -13,7 +13,13 @@ Page({
       {index: 1, name: '故事'},
     ],
     picWidth: '33vh',
-    showMInibar: true
+    showMInibar: true,
+    times: 1
+  },
+  onLoad() {
+    this.setData({
+      times: ((wx.getSystemInfoSync().screenHeight - 80)/ 100)
+    })
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()

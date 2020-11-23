@@ -70,6 +70,7 @@ App({
     this.setStyle()
     this.audioManager = wx.getBackgroundAudioManager()
     // 判断用户是否已经登录了
+    this.checkStatus()
     // wx.setStorageSync('username', 'T-mac')
     
     // 判断横竖屏
@@ -305,7 +306,7 @@ App({
         this.userInfo.refreshToken = res.refreshToken
         wx.setStorageSync('token', res.token)
         wx.setStorageSync('refreshToken', res.refreshToken)
-      }
+      } 
       this.tokenStatus = 0
       wx.setStorageSync('userInfo', this.userInfo)
     }).catch(err => {
