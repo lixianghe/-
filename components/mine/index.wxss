@@ -9,11 +9,11 @@
   text-align: center;
 }
 .adminCenter .image {
-  width: 28.5vh;
-  height: 28.5vh;
+  width: 23.7vh;
+  height: 23.7vh;
   margin-top: 11.1vh;
-  border-radius: 15vh;
-  border: 0.9vh solid #232323;
+  border-radius: 12.5vh;
+  border: 0.9vh solid #494949;
   vertical-align: top;
 }
 .adminCenterName {
@@ -45,7 +45,7 @@
   /* padding: 3rpx 4rpx; */
 }
 .adminBtnIn {
-  margin-top: 3vh;
+  margin-top: 4vh;
   font-size: 4.9vh;
   width: 28.9vh;
   height: 11.1vh;
@@ -56,4 +56,9 @@
   transform: translateX(-50%);
   border-radius: 5.5vh;
   /* padding: 3rpx 4rpx; */
+}
+.viptime {
+  color: #a8a8a8;
+  font-size: 3.97vh;
+  margin-top: 2vh;
 }
