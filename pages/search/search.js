@@ -18,7 +18,7 @@ Page({
   },
   onLoad() {
     this.setData({
-      times: ((wx.getSystemInfoSync().screenHeight - 80)/ 100)
+      times: ((wx.getSystemInfoSync().screenHeight)/ 100)
     })
   },
   onShow() {
