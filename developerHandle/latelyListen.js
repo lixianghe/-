@@ -14,6 +14,7 @@ import { history } from '../utils/httpOpt/api'
 module.exports = {
   data: {
     info: [],
+    showModal:false
   },
   onShow() {
     console.log('Log from mixin!')
@@ -86,11 +87,18 @@ module.exports = {
         // info: [{id: 'qd223',title: '哈哈',src: "https://cdn.kaishuhezi.com/kstory/ablum/image/389e9f12-0c12-4df3-a06e-62a83fd923ab_info_w=450&h=450.jpg",contentType: 'album',isVip:true}],
         retcode: 1
       })
+      if(layoutData.length === 0) {
+        this.setData({
+          showModal: true
+        })
+      }
     }).catch(err => {
       console.log(JSON.stringify(err)+'73行')
     })
   },
-
+  close() {
+    this.setData({showModal: false})
+  },
   // 懒加载
   getLayoutData() {
 

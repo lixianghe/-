@@ -24,5 +24,14 @@
   <mini-player id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
 </view>
 
-
+<view wx:if="{{showModal}}" class="model" bindtap="close"></view>
+<view wx:if="{{showModal}}" class="showInfo">
+  <view class="close" bindtap="close">
+    <image src="../../images/modal_close.png" />
+  </view>
+  <view class="info">
+    暂时还没有内容哦，请去收藏喜欢的故事吧
+  </view>
+  <button bindtap="close">确定</button>
+</view>
 
