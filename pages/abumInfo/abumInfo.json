@@ -4,7 +4,6 @@
   "component": true,
   "disableScroll": true,
   "usingComponents": {
-    "recycle-view": "../../components/recycle-view/recycle-view/recycle-view",
-    "recycle-item": "../../components/recycle-view/recycle-item/recycle-item"
+
   }
 }

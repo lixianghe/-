@@ -1,7 +1,7 @@
 // pages/mine/pay.js
 //获取应用实例
 const app = getApp()
-import { signature, buy } from '../../utils/httpOpt/api'
+import { signature, buy, buyResult } from '../../utils/httpOpt/api'
 
 var payTimer = null
 Page({
@@ -59,7 +59,7 @@ Page({
     }
     this.setData({signature: res.signature})
     buy(postData).then(res => {
-      console.log('下单成功',res)
+      console.log('createOrder',res)
       let { totalPrice, payResult } = res
       this.setData({
         totalPrice,
@@ -70,13 +70,13 @@ Page({
   },
 
   getPayResult(){
-    console.log('注册轮询查询支付结果事件')
     if (payTimer) {
       clearTimeout(payTimer)
     }
     payTimer = setTimeout(()=>{
       let params = { signature: this.data.signature }
       buyResult(params).then(res => {
+        console.log('注册轮询查询支付结果事件', res)
         let { payResult } = res
         let payStatus = ''
         switch (payResult) {

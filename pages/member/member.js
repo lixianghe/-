@@ -8,6 +8,12 @@ Page({
     info: null
   },
   onReady() {},
+  onShow() {
+    this.selectComponent('#miniPlayer').setOnShow()
+  },
+  onHide() {
+    this.selectComponent('#miniPlayer').setOnHide()
+  },
   async onLoad(options) {
     this.getList()
   },

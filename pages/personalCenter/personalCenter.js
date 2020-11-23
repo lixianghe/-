@@ -15,7 +15,6 @@ Page({
     userInfo: null,
     debugLog: '',
     songInfo: {},
-    initPgae: false,
     mainColor: btnConfig.colorOptions.mainColor
   },
 
@@ -26,13 +25,9 @@ Page({
   onLoad(options) {
   },
   onShow() {
-    this.setData({
-      initPgae: true
-    })
+    this.selectComponent('#miniPlayer').setOnShow()
   },
   onHide() {
-    this.setData({
-      initPgae: false
-    })
+    this.selectComponent('#miniPlayer').setOnHide()
   }
 })

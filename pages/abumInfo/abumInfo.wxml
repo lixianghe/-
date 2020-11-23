@@ -18,7 +18,7 @@
         <image src="/images/playAll.png" />
         <text>播放全部</text>
       </button>
-      <button class="select" bindtap="changeProp" wx:if="{{selectWordBtn}}">
+      <button class="select" bindtap="changeProp" wx:if="{{selectWordBtn && routeType === 'album'}}">
         
         <text>共{{total}}首</text>
         <image src="/images/selectWorks.png" />
@@ -56,9 +56,13 @@
     <view class="image" style="width: {{imageWidth}};height: {{imageWidth}};background: url({{src}}) no-repeat top left / 100% 100%">
       <view 
         class="like"
+        wx:if="{{routeType === 'album'}}"
         style="background: rgba(0, 0, 0, 0.6) url({{existed ? likeIcon1 : likeIcon2}}) no-repeat center center / 17vh 13vh;"
         bindtap="likeAbum">
         <!-- <image src="../../images/like_none.png" /> -->
+      </view>
+      <view class="like" wx:else >
+
       </view>
     </view>
   </view>
@@ -72,7 +76,7 @@
         <image src="/images/playAll.png" />
         <text>播放全部</text>
       </button>
-      <button class="select" bindtap="changeProp" wx:if="{{selectWordBtn}}">
+      <button class="select" bindtap="changeProp" wx:if="{{selectWordBtn && routeType === 'album'}}">
         
         <text>共 首</text>
         <image src="/images/selectWorks.png" />
