@@ -25,10 +25,6 @@ Component({
     countpic:{
       type: String,
       value: ''
-    },
-    picWidth:{
-      type: String,
-      value: ''
     }
   },
 

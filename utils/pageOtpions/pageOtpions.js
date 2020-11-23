@@ -75,20 +75,20 @@ const btnConfig = {
   ],
   personalCenter: [{
     type: 'order',
-    icon: '/images/icon-personCenter.png',
+    icon: '/images/my_buy.png',
     title: '开通/续费会员'
   }, {
-    type: 'coupon',
-    icon: '/images/icon-personCenter.png',
+    type: 'like',
+    icon: '/images/mine_like.png',
     title: '我喜欢的' 
   }, {
     type: 'latelyListen',
-    icon: '/images/icon-personCenter.png',
+    icon: '/images/latelyListen.png',
     title: '最近收听' 
   }, {
-    type: 'VIP',
-    icon: '/images/icon-personCenter.png',
-    title: '我购买的1'
+    type: 'myBuy',
+    icon: '/images/vip.png',
+    title: '我购买的'
   }]
 }
 
