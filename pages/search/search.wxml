@@ -1,14 +1,18 @@
 <view class="{{screen}}">
-  <scroll-view class="like" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920"bindscrolltolower="getLayoutData">
-    <view class="mianContent">
+  <scroll-view class="search" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920"bindscrolltolower="getLayoutData"
+  style="padding: {{2.5 * times}}px {{9 * times}}px; height: {{82 * times}}px;">
+    <view class="mianContent"
+    style="width: {{126 * times}}px; height: {{11 * times}}px; border-radius: {{11 * times}}px; left: {{9 * times}}px;  top: {{4.3 * times}}px;">
       <view class="search">
-        <image src="../../images/search.png" alt="" />
-        <input type="text" value="{{keyWord}}" bindinput="search" bindfocus="focus" bindblur="blur" placeholder="请输入进行搜索"/>
+        <image src="../../images/search.png" alt=""  style="width: {{10 * times}}px; height: {{10 * times}}px;  margin: 0 {{2 * times}}px;"/>
+        <input type="text" value="{{keyWord}}" bindinput="search" bindfocus="focus" bindblur="blur" placeholder="请输入进行搜索"
+        style="width: {{105 * times}}px; height: {{11 * times}}px;  font-size: {{4.9 * times}}px;"/>
       </view>
-      <button class="cancel" wx:if="{{keyWord}}" bindtap="cancel">取消</button>
-      <view class="label-view" wx:if="{{info.length>0}}">
-        <view class="title{{index === currentTap ? ' active-tap' : ''}}" wx:for="{{labels}}" wx:key="index"
-          data-index="{{index}}" bindtap="selectTap">
+      <button class="cancel" wx:if="{{keyWord}}" bindtap="cancel" 
+      style="width: {{20 * times}}px; height: {{9.8 * times}}px;  line-height: {{9.8 * times}}px; border-radius: {{9.8 * times}}px; font-size: {{4.6 * times}}px; left: {{141 * times}}px; top: {{4.6 * times}}px;">取消</button>
+      <view class="label-view" wx:if="{{info.length>0}}" style="top: {{19 * times}}px; left: {{9 * times}}px; margin-bottom: {{4.89 * times}}px;  font-size: {{5.5 * times}}px;">
+        <view class="title{{index === currentTap ? ' active-tap' : ''}}" wx:for="{{labels}}" wx:key="index" data-index="{{index}}" bindtap="selectTap" 
+        style="margin-right: {{5 * times}}px; padding: {{1.81 * times}}px {{5.35 * times}}px {{1.5 * times}}px {{5.35 * times}}px; border-radius: {{5.5 * times}}px;">
           <text>{{item.name}}</text>
         </view>
       </view>
@@ -22,22 +26,17 @@
         data-src="{{item.src}}"
         data-contentype="{{item.contentType}}"
         bindtap="linkAbumInfo"
-        class="{{screen}}albumCard">
-        <image class="image" src="{{item.src}}"></image>
-        <view class="albumTit">
+        class="{{screen}}albumCard"
+        style="width: {{33.81 * times}}px; height: {{68.6 * times}}px; margin-top: {{30 * times}}px">
+        <image class="image" src="{{item.src}}" 
+        style="width: {{33.81 * times}}px; height: {{33.81 * times}}px; border-radius: {{2 * times}}px;"></image>
+        <view class="albumTit" style=" margin-top: {{2 * times}}px; font-size: {{5.2 * times}}px;">
           <text>{{ item.title }}</text>
         </view>
       </view>
     <!-- 页面盒子 -->
-    </view>
-    <!-- 加载中盒子 -->
-    <view class="albumCard" wx:if="{{info.length === 0 && retcode === 1}}" wx:for="{{5}}" wx:key="index">
-      <view class="imgB bone"></view>
-      <view class="albumTitB">
-        <view class="tb bone"></view>
-        <view class="tb bone"></view>
-      </view>
-    </view>
+
+  </view>
   </scroll-view>
   <mini-player wx:if="{{showMInibar}}" id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
 </view>
