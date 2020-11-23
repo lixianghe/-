@@ -36,7 +36,8 @@ Page({
     showImg: false,
     bigScreen: app.globalData.PIbigScreen,
     abumInfoName: null,
-    existed: false
+    existed: false,
+    mainColor: btnConfig.colorOptions.mainColor
   },
   // 播放器实例
   audioManager: null,
@@ -58,7 +59,6 @@ Page({
       canplay: canplay,
       noPlay: options.noPlay || null,
       abumInfoName: options.abumInfoName || null,
-      abumInfoId: options.abumInfoId || null,
       loopType: wx.getStorageSync('loopType') || 'listLoop'
     })
     if (options.noPlay !== 'true') wx.showLoading({ title: '加载中...', mask: true })

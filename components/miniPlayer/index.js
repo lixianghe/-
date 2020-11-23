@@ -60,10 +60,10 @@ Component({
     },
     // 上一首
     pre() {
-      let allList = wx.getStorageSync('allList')
       if (app.globalData.songInfo.title) {
-        const index = app.globalData.songInfo.episode - 1 < 0 ? allList.length : app.globalData.songInfo.episode - 1
-        this.triggerEvent('current', index - 1)
+        setTimeout(() => {
+          this.triggerEvent('current', this.data.currentId)
+        }, 300)
       }
       // 设置播放图片名字和时长
       const that = this
@@ -71,12 +71,10 @@ Component({
     },
     // 下一首
     next() {
-      let allList = wx.getStorageSync('allList')
-      console.log(app.globalData.songInfo.episode)
       if (app.globalData.songInfo.title) {
-        const index = app.globalData.songInfo.episode + 1 > allList.length ? 0 : app.globalData.songInfo.episode + 1
-        console.log(index)
-        this.triggerEvent('current', index - 1)
+        setTimeout(() => {
+          this.triggerEvent('current', this.data.currentId)
+        }, 300)
       }
       // 设置播放图片名字和时长
       const that = this

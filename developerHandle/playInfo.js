@@ -16,55 +16,50 @@ module.exports = {
     showModal: false,               // 控制弹框
     content: '该内容为会员付费内容，您需要先成为会员后再购买此内容就可以收听精品内容啦'
   },
-  onShow() {
-
-  },
   async onLoad(options) {
-    let that = this
     // 拿到歌曲的id: options.id
-    let params = {mediaId: options.id, contentType: 'story'}
-    if (options.noPlay !== 'true') {
-      await this.isFavorite({mediaId: options.id})
-      await this.getInfo(params,  that)
-      // 检测是否是付费的
-      await this.needFee()
-      this.play()
-    }
-  },
-  onReady() {
+    let isFavoriteParams = {mediaId: options.id}
+    let getInfoParams = {mediaId: options.id, contentType: 'story'}
 
+    // 如果是从minibar进入noPlay为true，并不执行下列请求
+    if (options.noPlay === 'true') return
+    Promise.all([
+      this.isFavorite(isFavoriteParams),          // 是否被收藏
+      this.getInfo(getInfoParams)                 // 获取歌曲详情
+    ]).then((value)=> {
+      this.needFee()                              // 检测是否是付费的
+      this.play()                                 // 播放歌曲
+    })
   },
-  async getInfo(params) {
+  // 通过mediaId获取歌曲url及详情，并增加播放历史
+  async getInfo(params, that = this) {
     let data = await mediaPlay(params)
-    // app.globalData.songInfo = Object.assign({}, data)
     app.globalData.songInfo.src = data.mediaUrl
     app.globalData.songInfo.title = data.mediaName
     app.globalData.songInfo.id = params.mediaId
     app.globalData.songInfo.dt = data.timeText
     app.globalData.songInfo.coverImgUrl = data.coverUrl
-    this.setData({
+    that.setData({
       songInfo: app.globalData.songInfo
     })
     wx.setStorageSync('songInfo', app.globalData.songInfo)
     // 添加历史记录
-    if (!app.userInfo || !app.userInfo.token) {
-      return;
+    let saveHistoryParams = {
+      ablumId: app.globalData.abumInfoId || params.mediaId,
+      storyId: params.mediaId,
+      duration: data.duration,
+      playTime: 0
     }
-    let opt = {
-      historys: [
-        {
-          ablumId: this.data.abumInfoId || params.mediaId,
-          storyId: params.mediaId,
-          duration: data.duration,
-          playTime: 0,
-
-        }
-      ]
-    }
+    if (!app.userInfo || !app.userInfo.token) return
+    let opt = { historys: [saveHistoryParams] }
     console.log('-------------------opt----------------------', opt)
-    saveHistory(opt).then(res => {
-      console.log('saveHistory', res)
-    })
+    saveHistory(opt)
+  },
+  // 获取已经收藏歌曲
+  async isFavorite(params, that = this) {
+    if (!params.mediaId) return
+    let res = await isFavorite(params)
+    that.setData({existed: res.existed})
   },
   // 如果mediaUrl没有给出弹框并跳到首页
   needFee() {
@@ -94,11 +89,5 @@ module.exports = {
         })
       })
     }
-  },
-  // 获取已经收藏歌曲
-  async isFavorite(params, that = this) {
-    if (!params.mediaId) return
-    let res = await isFavorite(params)
-    that.setData({existed: res.existed})
   }
 }

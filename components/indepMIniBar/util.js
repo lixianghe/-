@@ -39,7 +39,6 @@ function playAlrc(that, app, percent) {
       }
       app.globalData.playing = playing;
       app.globalData.percent = time
-      // console.log('========监听捕获========='+ playing+'==========='+time+'=============')
       that.setData({
         playtime: playtime ? formatduration(playtime * 1000) : '00:00',
         percent: time || 0,

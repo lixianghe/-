@@ -70,7 +70,6 @@ module.exports = {
       item.coverImgUrl = item.coverUrl
       item.episode = (allParams.pageNum - 1) * 15 + index + 1
     })
-    app.globalData.allList = allList
     wx.setStorage({
       key: 'allList',
       data: allList,

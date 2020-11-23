@@ -3,7 +3,7 @@
     <view class="mianContent">
       <view class="search">
         <image src="../../images/search.png" alt="" />
-        <input type="text" value="{{keyWord}}" bindinput="search" placeholder="请输入进行搜索"/>
+        <input type="text" value="{{keyWord}}" bindinput="search" bindfocus="focus" bindblur="blur" placeholder="请输入进行搜索"/>
       </view>
       <button class="cancel" wx:if="{{keyWord}}" bindtap="cancel">取消</button>
       <view class="label-view" wx:if="{{info.length>0}}">
@@ -22,13 +22,9 @@
         data-src="{{item.src}}"
         data-contentype="{{item.contentType}}"
         bindtap="linkAbumInfo"
-        class="{{screen}}albumCard"
-        style="width: {{picWidth}}">
-        <image class="image" src="{{item.src}}" style="width: {{picWidth}};height: {{picWidth}}"></image>
-        <view class="linerbg">
-        </view>
+        class="{{screen}}albumCard">
+        <image class="image" src="{{item.src}}"></image>
         <view class="albumTit">
-          <text class="vip" wx:if="{{item.isVip}}">VIP</text>
           <text>{{ item.title }}</text>
         </view>
       </view>
@@ -43,7 +39,7 @@
       </view>
     </view>
   </scroll-view>
-  <mini-player id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
+  <mini-player wx:if="{{showMInibar}}" id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
 </view>
 
 

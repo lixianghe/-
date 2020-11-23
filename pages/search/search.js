@@ -12,10 +12,14 @@ Page({
       {index: 0, name: '专辑'},
       {index: 1, name: '故事'},
     ],
-    picWidth: '33vh'
+    picWidth: '33vh',
+    showMInibar: true
   },
-  onLoad() {
-    
+  onShow() {
+    this.selectComponent('#miniPlayer').setOnShow()
+  },
+  onHide() {
+    this.selectComponent('#miniPlayer').setOnHide()
   },
   // 函数节流防止请求过多
   search: tool.throttle(function (e) {
@@ -35,8 +39,8 @@ Page({
     })
     this.getData(index)
   },
-   // 跳转到播放详情界面
-   linkAbumInfo (e) {
+  // 跳转到播放详情界面
+  linkAbumInfo (e) {
     let id = e.currentTarget.dataset.id
     const src = e.currentTarget.dataset.src
     const title = e.currentTarget.dataset.title
@@ -97,5 +101,11 @@ Page({
     }).catch(err => {
       console.log(JSON.stringify(err)+'73行')
     })
+  },
+  focus() {
+    this.setData({showMInibar: false})
+  },
+  blur() {
+    this.setData({showMInibar: true})
   }
 })

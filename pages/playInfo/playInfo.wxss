@@ -222,9 +222,19 @@
   margin-right: 2.4vh;
   float: left;
 }
-.playList .songList text:nth-child(3) {
+.playList .songList text:last-child {
   float: right;
   margin-right: 0;
+}
+.playList .songList .audition {
+  margin-left: 2.5vh;
+  font-size: 4vh;
+  line-height: 4vh;
+  color: #fa6501;
+  padding: 0.8vh 1.5vh;
+  border: 1px solid #fa6501;
+  border-radius: 1vh;
+  transform: translateY(0.5vh);
 }
 .playList button {
   border: none;

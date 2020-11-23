@@ -47,11 +47,6 @@ Component({
     useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio')
   },
   audioManager: null,
-  observers: {
-    'playing': function() {
-      console.log('playing')
-    }
-  },
   attached: function () {
     
     // 用于测试数据
@@ -143,29 +138,25 @@ Component({
     // 车载情况下的播放
     carHandle() {
       let media = wx.getStorageSync('songInfo') || {} 
-      console.log('！！！！！！！！！！！！！！！！！！！！！！！' + JSON.stringify(media))
       this.audioManager.src = media.src
       this.audioManager.title = media.title
       this.audioManager.coverImgUrl = media.coverImgUrl
     },
     // 非车载情况的播放
     wxPlayHandle(songInfo, seek, cb) {
-      console.log('songInfo', songInfo)
       var that = this
       wx.playBackgroundAudio({
         dataUrl: songInfo.src,
         title: songInfo.title,
         success: function (res) {
-          console.log('res', res)
           if (seek != undefined && typeof(seek) === 'number') {
-            console.log('seek', seek)
             wx.seekBackgroundAudio({ position: seek })
           };
           that.data.playing = true;
           cb && cb();
         },
         fail: function () {
-          console.log(888)
+
         }
       })
     },
@@ -209,7 +200,6 @@ Component({
     // 因为1.9.2版本无法触发onshow和onHide所以事件由它父元素触发
     setOnShow() {
       clearInterval(timer)
-      console.log('进入attached')
       const canplay = wx.getStorageSync('canplay')
       this.setData({
         canplay: canplay
@@ -222,7 +212,6 @@ Component({
       if (playing) this.playing()
     },
     setOnHide() {
-      console.log('进入OnHide')
       clearInterval(timer)
     }
   }

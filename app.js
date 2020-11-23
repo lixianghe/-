@@ -109,7 +109,6 @@ App({
     // 测试getPlayInfoSync
     if (wx.canIUse('getPlayInfoSync')) {
       let res = wx.getPlayInfoSync()
-      console.log('$$$$$$getPlayInfoSync' + JSON.stringify(res))
     }
 
   },
@@ -139,6 +138,9 @@ App({
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
+    that.setData({
+      currentId: allList[index].mediaId
+    })
     // 获取歌曲的url
     let params = {
       mediaId: allList[index].id,
@@ -148,9 +150,6 @@ App({
     loopType === 'singleLoop' ? this.playing(0) : this.playing()
     // 切完歌改变songInfo的index
     this.globalData.songInfo.episode = index + 1
-    that.setData({
-      currentId: allList[index].mediaId
-    })
     wx.setStorage({
       key: "songInfo",
       data: allList[index]

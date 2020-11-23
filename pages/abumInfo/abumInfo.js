@@ -125,11 +125,13 @@ Page({
     this.getNetWork(msg, this.toInfo)
   },
   toInfo() {
-    wx.navigateTo({ url: `../playInfo/playInfo?id=${app.globalData.songInfo.id}&abumInfoName=${this.data.abumInfoName}&abumInfoId=${this.data.optionId}` })
+    app.globalData.abumInfoId = this.data.optionId
+    wx.navigateTo({ url: `../playInfo/playInfo?id=${app.globalData.songInfo.id}&abumInfoName=${this.data.abumInfoName}` })
   },
   // 改变current
-  changeCurrent(index) {
-    this.setData({ currentId: app.globalData.allList[index.detail].id })
+  changeCurrent(currentId) {
+    console.log('currentId', currentId)
+    this.setData({ currentId: currentId.detail })
   },
   setCanplay(canplay) {
     this.setData({
@@ -169,6 +171,7 @@ Page({
     const msg = '网络异常，无法播放！'
     app.globalData.canplay = JSON.parse(JSON.stringify(this.data.canplay))
     app.globalData.songInfo = app.globalData.canplay[0]
+    app.globalData.abumInfoId = this.data.optionId
     this.initAudioManager(this.data.canplay)
     let params = {
       mediaId: app.globalData.songInfo.id,
