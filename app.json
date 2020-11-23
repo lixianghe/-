@@ -7,9 +7,10 @@
     "pages/abumInfo/abumInfo",
     "pages/playInfo/playInfo",
     "pages/latelyListen/latelyListen",
+    "pages/search/search",
+    "pages/member/pay",
     "pages/member/member",
-    "pages/myBuy/myBuy",
-    "pages/search/search"
+    "pages/myBuy/myBuy"
     
   ],
   "window": {
