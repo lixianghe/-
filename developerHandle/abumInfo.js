@@ -9,7 +9,7 @@
  */
 const app = getApp()
 import tool from '../utils/util'
-import { albumMedia, isAlbumFavorite } from '../utils/httpOpt/api'
+import { albumMedia, isAlbumFavorite, fm } from '../utils/httpOpt/api'
 const { showData } = require('../utils/httpOpt/localData')
 
 module.exports = {
@@ -24,24 +24,26 @@ module.exports = {
 
   },
   async onLoad(options) {
+    let routeType = options.routeType   // 专辑的类型：电台or专辑
+    console.log('routeType', routeType)
     let params = {pageNum: 1, albumId: options.id}
     let allParams = {pageNum: 1, pageSize: 999, albumId: options.id}
-    const canplay = await this.getList(params)
+    const canplay = await this.getList(params, routeType)
     this.setData({canplay})
     wx.setStorageSync('canplay', canplay)
-    this.getAllList(allParams)
+    this.getAllList(allParams, routeType)
   },
   onReady() {
 
   },
   // 凯叔api数据
-  async getList(params) {
+  async getList(params, routeType) {
     // 是否被收藏
     this.isAlbumFavorite(params.albumId)
     let canplay, total
     try {
-      let res = await albumMedia(params)
-      canplay = res.mediaList
+      let res = routeType === 'album' ? await albumMedia(params) : await fm()
+      canplay = routeType === 'album' ? res.mediaList : res.list
       total = res.totalCount
       // 处理字段不一样的情况
       canplay.map((item, index) => {
@@ -57,12 +59,12 @@ module.exports = {
       return []
     }
   },
-  async getAllList(allParams) {
+  async getAllList(allParams, routeType) {
     let allList
     // 数据请求
-    const res = await albumMedia(allParams)
+    let res = routeType === 'album' ? await albumMedia(allParams) : await fm()
     
-    allList = res.mediaList
+    allList = routeType === 'album' ? res.mediaList : res.list
     allList.map((item, index) => {
       item.title = item.mediaName
       item.id = item.mediaId

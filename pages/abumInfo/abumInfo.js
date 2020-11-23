@@ -51,7 +51,8 @@ Page({
     abumInfoName: '',
     pageNoName: 'pageNum',
     pageSizeName: 'pageSize',
-    existed: false
+    existed: false,                     // 是否被收藏
+    routeType: null                     // 专辑类型：电台、专辑
   },
   audioManager: null,
   ctx: null,
@@ -63,7 +64,8 @@ Page({
     this.setData({
       src: wx.getStorageSync('img'),
       optionId: options.id,
-      abumInfoName: options.title
+      abumInfoName: options.title,
+      routeType: options.routeType
     })
     wx.setNavigationBarTitle({
       title: options.title,

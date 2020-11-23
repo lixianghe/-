@@ -85,8 +85,9 @@ module.exports = {
     }
     console.log(app.globalData.latelyListenId, routeType)
     let url
+    console.log('routeType', routeType)
     if (routeType === 'album' || routeType === 'fm') {
-      url = `../abumInfo/abumInfo?id=${id}&title=${title}&routetype=${routeType}`
+      url = `../abumInfo/abumInfo?id=${id}&title=${title}&routeType=${routeType}`
     } else if (routeType === 'media') {
       url = `../playInfo/playInfo?id=${id}`
     }
