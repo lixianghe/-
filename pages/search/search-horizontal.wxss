@@ -1,6 +1,5 @@
-.h .search {
+.h .searchContent {
   overflow: auto;
-  padding-left: 7.3vh;
   box-sizing: border-box;
   height: 82vh;
   padding: 2.5vh 9vh;
@@ -33,40 +32,41 @@
   vertical-align: top;
 }
 .h .mianContent .search {
-  width: 126vh;
-  height: 11vh;
+  width: 320rpx;
+  height: 28.2rpx;
   background: #272727;
   display: flex;
   align-items: center;
-  border-radius: 11vh;
+  border-radius: 28.2rpx;
   overflow: hidden;
   position: fixed;
-  left: 9vh;
-  top: 4.3vh;
+  left: 23rpx;
+  top: 11rpx;
+  padding-left: 3vh;
 }
 .h .mianContent .search image {
-  width: 10vh;
-  height: 10vh;
-  margin: 0 2vh;
+  width: 25.63rpx;
+  height: 25.63rpx;
+  margin: 0 5,12rpx;
 }
 .h .mianContent .search input {
   background: #272727;
-  height: 11vh;
-  width: 105vh;
+  height: 28.2rpx;
+  width: 302.5rpx;
   color: #bbbbbb;
-  font-size: 4.9vh;
+  font-size: 12.56rpx;
 }
 .h .cancel {
-  width: 20vh;
-  height: 9.8vh;
-  line-height: 9.8vh;
-  border-radius: 9.8vh;
+  width: 51.26rpx;
+  height: 25.124rpx;
+  line-height: 25.124rpx;
+  border-radius: 25.124rpx;
   background: #ffac2d;
   color:#060401;
-  font-size: 4.6vh;
+  font-size: 11.8rpx;
   position: fixed;
-  left: 141vh;
-  top: 4.6vh;
+  left: 357rpx;
+  top: 12.6rpx;
 }
 .h .albumCard {
   width: 36vh;

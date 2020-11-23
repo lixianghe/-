@@ -14,11 +14,12 @@ Page({
     ],
     picWidth: '33vh',
     showMInibar: true,
-    times: 1
+    times: 1,
+    mainColor: app.globalData.mainColor
   },
   onLoad() {
     this.setData({
-      times: ((wx.getSystemInfoSync().screenHeight - 80)/ 100)
+      times: ((wx.getSystemInfoSync().screenHeight)/ 100)
     })
   },
   onShow() {
