@@ -1,13 +1,10 @@
 // pages/mine/pay.js
 //获取应用实例
 const app = getApp()
-import { signature } from '../../utils/httpOpt/api'
+import { signature, buy } from '../../utils/httpOpt/api'
 
+var payTimer = null
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     // 系统配色
     colorStyle: '#ffac2d',
@@ -17,12 +14,7 @@ Page({
     // 支付金额
     totalPrice: '',
     // 支付状态
-    payStatus: 'pre'
-  },
-
-  // 页面后台数据(不参与渲染)
-  pageData: {
-    // 购买签名
+    payStatus: 'pre',
     signature: ''
   },
 
@@ -30,13 +22,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    app.log('当前购买id：',options.id)
+    console.log('当前购买id：',options.id)
     this.setData({
       productId: options.id
     })
   },
   onShow: function () {
-    // app.checkStatus()
+    app.checkStatus()
     this.createOrder()
   },
   onHide: function () {
@@ -56,91 +48,57 @@ Page({
   async createOrder(){
     let res = await signature()
     console.log('signature', res)
-    // app.post({
-    //   url: 'signature',
-    //   data: {}
-    // }, (resSign) => {
-    // //   console.log(resSign)
-    //   if (resSign.code == 0) {
-    //     this.pageData.signature = resSign.data.signature
-    //     let postData = {
-    //       productType: 1,
-    //       productId: this.data.productId,
-    //       payType: '1',
-    //       paySubType: 'h5-wechat-native',
-    //       signature: this.pageData.signature,
-    //       orderSource: 'car-app',
-    //       orderChannel: 'car-app-tencent'
-    //     }
-    //     console.log('下单参数：', postData,'token:',app.userInfo.token)
-    //     app.post({
-    //       url: 'buy',
-    //       data: postData
-    //     }, (res) => {
-    //       app.log('下单成功',res)
-    //       if (res.code || res.code == 0) {
-    //         // console.log(res)
-    //         let { totalPrice, payResult } = res.data
-    //         this.setData({
-    //           totalPrice,
-    //           codeUrl: payResult.codeUrl
-    //         })
-    //         this.getPayResult()
-    //       } else {
-    //         wx.showToast({
-    //           icon: 'none',
-    //           title: res.message || '网络异常'
-    //         })
-    //       }
-    //     })
-    //   } else {
-    //     wx.showToast({
-    //       icon: 'none',
-    //       title: resSign.message || '网络异常'
-    //     })
-    //   }
-    // })
+    let postData = {
+      productType: 1,
+      productId: this.data.productId,
+      payType: '1',
+      paySubType: 'h5-wechat-native',
+      signature: res.signature,
+      orderSource: 'car-app',
+      orderChannel: 'car-app-tencent'
+    }
+    this.setData({signature: res.signature})
+    buy(postData).then(res => {
+      console.log('下单成功',res)
+      let { totalPrice, payResult } = res
+      this.setData({
+        totalPrice,
+        codeUrl: payResult.codeUrl
+      })
+      this.getPayResult()
+    })
   },
 
   getPayResult(){
-    app.log('注册轮询查询支付结果事件')
-    if (app.payTimer) {
-      clearTimeout(app.payTimer)
+    console.log('注册轮询查询支付结果事件')
+    if (payTimer) {
+      clearTimeout(payTimer)
     }
-    app.payTimer = setTimeout(()=>{
-      app.get({
-        url: 'buyResult',
-        data: {
-          signature: this.pageData.signature
+    payTimer = setTimeout(()=>{
+      let params = { signature: this.data.signature }
+      buyResult(params).then(res => {
+        let { payResult } = res
+        let payStatus = ''
+        switch (payResult) {
+          case 1:
+            payStatus = 'success';
+            break;
+          case 3:
+            payStatus = 'fail';
+            break;
+          default:
+            if (this.data.productId){
+              this.getPayResult()
+            }
+            break;
         }
-      }, (res) => {
-        app.log('支付结果:',res)
-        if (res.code == 0) {
-          let { payResult } = res.data;
-          let payStatus = ''
-          switch (payResult) {
-            case 1:
-              payStatus = 'success';
-              break;
-
-            case 3:
-              payStatus = 'fail';
-              break;
-
-            default:
-              if (this.data.productId){
-                this.getPayResult()
-              }
-              break;
-          }
-          if (payStatus){
-            this.setData({
-              payStatus
-            })
-          }
-        } else if (res.code == -1) {
-          this.createOrder()
+        if (payStatus){
+          this.setData({
+            payStatus
+          })
         }
+      }).catch(error => {
+        this.createOrder()
       })
     },500)
   }

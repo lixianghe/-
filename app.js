@@ -1,5 +1,5 @@
 import tool from './utils/util'
-import { init } from './utils/httpOpt/api'
+import { init, checkStatus } from './utils/httpOpt/api'
 import btnConfig from './utils/pageOtpions/pageOtpions'
 
 require('./utils/minixs')
@@ -298,34 +298,16 @@ App({
       return
     }
     checkStatus({}).then(res => {
-      // 若code不为0，退出登录
-      if (res.code !== 0) {
-        wx.showToast({
-          icon: '',
-          title: res.message || 'checkStatus失败',
-        })
-        // this.userInfo.token = ''
-        // wx.removeStorageSync('userInfo');
-        // let targetPath = '/pages/index/index';
-        // if (this.getCurrentPath() != targetPath) {
-        //   wx.switchTab({
-        //     url: targetPath,
-        //   })
-        // }
-      }
+      console.log('checkStatus', res)
       // 若code为0且changeFlag为true，更新token和refreshToken
-      if (res.code === 0) {
-        if (res.changeFlag){
-          this.userInfo.token = resRefresh.data.token
-          this.userInfo.refreshToken = resRefresh.data.refreshToken
-        }
-        this.tokenStatus = 0
-        // for (let e of this.requestQueue) {
-        //   this.http(e.param, e.method, e.callback);
-        // }
-        // this.requestQueue = []
-        wx.setStorageSync('userInfo', this.userInfo)
+      if (res.changeFlag){
+        this.userInfo.token = res.token
+        this.userInfo.refreshToken = res.refreshToken
+        wx.setStorageSync('token', res.token)
+        wx.setStorageSync('refreshToken', res.refreshToken)
       }
+      this.tokenStatus = 0
+      wx.setStorageSync('userInfo', this.userInfo)
     }).catch(err => {
       console.log(err)
     })
