@@ -14,7 +14,8 @@ Page({
     ],
     picWidth: '33vh',
     showMInibar: true,
-    times: 1
+    times: 1,
+    mainColor: app.globalData.mainColor
   },
   onLoad() {
     this.setData({
