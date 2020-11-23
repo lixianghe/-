@@ -6,7 +6,7 @@ require('./utils/minixs')
 
 App({
   globalData: {
-    appName: 'listenTemplate',
+    appName: 'kaishustory',
     // 屏幕类型
     screen: '',
     mainColor: btnConfig.colorOptions.mainColor,
