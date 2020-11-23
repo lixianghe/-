@@ -4,7 +4,7 @@
 const app = getApp()
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
 Page({
-  mixins: [require('../../developerHandle/member')],
+  mixins: [require('../../developerHandle/personalCenter')],
   data: {
     screen: app.globalData.screen,
     avatar: '',
@@ -19,25 +19,11 @@ Page({
     mainColor: btnConfig.colorOptions.mainColor
   },
 
-  
-  coupon() {
-    wx.showToast({
-      title: '敬请期待',
-    })
-  },
-  VIP() {
-    wx.showToast({
-      title: '敬请期待',
-    })
-  },
   // 测试用清除最近收听数据
   clearStorage() {
     wx.setStorageSync('indexData', null)
   },
   onLoad(options) {
-    console.log('判断用户是否已经登录了38行')
-    console.log(JSON.stringify(wx.getStorageSync('username'))+'判断用户是否已经登录了38行')
-    console.log('判断用户是否已经登录了40行')
   },
   onShow() {
     this.setData({

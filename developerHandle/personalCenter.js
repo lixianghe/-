@@ -38,9 +38,14 @@ module.exports = {
     wx.navigateTo({ url: '../member/member' })
   },
   latelyListen() {
+    console.log(1111)
     wx.navigateTo({ url: '../latelyListen/latelyListen' })
   },
   myBuy() {
+    if (!app.userInfo || !app.userInfo.token) {
+      wx.showToast({ icon: 'none', title: '请登录后进行操作' })
+      return;
+    }
     wx.navigateTo({ url: '../myBuy/myBuy' })
   },
 }

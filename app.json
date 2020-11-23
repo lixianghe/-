@@ -8,6 +8,7 @@
     "pages/playInfo/playInfo",
     "pages/latelyListen/latelyListen",
     "pages/member/member",
+    "pages/myBuy/myBuy",
     "pages/search/search"
     
   ],

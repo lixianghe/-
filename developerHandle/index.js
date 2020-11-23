@@ -85,8 +85,8 @@ module.exports = {
     }
     console.log(app.globalData.latelyListenId, routeType)
     let url
-    if (routeType === 'album') {
-      url = `../abumInfo/abumInfo?id=${id}&title=${title}`
+    if (routeType === 'album' || routeType === 'fm') {
+      url = `../abumInfo/abumInfo?id=${id}&title=${title}&routetype=${routeType}`
     } else if (routeType === 'media') {
       url = `../playInfo/playInfo?id=${id}`
     }
@@ -96,12 +96,17 @@ module.exports = {
     })
   },
   getListData(id) {
-    console.log(id)
     // 接入凯叔列表数据
     let params = {groupId: id, pageNum: this.pageData.pageNum}
     layout(params).then(res => {
-      console.log(res)
-      let layoutData = []
+      let layoutData = [{
+        id: '00',
+        title: '电台',
+        src: '/images/icon-personCenter.png',
+        contentType: 'fm',
+        count: '',
+        isVip: false
+      }]
       res.list.forEach(v => {
         v.content.forEach(item => {
           layoutData.push({

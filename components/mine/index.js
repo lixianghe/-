@@ -215,6 +215,12 @@ Component({
         console.log(err, 181)
       })
 
+
+      vipInfo({}).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(JSON.stringify(r))
+      })
       // app.get({
       //   url: 'vipInfo',
       //   data: {}

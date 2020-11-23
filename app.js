@@ -297,12 +297,7 @@ App({
     if(!this.userInfo.token){
       return
     }
-    this.get({
-      url: 'checkStatus',
-      data: {
-      }
-    }, (res) => {
-      // console.log(res)
+    checkStatus({}).then(res => {
       // 若code不为0，退出登录
       if (res.code !== 0) {
         wx.showToast({
@@ -331,6 +326,8 @@ App({
         // this.requestQueue = []
         wx.setStorageSync('userInfo', this.userInfo)
       }
+    }).catch(err => {
+      console.log(err)
     })
   },
   uuid() {
