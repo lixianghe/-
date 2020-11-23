@@ -2,13 +2,14 @@
   "pages": [
     
     "pages/index/index", 
+    "pages/member/member",
     "pages/personalCenter/personalCenter",
     "pages/like/like",
     "pages/abumInfo/abumInfo",
     "pages/playInfo/playInfo",
     "pages/latelyListen/latelyListen",
-    "pages/member/member",
-    "pages/search/search"
+    "pages/search/search",
+    "pages/member/pay"
     
   ],
   "window": {
