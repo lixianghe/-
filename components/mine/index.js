@@ -245,16 +245,16 @@ Component({
           } else {
             expireTime = (ms - nowMs) / 1000 / 60 / 60 / 24
           }
+
+          // 会员正常时 返回日期格式
+          if(vipStatus == 1){
+            expireTime = `${year}-${month}-${day}`
+          }
         }
-        console.log(JSON.stringify(vipStatus),JSON.stringify(expireTime)+'248行--mine')
-        // 会员正常时 返回日期格式
-        if(vipStatus === 1){
-          expireTime = `${year}-${month}-${day}`
-        }
+        
         app.userInfo.vipStatus = vipStatus;
         app.userInfo.expireTime = expireTime;
         wx.setStorageSync('userInfo', app.userInfo);
-        console.log(JSON.stringify(vipStatus),JSON.stringify(expireTime)+'255行--mine')
         this.setData({
           ['userInfo.vipStatus']: vipStatus,
           ['userInfo.vipTime']: expireTime
@@ -262,51 +262,6 @@ Component({
       }).catch(err => {
         console.log(JSON.stringify(err)+'261行--mine')
       })
-      // app.get({
-      //   url: 'vipInfo',
-      //   data: {}
-      // }, (resVip) => {
-      //   if (resVip.code == 0) {
-      //     // console.log(resVip)
-      //     let { expireTime, vipStatus } = resVip.data;
-      //     if (expireTime){
-      //       let expireDate = new Date(expireTime)
-      //       let year = expireDate.getFullYear()
-      //       let month = expireDate.getMonth()
-      //       let day = expireDate.getDate()
-      //       let nowDate = new Date();
-      //       let nowYear = nowDate.getFullYear();
-      //       let nowMonth = nowDate.getMonth()
-      //       let nowDay = nowDate.getDate()
-      //       let ms = new Date(year, month, day).getTime()
-      //       let nowMs = new Date(nowYear, nowMonth, nowDay)
-      //       if (ms >= nowMs) {
-      //         month++
-      //         if (month.toString().length == 1) {
-      //           month = '0' + month;
-      //         }
-      //         if (day.toString().length == 1) {
-      //           day = '0' + day;
-      //         }
-      //         expireTime = year + '.' + (month) + '.' + day
-      //       } else {
-      //         expireTime = (ms - nowMs) / 1000 / 60 / 60 / 24
-      //       }
-      //     }
-      //     app.userInfo.vipStatus = vipStatus;
-      //     app.userInfo.expireTime = expireTime;
-      //     wx.setStorageSync('userInfo', app.userInfo);
-      //     this.setData({
-      //       ['userInfo.vipStatus']: vipStatus,
-      //       ['userInfo.vipTime']: expireTime
-      //     })
-      //   } else {
-      //     wx.showToast({
-      //       icon: 'none',
-      //       title: resVip.message || '网络异常'
-      //     })
-      //   }
-      // })
     },
     logoutTap(){
       this.logout = true;
