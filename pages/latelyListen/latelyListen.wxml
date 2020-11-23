@@ -24,4 +24,13 @@
 </view>
 
 
-
+<view wx:if="{{showModal}}" class="model" bindtap="close"></view>
+<view wx:if="{{showModal}}" class="showInfo">
+  <view class="close" bindtap="close">
+    <image src="../../images/modal_close.png" />
+  </view>
+  <view class="info">
+    暂时没有内容，去听听看吧
+  </view>
+  <button bindtap="close">确定</button>
+</view>
