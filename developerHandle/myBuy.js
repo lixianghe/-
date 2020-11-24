@@ -1,11 +1,5 @@
 /**
- * @name: latelyListen
- * 开发者编写的专辑详情abumInfo,通过专辑id获取播放列表，id在onLoad的options.id取
- * 这里开发者需要提供的字段数据(数据格式见听服务小场景模板开发说明文档)：
- * 1、播放列表：canplay(注：canplay需要存在Storage里面)
- * 2、此专辑总曲目数：total
- * @param {*}
- * @return {*}
+ * 我购买的
  */
 const app = getApp()
 const { showData } = require('../utils/httpOpt/localData')

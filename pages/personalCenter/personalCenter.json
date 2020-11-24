@@ -2,6 +2,5 @@
   "navigationBarTitleText": "个人中心",
   "component": true,
   "usingComponents": {
-    "mine": "/components/mine/index"
   }
 }
