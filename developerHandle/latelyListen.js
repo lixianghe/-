@@ -1,11 +1,14 @@
 /**
  * @name: latelyListen
- * 开发者编写的专辑详情abumInfo,通过专辑id获取播放列表，id在onLoad的options.id取
- * 这里开发者需要提供的字段数据(数据格式见听服务小场景模板开发说明文档)：
- * 1、播放列表：canplay(注：canplay需要存在Storage里面)
- * 2、此专辑总曲目数：total
- * @param {*}
- * @return {*}
+ * 开发者编写的最近收听latelyListen,配置（labels）的类型，通过切换（selectTap）获取不同类型列表
+ * 这里开发者必须提供的字段数据(数据格式见听服务小场景模板开发说明文档)：
+ * options <Array[Object]>：
+ *    -index：标签索引
+ *    -name: 标签名称
+ * info <Array[Object]>：
+ *    -id: 内容id
+ *    -title: 内容名称,
+ *    -src: 内容图片, 
  */
 const app = getApp()
 const { showData } = require('../utils/httpOpt/localData')
@@ -13,8 +16,15 @@ import { history } from '../utils/httpOpt/api'
 
 module.exports = {
   data: {
-    info: [],
-    showModal:false
+    showModal:false,
+    req: false,
+    // 开发者注入模板标签数据
+    labels: [
+      {index: 0, name: '专辑', contentType: 'album'},
+      {index: 1, name: '故事', contentType: 'media'}
+    ],
+    // 开发者注入模板页面数据
+    info: []
   },
   onShow() {
     console.log('Log from mixin!')
@@ -44,6 +54,17 @@ module.exports = {
     wx.navigateTo({
       url: url
     })
+  },
+  selectTap(e) {
+    const index = e.currentTarget.dataset.index
+    this.setData({
+      currentTap: index,
+      retcode: 0
+    })
+    wx.showLoading({
+      title: '加载中',
+    })
+    this.getData(this.data.labels[index].contentType)
   },
   getData(type) {
     let params = {
@@ -85,22 +106,20 @@ module.exports = {
       this.setData({
         info: layoutData,
         // info: [{id: 'qd223',title: '哈哈',src: "https://cdn.kaishuhezi.com/kstory/ablum/image/389e9f12-0c12-4df3-a06e-62a83fd923ab_info_w=450&h=450.jpg",contentType: 'album',isVip:true}],
-        retcode: 1
+        req: true
       })
       if(layoutData.length === 0) {
         this.setData({
           showModal: true
         })
       }
+      wx.hideLoading()
     }).catch(err => {
+      wx.hideLoading()
       console.log(JSON.stringify(err)+'73行')
     })
   },
   close() {
     this.setData({showModal: false})
-  },
-  // 懒加载
-  getLayoutData() {
-
-  },
+  }
 }

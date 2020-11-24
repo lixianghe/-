@@ -1,20 +1,37 @@
 /**
  * @name: index
- * 开发者编写的专辑详情abumInfo,通过专辑id获取播放列表，id在onLoad的options.id取
- * 这里开发者需要提供的字段数据(数据格式见听服务小场景模板开发说明文档)：
- * 1、播放列表：canplay(注：canplay需要存在Storage里面)
- * 2、此专辑总曲目数：total
- * @param {*}
- * @return {*}
+ * 开发者编写的首页index,配置（labels）的类型，通过切换（selectTap）获取不同类型列表
+ * 这里开发者必须提供的字段数据(数据格式见听服务小场景模板开发说明文档)：
+ * labels <Array[Object]>：
+ *    -index：标签索引
+ *    -name: 标签名称
+ * info <Array[Object]>：
+ *    -id: 内容id
+ *    -title: 内容名称,
+ *    -src: 内容图片, 
+ * 可选部分-快捷入口（最多两个）：
+ * lalyLtn <Array[Object]>：
+ *    -icon: 快捷入口图标
+ *    -title: 快捷入口图标标题,
+ *    -name: 快捷入口文件名称（page下的文件夹和文件名称保持一致）, 
  */
 const app = getApp()
 import { layout, layoutGroup } from '../utils/httpOpt/api'
 module.exports = {
   data: {
+    // 开发者注入快捷入口数据
+    lalyLtn: [
+      {icon: '/images/zjst.png', title: "最近收听", name: 'latelyListen'},
+      {icon: '/images/icon_collect.png', title: "我喜欢的", name:'like'}
+    ],
+    // 开发者注入模板页面数据
     info: [],
+    // 开发者注入模板标签数据
+    labels: [],
+
     countPic: '/images/media_num.png',
     reqS: false,
-    reqL: false
+    reqL: false,
   },
   // 页面后台数据(不参与渲染)
   pageData: {
@@ -24,9 +41,6 @@ module.exports = {
     // 各频道列表页码，根据groupId获取
     pageNum: 1,
     hasNext: true,
-    loading: false,
-    retcode: 1,
-    labels: [],
   },
   onShow() {
     console.log('Log from mixin!')
@@ -62,6 +76,9 @@ module.exports = {
     this.setData({
       currentTap: index,
       retcode: 0
+    })
+    wx.showLoading({
+      title: '加载中',
     })
     this.getListData(id)
   },
@@ -103,7 +120,7 @@ module.exports = {
       let layoutData = [{
         id: '00',
         title: '电台',
-        src: '/images/icon-personCenter.png',
+        src: '/images/fm.jpg',
         contentType: 'fm',
         count: '',
         isVip: false
@@ -125,7 +142,9 @@ module.exports = {
         info: layoutData,
         reqL: true
       })
+      wx.hideLoading()
     }).catch(err => {
+      wx.hideLoading()
       console.log(JSON.stringify(err))
     })
   },

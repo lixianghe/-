@@ -9,7 +9,6 @@ Page({
     screen: app.globalData.screen,
     avatar: '',
     userName: '',
-    data: btnConfig.personalCenter ,
     isLogin: app.globalData.haveLogin,
     withCredentials: true,
     userInfo: null,

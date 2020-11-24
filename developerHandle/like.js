@@ -14,7 +14,8 @@ import { albumFavorite, mediaFavorite } from '../utils/httpOpt/api'
 module.exports = {
   data: {
     info: [],
-    showModal: false
+    showModal: false,
+    req: false
   },
   onShow() {
     console.log('Log from mixin!')
@@ -45,6 +46,17 @@ module.exports = {
       url: url
     })
   },
+  selectTap(e) {
+    const index = e.currentTarget.dataset.index
+    this.setData({
+      currentTap: index,
+      retcode: 0
+    })
+    wx.showLoading({
+      title: '加载中',
+    })
+    this.getData(index)
+  },
   getData(index) {
     console.log(index)
     if (index == 0){
@@ -73,14 +85,16 @@ module.exports = {
       this.setData({
         info: layoutData,
         // info: [{id: 'qd223',title: '哈哈',src: "https://cdn.kaishuhezi.com/kstory/ablum/image/389e9f12-0c12-4df3-a06e-62a83fd923ab_info_w=450&h=450.jpg",contentType: 'album',isVip:true}],
-        retcode: 1
+        req: true
       })
       if(layoutData.length === 0) {
         this.setData({
           showModal: true
         })
       }
+      wx.hideLoading()
     }).catch(err => {
+      wx.hideLoading()
       console.log(JSON.stringify(err)+'73行')
     })
   },
@@ -107,9 +121,11 @@ module.exports = {
       this.setData({
         info: layoutData,
         // info: [{id: 'qd223',title: '哈哈',src: "https://cdn.kaishuhezi.com/kstory/ablum/image/389e9f12-0c12-4df3-a06e-62a83fd923ab_info_w=450&h=450.jpg",contentType: 'album',isVip:true}],
-        retcode: 1
+        req: true
       })
+      wx.hideLoading()
     }).catch(err => {
+      wx.hideLoading()
       console.log(JSON.stringify(err)+'73行')
     })
   },

@@ -17,14 +17,7 @@ Page({
     mainColor: app.globalData.mainColor
   },
   screen: app.globalData.screen,
-  selectTap(e) {
-    const index = e.currentTarget.dataset.index
-    this.setData({
-      currentTap: index,
-      retcode: 0
-    })
-    this.getData(index)
-  },
+  
   like (e) {
     if(e.detail.contentType === 'album') {
       this.likeAbum(e.detail.flag, e.detail.typeid)

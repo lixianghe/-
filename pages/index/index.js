@@ -5,10 +5,6 @@ Page({
   mixins: [require('../../developerHandle/index')],
   data: {
     screen: app.globalData.screen,
-    lalyLtn: [
-      {icon: '/images/zjst.png', title: "最近收听",name: 'latelyListen'},
-      {icon: '/images/icon_collect.png', title: "我喜欢的", name:'like'}
-    ],
     confirm: '',
     currentTap: 0,
     scrollLeft: 0,
@@ -16,7 +12,7 @@ Page({
     isFixed: false,
   },
   scrollhandle(e) {
-    if (e.detail.scrollLeft > 250) {
+    if (e.detail.scrollLeft > 230) {
       this.setData({
         isFixed: true
       })
