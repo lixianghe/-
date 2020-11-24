@@ -7,7 +7,7 @@
   </progress>
   
   <view class="btns">
-    <view bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}" class="view" wx:key="index" wx:for="{{items}}">
+    <view bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}" class="view" wx:key="index" wx:for="{{miniBtns}}">
       <view wx:if="{{hoverflag && current === index}}" class="modal"></view>
       <image class="image" bindtap="player" data-name="{{item.name}}" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
       <image class="image" bindtap="player" data-name="{{item.name}}" wx:elif="{{item.name === 'like'}}" src="{{existed ? item.img.liked : item.img.noLike}}" />

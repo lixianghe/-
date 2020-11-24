@@ -1,7 +1,7 @@
 const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
-import { getInfo } from '../../developerHandle/playInfo'
+import { getMedia } from '../../developerHandle/playInfo'
 import { albumFavoriteAdd, albumFavoriteCancel } from '../../utils/httpOpt/api'
 
 // const { getData } = require('../../utils/https')
@@ -78,9 +78,9 @@ Page({
     }, 500)
   },
   onShow() {
-    const currentId = wx.getStorageSync('songInfo').mediaId
+    const currentId = wx.getStorageSync('songInfo').id
     this.setData({
-      currentId: currentId,
+      currentId: Number(currentId),
     })
     this.selectComponent('#miniPlayer').setOnShow()
   },
@@ -132,7 +132,6 @@ Page({
   },
   // 改变current
   changeCurrent(currentId) {
-    console.log('currentId', currentId)
     this.setData({ currentId: currentId.detail })
   },
   setCanplay(canplay) {
@@ -184,7 +183,7 @@ Page({
       songInfo: app.globalData.songInfo,
     })
     let that = this
-    if (getInfo) await getInfo(params, that)
+    if (getMedia) await getMedia(params, that)
     this.getNetWork(msg, app.playing)
     
     wx.setStorage({

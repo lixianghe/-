@@ -35,7 +35,7 @@ module.exports = {
       wx.showToast({ icon: 'none', title: '请登录后进行操作' })
       return;
     }
-    wx.navigateTo({ url: '../member/member' })
+    wx.navigateTo({ url: '../like/like' })
   },
   latelyListen() {
     console.log(1111)

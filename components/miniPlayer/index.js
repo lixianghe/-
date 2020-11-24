@@ -1,7 +1,7 @@
 const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
-import { getInfo, isFavorite, like } from '../../developerHandle/playInfo'
+import { isFavorite, like } from '../../developerHandle/playInfo'
 
 var timer = null
 
@@ -30,7 +30,32 @@ Component({
   },
   data: {
     // minibar的按钮
-    items: btnConfig.miniBtns,
+    // items: btnConfig.miniBtns,
+    // mini player按钮配置
+    miniBtns: [
+      {
+        name: 'pre',
+        img: '/images/pre.png',
+      },
+      {
+        name: 'toggle',
+        img: {
+          stopUrl: '/images/stop.png' ,
+          playUrl: '/images/play.png'
+        }
+      },
+      {
+        name: 'next',
+        img: '/images/next.png'
+      },
+      {
+        name: 'like',                                             // 收藏
+        img: {
+          noLike: '/images/like_none.png' ,                    // 未收藏的图标
+          liked: '/images/like.png'                          // 已收藏的图标
+        }
+      }
+    ],
     playing: false,
     hoverflag: false,
     current: null,
@@ -55,8 +80,7 @@ Component({
     player(e) {
       if (!this.data.songInfo || !this.data.songInfo.title) return false
       const type = e.currentTarget.dataset.name
-      let params = {mediaId: this.data.songInfo.mediaId}
-      if (type) this[type](params)
+      if (type) this[type]()
     },
     // 上一首
     pre() {
@@ -67,7 +91,7 @@ Component({
       }
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, - 1, getInfo)
+      app.cutplay(that, - 1)
     },
     // 下一首
     next() {
@@ -78,7 +102,7 @@ Component({
       }
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, + 1, getInfo)
+      app.cutplay(that, + 1)
     },
     // 暂停
     toggle() {
@@ -122,10 +146,9 @@ Component({
       }, 150)
     },
     // 收藏和取消
-    like(params) {
+    like() {
       let that = this
-      console.log(params)
-      like(params, that)
+      like(that)
     },
     watchPlay() {
       app.globalData.songInfo = wx.getStorageSync('songInfo')
@@ -153,7 +176,7 @@ Component({
       if (playing) app.playing()
       // 是否被收藏
       let songInfo = wx.getStorageSync('songInfo')
-      isFavorite({mediaId: songInfo.mediaId}, that)
+      isFavorite({mediaId: songInfo.id}, that)
     },
     setOnHide() {
       clearInterval(timer)

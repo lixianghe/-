@@ -17,7 +17,7 @@ Page({
     playtime: '00:00',
     showList: false,
     currentId: null,
-    btns: btnConfig.playInfoBtns,
+    // btns: btnConfig.playInfoBtns,
     
     btnCurrent: null,
     noTransform: '',
@@ -53,7 +53,6 @@ Page({
     // 获取歌曲列表
     const canplay = wx.getStorageSync('allList')
     const songInfo = app.globalData.songInfo
-    // 用于切换模式，复制一个canplay
     this.setData({
       songInfo: songInfo,
       canplay: canplay,
@@ -61,6 +60,8 @@ Page({
       abumInfoName: options.abumInfoName || null,
       loopType: wx.getStorageSync('loopType') || 'listLoop'
     })
+    // 把abumInfoName存在缓存中，切歌的时候如果不是专辑就播放同一首
+    wx.setStorageSync('abumInfoName', options.abumInfoName)
     if (options.noPlay !== 'true') wx.showLoading({ title: '加载中...', mask: true })
   },
   onShow: function () {
@@ -91,22 +92,21 @@ Page({
   },
   btnsPlay(e) {
     const type = e.currentTarget.dataset.name
-    let params = {mediaId: this.data.songInfo.id}
-    if (type) this[type](params)
+    if (type) this[type]()
   },
   // 上一首
   pre() {
     let loopType = wx.getStorageSync('loopType')
     if (loopType !== 'singleLoop') this.setData({ showImg: false })
     const that = this
-    app.cutplay(that, -1, this.getInfo)
+    app.cutplay(that, -1)
   },
   // 下一首
   next() {
     let loopType = wx.getStorageSync('loopType')
     if (loopType !== 'singleLoop') this.setData({ showImg: false })
     const that = this
-    app.cutplay(that, 1, this.getInfo)
+    app.cutplay(that, 1)
   },
   // 切换播放模式
   loopType() {
@@ -290,7 +290,7 @@ Page({
   },
   // 处理scrollTop的高度
   setScrollTop() {
-    let index = this.data.canplay.findIndex(n => n.mediaId === Number(this.data.songInfo.id))
+    let index = this.data.canplay.findIndex(n => Number(n.id) === Number(this.data.songInfo.id))
     console.log('index', index, this.data.songInfo, this.data.canplay)
     let query = wx.createSelectorQuery();
     query.select('.songList').boundingClientRect(rect=>{

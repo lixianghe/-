@@ -1,5 +1,5 @@
 import tool from './utils/util'
-import { init, checkStatus } from './utils/httpOpt/api'
+import { init, checkStatus, mediaPlay, saveHistory, isFavorite } from './utils/httpOpt/api'
 import btnConfig from './utils/pageOtpions/pageOtpions'
 
 require('./utils/minixs')
@@ -64,6 +64,7 @@ App({
   // 日志文本
   logText: '',
   audioManager: null,
+  currentIndex: null,
   onLaunch: function () {
     this.initCode()
     // 判断playInfo页面样式，因为这里最快执行所以放在这
@@ -128,26 +129,29 @@ App({
     return userInfo
   },
   vision: '1.0.0',
-  cutplay: async function (that, type, getUrl) {
+  cutplay: async function (that, type) {
     // 判断循环模式
     let allList = wx.getStorageSync('allList')
     // 根据循环模式设置数组
     let loopType = wx.getStorageSync('loopType')
-    allList = this.setList(loopType, allList)
+    // 如果缓存没有abumInfoName，说明是从首页单曲进入，list为单首
+    let abumInfoName = wx.getStorageSync('abumInfoName')
+    allList = abumInfoName ? this.setList(loopType, allList) : [this.globalData.songInfo]
     let no = this.globalData.songInfo.episode
     let index = this.setIndex(type, no, allList, loopType) - 1
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
     that.setData({
-      currentId: allList[index].mediaId
+      currentId: Number(allList[index].id),       // 当前播放的歌曲id
+      currentIndex: index
     })
     // 获取歌曲的url
     let params = {
       mediaId: allList[index].id,
       contentType: 'story'
     }
-    if (getUrl) await getUrl(params, that)
+    await this.getMedia(params, that)
     loopType === 'singleLoop' ? this.playing(0) : this.playing()
     // 切完歌改变songInfo的index
     this.globalData.songInfo.episode = index + 1
@@ -319,6 +323,38 @@ App({
         v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     })
+  },
+
+  // 切歌的时候获取歌曲信息
+  async getMedia(params, that) {    
+    // 是否被收藏
+    let res = await isFavorite(params)
+    that.setData({existed: res.existed})  
+    // 获取歌曲详情           
+    let data = await mediaPlay(params)
+    let songInfo = {}
+    songInfo.src = data.mediaUrl
+    songInfo.title = data.mediaName
+    songInfo.id = params.mediaId
+    songInfo.dt = data.timeText
+    songInfo.coverImgUrl = data.coverUrl
+
+    this.globalData.songInfo = Object.assign({}, this.globalData.songInfo, songInfo)
+    that.setData({
+      songInfo: songInfo
+    })
+    wx.setStorageSync('songInfo', songInfo)
+    // 添加历史记录
+    let saveHistoryParams = {
+      ablumId: this.globalData.abumInfoId || songInfo.id,
+      storyId: songInfo.id,
+      duration: data.duration,
+      playTime: 0
+    }
+    if (!this.userInfo || !this.userInfo.token) return
+    let opt = { historys: [saveHistoryParams] }
+    console.log('-------------------opt----------------------', opt)
+    saveHistory(opt)
   },
   /**
    * 记录日志

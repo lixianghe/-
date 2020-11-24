@@ -4,11 +4,15 @@
  * 这里开发者需要提供的字段数据(数据格式见听服务小场景模板开发说明文档)：
  * 1、播放列表：canplay(注：canplay需要存在Storage里面)
  * 2、此专辑总曲目数：total
- * @param {*}
- * @return {*}
+ * 3、由于模板内的字段名称可能和后台提供不一样，在获取list后重新给模板内的字段赋值：如下
+ * list.map((item, index) => {
+      item.title = item.mediaName                               // 歌曲名称
+      item.id = item.mediaId                                    // 歌曲Id
+      item.dt = item.timeText                                   // 歌曲的时常
+      item.coverImgUrl = item.coverUrl                          // 歌曲的封面
+      item.episode = (params.pageNum - 1) * 15 + index + 1      // 歌曲的集数（这个按这种方式赋值即可）
+    })
  */
-const app = getApp()
-import tool from '../utils/util'
 import { albumMedia, isAlbumFavorite, fm } from '../utils/httpOpt/api'
 const { showData } = require('../utils/httpOpt/localData')
 
@@ -25,13 +29,19 @@ module.exports = {
   },
   async onLoad(options) {
     let routeType = options.routeType   // 专辑的类型：电台or专辑
-    console.log('routeType', routeType)
+
     let params = {pageNum: 1, albumId: options.id}
     let allParams = {pageNum: 1, pageSize: 999, albumId: options.id}
+
     const canplay = await this.getList(params, routeType)
+    // 如果是fm就不请求alllist,直接把canplay赋值给alllist
+    if (routeType === 'album') {
+      this.getAllList(allParams)
+    } else {
+      wx.setStorageSync('allList',canplay)
+    }        
     this.setData({canplay})
     wx.setStorageSync('canplay', canplay)
-    this.getAllList(allParams, routeType)
   },
   onReady() {
 
@@ -59,12 +69,12 @@ module.exports = {
       return []
     }
   },
-  async getAllList(allParams, routeType) {
+  async getAllList(allParams) {
     let allList
     // 数据请求
-    let res = routeType === 'album' ? await albumMedia(allParams) : await fm()
+    let res = await albumMedia(allParams)
     
-    allList = routeType === 'album' ? res.mediaList : res.list
+    allList = res.mediaList
     allList.map((item, index) => {
       item.title = item.mediaName
       item.id = item.mediaId
