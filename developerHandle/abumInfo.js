@@ -3,8 +3,9 @@
  * 开发者编写的专辑详情abumInfo,通过专辑id获取播放列表，id在onLoad的options.id取
  * 这里开发者需要提供的字段数据(数据格式见听服务小场景模板开发说明文档)：
  * 1、播放列表：canplay(注：canplay需要存在Storage里面)
- * 2、此专辑总曲目数：total
- * 3、由于模板内的字段名称可能和后台提供不一样，在获取list后重新给模板内的字段赋值：如下
+ * 2、当前专辑所有列表allList，只需存在Storage缓存里面，主要用于切歌使用
+ * 3、此专辑总曲目数：total
+ * 4、由于模板内的字段名称可能和后台提供不一样，在获取list后重新给模板内的字段赋值：如下
  * list.map((item, index) => {
       item.title = item.mediaName                               // 歌曲名称
       item.id = item.mediaId                                    // 歌曲Id
@@ -47,7 +48,7 @@ module.exports = {
 
   },
   // 凯叔api数据
-  async getList(params, routeType) {
+  async getList(params, routeType = 'album') {
     // 是否被收藏
     this.isAlbumFavorite(params.albumId)
     let canplay, total

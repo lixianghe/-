@@ -10,7 +10,6 @@
  *  songInfo.coverImgUrl = data.coverUrl                  // 音频封面
  * 2、重新赋值后setData给songInfo，并且存在Storage缓存中
  * 3、赋值后执行this.play()来播放歌曲
- * 4、因为
  * 4、其他模板外的功能开发者在这个文件自行开发
  */
 const app = getApp()
@@ -103,14 +102,12 @@ module.exports = {
     }
     if (!app.userInfo || !app.userInfo.token) return
     let opt = { historys: [saveHistoryParams] }
-    console.log('-------------------opt----------------------', opt)
     saveHistory(opt)
   },
   // 获取已经收藏歌曲
   async isFavorite(params, that = this) {
     if (!params.mediaId) return
     let res = await isFavorite(params)
-    console.log('existed', res.existed)
     that.setData({existed: res.existed})
   },
   // 如果mediaUrl没有给出弹框并跳到首页

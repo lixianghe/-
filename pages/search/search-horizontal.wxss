@@ -42,7 +42,7 @@
   position: fixed;
   left: 23rpx;
   top: 11rpx;
-  padding-left: 3vh;
+  /* padding-left: 3vh; */
 }
 .h .mianContent .search image {
   width: 25.63rpx;

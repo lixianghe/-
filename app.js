@@ -88,7 +88,7 @@ App({
       const pages = getCurrentPages()
       const currentPage = pages[pages.length - 1]
       console.log('playnext', currentPage)
-      that.cutplay(currentPage, 1)
+      that.cutplay(currentPage, 1, true)
     });
     //监听音乐暂停，保存播放进度广播暂停状态
     wx.onBackgroundAudioPause(function () {
@@ -129,16 +129,16 @@ App({
     return userInfo
   },
   vision: '1.0.0',
-  cutplay: async function (that, type) {
+  cutplay: async function (that, type, cutFlag) {
     // 判断循环模式
     let allList = wx.getStorageSync('allList')
     // 根据循环模式设置数组
     let loopType = wx.getStorageSync('loopType')
     // 如果缓存没有abumInfoName，说明是从首页单曲进入，list为单首
     let abumInfoName = wx.getStorageSync('abumInfoName')
-    allList = abumInfoName ? this.setList(loopType, allList) : [this.globalData.songInfo]
+    allList = abumInfoName ? this.setList(loopType, allList, cutFlag) : [this.globalData.songInfo]
     let no = this.globalData.songInfo.episode
-    let index = this.setIndex(type, no, allList, loopType) - 1
+    let index = this.setIndex(type, no, allList, loopType, cutFlag) - 1
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     wx.pauseBackgroundAudio();
@@ -151,6 +151,7 @@ App({
       mediaId: allList[index].id,
       contentType: 'story'
     }
+    console.log('cutplay', params)
     await this.getMedia(params, that)
     loopType === 'singleLoop' ? this.playing(0) : this.playing()
     // 切完歌改变songInfo的index
@@ -161,14 +162,14 @@ App({
     })
   },
   // 根据循环模式设置播放列表
-  setList(loopType, allList){
+  setList(loopType, allList, cutFlag = false){
     let loopList = []
     // 列表循环
     if (loopType === 'listLoop') {
       loopList = allList     
     } else if (loopType === 'singleLoop') {
       // 单曲循环
-      loopList = [this.globalData.songInfo]
+      loopList = cutFlag ? [this.globalData.songInfo] : allList
     } else {
       // 随机播放
       loopList = this.randomList(allList)
@@ -184,17 +185,17 @@ App({
     }
     return arr;
   },
-  // 根据循环模式设置切歌的index
-  setIndex(type, no, list, loopType) {
+  // 根据循环模式设置切歌的index,cutFlag为true时说明是自然切歌
+  setIndex(type, no, list, loopType, cutFlag = false) {
     let index
-    if (loopType === 'listLoop' || loopType === 'shufflePlayback') {
+    if (loopType === 'singleLoop' && cutFlag) {
+      index = 1
+    } else {
       if (type === 1) {
         index = no + 1 > list.length ? 1 : no + 1
       } else {
         index = no - 1 < 1 ? list.length : no - 1
       }
-    } else {
-      index = 1
     }
     return index
   },
@@ -218,6 +219,7 @@ App({
   // 车载情况下的播放
   carHandle(seek) {
     let media = this.globalData.songInfo || wx.getStorageSync('songInfo')
+    console.log('media', media)
     this.audioManager.src = media.src
     this.audioManager.title = media.title
     this.audioManager.coverImgUrl = media.coverImgUrl
@@ -298,12 +300,10 @@ App({
     })
   },
   checkStatus(){
-    console.log('校验!!')
     if(!this.userInfo.token){
       return
     }
     checkStatus({}).then(res => {
-      console.log('checkStatus', res)
       // 若code为0且changeFlag为true，更新token和refreshToken
       if (res.changeFlag){
         this.userInfo.token = res.token

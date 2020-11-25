@@ -45,7 +45,6 @@ Component({
     }
   },
   attached(options) {
-    console.log(this.data.confirm)
-    console.log(this.data.cancel)
+
   }
 })

@@ -195,11 +195,12 @@ Page({
     })
   },
   // 在播放列表里面点击播放歌曲
-  playSong(e) {
+  async playSong(e) {
     const songInfo = e.currentTarget.dataset.song
     app.globalData.songInfo = songInfo
-    songInfo.dt = tool.formatduration(Number(songInfo.dt))
-    
+    // 获取歌曲详情
+    let params = {mediaId: app.globalData.songInfo.id, contentType: 'story'}
+    await this.getMedia(params)
     this.setData({
       songInfo: songInfo,
       currentId: app.globalData.songInfo.id,
@@ -268,7 +269,6 @@ Page({
     const windowHeight = wx.getSystemInfoSync().screenHeight;
     // 如果是小于1/2的情况
     if (windowHeight / windowWidth >= 0.41) {
-      console.log(windowWidth+'-------------------小------------------'+windowHeight, windowHeight / windowWidth)
       this.setData({
         bigScreen: false,
         leftWith: windowWidth * 0.722 + 'px',
@@ -278,7 +278,6 @@ Page({
       })
     } else {
       // 1920*720
-      console.log(windowWidth+'-------------------大------------------'+windowHeight, (windowHeight / windowWidth))
       this.setData({
         bigScreen: true,
         leftWith: '184vh',
@@ -291,11 +290,9 @@ Page({
   // 处理scrollTop的高度
   setScrollTop() {
     let index = this.data.canplay.findIndex(n => Number(n.id) === Number(this.data.songInfo.id))
-    console.log('index', index, this.data.songInfo, this.data.canplay)
     let query = wx.createSelectorQuery();
     query.select('.songList').boundingClientRect(rect=>{
       let listHeight = rect.height;
-      console.log('listHeight', listHeight, listHeight / this.data.canplay.length * (index - 1));
       this.setData({
         scrolltop: index > 2 ? listHeight / this.data.canplay.length * (index - 2) : 0
       })

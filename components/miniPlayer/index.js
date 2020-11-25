@@ -110,8 +110,9 @@ Component({
     },
     // 进入播放详情
     playInfo() {
+      let abumInfoName = wx.getStorageSync('abumInfoName')
       wx.navigateTo({
-        url: '../playInfo/playInfo?noPlay=true'
+        url: `../playInfo/playInfo?noPlay=true&abumInfoName=${abumInfoName}`
       })
     },
     // 监听音乐播放的状态

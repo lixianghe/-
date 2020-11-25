@@ -43,7 +43,7 @@ module.exports = {
     hasNext: true,
   },
   onShow() {
-    console.log('Log from mixin!')
+
   },
   onLoad(options) {
     // 接入凯叔频道数据
@@ -100,9 +100,7 @@ module.exports = {
     if (!app.globalData.latelyListenId.includes(id)) {
       app.globalData.latelyListenId.push(id)
     }
-    console.log(app.globalData.latelyListenId, routeType)
     let url
-    console.log('routeType', routeType)
     if (routeType === 'album' || routeType === 'fm') {
       url = `../abumInfo/abumInfo?id=${id}&title=${title}&routeType=${routeType}`
     } else if (routeType === 'media') {

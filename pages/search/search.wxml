@@ -3,14 +3,16 @@
   style="padding: {{2.5 * times}}px {{9 * times}}px; height: {{82 * times}}px;">
     <view class="mianContent"
     style="width: {{126 * times}}px; height: {{11 * times}}px; border-radius: {{11 * times}}px; left: {{9 * times}}px;  top: {{4.3 * times}}px;">
-      <view class="search">
-        <image src="../../images/search.png" alt=""/>
-        <input type="text" value="{{keyWord}}" bindinput="search" bindfocus="focus" bindblur="blur" placeholder="请输入进行搜索"/>
+       <view class="search" style="width: {{126 * times}}px; height: {{11 * times}}px;left: {{9 * times}}px;top:{{4.3 * times}}px">
+        <image src="../../images/search.png" alt=""  style="width: {{10 * times}}px; height: {{10 * times}}px;  margin: 0 {{2 * times}}px;"/>
+        <input type="text" value="{{keyWord}}" bindinput="search" bindfocus="focus" bindblur="blur" placeholder="请输入进行搜索"
+        style="width: {{105 * times}}px; height: {{11 * times}}px;  font-size: {{4.9 * times}}px;"/>
       </view>
-      <button class="cancel" wx:if="{{keyWord}}" bindtap="cancel">取消</button>
+      <button class="cancel" wx:if="{{keyWord}}" bindtap="cancel" 
+      style="width: {{20 * times}}px; height: {{9.8 * times}}px;  line-height: {{9.8 * times}}px; border-radius: {{9.8 * times}}px; font-size: {{4.6 * times}}px; left: {{141 * times}}px; top: {{4.6 * times}}px;">取消</button>
       <view class="label-view" wx:if="{{info.length>0}}" style="top: {{19.5 * times}}px; left: {{9 * times}}px; margin-bottom: {{4.89 * times}}px;  font-size: {{5.5 * times}}px;">
         <view class="title{{index === currentTap ? ' active-tap' : ''}}" wx:for="{{labels}}" wx:key="index" data-index="{{index}}" bindtap="selectTap" 
-        style="margin-right: {{5 * times}}px; padding: {{1.81 * times}}px {{5.35 * times}}px {{1.5 * times}}px {{5.35 * times}}px; border-radius: {{5.5 * times}}px;background:{{index === currentTap ? mainColor : '#282828'}};color:{{index === currentTap ? '#000' : '#bebebe'}}">
+        style="margin-right: {{5 * times}}px; padding: {{1.2 * times}}px {{5.1 * times}}px; border-radius: {{5.5 * times}}px;background:{{index === currentTap ? mainColor : '#282828'}};color:{{index === currentTap ? '#000' : '#bebebe'}}">
           <text>{{item.name}}</text>
         </view>
       </view>
@@ -25,7 +27,7 @@
         data-contentype="{{item.contentType}}"
         bindtap="linkAbumInfo"
         class="{{screen}}albumCard"
-        style="width: {{33.7 * times}}px; height: {{68.6 * times}}px; margin-top: {{30.5 * times}}px">
+        style="width: {{33.7 * times}}px; height: {{68.6 * times}}px; margin-top: {{31.5 * times}}px">
         <image class="image" src="{{item.src}}" 
         style="width: {{33.7 * times}}px; height: {{33.7 * times}}px; border-radius: {{2 * times}}px;"></image>
         <view class="albumTit" style=" margin-top: {{2 * times}}px; font-size: {{5.2 * times}}px;">
