@@ -35,7 +35,7 @@
       </progress>
       <text class="duration" wx:if="{{percentBar}}">{{songInfo.dt}}</text>
       <view class="btns">
-        <view wx:for="{{playInfoBtns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
+        <view wx:for="{{playInfoBtns.length ? playInfoBtns : defaultBtns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
           <view wx:if="{{btnCurrent === index}}" class="modal"></view>
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:elif="{{item.name === 'like'}}" src="{{existed ? item.img.liked : item.img.noLike}}" />
@@ -80,7 +80,7 @@
       </progress>
       <text class="duration" wx:if="{{percentBar}}">{{songInfo.dt}}</text>
       <view class="btns">
-        <view wx:for="{{playInfoBtns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
+        <view wx:for="{{playInfoBtns.length ? playInfoBtns : defaultBtns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
           <view wx:if="{{btnCurrent === index}}" class="modal"></view>
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:elif="{{item.name === 'like'}}" src="{{existed ? item.img.liked : item.img.noLike}}" />

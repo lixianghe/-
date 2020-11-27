@@ -17,8 +17,16 @@ Page({
     playtime: '00:00',
     showList: false,
     currentId: null,
-    // btns: btnConfig.playInfoBtns,
-    
+    // 开发者不传默认的按钮
+    defaultBtns: [
+      {
+        name: 'toggle',                                          // 播放/暂停
+        img: {
+          stopUrl: '/images/stop2.png' ,                         // 播放状态的图标
+          playUrl: '/images/play2.png'                           // 暂停状态的图标
+        }
+      },
+    ],
     btnCurrent: null,
     noTransform: '',
     typelist: ['listLoop', 'singleLoop', 'shufflePlayback'],

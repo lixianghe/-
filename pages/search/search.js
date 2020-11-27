@@ -1,17 +1,16 @@
-import { search } from '../../utils/httpOpt/api'
+
 import tool from '../../utils/util'
 const app = getApp()
+let searchMixin = require('../../developerHandle/search')
 Page({
+  mixins: [searchMixin],
   data: {
+    
     screen: app.globalData.screen,
     noContent: '/images/nullContent.png',
     info: [],
     currentTap: 0,
     scrollLeft: 0,
-    labels: [
-      {index: 0, name: '专辑'},
-      {index: 1, name: '故事'},
-    ],
     picWidth: '33vh',
     showMInibar: true,
     times: 1,
@@ -66,48 +65,15 @@ Page({
     })
   },
   getData(index) {
-    console.log(index)
-    if (index == 0){
-      this.getSearch('album')
-    } else if (index == 1){
-      this.getSearch('media')
-    }
+    this.getSearch(this.data.labels[index].value)
   },
   getSearch(type) {
     let params = {
-      pageNum: 1,
-      pageSize: 20,
-      contentType: type,
+      label: type,
       keyWord: this.data.keyWord
     }
-    search(params).then(res => {
-      let layoutData = []
-      console.log(res)
-      res.list.forEach(item => {
-        if (type === 'album') {
-          layoutData.push({
-            id: item.album.albumId,
-            title: item.album.albumName,
-            src: item.album.coverUrl, 
-            contentType: item.contentType
-          })
-        } else {
-          layoutData.push({
-            id: item.media.mediaId,
-            title: item.media.mediaName,
-            src: item.media.coverUrl, 
-            contentType: item.contentType
-          })
-        }
-        
-      })
-      console.log('layoutData', layoutData)
-      this.setData({
-        info: layoutData
-      })
-    }).catch(err => {
-      console.log(JSON.stringify(err)+'73行')
-    })
+    this._getList(params)
+    
   },
   focus() {
     this.setData({showMInibar: false})

@@ -56,6 +56,16 @@ Component({
         }
       }
     ],
+    // 开发者不传的话默认的按钮
+    defaultBtns: [
+      {
+        name: 'toggle',
+        img: {
+          stopUrl: '/images/stop.png' ,
+          playUrl: '/images/play.png'
+        }
+      }
+    ],
     playing: false,
     hoverflag: false,
     current: null,

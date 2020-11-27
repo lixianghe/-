@@ -327,7 +327,6 @@ module.exports = {
       'item.coverUrl': app.sysInfo.defaultImg
     })
   },
-
   order() {
     if (!app.userInfo || !app.userInfo.token) {
       wx.showToast({ icon: 'none', title: '请登录后进行操作' })

@@ -7,25 +7,38 @@ Page({
     info: '',
     currentTap: 0,
     scrollLeft: 0,
-    retcode: 1,
-    labels: [
-      {index: 0, name: '专辑', contentType: 'album'},
-      {index: 1, name: '故事', contentType: 'media'}
-    ],
     mainColor: app.globalData.mainColor
   },
   screen: app.globalData.screen,
   selectTap(e) {
     const index = e.currentTarget.dataset.index
     this.setData({
-      currentTap: index,
-      retcode: 0
+      currentTap: index
     })
-    console.log(this.data.labels[index].contentType+'23232323232行')
-    this.getData(this.data.labels[index].contentType)
+    this._getList(this.data.labels[index].label)
   },
   onLoad(options) {
     
+  },
+  // 跳转到播放详情界面
+  linkAbumInfo (e) {
+    let id = e.currentTarget.dataset.id
+    const src = e.currentTarget.dataset.src
+    const title = e.currentTarget.dataset.title
+    wx.setStorageSync('img', src)
+    const routeType = e.currentTarget.dataset.contentype
+
+    console.log(app.globalData.latelyListenId, routeType)
+    let url
+    if (routeType === 'album') {
+      url = `../abumInfo/abumInfo?id=${id}&title=${title}`
+    } else if (routeType === 'media') {
+      url = `../playInfo/playInfo?id=${id}`
+    }
+    
+    wx.navigateTo({
+      url: url
+    })
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()

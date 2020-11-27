@@ -4,8 +4,6 @@ import btnConfig from '../../utils/pageOtpions/pageOtpions'
 import { getMedia } from '../../developerHandle/playInfo'
 import { albumFavoriteAdd, albumFavoriteCancel } from '../../utils/httpOpt/api'
 
-// const { getData } = require('../../utils/https')
-
 // 记录上拉拉刷新了多少次
 let scrollTopNo = 0
 
@@ -49,9 +47,6 @@ Page({
     likeIcon1: '../../images/like.png',
     likeIcon2: '../../images/like_none.png',
     abumInfoName: '',
-    pageNoName: 'pageNum',
-    pageSizeName: 'pageSize',
-    existed: false,                     // 是否被收藏
     routeType: null                     // 专辑类型：电台、专辑
   },
   audioManager: null,
@@ -112,7 +107,8 @@ Page({
       pageSize: e.detail.pageSize,
       initPageNo: e.detail.pageNum,
     })
-    const canplay = await this.getList({ ...e.detail, albumId: this.data.optionId })
+    let idName = this.data.idName
+    const canplay = await this.getData({ ...e.detail, [idName]: this.data.optionId })
     this.setCanplay(canplay)
   },
 
@@ -142,30 +138,6 @@ Page({
       key: 'canplay',
       data: canplay,
     })
-  },
-  // 收藏专辑
-  likeAbum() {
-    if (!app.userInfo || !app.userInfo.token) {
-      wx.showToast({ icon: 'none', title: '请登录后进行操作' })
-      return;
-    }
-    let params = {albumId: this.data.optionId}
-    if (this.data.existed) {
-      albumFavoriteCancel(params).then(res => {
-        wx.showToast({ icon: 'none', title: '取消收藏成功' })
-        this.setData({
-          existed: false
-        })
-      })
-    } else {
-      albumFavoriteAdd(params).then(res => {
-        wx.showToast({ icon: 'none', title: '收藏成功' })
-        this.setData({
-          existed: true
-        })
-      })
-    }
-    
   },
   // 播放全部
   async playAll() {
@@ -226,7 +198,6 @@ Page({
   listScroll: tool.debounce(async function (res) {
     let top = res.detail.scrollTop
     selectedNo = parseInt(top / this.data.tenHeight)
-    console.log('selectedNo', selectedNo)
   }, 50),
   // 滚到顶部
   listTop: tool.throttle(async function (res) {
@@ -236,7 +207,9 @@ Page({
   listBehind: tool.throttle(async function (res) {
     console.log('滑倒底部')
     // 滑倒最底下
-    if (this.data.canplay.length >= this.data.total) {
+    let lastIndex = (this.data.pageNo   - 1) * this.data.pageSize + this.data.canplay.length      // 目前最后一个的索引值
+    console.log('lastIndex', lastIndex)
+    if (lastIndex >= this.data.total) {
       this.setData({ showLoadEnd: false })
       return false
     } else {
@@ -244,9 +217,10 @@ Page({
     }
     scrollTopNo++
     let pageNoName = this.data.pageNoName
-    let params = { [pageNoName]: this.data.initPageNo + scrollTopNo, albumId: this.data.optionId }
-    const getList = await this.getList(params)
-    const list = this.data.canplay.concat(getList)
+    let idName = this.data.idName
+    let params = { [pageNoName]: this.data.initPageNo + scrollTopNo, [idName]: this.data.optionId }
+    const data = await this.getData(params)
+    const list = this.data.canplay.concat(data)
     setTimeout(() => {
       this.setData({
         canplay: list,
@@ -321,7 +295,7 @@ Page({
       })
       this.topHandle()
       this.showRefresh = false
-    }, 1000)
+    }, 600)
   }, 2000),
   // touchEnd(e) {
     
@@ -329,8 +303,9 @@ Page({
   // 下拉结束后的处理
   async topHandle() {
     let pageNoName = this.data.pageNoName
-    const getList = await this.getList({ [pageNoName]: this.data.pageNo - 1, albumId: this.data.optionId })
-    const list = getList.concat(this.data.canplay)
+    let idName = this.data.idName
+    const data = await this.getData({ [pageNoName]: this.data.pageNo - 1, [idName]: this.data.optionId })
+    const list = data.concat(this.data.canplay)
     this.setData({
       canplay: list,
       showLoadTop: false,

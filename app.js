@@ -136,43 +136,40 @@ App({
     let loopType = wx.getStorageSync('loopType')
     // 如果缓存没有abumInfoName，说明是从首页单曲进入，list为单首
     let abumInfoName = wx.getStorageSync('abumInfoName')
+    // 歌曲列表
     allList = abumInfoName ? this.setList(loopType, allList, cutFlag) : [this.globalData.songInfo]
-    let no = this.globalData.songInfo.episode
-    let index = this.setIndex(type, no, allList, loopType, cutFlag) - 1
+    // 当前歌曲的索引
+    let no = allList.findIndex(n => Number(n.id) === Number(this.globalData.songInfo.id))
+    let index = this.setIndex(type, no, allList)
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
+    let song = allList[index] || allList[0]
     wx.pauseBackgroundAudio();
     that.setData({
-      currentId: Number(allList[index].id),       // 当前播放的歌曲id
+      currentId: Number(song.id),       // 当前播放的歌曲id
       currentIndex: index
     })
     // 获取歌曲的url
     let params = {
-      mediaId: allList[index].id,
+      mediaId: song.id,
       contentType: 'story'
     }
-    console.log('cutplay', params)
     await this.getMedia(params, that)
     loopType === 'singleLoop' ? this.playing(0) : this.playing()
-    // 切完歌改变songInfo的index
-    this.globalData.songInfo.episode = index + 1
-    wx.setStorage({
-      key: "songInfo",
-      data: allList[index]
-    })
+    wx.setStorageSync("songInfo",song.id)
   },
   // 根据循环模式设置播放列表
-  setList(loopType, allList, cutFlag = false){
+  setList(loopType, list, cutFlag = false){
     let loopList = []
     // 列表循环
     if (loopType === 'listLoop') {
-      loopList = allList     
+      loopList = list     
     } else if (loopType === 'singleLoop') {
       // 单曲循环
-      loopList = cutFlag ? [this.globalData.songInfo] : allList
+      loopList = cutFlag ? [this.globalData.songInfo] : list
     } else {
       // 随机播放
-      loopList = this.randomList(allList)
+      loopList = this.randomList(list)
     }
     return loopList
   },
@@ -186,16 +183,12 @@ App({
     return arr;
   },
   // 根据循环模式设置切歌的index,cutFlag为true时说明是自然切歌
-  setIndex(type, no, list, loopType, cutFlag = false) {
+  setIndex(type, no, list) {
     let index
-    if (loopType === 'singleLoop' && cutFlag) {
-      index = 1
+    if (type === 1) {
+      index = no + 1 > list.length - 1 ? 0 : no + 1
     } else {
-      if (type === 1) {
-        index = no + 1 > list.length ? 1 : no + 1
-      } else {
-        index = no - 1 < 1 ? list.length : no - 1
-      }
+      index = no - 1 < 0 ? list.length - 1 : no - 1
     }
     return index
   },

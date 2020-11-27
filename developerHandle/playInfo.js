@@ -74,9 +74,6 @@ module.exports = {
   },
   // 通过mediaId获取歌曲url及详情，并增加播放历史
   async getMedia(params, that = this) {   
-    // 如果是从minibar进入noPlay为true，并不执行下列请求
-    // if (options.noPlay === 'true') return
-    const app = getApp()
     // 是否被收藏
     let res = await isFavorite(params)
     that.setData({existed: res.existed})
