@@ -11,9 +11,8 @@ Page({
     screen: app.globalData.screen,
     avatar: '',
     userName: '',
-    isLogin: app.globalData.haveLogin,
     withCredentials: true,
-    userInfo: null,
+    // userInfo: null,
     debugLog: '',
     songInfo: {},
     mainColor: btnConfig.colorOptions.mainColor

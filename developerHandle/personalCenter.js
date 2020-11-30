@@ -17,8 +17,8 @@ import {auth, login, loginWx, userInfo, vipInfo} from '../utils/httpOpt/api'
 module.exports = {
   data: {
     // 是否登录
-    isLogin: !!app.userInfo.token,
-    showWxLogin: !!app.authInfo.authCode,
+    isLogin: app.userInfo.token,
+    showWxLogin: app.authInfo.authCode,
     vipImg: '/images/vip_ing.png',
     vipImged: '/images/vip_ed.png',
     vipPic: '',
