@@ -29,8 +29,9 @@ Component({
     }
   },
   data: {
-    // minibar的按钮
-    // items: btnConfig.miniBtns,
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
+    screen: app.globalData.screen,
     // mini player按钮配置
     miniBtns: [
       {

@@ -1,4 +1,4 @@
-<view class="page" wx:if="{{vipList.length}}">
+<view class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" wx:if="{{vipList.length}}">
   <view class="vipCard" wx:for="{{vipList}}">
     <view class="tagDesc" wx:if="{{item.tagDesc}}">{{item.tagDesc}}</view>
     <view class="cardTitle">{{item.cardTitle}}</view>

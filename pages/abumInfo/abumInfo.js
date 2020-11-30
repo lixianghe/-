@@ -23,8 +23,8 @@ Page({
     currentId: null,
     zjNo: 0,
     songInfo: {},
-    leftWith: '184vh',
-    leftPadding: '0vh 5.75vh  20vh 11.25vh',
+    rightWidth: '37vw',
+    leftPadding: '0vh 11.25vh  20vh 11.25vh',
     btnsWidth: '167vh',
     imageWidth: '55.36vh',
     total: 0,
@@ -44,6 +44,9 @@ Page({
     tenHeight: 0,
     mainColor: btnConfig.colorOptions.mainColor,
     selectWordBtn: btnConfig.selectWordBtn,
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
+    screen: app.globalData.screen,
     likeIcon1: '../../images/like.png',
     likeIcon2: '../../images/like_none.png',
     abumInfoName: '',
@@ -139,6 +142,7 @@ Page({
       data: canplay,
     })
   },
+  
   // 播放全部
   async playAll() {
     const msg = '网络异常，无法播放！'
@@ -321,15 +325,15 @@ Page({
     // 如果是小于1/2的情况
     if (windowHeight / windowWidth >= 0.41) {
       this.setData({
-        leftWith: windowWidth * 0.722 + 'px',
+        rightWidth: windowWidth * 0.28 + 'px',
         leftPadding: '0vh 3.3vh 20vh 8.3vh',
         btnsWidth: windowWidth * 0.67 + 'px',
         imageWidth: windowWidth * 0.21 + 'px',
       })
     } else {
       this.setData({
-        leftWith: '184vh',
-        leftPadding: '0vh 5.75vh 20vh  11.25vh',
+        rightWidth: '37vw',
+        leftPadding: '0vh 11.25vh 20vh  11.25vh',
         btnsWidth: '167vh',
         imageWidth: '55.36vh',
       })

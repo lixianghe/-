@@ -1,5 +1,5 @@
 <!--pages/mine/pay.wxml-->
-<view class="container {{adaptClass}} {{colorStyle}}" style="background-color:{{backgroundColor}}">
+<view class="container {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" style="background-color:{{backgroundColor}}">
   <view class="content-container">
     <view class="pay-panel" wx:if="{{payStatus == 'pre'}}">
       <image class="ercode" src="{{codeUrl}}"></image>

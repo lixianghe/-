@@ -45,7 +45,10 @@ Page({
     bigScreen: app.globalData.PIbigScreen,
     abumInfoName: null,
     existed: false,
-    mainColor: btnConfig.colorOptions.mainColor
+    mainColor: btnConfig.colorOptions.mainColor,
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
+    screen: app.globalData.screen
   },
   // 播放器实例
   audioManager: null,

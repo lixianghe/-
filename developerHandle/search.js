@@ -22,8 +22,8 @@ module.exports = {
   data: {
     // 搜素页面分类的lables
     labels: [
-      {value: 'album', name: '专辑'},
-      {value: 'media', name: '故事'}
+      {value: 'album', label: '专辑'},
+      {value: 'media', label: '故事'}
     ]
   },
   onShow() {},

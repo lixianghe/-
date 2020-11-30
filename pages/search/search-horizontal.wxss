@@ -34,7 +34,7 @@
 .h .mianContent .search {
   width: 320rpx;
   height: 28.2rpx;
-  background: #272727;
+  background: rgba(255,255,255, 0.08);
   display: flex;
   align-items: center;
   border-radius: 28.2rpx;
@@ -50,7 +50,6 @@
   margin: 0 5,12rpx;
 }
 .h .mianContent .search input {
-  background: #272727;
   height: 28.2rpx;
   width: 302.5rpx;
   color: #bbbbbb;

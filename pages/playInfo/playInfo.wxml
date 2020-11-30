@@ -16,7 +16,7 @@
 </wxs>
 
 <!-- 1920*720分辨率 -->
-<view class="page" wx:if="{{bigScreen}}">
+<view class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" wx:if="{{bigScreen}}">
   <view class="playLeft">
     <view class="title" wx:if="{{songInfo.title}}">
       <text class="title-name">{{songInfo.title}}{{m1.showSinger(songInfo.singer)}}</text>
@@ -38,6 +38,7 @@
         <view wx:for="{{playInfoBtns.length ? playInfoBtns : defaultBtns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
           <view wx:if="{{btnCurrent === index}}" class="modal"></view>
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
+          <image data-name="{{item.name}}" class="nextBtn" bindtap="btnsPlay" wx:elif="{{item.name === 'next'}}" src="{{item.img}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:elif="{{item.name === 'like'}}" src="{{existed ? item.img.liked : item.img.noLike}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:elif="{{item.name === 'loopType'}}" src="{{item.img[loopType]}}" />
           <image data-name="{{item.name}}" style="display: {{(!abumInfoName && item.name === 'more') ? 'none' : 'inline-block'}}" bindtap="btnsPlay" wx:else src="{{item.img}}" />
@@ -51,7 +52,7 @@
   </view>
 </view>
 <!-- 高于1/2的分辨率 -->
-<view class="page" wx:else>
+<view class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" wx:else>
   <view class="playLeft songDc">
     <view class="songDcTitle">
       <image bindload="imgOnLoad" style="display:{{showImg ? 'block' : 'none'}}" src="{{songInfo.coverImgUrl}}" />
@@ -83,6 +84,7 @@
         <view wx:for="{{playInfoBtns.length ? playInfoBtns : defaultBtns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
           <view wx:if="{{btnCurrent === index}}" class="modal"></view>
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
+          <image data-name="{{item.name}}" class="nextBtn" bindtap="btnsPlay" wx:elif="{{item.name === 'next'}}" src="{{item.img}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:elif="{{item.name === 'like'}}" src="{{existed ? item.img.liked : item.img.noLike}}" />
           <image data-name="{{item.name}}" bindtap="btnsPlay" wx:elif="{{item.name === 'loopType'}}" src="{{item.img[loopType]}}" />
           <image data-name="{{item.name}}" style="display: {{(!abumInfoName && item.name === 'more') ? 'none' : 'inline-block'}}" bindtap="btnsPlay" wx:else src="{{item.img}}" />
