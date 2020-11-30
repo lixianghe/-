@@ -295,7 +295,6 @@ App({
   },
   checkStatus(){
     if(!this.userInfo.token){
-      console.log('不行不行不行不行不行不行不行不行不行不行不行不行')
       return
     }
     checkStatus({}).then(res => {
@@ -307,7 +306,7 @@ App({
         wx.setStorageSync('token', res.token)
         wx.setStorageSync('refreshToken', res.refreshToken)
       }
-      wx.setStorageSync('changeFlag', res.changeFlag)
+
       this.tokenStatus = 0
       wx.setStorageSync('userInfo', this.userInfo)
     }).catch(err => {
