@@ -18,14 +18,14 @@ module.exports = {
   data: {
     // 是否登录
     isLogin: app.userInfo.token,
-    showWxLogin: app.authInfo.authCode,
+    showWxLogin: true,
     vipImg: '/images/vip_ing.png',
     vipImged: '/images/vip_ed.png',
     vipPic: '',
     // 开发者注入模板用户信息
     userInfo: {
       avatar: '',
-      nickname: 'T-mac',
+      nickname: '用户',
       userId: '',
       vipTime: '',
       vipStatus: 0,
@@ -53,6 +53,7 @@ module.exports = {
     console.log('Log from mixin!')
   },
   onLoad(options) {
+    console.log(this.data.showWxLogin+'showWxLogin=========56行')
     app.checkStatus()
     wx.checkSession({
       success:(res)=> {
@@ -303,6 +304,7 @@ module.exports = {
     })
     this.setData({
       isLogin: false,
+      showWxLogin:false,
       userInfo:{
         avatar: '',
         nickname: '',
