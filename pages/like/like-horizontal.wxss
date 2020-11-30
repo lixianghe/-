@@ -55,7 +55,7 @@
 .label-view .title {
   padding: 2vh 1vh;
   margin-right: 5vh;
-  background-color: #282828;
+  background-color: rgba(255,255,255, 0.1);
   color: #bebebe;
   border-radius: 5.5vh;
   font-size: 4.89vh;
@@ -116,4 +116,7 @@
   border-radius: 3vh;
   left: 50%;
   transform: translateX(-50%);
+}
+.storyBox {
+  margin-top: 1vh;
 }

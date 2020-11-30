@@ -1,8 +1,8 @@
-<view class="{{screen}}">
+<view class="{{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;">
   <scroll-view class="index" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920"bindscrolltolower="getLayoutData" bindscroll="scrollhandle">
     <!-- 快捷入口 -->
     <view class="quickEntry">
-      <view class="quickEntrybox" style="height: 30.73vh" wx:for="{{lalyLtn}}" wx:key="index"  bindtap="tolatelyListen" data-page="{{item.name}}">
+      <view class="quickEntrybox" style="height: 30.73vh" wx:for="{{lalyLtn}}" wx:key="index"  bindtap="tolatelyListen" data-page="{{item.name}}" data-index="{{index}}">
         <image class="quickEntryicon" src="{{ item.icon }}"></image>
         <view class="latelyLtnTit">{{ item.title }}</view>
       </view>

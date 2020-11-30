@@ -3,17 +3,14 @@ const app = getApp()
 Page({
   mixins: [require('../../developerHandle/like')],
   data: {
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
     noContent: '/images/nullContent.png',
     info: '',
     currentTap: 0,
     scrollLeft: 0,
     retcode: 1,
-    labels: [
-      {index: 0, name: '专辑'},
-      {index: 1, name: '故事'},
-    ],
-    likePic: ['/images/info_like.png', '/images/info_like_no.png'],
     mainColor: app.globalData.mainColor
   },
   screen: app.globalData.screen,

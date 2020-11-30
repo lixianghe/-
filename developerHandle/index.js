@@ -2,18 +2,23 @@
  * @name: index
  * 开发者编写的首页index,配置（labels）的类型，通过切换（selectTap）获取不同类型列表
  * 这里开发者必须提供的字段数据(数据格式见听服务小场景模板开发说明文档)：
- * labels <Array[Object]>：
- *    -index：标签索引
- *    -name: 标签名称
- * info <Array[Object]>：
- *    -id: 内容id
- *    -title: 内容名称,
- *    -src: 内容图片, 
- * 可选部分-快捷入口（最多两个）：
- * lalyLtn <Array[Object]>：
- *    -icon: 快捷入口图标
- *    -title: 快捷入口图标标题,
- *    -name: 快捷入口文件名称（page下的文件夹和文件名称保持一致）, 
+ * labels: [
+ *   {id: 'xxx', name: 'xxx'},  // 必填字段
+ * ]
+ * 2、_getList函数，这里我们给开发者提供labels对应点击的的值，其余参数开发者自行添加；
+ *    _getList函数获取的list最终转换为模板需要的字段，并setData给info。
+ * 3、由于模板内的字段名称可能和后台提供不一样，在获取list后重新给模板内的字段赋值：如下以本页列表数据为例
+ * list.map((item, index) => {
+      item.title = item.mediaName                               // 歌曲名称
+      item.id = item.mediaId                                    // 歌曲Id
+      item.src = item.coverUrl                                  // 歌曲的封面
+      item.contentType = 'album'                                // 类别（例如专辑或歌曲）
+      item.isVip = true                                         // 是否是会员
+    })
+ * 4、配置页面的快捷入口
+ * lalyLtn：[
+      {icon: '/images/zjst.png', title: "最近收听", name: 'latelyListen', islogin:false},
+    ]
  */
 const app = getApp()
 import { layout, layoutGroup } from '../utils/httpOpt/api'
@@ -21,8 +26,8 @@ module.exports = {
   data: {
     // 开发者注入快捷入口数据
     lalyLtn: [
-      {icon: '/images/zjst.png', title: "最近收听", name: 'latelyListen'},
-      {icon: '/images/icon_collect.png', title: "我喜欢的", name:'like'}
+      {icon: '/images/zjst.png', title: "最近收听", name: 'latelyListen', islogin: false},
+      {icon: '/images/icon_collect.png', title: "我喜欢的", name:'like', islogin: true}
     ],
     // 开发者注入模板页面数据
     info: [],
@@ -50,7 +55,6 @@ module.exports = {
     layoutGroup().then(res => {
       const formatData = res.map((item, idx) => {
         let obj = {
-          index: idx,
           id: item.groupId,
           name: item.groupTitle,
           type: item.groupType,
@@ -62,7 +66,7 @@ module.exports = {
         labels: formatData,
         reqS: true
       })
-      this.getListData(formatData[0].id)
+      this._getList(formatData[0].id)
     }).catch(err => {
       console.log(JSON.stringify(err))
     })
@@ -80,11 +84,18 @@ module.exports = {
     wx.showLoading({
       title: '加载中',
     })
-    this.getListData(id)
+    this._getList(id)
   },
   // 跳转到最近收听页面
   tolatelyListen (e) {
+    const index = e.currentTarget.dataset.index
     let page = e.currentTarget.dataset.page
+    
+
+    if ((!app.userInfo || !app.userInfo.token) && this.data.lalyLtn[index].islogin) {
+      wx.showToast({ icon: 'none', title: '请登录后进行操作' })
+      return;
+    }
     wx.navigateTo({
       url: `../${page}/${page}`
     })
@@ -111,7 +122,7 @@ module.exports = {
       url: url
     })
   },
-  getListData(id) {
+  _getList(id) {
     // 接入凯叔列表数据
     let params = {groupId: id, pageNum: this.pageData.pageNum}
     layout(params).then(res => {
