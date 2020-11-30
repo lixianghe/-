@@ -27,6 +27,7 @@ module.exports = {
     pageSizeName: 'pageSize',
     idName: 'albumId',
     existed: false,                     // 是否被收藏
+    playAllPic: '/images/playAll.png'
   },
   onShow() {
 
@@ -37,14 +38,14 @@ module.exports = {
     let params = {pageNum: 1, albumId: options.id}
     let allParams = {pageNum: 1, pageSize: 999, albumId: options.id}
 
-    this.getList(params, routeType)
+    this._getList(params, routeType)
     if (routeType === 'album') this.getAllList(allParams)
   },
   onReady() {
 
   },
   // 凯叔专辑详情列表，album为专辑，fm为电台
-  async getList(params, routeType = 'album') {
+  async _getList(params, routeType = 'album') {
     // 是否被收藏
     this.isAlbumFavorite(params.albumId)
     if (routeType === 'album') {

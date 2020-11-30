@@ -83,11 +83,16 @@
   margin-right: 6.67vh;
   align-items: center;
   position: relative;
+  
 }
 .playing-status .btns .text {
   color: #fff;
   margin-left: 7.32vh;
   font-size: 5.32vh;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  width: 29vw;
 }
 
 

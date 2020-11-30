@@ -7,7 +7,8 @@
   box-sizing: border-box;
 }
 .page .playLeft {
-  width: 193vh;
+  /* width: 193vh; */
+  flex: 1;
   padding: 15.3vh 12vh 16vh;
   display: flex;
   flex-direction: column;
@@ -89,6 +90,20 @@
 .page .playLeft .btns > view {
   position: relative;
 }
+.page .playLeft .btns .nextBtn {
+  position: relative;
+  overflow: visible;
+}
+.page .playLeft .btns .nextBtn::after {
+  content: '';
+  display: block;
+  width: 0.6vh;
+  height: 11vh;
+  position: absolute;
+  background: rgba(255,255,255, 0.08);
+  right: -6.9vh;
+  top: 2vh;
+}
 .page .playLeft .btns .modal {
   position: absolute;
   left: 50%;
@@ -107,7 +122,8 @@
 .page .playRight {
   height: 100%;
   display: flex;
-  flex: 1;
+  width: 101vh;
+  /* flex: 1; */
   justify-content: center;
   align-items: center;
 }
@@ -197,19 +213,18 @@
   left: 0;
   top: 0;
   background: #000;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 .playList .songList {
   width: 163vh;
   padding: 1.5vh;
 }
 .playList .songList .view {
-  margin-bottom: 4.3vh;
   color: #fff;
   overflow: hidden;
   border-bottom: 1px solid #2d2d2d;
-  height: 13vh;
-  padding: 2vh 2.42vh 4.4vh 5vh;
+  height: 16.5vh;
+  padding: 5vh 2.42vh 5vh 5vh;
 }
 .playList .songList .view text:nth-child(1) {
   width: 8vh;

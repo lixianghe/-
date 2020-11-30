@@ -60,7 +60,6 @@ module.exports = {
   },
   async onLoad(options) {
     // 拿到歌曲的id: options.id
-    // let isFavoriteParams = {mediaId: options.id || app.globalData.songInfo.id}
     let getInfoParams = {mediaId: options.id || app.globalData.songInfo.id, contentType: 'story'}
 
     
@@ -74,6 +73,7 @@ module.exports = {
   },
   // 通过mediaId获取歌曲url及详情，并增加播放历史
   async getMedia(params, that = this) {   
+    const app = getApp()
     // 是否被收藏
     let res = await isFavorite(params)
     that.setData({existed: res.existed})
