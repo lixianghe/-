@@ -14,21 +14,16 @@
   flex-direction: column;
   justify-content: space-between;
 }
-.page .playLeft .noReady {
-  /* width: 100vh; */
-  /* height: 10vh; */
-  /* background: #272727; */
-}
 .page .playLeft .noReady .title-name {
   width: 100vh;
   height: 10vh;
-  background: #272727;
+  background: rgba(255,255,255, 0.1);
   display: block;
 }
 .page .playLeft .noReady .title-abumInfo {
   width: 70vh;
   height: 8vh;
-  background: #272727;
+  background: rgba(255,255,255, 0.1);
   display: block;
   margin-top: 3vh;
 }
@@ -137,7 +132,7 @@
   width: 18.65vw;
   height: 18.65vw;
   border-radius: 2vh;
-  background: #272727;
+  background:rgba(255,255,255, 0.1);
 }
 
 #playstate {
@@ -185,7 +180,7 @@
   height: 23vh;
   border-radius: 2vh;
   margin-right: 7.7vh;
-  background: #272727;
+  background: rgba(255,255,255, 0.1);
 }
 
 

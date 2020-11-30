@@ -5,7 +5,10 @@ Page({
   data: {
     vipList: [],
     showInfo: false,
-    info: null
+    info: null,
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
+    screen: app.globalData.screen,
   },
   onReady() {},
   onShow() {

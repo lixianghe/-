@@ -150,6 +150,9 @@
 }
 
 /* 骨架屏样式 */
+.skeleton .songList {
+  margin-top: 15.5vh;
+}
 .skeleton .songList view {
   /* background: yellow; */
   display: flex;
@@ -158,7 +161,7 @@
 .skeleton .songList view text {
   display: inline-block;
   height: 100%;
-  background: #272727;
+  background: rgba(255,255,255, 0.1);
   border-radius: 1vh;
 }
 .skeleton .songList view text:nth-child(1) {
@@ -172,7 +175,7 @@
 }
 .skeleton .right .image {
   border-radius: 5vh;
-  background: #272727;
+  background: rgba(255,255,255, 0.1);
 }
 
 page view, 

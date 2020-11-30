@@ -15,7 +15,10 @@ Page({
     totalPrice: '',
     // 支付状态
     payStatus: 'pre',
-    signature: ''
+    signature: '',
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
+    screen: app.globalData.screen,
   },
 
   /**

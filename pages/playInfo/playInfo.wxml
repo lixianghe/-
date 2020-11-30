@@ -16,7 +16,7 @@
 </wxs>
 
 <!-- 1920*720分辨率 -->
-<view class="page" wx:if="{{bigScreen}}">
+<view class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" wx:if="{{bigScreen}}">
   <view class="playLeft">
     <view class="title" wx:if="{{songInfo.title}}">
       <text class="title-name">{{songInfo.title}}{{m1.showSinger(songInfo.singer)}}</text>
@@ -52,7 +52,7 @@
   </view>
 </view>
 <!-- 高于1/2的分辨率 -->
-<view class="page" wx:else>
+<view class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" wx:else>
   <view class="playLeft songDc">
     <view class="songDcTitle">
       <image bindload="imgOnLoad" style="display:{{showImg ? 'block' : 'none'}}" src="{{songInfo.coverImgUrl}}" />

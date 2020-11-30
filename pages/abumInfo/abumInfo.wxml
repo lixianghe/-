@@ -11,14 +11,14 @@
   module.exports.filterNum = filterNum;
 </wxs>
 
-<view class="page" wx:if="{{canplay.length}}">
+<view wx:if="{{canplay.length}}" class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;">
   <view style="padding: {{leftPadding}}" class="left">
-    <view class="btns" style="width: {{btnsWidth}};">
+    <view class="btns" style="width: {{btnsWidth}};background-color: {{backgroundColor}}">
       <button hover-class="playAllHover" class="playAll" bindtap="playAll" style="background-color: {{mainColor}}">
         <image src="{{playAllPic}}" />
         <text>播放全部</text>
       </button>
-      <button class="select" bindtap="changeProp" wx:if="{{selectWordBtn && routeType === 'album'}}">
+      <button class="select" style="background: rgba(255,255,255, 0.1)" bindtap="changeProp" wx:if="{{selectWordBtn && routeType === 'album'}}">
         
         <text>共{{total}}首</text>
         <image src="/images/selectWorks.png" />
@@ -69,14 +69,14 @@
 </view>
 
   <!-- 骨架屏 -->
-<view class="page skeleton" wx:else>
+<view class="page skeleton {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" wx:else>
   <view style="padding: {{leftPadding}}" class="left">
-    <view class="btns" style="width: {{btnsWidth}};">
+    <view class="btns" style="width: {{btnsWidth}};background-color: {{backgroundColor}};">
       <button hover-class="playAllHover" class="playAll" bindtap="playAll" style="background-color: {{mainColor}}">
         <image src="/images/playAll.png" />
         <text>播放全部</text>
       </button>
-      <button class="select" bindtap="changeProp" wx:if="{{selectWordBtn && routeType === 'album'}}">
+      <button class="select" style="background: rgba(255,255,255, 0.1)" bindtap="changeProp" wx:if="{{selectWordBtn && routeType === 'album'}}">
         
         <text>共 首</text>
         <image src="/images/selectWorks.png" />

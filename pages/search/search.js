@@ -14,7 +14,10 @@ Page({
     picWidth: '33vh',
     showMInibar: true,
     times: 1,
-    mainColor: app.globalData.mainColor
+    mainColor: app.globalData.mainColor,
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
+    screen: app.globalData.screen,
   },
   onLoad() {
     this.setData({
