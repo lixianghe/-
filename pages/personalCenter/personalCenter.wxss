@@ -9,10 +9,3 @@ page button,
 page image {
   box-sizing: content-box
 }
-.tsBtn {
-  position: fixed;
-  top: 4vh;
-  left: 28vh;
-  width: 20vh;
-  height: 10vh;
-}

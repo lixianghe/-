@@ -2,13 +2,20 @@
  * @name: latelyListen
  * 开发者编写的最近收听latelyListen,配置（labels）的类型，通过切换（selectTap）获取不同类型列表
  * 这里开发者必须提供的字段数据(数据格式见听服务小场景模板开发说明文档)：
- * options <Array[Object]>：
- *    -index：标签索引
- *    -name: 标签名称
- * info <Array[Object]>：
- *    -id: 内容id
- *    -title: 内容名称,
- *    -src: 内容图片, 
+ * labels: [
+ *   {value: 'album', label: '专辑'},
+ *   {value: 'media', label: '故事'}
+ * ]
+ * 2、_getList函数，这里我们给开发者提供labels对应点击的的值，其余参数开发者自行添加；
+ *    _getList函数获取的list最终转换为模板需要的字段，并setData给info。
+ * 3、由于模板内的字段名称可能和后台提供不一样，在获取list后重新给模板内的字段赋值：如下以本页列表数据为例
+ * list.map((item, index) => {
+      item.title = item.mediaName                               // 歌曲名称
+      item.id = item.mediaId                                    // 歌曲Id
+      item.src = item.coverUrl                                  // 歌曲的封面
+      item.contentType = 'album'                                // 类别（例如专辑或歌曲）
+      item.isVip = true                                         // 是否是会员
+    })
  */
 const app = getApp()
 const { showData } = require('../utils/httpOpt/localData')
@@ -20,8 +27,8 @@ module.exports = {
     req: false,
     // 开发者注入模板标签数据
     labels: [
-      {index: 0, name: '专辑', contentType: 'album'},
-      {index: 1, name: '故事', contentType: 'media'}
+      {name: '专辑', value: 'album'},
+      {name: '故事', value: 'media'}
     ],
     // 开发者注入模板页面数据
     info: []
@@ -30,7 +37,7 @@ module.exports = {
     console.log('Log from mixin!')
   },
   onLoad(options) {
-    this.getData('album')
+    this._getList(this.data.labels[0].value)
   },
   onReady() {
 
@@ -64,18 +71,16 @@ module.exports = {
     wx.showLoading({
       title: '加载中',
     })
-    this.getData(this.data.labels[index].contentType)
+    this._getList(this.data.labels[index].value)
   },
-  getData(type) {
+  _getList(type) {
     let params = {
       pageNum: 1,
       pageSize: 20,
       contentType: type
     }
-    console.log(`${JSON.stringify(params)}运行至53行`)
     history(params).then(res => {
       let layoutData = []
-      console.log(`${JSON.stringify(res)}56行`)
       if(type === 'album') {
         res.list.forEach(item => {
           console.log(`${item}58行`)
@@ -90,7 +95,6 @@ module.exports = {
       })
       } else if (type === 'media') {
         res.list.forEach(item => {
-          console.log(`${JSON.stringify(item)}58行`)
           layoutData.push({
             id: item.media.mediaId,
             title: item.media.mediaName,
@@ -102,7 +106,6 @@ module.exports = {
         })
       }
       
-      console.log(`${JSON.stringify(layoutData)}67行`)
       this.setData({
         info: layoutData,
         // info: [{id: 'qd223',title: '哈哈',src: "https://cdn.kaishuhezi.com/kstory/ablum/image/389e9f12-0c12-4df3-a06e-62a83fd923ab_info_w=450&h=450.jpg",contentType: 'album',isVip:true}],
@@ -116,7 +119,7 @@ module.exports = {
       wx.hideLoading()
     }).catch(err => {
       wx.hideLoading()
-      console.log(JSON.stringify(err)+'73行')
+      console.log(JSON.stringify(err))
     })
   },
   close() {

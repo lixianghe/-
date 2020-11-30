@@ -24,12 +24,15 @@
   text-overflow: ellipsis;
 }
 .halbumCard .vip {
-  padding: 0vh 1.2vh 0vh 1.66vh;
   /* background-color: #fa6500; */
   border-radius: 0.89vh;
-  font-size: 4.2vh;
+  font-size: 4vh;
   display: inline-block;
   margin-right: 1.81vh;
+  width: 8vh;
+  text-align: center;
+  height: 5vh;
+  line-height: 5vh;
 }
 .halbumCard .like {
   width: 11.03vh;
@@ -42,8 +45,11 @@
 }
 .halbumCard .conut {
   position: absolute;
-  top: 3vh;
-  right: 3vh;
+  top: 1.04vh;
+  right: 1.81vh;
+  height: 4.58vh;
+  overflow: hidden;
+  line-height: 4.58vh;
 }
 .halbumCard .linerbg {
   position: absolute;
@@ -63,7 +69,7 @@
 .halbumCard .countxt {
   font-size: 4.27vh;
   color: #fff;
-  position: relative;
-  top: -0.5vh;
+  /* position: relative; */
+  /* top: -0.5vh; */
   float: left;
 }

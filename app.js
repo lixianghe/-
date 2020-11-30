@@ -16,20 +16,13 @@ App({
     userId: '-1',
     haveLogin: false,
     token: '',
-    // API域名
-    // domain: http.domain.prod,
-    // 服务端appId
-    // backendAppId: http.appId.prod,
-    // AppId
     appId: '60180',
     // 版本号
     version: '1.0.195.20200928',
-   
     isNetConnected: true,
     indexData: [], // 静态首页数据
     latelyListenId: [], // 静态记录播放id
     abumInfoData: [],
-
     playing: false,
     percent: 0,
     curplay: {},
@@ -40,6 +33,12 @@ App({
     loopType: 'listLoop', // 默认列表循环
     useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio'),
     PIbigScreen: null
+  },
+  // 小程序颜色主题
+  sysInfo: {
+    colorStyle: 'dark',
+    backgroundColor: 'transparent',
+    defaultBgColor: '#151515'
   },
    // 用户信息
    userInfo: {
@@ -67,6 +66,8 @@ App({
   currentIndex: null,
   onLaunch: function () {
     this.initCode()
+    // 获取小程序颜色主题
+    this.getTheme()
     // 判断playInfo页面样式，因为这里最快执行所以放在这
     this.setStyle()
     this.audioManager = wx.getBackgroundAudioManager()
@@ -294,19 +295,23 @@ App({
   },
   checkStatus(){
     if(!this.userInfo.token){
+      console.log('不行不行不行不行不行不行不行不行不行不行不行不行')
       return
     }
     checkStatus({}).then(res => {
       // 若code为0且changeFlag为true，更新token和refreshToken
+      console.log('checkStatus---302行', JSON.stringify(res))
       if (res.changeFlag){
         this.userInfo.token = res.token
         this.userInfo.refreshToken = res.refreshToken
         wx.setStorageSync('token', res.token)
         wx.setStorageSync('refreshToken', res.refreshToken)
-      } 
+      }
+      wx.setStorageSync('changeFlag', res.changeFlag)
       this.tokenStatus = 0
       wx.setStorageSync('userInfo', this.userInfo)
     }).catch(err => {
+      console.log('checkStatus失败')
       console.log(err)
     })
   },
@@ -341,17 +346,67 @@ App({
     }
     this.logText += '########################\n'
   },
-  _log(val, num) {
-    console.log(val, num)
-    if(typeof val == 'string') {
-      console.log(1)
-      this.logText += val + '---' + num + '行'
+  // 获取颜色主题
+  getTheme: function () {
+    if (wx.canIUse("getColorStyle")) {
+      wx.getColorStyle({
+        success: (res) => {
+          this.sysInfo.colorStyle = res.colorStyle
+          this.sysInfo.backgroundColor = res.backgroundColor
+          this.globalData.themeLoaded = true
+          console.log(JSON.stringify(res)+'获取配色成功387行')
+          // this.initTabbar()
+        },
+        fail: (res) => {
+          this.log('配色加载失败')
+          console.log('配色加载失败')
+          this.sysInfo.backgroundColor = this.sysInfo.defaultBgColor
+          this.globalData.themeLoaded = true
+          // this.initTabbar()
+        }
+      })
+    } else{
+      this.sysInfo.backgroundColor = this.sysInfo.defaultBgColor
+      this.globalData.themeLoaded = true
+      // this.initTabbar()
     }
-    if (typeof val == 'object') {
-      console.log(2)
-      this.logText += JSON.stringify(val) + '---' + num + '行'
+    if(wx.canIUse('onColorStyleChange')){
+      wx.onColorStyleChange((res) => {
+        this.sysInfo.colorStyle = res.colorStyle
+        this.sysInfo.backgroundColor = res.backgroundColor
+        wx.setTabBarStyle({
+          color: res.colorStyle == 'dark'?'#FFFFFF':'#c4c4c4'
+        })
+      })
     }
-    console.log(this.logText)
+  },
+  // 设置页面配色
+  setTheme(page) {
+    if (this.globalData.themeLoaded) {
+      page.setData({
+        colorStyle: this.sysInfo.colorStyle,
+        backgroundColor: this.sysInfo.backgroundColor
+      })
+    } else {
+      this.watch(page, 'themeLoaded', val => {
+        if (val) {
+          page.setData({
+            colorStyle: this.sysInfo.colorStyle,
+            backgroundColor: this.sysInfo.backgroundColor
+          })
+        }
+      })
+    }
+    if(wx.canIUse('onColorStyleChange')){
+      wx.onColorStyleChange((res) => {
+        this.sysInfo.colorStyle = res.colorStyle
+        this.sysInfo.backgroundColor = res.backgroundColor
+        page.setData({
+          colorStyle: this.sysInfo.colorStyle,
+          backgroundColor: this.sysInfo.backgroundColor
+        })
+      })
+    }
   },
   
 })

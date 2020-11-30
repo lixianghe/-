@@ -4,11 +4,13 @@ const app = getApp()
 Page({
   mixins: [require('../../developerHandle/index')],
   data: {
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
+    mainColor: app.globalData.mainColor,
     confirm: '',
     currentTap: 0,
     scrollLeft: 0,
-    mainColor: app.globalData.mainColor,
     isFixed: false,
   },
   scrollhandle(e) {
@@ -25,8 +27,11 @@ Page({
   },
   onLoad(options) {
     setTimeout(() => {
+
       wx.checkSession({
         success:(res)=> {
+        // 验证小场景登录状态
+        app.checkStatus()
           if(JSON.stringify(wx.getStorageSync('username'))) {
             wx.setTabBarItem({
               index: 2, 

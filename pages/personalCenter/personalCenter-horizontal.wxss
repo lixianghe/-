@@ -6,12 +6,12 @@
   align-items: center;
 }
 .mine {
-  flex: 0 0 72.3vh;
+  flex: 0 0 72vh;
   height: 79vh;
   display: inline-block;
 }
 .adminCenter {
-  /* flex: 0 0 72.3vh; */
+  /* flex: 0 0 72vh; */
   overflow: hidden;
   text-align: center;
 }
@@ -57,7 +57,7 @@
   width: 28.9vh;
   height: 11.1vh;
   line-height: 11.1vh;
-  background-color: #1f1f1f;
+  background-color: rgba(255,255,255, 0.08);
   color: #e8e8e8;
   margin-left: 50%;
   transform: translateX(-50%);
@@ -78,10 +78,10 @@
 
 .h .cardListen{
   flex: 0 0 61.5vh;
-  margin-right: 6.2vh;
+  margin-right: 6.12vh;
   height: 61.5vh;
   border-radius: 1.8vh;
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255,255,255, 0.08);
   overflow: hidden;
   background-size: 100%;
   text-align: center;

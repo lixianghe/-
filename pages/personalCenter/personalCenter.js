@@ -6,6 +6,8 @@ import btnConfig from '../../utils/pageOtpions/pageOtpions'
 Page({
   mixins: [require('../../developerHandle/personalCenter')],
   data: {
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
     avatar: '',
     userName: '',

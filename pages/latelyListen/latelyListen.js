@@ -2,6 +2,8 @@ const app = getApp()
 Page({
   mixins: [require('../../developerHandle/latelyListen')],
   data: {
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
     info: '',
     currentTap: 0,
