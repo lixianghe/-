@@ -67,7 +67,7 @@
 }
 
 .scrollView {
-  margin-top: 15vh;
+  margin-top: 20vh;
   margin-left: -5vh;
 }
 .page .left .songList {
@@ -90,6 +90,7 @@
   margin-top: 6vh;
   height: 7.6vh;
   line-height: 7.6vh;
+  transform: translateY(-5vh);
 }
 .page .left .songList view text:nth-child(1) {
   width: 7.6vh;
@@ -151,7 +152,7 @@
 
 /* 骨架屏样式 */
 .skeleton .songList {
-  margin-top: 15.5vh;
+  margin-top: 20.5vh;
 }
 .skeleton .songList view {
   /* background: yellow; */

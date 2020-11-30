@@ -116,12 +116,13 @@ module.exports = {
   },
   // 收藏和取消收藏,playInfo和minibar用到这里
   like(that = this) {
-    let params = {mediaId: this.data.songInfo.id}
+    const app = getApp()
+    let params = {mediaId: that.data.songInfo.id}
     if (!app.userInfo || !app.userInfo.token) {
       wx.showToast({ icon: 'none', title: '请登录后进行操作' })
       return;
     }
-    if (this.data.existed) {
+    if (that.data.existed) {
       mediaFavoriteCancel(params).then(res => {
         wx.showToast({ icon: 'none', title: '取消收藏成功' })
         that.setData({
