@@ -145,6 +145,8 @@ Page({
   
   // 播放全部
   async playAll() {
+    let allList = wx.getStorageSync('allList') || []
+    wx.setStorageSync('nativeList', allList)
     const msg = '网络异常，无法播放！'
     app.globalData.canplay = JSON.parse(JSON.stringify(this.data.canplay))
     app.globalData.songInfo = app.globalData.canplay[0]
