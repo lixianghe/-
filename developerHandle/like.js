@@ -20,8 +20,7 @@
  * 收藏和取消收藏图片
  */
 const app = getApp()
-const { showData } = require('../utils/httpOpt/localData')
-import { albumFavorite, mediaFavorite } from '../utils/httpOpt/api'
+import { albumFavorite, mediaFavorite, albumFavoriteCancel,albumFavoriteAdd,mediaFavoriteCancel,mediaFavoriteAdd } from '../utils/httpOpt/api'
 
 module.exports = {
   data: {
@@ -151,11 +150,52 @@ module.exports = {
       console.log(JSON.stringify(err)+'73行')
     })
   },
+  like (e) {
+    if(e.detail.contentType === 'album') {
+      this.likeAbum(e.detail.flag, e.detail.typeid)
+    } else if(e.detail.contentType === 'media') {
+      this.likeMedia(e.detail.flag, e.detail.typeid)
+    }
+  },
+  likeAbum(flag, id) {
+    if (flag) {
+      console.log('albumFavoriteAdd')
+      albumFavoriteCancel({albumId: id}).then(res => {
+        wx.showToast({ icon: 'none', title: '取消收藏成功' })
+        this.setData({
+          existed: false
+        })
+      })
+    } else {
+      albumFavoriteAdd({albumId: id}).then(res => {
+        wx.showToast({ icon: 'none', title: '收藏成功' })
+        this.setData({
+          existed: true
+        })
+      })
+    }
+
+    
+  },
+  likeMedia (flag, id) {
+    if (flag) {
+      mediaFavoriteCancel({mediaId: id}).then(res => {
+        wx.showToast({ icon: 'none', title: '取消收藏成功' })
+        that.setData({
+          existed: false
+        })
+      })
+    } else {
+      console.log('mediaFavoriteAdd')
+      mediaFavoriteAdd({mediaId: id}).then(res => {
+        wx.showToast({ icon: 'none', title: '收藏成功' })
+        that.setData({
+          existed: true
+        })
+      })
+    }
+  },
   close() {
     this.setData({showModal: false})
-  },
-  // 懒加载
-  getLayoutData() {
-
-  },
+  }
 }

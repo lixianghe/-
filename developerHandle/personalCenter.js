@@ -34,7 +34,7 @@ module.exports = {
     data: [{
       type: 'order',
       icon: '/images/my_buy.png',
-      title: '开通/续费会员'
+      title: '开通/续费会员4'
     }, {
       type: 'like',
       icon: '/images/mine_like.png',
@@ -51,26 +51,22 @@ module.exports = {
   },
   onShow() {
     console.log('Log from mixin!')
+    if (!this.data.isLogin) {
+      console.log(111111111)
+      this.loginIn()
+    } else {
+      this.getUserInfo()
+    }
+
   },
   onLoad(options) {
     console.log(this.data.showWxLogin+'showWxLogin=========56行')
     app.checkStatus()
-    wx.checkSession({
-      success:(res)=> {
-        console.log('res', res);
-        //session_key 未过期，并且在本生命周期一直有效
-        if (!this.data.isLogin) {
-          this.loginIn()
-        } else {
-          this.getUserInfo()
-        }
-      },
-      fail: (res) => {
-        // session_key 已经失效，需要重新执行登录流程
-        this.logoutTap()
-        this.loginIn() //重新登录
-      }
-    })  
+    // if(JSON.stringify(wx.getStorageSync('username'))) {
+    //   this.getUserInfo()
+    // }
+    
+    
   },
   onReady() {
 
@@ -83,11 +79,13 @@ module.exports = {
     if (this.authRequest) {
       return
     }
+    console.log(222222)
     wx.login({
       success: (loginRes) => {
         console.log('扫码成功', 63)
         console.log(loginRes, 64)
         this.authRequest = true
+        console.log(33333)
 
         auth({
           code: loginRes.code
@@ -95,11 +93,14 @@ module.exports = {
           console.log('登录成功', 65)
           console.log(res, 69);
           console.log('请求成功', 70)
-          app.authInfo = res;
+          app.authInfo  = res;
           wx.setStorageSync('deviceId', res.deviceId)
+          // 转换按钮状态
+
           this.setData({
             showWxLogin: false
           })
+
           console.log(app.authInfo, 82);
           if (!event && app.authInfo.mobileFlag && this.data.isLogin) {
             this.loginWx()
@@ -288,6 +289,12 @@ module.exports = {
       console.log(JSON.stringify(err)+'261行--mine')
     })
   },
+  logoutBtn () {
+    this.setData({
+      showWxLogin: false
+    })
+    this.logoutTap()
+  },
   logoutTap(){
     this.logout = true;
     setTimeout(()=>{
@@ -304,7 +311,6 @@ module.exports = {
     })
     this.setData({
       isLogin: false,
-      showWxLogin:false,
       userInfo:{
         avatar: '',
         nickname: '',
