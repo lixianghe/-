@@ -18,9 +18,9 @@
       item.episode = (params.pageNum - 1) * 15 + index + 1      // 歌曲的集数（这个按这种方式赋值即可）
     })
  */
-import { albumMedia, isAlbumFavorite, fm } from '../utils/httpOpt/api'
+import { albumMedia, isAlbumFavorite, fm, albumFavoriteAdd, albumFavoriteCancel } from '../utils/httpOpt/api'
 const { showData } = require('../utils/httpOpt/localData')
-
+const app = getApp()
 module.exports = {
   data: {
     pageNoName: 'pageNum',
@@ -73,7 +73,7 @@ module.exports = {
       this.setData({total})
       return canplay
     } catch (error) {
-      return [[], 0]
+      return []
     }
   },
   // 获取电台列表

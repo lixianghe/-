@@ -132,9 +132,10 @@ App({
   vision: '1.0.0',
   cutplay: async function (that, type, cutFlag) {
     // 判断循环模式
-    let allList = wx.getStorageSync('allList')
+    let allList = wx.getStorageSync('nativeList') || []
+    // const nativeList = wx.getStorageSync('nativeList') || []
     // 根据循环模式设置数组
-    let loopType = wx.getStorageSync('loopType')
+    let loopType = wx.getStorageSync('loopType') || 'listLoop'
     // 如果缓存没有abumInfoName，说明是从首页单曲进入，list为单首
     let abumInfoName = wx.getStorageSync('abumInfoName')
     // 歌曲列表
@@ -157,7 +158,7 @@ App({
     }
     await getMedia(params, that)
     loopType === 'singleLoop' ? this.playing(0) : this.playing()
-    wx.setStorageSync("songInfo",song.id)
+    wx.setStorageSync("songInfo",song)
   },
   // 根据循环模式设置播放列表
   setList(loopType, list, cutFlag = false){
@@ -244,7 +245,21 @@ App({
       }
     })
   },
-
+  // 获取网络信息，给出相应操作
+  getNetWork(that) {
+    // 监听网络状态
+    wx.getNetworkType({
+      async success(res) {
+        const networkType = res.networkType
+        if (networkType === 'none') {
+          that.setData({showNonet: true})
+          wx.hideLoading()
+        } else {
+          that.setData({showNonet: false})
+        }
+      },
+    })
+  },
   // 根据分辨率判断显示哪种样式
   setStyle() {
     // 判断分辨率的比列

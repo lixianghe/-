@@ -38,7 +38,7 @@
 
   </view>
   </scroll-view>
-  <mini-player wx:if="{{showMInibar}}" id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
+  <mini-player style="display: {{showMInibar ? 'block' : 'none'}}" id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
 </view>
 
 

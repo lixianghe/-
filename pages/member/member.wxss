@@ -6,6 +6,9 @@
   box-sizing: border-box;
   display: flex;
 }
+.scrollView {
+  white-space: nowrap;
+}
 .vipCard {
   width: 63vh;
   height: 71.53vh;
@@ -15,6 +18,8 @@
   padding: 0 5vh;
   text-align: center;
   position: relative;
+  display: inline-block;
+  vertical-align: top;
 }
 .vipCard .cardTitle {
   color: #fff;

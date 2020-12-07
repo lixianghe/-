@@ -89,7 +89,13 @@ Component({
   },
   methods: {
     player(e) {
-      if (!this.data.songInfo || !this.data.songInfo.title) return false
+      if (!this.data.songInfo || !this.data.songInfo.title){
+        wx.showToast({
+          title: '暂无音频',
+          icon: 'none'
+        })
+        return false
+      }
       const type = e.currentTarget.dataset.name
       if (type) this[type]()
     },

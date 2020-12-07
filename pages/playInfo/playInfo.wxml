@@ -28,11 +28,23 @@
     </view>
     <view class="player">
       <text class="time" wx:if="{{percentBar}}">{{playtime}}</text>
-      <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343" wx:if="{{percentBar}}">
+
+
+      <!-- <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343" wx:if="{{percentBar}}">
         <text id="playstate" style="left:{{percent}}%;background-color:{{mainColor}}"></text>
         <text id="dpstate" style="width:{{percent}}%;background-color:{{mainColor}}"></text>
         <slider class="slider" block-size="16" block-color="#888" bindchanging="dragPercent" bindchange="setPercent" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>
-      </progress>
+      </progress> -->
+
+      <view class="progress process-bar {{isDrag}}">
+        <view id="playstate" style="left:{{percent}}%;background: {{mainColor}}" 
+        bindtouchstart="dragStartHandle"
+        bindtouchmove="touchmove" 
+        catch:touchmove bindtouchend="dragEndHandle"></view>
+        <view id="dpstate" style="width:{{percent}}%;background: {{mainColor}}"></view>
+      </view>
+
+
       <text class="duration" wx:if="{{percentBar}}">{{songInfo.dt}}</text>
       <view class="btns">
         <view wx:for="{{playInfoBtns.length ? playInfoBtns : defaultBtns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
@@ -74,11 +86,23 @@
     </view>
     <view class="player">
       <text class="time" wx:if="{{percentBar}}">{{playtime}}</text>
-      <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343" wx:if="{{percentBar}}">
+
+
+      <!-- <progress  class="progress" color="#dadada" stroke-width="8" backgroundColor="#434343" wx:if="{{percentBar}}">
         <text id="playstate" style="left:{{percent}}%;background-color:{{mainColor}}"></text>
         <text id="dpstate" style="width:{{percent}}%;background-color:{{mainColor}}"></text>
         <slider class="slider" block-size="16" block-color="#888" bindchanging="dragPercent" bindchange="setPercent" color="#d33a31"  left-icon="cancel" value="{{percent}}"/>
-      </progress>
+      </progress> -->
+
+      <view class="progress process-bar {{isDrag}}">
+        <view id="playstate" style="left:{{percent}}%;background: {{mainColor}}" 
+        bindtouchstart="dragStartHandle"
+        bindtouchmove="touchmove" 
+        catch:touchmove bindtouchend="dragEndHandle"></view>
+        <view id="dpstate" style="width:{{percent}}%;background: {{mainColor}}"></view>
+      </view>
+
+
       <text class="duration" wx:if="{{percentBar}}">{{songInfo.dt}}</text>
       <view class="btns">
         <view wx:for="{{playInfoBtns.length ? playInfoBtns : defaultBtns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">

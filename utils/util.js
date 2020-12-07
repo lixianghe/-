@@ -17,17 +17,7 @@ function formatToSend(dt) {
 }
 
 //音乐播放监听
-function playAlrc(that, app, percent) {
-  // console.log('==========999999==========')
-  // 如果是拖拽的情况
- 
-  if (percent !== undefined) {
-    that.setData({
-      playtime: percent ? formatduration(percent * 10 * formatToSend(app.globalData.songInfo.dt)) : '00:00',
-      percent: percent
-    })
-    return
-  }
+function playAlrc(that, app) {
   wx.getBackgroundAudioPlayerState({
     complete: function (res) {
       var time = 0, playing = false, playtime = 0;
@@ -45,6 +35,7 @@ function playAlrc(that, app, percent) {
       app.globalData.playing = playing;
       app.globalData.percent = time
       // console.log('========监听捕获========='+ playing+'==========='+time+'=============')
+      if (that.data.isDrag) return
       that.setData({
         playtime: playtime ? formatduration(playtime * 1000) : '00:00',
         percent: time || 0,

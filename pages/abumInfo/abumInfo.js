@@ -50,14 +50,17 @@ Page({
     likeIcon1: '../../images/like.png',
     likeIcon2: '../../images/like_none.png',
     abumInfoName: '',
-    routeType: null                     // 专辑类型：电台、专辑
+    routeType: null,                     // 专辑类型：电台、专辑
+    showNonet: false
   },
   audioManager: null,
   ctx: null,
   onReady() {},
   async onLoad(options) {
-    const msg = '网络异常，请检查网络！'
-    this.getNetWork(msg)
+    // 检测网络
+    let that = this
+    app.getNetWork(that)
+
     // 暂存专辑全部歌曲
     this.setData({
       src: wx.getStorageSync('img'),
@@ -117,13 +120,12 @@ Page({
 
   // 点击歌曲名称跳转到歌曲详情
   goPlayInfo(e) {
-    const msg = '网络异常，无法播放！'
     // 点击歌曲的时候把歌曲信息存到globalData里面
     const songInfo = e.currentTarget.dataset.song
     app.globalData.songInfo = songInfo
     wx.setStorage({ key: 'songInfo', data: songInfo })
     this.setData({ currentId: songInfo.id })
-    this.getNetWork(msg, this.toInfo)
+    this.toInfo
   },
   toInfo() {
     app.globalData.abumInfoId = this.data.optionId
@@ -145,6 +147,8 @@ Page({
   
   // 播放全部
   async playAll() {
+    let allList = wx.getStorageSync('allList') || []
+    wx.setStorageSync('nativeList', allList)
     const msg = '网络异常，无法播放！'
     app.globalData.canplay = JSON.parse(JSON.stringify(this.data.canplay))
     app.globalData.songInfo = app.globalData.canplay[0]
@@ -160,7 +164,7 @@ Page({
     })
     let that = this
     if (getMedia) await getMedia(params, that)
-    this.getNetWork(msg, app.playing)
+    app.playing
     
     wx.setStorage({
       key: 'songInfo',
@@ -170,27 +174,6 @@ Page({
   setPlaying(e) {
     this.setData({
       palying: e.detail,
-    })
-  },
-  // 获取网络信息，给出相应操作
-  getNetWork(title, cb) {
-    const that = this
-    // 监听网络状态
-    wx.getNetworkType({
-      async success(res) {
-        const networkType = res.networkType
-        if (networkType === 'none') {
-          that.setData({
-            msg: title,
-          })
-          that.bgConfirm = that.selectComponent('#bgConfirm')
-          that.bgConfirm.hideShow(true, 'out', () => {})
-        } else {
-          setTimeout(() => {
-            cb && cb()
-          }, 200)
-        }
-      },
     })
   },
   // 初始化 BackgroundAudioManager
