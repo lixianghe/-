@@ -37,7 +37,7 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "1.9.4",
+  "libVersion": "2.14.0",
   "appid": "wx489e0165383e5913",
   "projectname": "moss-kaishu",
   "debugOptions": {

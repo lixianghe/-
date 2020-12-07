@@ -9,7 +9,10 @@ Component({
   data: {
     isBgContent: false,
     contentName: '',
-    handleCallback: null
+    handleCallback: null,
+    colorStyle: app.sysInfo.colorStyle,
+    backgroundColor: app.sysInfo.backgroundColor,
+    mainColor: app.globalData.mainColor,
   },
   methods: {
     closeBgConfirm () {

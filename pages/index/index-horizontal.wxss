@@ -2,9 +2,10 @@
   overflow: auto;
   padding-left: 7.3vh;
   box-sizing: border-box;
-  height: 82vh;
+  height: 63vh;
   padding: 5.5vh 0;
   white-space: nowrap;
+  /* margin-top: 19vh; */
 }
 
 .h .latelyListen>image {
@@ -19,14 +20,15 @@
   line-height: 5.3vh;
 }
 .h .quickEntry{
-  /* flex: 0 0 41.3vh; */
+  flex: 0 0 43.65vh;
   width: 43.65vh;
   padding: 0 6.12vh 0 7.35vh;
   vertical-align: top;
   display: inline-block;
   height: 68.6vh;
   overflow: hidden;
-  margin-right: 6.12vh;
+  margin-right: 1rpx;
+  margin-top: 6vh;
   border-right: 0.58vh solid rgba(255,255,255, 0.04);
 } 
 .h .quickEntrybox {
@@ -42,9 +44,14 @@
   margin-top: 11%;
   vertical-align: bottom;
 }
+.mainBox {
+  flex: 1;
+  overflow: hidden;
+}
 .h .mianContent {
   display: inline-block;
   vertical-align: top;
+  padding-left: 7vh
 }
 .h .albumCard {
   width: 41.81vh;
@@ -52,7 +59,6 @@
   margin-right: 7.6vh;
   height: 68.6vh;
   overflow: hidden;
-  margin-top: 14.7vh;
 }
 .h .imgB {
   width: 41.81vh;
@@ -68,23 +74,30 @@
   margin: 4vh 0;
 }
 .label-view {
-  display: flex;
+  /* display: flex; */
   color: #fff;
   font-size: 5.5vh;
-  margin-bottom: 4.89vh;
+  margin-left: 1.5vh;
+  /* position: fixed; */
+  /* left: 50.6vh; */
+  white-space: nowrap;
+  margin-top: 7.5vh;
+  overflow: auto;
 }
 .label-view .title {
   padding: 0 5.35vh;
   height: 9.81vh;
   line-height: 9.81vh;
-  margin-right: 5vh;
+  margin-left: 5vh;
   background-color: rgba(255,255,255, 0.1);
   color: "#bebebe";
   border-radius: 5.5vh;
+  display: inline-block;
 }
 .label-view .titleBg {
   padding: 2vh 1vh;
-  margin-right: 5vh;
+  margin-left: 5vh;
+  display: inline-block;
   height: 10vh;
   width: 24vh;
   background-color: rgba(255,255,255, 0.1);

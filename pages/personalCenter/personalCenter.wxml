@@ -1,5 +1,5 @@
 <view class="{{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;">
-  <view class="personalCenter">
+  <scroll-view class="personalCenter" scroll-x lower-threshold="1920">
     <!-- 登录部分 -->
     <view class="mine">
       <view class="adminCenter" wx:if="{{isLogin}}">
@@ -32,6 +32,6 @@
       <image src="{{ item.icon }}"></image>
       <view class="cardTit">{{ item.title }}</view>
     </view>
-  </view>
+  </scroll-view>
   <mini-player songInfo="{{songInfo}}" id="miniPlayer"></mini-player>
 </view>

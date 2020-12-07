@@ -3,9 +3,40 @@
 page {
   margin: 0;
   padding: 0;
+
 }
 /* page view, 
 page button, 
 page image {
   box-sizing: content-box
+} */
+/* .box {
+  width: 70vw;
+  overflow: auto;
+}
+.container {
+  background: #eee;
+  width: 100vw;
+  height: 30vh;
+  margin: 0 auto;
+  white-space: nowrap;
+
+}
+
+.sticky-box {
+  position: sticky;
+  height: 60px;
+  width: 36vh;
+  margin-bottom: 50px;
+  background: #10af7e;
+  display: inline-block;
+  left: 0px;
+  margin-left: 10vh;
+}
+
+div {
+  font-size: 30px;
+  text-align: center;
+  color: #fff;
+  line-height: 60px;
 } */
