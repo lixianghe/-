@@ -12,12 +12,11 @@
 }
 .bgContent {
   width: 86vh;
-  background-color: #fff;
   height: 35vh;
   overflow: hidden;
   border-radius: 1vh;
   display: flex;
-  padding: 8vh 4vh;
+  padding: 8vh 4vh 1vh 4vh;
   position: relative
 }
 .bgContent .ewm {
@@ -48,6 +47,7 @@
   font-size: 6vh;
   text-align: center;
   padding: 0 2vh;
+  color: #fff;
 }
 .bottomBtn {
   display: flex;
@@ -60,7 +60,7 @@
 }
 .loginOut {
   flex: 1;
-  background-color: #404040;
+  /* background-color: #404040; */
 }
 .cancle {
   flex: 1;

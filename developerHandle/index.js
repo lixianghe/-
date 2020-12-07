@@ -48,11 +48,16 @@ module.exports = {
     hasNext: true,
   },
   onShow() {
-
+    console.log()
+    if(app.globalData.indexData.length > 0) {
+      
+    }
   },
   onLoad(options) {
     // 接入凯叔频道数据
     layoutGroup().then(res => {
+      // let ga = [{id:3, name:'haha', type: 'as',groupTitleConfig:'asds'},{id:3, name:'haha', type: 'as',groupTitleConfig:'asds'},
+      // {id:3, name:'haha', type: 'as',groupTitleConfig:'asds'},{id:3, name:'haha', type: 'as',groupTitleConfig:'asds'}]
       const formatData = res.map((item, idx) => {
         let obj = {
           id: item.groupId,
@@ -62,6 +67,10 @@ module.exports = {
         }
         return obj
       })
+      // ga.forEach(item => {
+      //   formatData.push(item)
+      // })
+
       this.setData({
         labels: formatData,
         reqS: true
@@ -128,7 +137,7 @@ module.exports = {
     layout(params).then(res => {
       let layoutData = [{
         id: '00',
-        title: '电台',
+        title: '电台2',
         src: '/images/fm.jpg',
         contentType: 'fm',
         count: '',

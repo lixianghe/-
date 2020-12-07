@@ -140,7 +140,7 @@ App({
     // 歌曲列表
     allList = abumInfoName ? this.setList(loopType, allList, cutFlag) : [this.globalData.songInfo]
     // 当前歌曲的索引
-    let no = allList.findIndex(n => Number(n.id) === Number(this.globalData.songInfo.id))
+    let no = allList.findIndexData(n => Number(n.id) === Number(this.globalData.songInfo.id))
     let index = this.setIndex(type, no, allList)
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;

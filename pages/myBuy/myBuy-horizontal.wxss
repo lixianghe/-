@@ -50,7 +50,7 @@
   color: #fff;
   font-size: 5.5vh;
   margin-bottom: 4.89vh;
-  position: fixed;
+  /* position: fixed; */
 }
 .label-view .title {
   padding: 2vh 1vh;

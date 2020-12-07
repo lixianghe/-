@@ -34,7 +34,7 @@ module.exports = {
     data: [{
       type: 'order',
       icon: '/images/my_buy.png',
-      title: '开通/续费会员4'
+      title: '开通/续费会员'
     }, {
       type: 'like',
       icon: '/images/mine_like.png',
@@ -350,7 +350,10 @@ module.exports = {
     wx.navigateTo({ url: '../like/like' })
   },
   latelyListen() {
-    console.log(1111)
+    if (!app.userInfo || !app.userInfo.token) {
+      wx.showToast({ icon: 'none', title: '请登录后进行操作' })
+      return;
+    }
     wx.navigateTo({ url: '../latelyListen/latelyListen' })
   },
   myBuy() {

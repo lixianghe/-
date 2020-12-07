@@ -1,4 +1,3 @@
-// import { getData } from '../../utils/httpOpt/httpOpt'
 const app = getApp()
 
 Page({
@@ -6,26 +5,21 @@ Page({
   data: {
     colorStyle: app.sysInfo.colorStyle,
     backgroundColor: app.sysInfo.backgroundColor,
-    screen: app.globalData.screen,
     mainColor: app.globalData.mainColor,
+    screen: app.globalData.screen,
     confirm: '',
     currentTap: 0,
     scrollLeft: 0,
     isFixed: false,
-  },
-  scrollhandle(e) {
-    if (e.detail.scrollLeft > 230) {
-      this.setData({
-        isFixed: true
-      })
-    } else {
-      this.setData({
-        isFixed: false
-      })
-    }
-    
+    wid: 1
   },
   onLoad(options) {
+    console.log(wx.getSystemInfoSync().screenWidth+'===============宽'+wx.getSystemInfoSync().windowWidth)
+    console.log(wx.getSystemInfoSync().screenHeight+'===============高'+wx.getSystemInfoSync().windowHeight)
+    this.setData({
+      wid: wx.getSystemInfoSync().screenWidth - ((wx.getSystemInfoSync().windowHeight)/ 100) * 55
+    })
+
     setTimeout(() => {
       wx.checkSession({
         success:(res)=> {
