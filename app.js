@@ -248,8 +248,8 @@ App({
   // 获取网络信息，给出相应操作
   getNetWork(that) {
     // 监听网络状态
-    // let pages = getCurrentPages()
-    // let currentPage = pages[pages.length - 1]
+    let pages = getCurrentPages()
+    let currentPage = pages[pages.length - 1]
     wx.onNetworkStatusChange(res => {
       console.log(res.isConnected)
       const networkType = res.isConnected
@@ -258,6 +258,7 @@ App({
         wx.hideLoading()
       } else {
         that.setData({showNonet: false})
+        currentPage.onLoad(currentPage.options)
       }
     })
   },
