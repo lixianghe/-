@@ -14,8 +14,9 @@ Page({
     wid: 1
   },
   onLoad(options) {
-    console.log(wx.getSystemInfoSync().screenWidth+'===============宽'+wx.getSystemInfoSync().windowWidth)
-    console.log(wx.getSystemInfoSync().screenHeight+'===============高'+wx.getSystemInfoSync().windowHeight)
+    wx.onNetworkStatusChange((result) => {
+      console.log(result)
+    })
     this.setData({
       wid: wx.getSystemInfoSync().screenWidth - ((wx.getSystemInfoSync().windowHeight)/ 100) * 55
     })

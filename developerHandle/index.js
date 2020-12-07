@@ -95,7 +95,7 @@ module.exports = {
     })
     this._getList(id)
   },
-  // 跳转到最近收听页面
+  // 跳转到快捷入口界面
   tolatelyListen (e) {
     const index = e.currentTarget.dataset.index
     let page = e.currentTarget.dataset.page
