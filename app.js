@@ -245,7 +245,21 @@ App({
       }
     })
   },
-
+  // 获取网络信息，给出相应操作
+  getNetWork(that) {
+    // 监听网络状态
+    wx.getNetworkType({
+      async success(res) {
+        const networkType = res.networkType
+        if (networkType === 'none') {
+          that.setData({showNonet: true})
+          wx.hideLoading()
+        } else {
+          that.setData({showNonet: false})
+        }
+      },
+    })
+  },
   // 根据分辨率判断显示哪种样式
   setStyle() {
     // 判断分辨率的比列

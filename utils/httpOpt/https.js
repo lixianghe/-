@@ -33,10 +33,10 @@ export function request(url, data = {}, method = 'GET') {
                 icon: 'none'
               })
             } else {
-              wx.showToast({
-                title: res.data.message,
-                icon: 'none'
-              })
+              // wx.showToast({
+              //   title: res.data.message,
+              //   icon: 'none'
+              // })
               reject(res.data.message)
             }
           }

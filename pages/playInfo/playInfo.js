@@ -2,9 +2,7 @@
 const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
-// const { getData } = require('../../utils/https')
-
-var timer = null
+var timer;
 
 Page({
   mixins: [require('../../developerHandle/playInfo')],
@@ -39,6 +37,9 @@ Page({
     likeType: 'noLike',
     total: 0,
     scrolltop: 0,
+    isDrag: '',
+    barWidth: 0,
+    currentTime: 0,
     mainColor: btnConfig.colorOptions.mainColor,
     percentBar: btnConfig.percentBar,
     showImg: false,
@@ -81,17 +82,18 @@ Page({
   onShow: function () {
     const that = this;
     // 监听歌曲播放状态，比如进度，时间
+    clearInterval(timer)
     tool.playAlrc(that, app);
-    timer = setInterval(function () {
+    timer = setInterval(() => {
       tool.playAlrc(that, app);
     }, 1000);
-    
+    this.queryProcessBarWidth()
   },
   onUnload: function () {
-    clearInterval(timer);
+
   },
   onHide: function () {
-    clearInterval(timer)
+
   },
   imgOnLoad() {
     this.setData({ showImg: true })
@@ -110,15 +112,15 @@ Page({
   },
   // 上一首
   pre() {
-    let loopType = wx.getStorageSync('loopType')
-    if (loopType !== 'singleLoop') this.setData({ showImg: false })
+    // let loopType = wx.getStorageSync('loopType')
+    // if (loopType !== 'singleLoop') this.setData({ showImg: false })
     const that = this
     app.cutplay(that, -1)
   },
   // 下一首
   next() {
-    let loopType = wx.getStorageSync('loopType')
-    if (loopType !== 'singleLoop') this.setData({ showImg: false })
+    // let loopType = wx.getStorageSync('loopType')
+    // if (loopType !== 'singleLoop') this.setData({ showImg: false })
     const that = this
     app.cutplay(that, 1)
   },
@@ -166,13 +168,7 @@ Page({
   // 暂停/播放
   toggle() {
     const that = this
-    clearInterval(timer)
-    // if (!this.data.playing) {
-      timer = setInterval(function () {
-        tool.playAlrc(that, app);
-      }, 1000);
-    // }
-    tool.toggleplay(this, app)
+    tool.toggleplay(that, app)
   },
   // 播放列表
   more() {
@@ -226,36 +222,50 @@ Page({
       data: songInfo
     })
   },
-  // 点击改变进度, 拖拽结束
-  setPercent(e) {
-    console.log('拖拽结束')
-    // if (this.data.playing) wx.showLoading({ title: '加载中...', mask: true })
-    clearInterval(timer)
-    wx.pauseBackgroundAudio();
-    const that = this
-    // 传入当前毫秒值
-    const time = e.detail.value / 100 * tool.formatToSend(app.globalData.songInfo.dt)
-    app.globalData.currentPosition = time
-    console.log(that.data.playing, app.globalData.songInfo.dt)
-    if (app.globalData.songInfo.dt) {
-      if (that.data.playing) {
-        app.playing(time)
-        timer = setInterval(function () {
-          tool.playAlrc(that, app);
-        }, 1000);
-      }
-      that.setData({
-        percent: e.detail.value
-      })
-    }
+  // 开始拖拽
+  dragStartHandle(event) {
+    console.log('isDrag', this.data.isDrag)
+    this.setData({
+      isDrag: 'is-drag',
+      _offsetLeft: event.changedTouches[0].pageX,
+      _posLeft: event.currentTarget.offsetLeft
+    })
   },
-  // 拖拽改变进度
-  dragPercent(e) {
-    const that = this
-    clearInterval(timer)
-    tool.playAlrc(that, app, e.detail.value);
-    that.setData({
-      percent: e.detail.value
+  // 拖拽中
+  touchmove(event) {
+    let offsetLeft = event.changedTouches[0].pageX
+    let process = (offsetLeft - this.data._offsetLeft + this.data._posLeft) / this.data.barWidth
+    if (process < 0) {
+        process = 0
+    } else if (process > 1) {
+        process = 1
+    }
+    let percent = (process * 100).toFixed(3)
+    let currentTime = process * tool.formatToSend(app.globalData.songInfo.dt)
+    this.setData({
+      percent,
+      currentTime
+    })
+  },
+  // 拖拽结束
+  dragEndHandle(event) {
+    app.playing()
+    wx.seekBackgroundAudio({
+      position: this.data.currentTime
+    })
+    this.setData({isDrag: ''})
+  },
+  // 查询processBar宽度
+  queryProcessBarWidth() {
+    var query = this.createSelectorQuery();
+    query.selectAll('.process-bar').boundingClientRect();
+    query.exec(res => {
+      try {
+        this.setData({
+          barWidth: res[0][0].width
+        })
+      } catch (err) {
+      }
     })
   },
   // ******按钮点击态处理********/
