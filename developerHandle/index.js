@@ -21,7 +21,8 @@
     ]
  */
 const app = getApp()
-import { layout, layoutGroup } from '../utils/httpOpt/api'
+import { layout, layoutGroup, fm } from '../utils/httpOpt/api'
+
 module.exports = {
   data: {
     // 开发者注入快捷入口数据
@@ -51,6 +52,7 @@ module.exports = {
 
   },
   onLoad(options) {
+    this.getFm()
     // 接入凯叔频道数据
     layoutGroup().then(res => {
       const formatData = res.map((item, idx) => {
@@ -161,4 +163,21 @@ module.exports = {
   getLayoutData() {
 
   },
+  // 首页获取fm
+  async getFm() {
+    try {
+      let res = await fm()
+      let canplay = res.list
+      // 处理字段不一样的情况
+      canplay.map((item) => {
+        item.title = item.mediaName
+        item.id = item.mediaId
+        item.dt = item.timeText
+        item.coverImgUrl = item.coverUrl
+      })
+      wx.setStorageSync('fmList', canplay)
+    } catch (error) {
+      wx.setStorageSync('fmList', [])
+    }
+  }
 }

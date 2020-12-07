@@ -34,6 +34,7 @@ function playAlrc(that, app) {
       }
       app.globalData.playing = playing;
       app.globalData.percent = time
+      app.globalData.currentPosition = playtime
       // console.log('========监听捕获========='+ playing+'==========='+time+'=============')
       if (that.data.isDrag) return
       that.setData({

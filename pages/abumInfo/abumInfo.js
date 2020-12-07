@@ -125,7 +125,7 @@ Page({
     app.globalData.songInfo = songInfo
     wx.setStorage({ key: 'songInfo', data: songInfo })
     this.setData({ currentId: songInfo.id })
-    this.toInfo
+    this.toInfo()
   },
   toInfo() {
     app.globalData.abumInfoId = this.data.optionId
@@ -147,9 +147,11 @@ Page({
   
   // 播放全部
   async playAll() {
+    wx.showLoading({
+      title: '加载中',
+    })
     let allList = wx.getStorageSync('allList') || []
     wx.setStorageSync('nativeList', allList)
-    const msg = '网络异常，无法播放！'
     app.globalData.canplay = JSON.parse(JSON.stringify(this.data.canplay))
     app.globalData.songInfo = app.globalData.canplay[0]
     app.globalData.abumInfoId = this.data.optionId
@@ -164,7 +166,7 @@ Page({
     })
     let that = this
     if (getMedia) await getMedia(params, that)
-    app.playing
+    app.playing()
     
     wx.setStorage({
       key: 'songInfo',

@@ -9,6 +9,7 @@ Page({
     colorStyle: app.sysInfo.colorStyle,
     backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
+    showNonet: false
   },
   onReady() {},
   onShow() {
@@ -18,11 +19,13 @@ Page({
     this.selectComponent('#miniPlayer').setOnHide()
   },
   async onLoad(options) {
+    // 检测网络
+    let that = this
+    app.getNetWork(that)
     this.getList()
   },
   getList() {
     vipList().then(res => {
-      console.log('res', res.vipPackage)
       let list = res.vipPackage
       this.setData({vipList: list})
     })

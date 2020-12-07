@@ -50,9 +50,7 @@ module.exports = {
     }]
   },
   onShow() {
-    console.log('Log from mixin!')
     if (!this.data.isLogin) {
-      console.log(111111111)
       this.loginIn()
     } else {
       this.getUserInfo()
@@ -60,7 +58,6 @@ module.exports = {
 
   },
   onLoad(options) {
-    console.log(this.data.showWxLogin+'showWxLogin=========56行')
     app.checkStatus()
     // if(JSON.stringify(wx.getStorageSync('username'))) {
     //   this.getUserInfo()
@@ -350,7 +347,6 @@ module.exports = {
     wx.navigateTo({ url: '../like/like' })
   },
   latelyListen() {
-    console.log(1111)
     wx.navigateTo({ url: '../latelyListen/latelyListen' })
   },
   myBuy() {

@@ -38,7 +38,9 @@
 
   </view>
   </scroll-view>
-  <mini-player style="display: {{showMInibar ? 'block' : 'none'}}" id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
+  <view class="miniView" style="top: {{100 * times}}px">
+    <mini-player id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
+  </view>
 </view>
 
 

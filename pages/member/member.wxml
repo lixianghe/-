@@ -1,4 +1,4 @@
-<view class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" wx:if="{{vipList.length}}">
+<view class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;">
   <scroll-view
     class="scrollView"
     scroll-x="true" style="width: 100%;">
@@ -22,11 +22,7 @@
   </view>
 </view>
 
-  <!-- 骨架屏 -->
-<view class="page skeleton" wx:else>
-  
-</view>
-
+<no-network wx:if="{{showNonet}}"></no-network>
 <mini-player id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
 
 
