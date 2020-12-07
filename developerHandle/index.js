@@ -54,6 +54,7 @@ module.exports = {
     }
   },
   onLoad(options) {
+    // console.log(111)
     // 接入凯叔频道数据
     layoutGroup().then(res => {
       // let ga = [{id:3, name:'haha', type: 'as',groupTitleConfig:'asds'},{id:3, name:'haha', type: 'as',groupTitleConfig:'asds'},

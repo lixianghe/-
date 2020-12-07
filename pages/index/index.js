@@ -14,9 +14,8 @@ Page({
     wid: 1
   },
   onLoad(options) {
-    wx.onNetworkStatusChange((result) => {
-      console.log(result)
-    })
+    let that = this
+    app.getNetWork(that)
     this.setData({
       wid: wx.getSystemInfoSync().screenWidth - ((wx.getSystemInfoSync().windowHeight)/ 100) * 55
     })
