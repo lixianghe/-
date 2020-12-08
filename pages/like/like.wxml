@@ -39,3 +39,5 @@
   </view>
   <button bindtap="close">确定</button>
 </view>
+
+<no-network wx:if="{{showNonet}}"></no-network>
