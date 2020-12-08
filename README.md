@@ -146,7 +146,7 @@ btn  1~4个，播放/暂停必选，其他可选；
     {
       name: 'loopType',                                         // 循环模式
       img: {
-        listLoop: '/images/listLoop.png' ,                      // 列表循环对应的图标
+        loop: '/images/listLoop.png' ,                      // 列表循环对应的图标
         singleLoop: '/images/singleLoop.png',                   // 单曲循环对应的图标
         shufflePlayback: '/images/shufflePlayback.png'          // 随即循环对应的图标
       }

@@ -58,12 +58,12 @@ module.exports = {
           });
         }
       });
-      if (!layoutData.length) {
-        wx.showToast({
-          title: '未查询到相关内容',
-          icon: 'none'
-        })
-      }
+      // if (!layoutData.length) {
+      //   wx.showToast({
+      //     title: '未查询到相关内容',
+      //     icon: 'none'
+      //   })
+      // }
       this.setData({
         info: layoutData,
       });

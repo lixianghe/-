@@ -200,6 +200,10 @@ Page({
     console.log('lastIndex', lastIndex)
     if (lastIndex >= this.data.total) {
       this.setData({ showLoadEnd: false })
+      wx.showToast({
+        title: '已经到底啦！',
+        icon: 'none'
+      })
       return false
     } else {
       this.setData({ showLoadEnd: true })

@@ -131,3 +131,10 @@
   position: absolute;
   top: 100px;
 }
+.noData {
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  color: #bbb;
+  font-size: 5vh;
+}

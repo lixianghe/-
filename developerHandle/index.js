@@ -55,7 +55,7 @@ module.exports = {
     }
   },
   onLoad(options) {
-    // console.log(111)
+    this.getFm()
     // 接入凯叔频道数据
     layoutGroup().then(res => {
       const formatData = res.map((item, idx) => {
@@ -133,7 +133,7 @@ module.exports = {
     layout(params).then(res => {
       let layoutData = [{
         id: '00',
-        title: '电台2',
+        title: '电台',
         src: '/images/fm.jpg',
         contentType: 'fm',
         count: '',

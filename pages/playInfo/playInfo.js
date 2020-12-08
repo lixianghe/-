@@ -27,13 +27,13 @@ Page({
     ],
     btnCurrent: null,
     noTransform: '',
-    typelist: ['listLoop', 'singleLoop', 'shufflePlayback'],
+    typelist: ['loop', 'singleLoop', 'shufflePlayback'],
     typeName: {
-      "listLoop": '循环播放',
+      "loop": '循环播放',
       "singleLoop": '单曲循环',
       "shufflePlayback": '随机播放',
     },
-    loopType: 'listLoop',   // 默认列表循环
+    loopType: 'loop',   // 默认列表循环
     likeType: 'noLike',
     total: 0,
     scrolltop: 0,
@@ -49,7 +49,8 @@ Page({
     mainColor: btnConfig.colorOptions.mainColor,
     colorStyle: app.sysInfo.colorStyle,
     backgroundColor: app.sysInfo.backgroundColor,
-    screen: app.globalData.screen
+    screen: app.globalData.screen,
+    noBack: false
   },
   // 播放器实例
   audioManager: null,
@@ -71,8 +72,9 @@ Page({
       canplay: canplay,
       noPlay: options.noPlay || null,
       abumInfoName: options.abumInfoName || null,
-      loopType: wx.getStorageSync('loopType') || 'listLoop'
+      loopType: wx.getStorageSync('loopType') || 'loop'
     })
+    console.log('loopType', this.data.loopType)
     // 把abumInfoName存在缓存中，切歌的时候如果不是专辑就播放同一首
     wx.setStorageSync('abumInfoName', options.abumInfoName)
     const nativeList = wx.getStorageSync('nativeList') || []
@@ -150,7 +152,7 @@ Page({
     wx.showToast({ title: this.data.typeName[type], icon: 'none' })
     let loopList;
     // 列表循环
-    if (type === 'listLoop') {
+    if (type === 'loop') {
       let nativeList = wx.getStorageSync('nativeList') || []
       loopList = nativeList     
     } else if (type === 'singleLoop') {
@@ -222,6 +224,13 @@ Page({
       playing: true
       // noTransform: ''
     })
+    console.log('songInfo', app.globalData.songInfo)
+    // 如果没有src playinfo给出弹框，其他页面给出toast提示
+    if (!app.globalData.songInfo.src) {
+      this.setData({showModal: true, noBack: true})
+      wx.hideLoading()
+      wx.stopBackgroundAudio()
+    }
     app.playing()
     wx.setStorage({
       key: "songInfo",
