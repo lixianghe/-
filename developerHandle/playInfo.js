@@ -14,7 +14,6 @@
  */
 const app = getApp()
 import { mediaPlay, mediaFavoriteAdd, mediaFavoriteCancel, isFavorite, saveHistory } from '../utils/httpOpt/api'
-const { showData } = require('../utils/httpOpt/localData')
 
 module.exports = {
   data: {
@@ -60,7 +59,7 @@ module.exports = {
   },
   async onLoad(options) {
     // 拿到歌曲的id: options.id
-    let getInfoParams = {mediaId: options.id || app.globalData.songInfo.id, contentType: 'story'}
+    let getInfoParams = {mediaId: options.id || wx.getStorageSync('songInfo').id, contentType: 'story'}
 
     
     Promise.all([
@@ -88,7 +87,7 @@ module.exports = {
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
     // 如果没有src说明是要付费播放的
     if (!songInfo.src) {
-      this.setData({showModal: true})
+      that.setData({showModal: true})
       wx.hideLoading()
       wx.stopBackgroundAudio()
     }
