@@ -37,7 +37,7 @@ module.exports = {
     console.log('Log from mixin!')
   },
   onLoad(options) {
-    this._getList(this.data.labels[0].value)
+    // this._getList(this.data.labels[0].value)
   },
   onReady() {
 

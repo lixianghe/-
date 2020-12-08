@@ -26,7 +26,7 @@ module.exports = {
   data: {
     // 开发者注入快捷入口数据
     lalyLtn: [
-      {icon: '/images/zjst.png', title: "最近收听", name: 'latelyListen', islogin: false},
+      {icon: '/images/zjst.png', title: "最近收听", name: 'latelyListen', islogin: true},
       {icon: '/images/icon_collect.png', title: "我喜欢的", name:'like', islogin: true}
     ],
     // 开发者注入模板页面数据
@@ -57,8 +57,6 @@ module.exports = {
     // console.log(111)
     // 接入凯叔频道数据
     layoutGroup().then(res => {
-      // let ga = [{id:3, name:'haha', type: 'as',groupTitleConfig:'asds'},{id:3, name:'haha', type: 'as',groupTitleConfig:'asds'},
-      // {id:3, name:'haha', type: 'as',groupTitleConfig:'asds'},{id:3, name:'haha', type: 'as',groupTitleConfig:'asds'}]
       const formatData = res.map((item, idx) => {
         let obj = {
           id: item.groupId,
@@ -68,10 +66,6 @@ module.exports = {
         }
         return obj
       })
-      // ga.forEach(item => {
-      //   formatData.push(item)
-      // })
-
       this.setData({
         labels: formatData,
         reqS: true
