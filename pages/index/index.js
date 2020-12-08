@@ -41,6 +41,11 @@ Page({
       
     }, 800);
   },
+  scrollRight () {
+    wx.showToast({
+      title: '已经到底啦！',
+    })
+  },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()
     this.selectComponent('#miniPlayer').watchPlay()

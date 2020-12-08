@@ -18,7 +18,7 @@
       <view class="titleBg" wx:for="{{5}}" wx:key="index"  >
       </view>
     </scroll-view>
-    <scroll-view class="index" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920"bindscrolltolower="getLayoutData">
+    <scroll-view class="index" scroll-x="true" scroll-left="{{scrollLeft}}" bindscrolltolower="scrollRight">
       <view class="mianContent">
         <!-- 页面盒子 -->
           <story wx:if="{{info.length>0 && reqL}}" wx:for="{{info}}" wx:key="index" data-no="{{index}}"
