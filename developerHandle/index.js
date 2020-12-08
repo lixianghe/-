@@ -133,7 +133,7 @@ module.exports = {
     layout(params).then(res => {
       let layoutData = [{
         id: '00',
-        title: '电台2',
+        title: '电台',
         src: '/images/fm.jpg',
         contentType: 'fm',
         count: '',
