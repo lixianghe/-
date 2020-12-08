@@ -67,7 +67,7 @@ module.exports = {
       // this.isFavorite(isFavoriteParams),          // 是否被收藏
       this.getMedia(getInfoParams)                 // 获取歌曲详情
     ]).then((value)=> {
-      this.needFee()                              // 检测是否是付费的
+      // if(this.needFee()) return                            // 检测是否是付费的
       this.play()                                 // 播放歌曲
     })
   },
@@ -86,6 +86,12 @@ module.exports = {
     songInfo.dt = data.timeText
     songInfo.coverImgUrl = data.coverUrl
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
+    // 如果没有src说明是要付费播放的
+    if (!songInfo.src) {
+      this.setData({showModal: true})
+      wx.hideLoading()
+      wx.stopBackgroundAudio()
+    }
     that.setData({
       songInfo: songInfo
     })
@@ -108,12 +114,13 @@ module.exports = {
     that.setData({existed: res.existed})
   },
   // 如果mediaUrl没有给出弹框并跳到首页
-  needFee() {
-    if (!this.data.songInfo.src) {
-      this.setData({showModal: true})
-      wx.hideLoading()
-    }
-  },
+  // needFee() {
+  //   if (!this.data.songInfo.src) {
+  //     this.setData({showModal: true})
+  //     wx.hideLoading()
+  //     return true
+  //   }
+  // },
   // 收藏和取消收藏,playInfo和minibar用到这里
   like(that = this) {
     const app = getApp()

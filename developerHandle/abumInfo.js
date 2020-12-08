@@ -19,7 +19,7 @@
     })
  */
 import { albumMedia, isAlbumFavorite, fm, albumFavoriteAdd, albumFavoriteCancel } from '../utils/httpOpt/api'
-const { showData } = require('../utils/httpOpt/localData')
+
 const app = getApp()
 module.exports = {
   data: {
@@ -78,23 +78,17 @@ module.exports = {
   },
   // 获取电台列表
   async getFm() {
-    try {
-      let res = await fm()
-      let canplay = res.list
-      console.log(canplay)
-      // 处理字段不一样的情况
-      canplay.map((item) => {
-        item.title = item.mediaName
-        item.id = item.mediaId
-        item.dt = item.timeText
-        item.coverImgUrl = item.coverUrl
-      })
-      console.log(canplay)
-      this.setData({canplay})
-      wx.setStorageSync('allList', canplay)
-    } catch (error) {
-      wx.setStorageSync('allList', [])
-    }
+    let fmList = wx.getStorageSync('fmList')
+    // 处理字段不一样的情况
+    fmList.map((item) => {
+      item.title = item.mediaName
+      item.id = item.mediaId
+      item.dt = item.timeText
+      item.coverImgUrl = item.coverUrl
+    })
+    this.setData({canplay: fmList})
+    wx.setStorageSync('allList', fmList)
+
   },
   async getAllList(allParams) {
     let allList

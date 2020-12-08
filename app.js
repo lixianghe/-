@@ -251,7 +251,6 @@ App({
     let pages = getCurrentPages()
     let currentPage = pages[pages.length - 1]
     wx.onNetworkStatusChange(res => {
-      console.log(res.isConnected)
       const networkType = res.isConnected
       if (!networkType) {
         that.setData({showNonet: true})

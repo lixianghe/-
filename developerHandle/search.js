@@ -37,11 +37,10 @@ module.exports = {
       pageNum: 1,
       pageSize: 20,
       contentType: params.label,
-      keyWord: params.keyWord
+      keyWord: (params.keyWord).trim()
     }
     search(opt).then((res) => {
       let layoutData = [];
-      console.log(res);
       res.list.forEach((item) => {
         if (params.label === "album") {
           layoutData.push({
@@ -59,13 +58,21 @@ module.exports = {
           });
         }
       });
-      console.log("layoutData", layoutData);
+      if (!layoutData.length) {
+        wx.showToast({
+          title: '未查询到相关内容',
+          icon: 'none'
+        })
+      }
       this.setData({
         info: layoutData,
       });
     })
     .catch((err) => {
-      console.log(JSON.stringify(err) + "73行");
+      wx.showToast({
+        title: '未查询到相关内容',
+        icon: 'none'
+      })
     });
   },
 };

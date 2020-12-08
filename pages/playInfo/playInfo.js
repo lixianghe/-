@@ -78,6 +78,12 @@ Page({
     const nativeList = wx.getStorageSync('nativeList') || []
     if (!nativeList.length || abumInfoName !== options.abumInfoName) wx.setStorageSync('nativeList', canplay)
     if (options.noPlay !== 'true') wx.showLoading({ title: '加载中...', mask: true })
+    // 如果没有abumInfoName就把more按钮删掉
+    if (!options.abumInfoName) {
+      let index = this.data.playInfoBtns.findIndex(n => n.name === 'more')
+      this.data.playInfoBtns.splice(index, 1)
+      this.setData({playInfoBtns: this.data.playInfoBtns})
+    }
   },
   onShow: function () {
     const that = this;
@@ -242,18 +248,22 @@ Page({
     }
     let percent = (process * 100).toFixed(3)
     let currentTime = process * tool.formatToSend(app.globalData.songInfo.dt)
+    let playtime = currentTime ? tool.formatduration(currentTime * 1000) : '00:00'
     this.setData({
       percent,
-      currentTime
+      currentTime,
+      playtime
     })
   },
   // 拖拽结束
   dragEndHandle(event) {
-    app.playing()
+    // app.playing()
     wx.seekBackgroundAudio({
       position: this.data.currentTime
     })
-    this.setData({isDrag: ''})
+    setTimeout(() => {
+      this.setData({isDrag: ''})
+    }, 500)
   },
   // 查询processBar宽度
   queryProcessBarWidth() {
