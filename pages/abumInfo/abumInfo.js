@@ -77,6 +77,7 @@ Page({
     setTimeout(() => {
       this.getTenHeight()
     }, 500)
+    scrollTopNo = 0
   },
   onShow() {
     const currentId = wx.getStorageSync('songInfo').id
@@ -168,10 +169,10 @@ Page({
     if (getMedia) await getMedia(params, that)
     app.playing()
     
-    wx.setStorage({
-      key: 'songInfo',
-      data: this.data.canplay[0],
-    })
+    // wx.setStorage({
+    //   key: 'songInfo',
+    //   data: this.data.canplay[0],
+    // })
   },
   setPlaying(e) {
     this.setData({
@@ -194,10 +195,8 @@ Page({
   }, 2000),
   // 滚到底部
   listBehind: tool.throttle(async function (res) {
-    console.log('滑倒底部')
     // 滑倒最底下
     let lastIndex = (this.data.pageNo   - 1) * this.data.pageSize + this.data.canplay.length      // 目前最后一个的索引值
-    console.log('lastIndex', lastIndex)
     if (lastIndex >= this.data.total) {
       this.setData({ showLoadEnd: false })
       wx.showToast({
@@ -211,6 +210,7 @@ Page({
     scrollTopNo++
     let pageNoName = this.data.pageNoName
     let idName = this.data.idName
+    console.log('scrollTopNo', scrollTopNo)
     let params = { [pageNoName]: this.data.initPageNo + scrollTopNo, [idName]: this.data.optionId }
     const data = await this.getData(params)
     const list = this.data.canplay.concat(data)

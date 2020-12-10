@@ -74,18 +74,20 @@ Page({
       abumInfoName: options.abumInfoName || null,
       loopType: wx.getStorageSync('loopType') || 'loop'
     })
-    console.log('loopType', this.data.loopType)
-    // 把abumInfoName存在缓存中，切歌的时候如果不是专辑就播放同一首
-    wx.setStorageSync('abumInfoName', options.abumInfoName)
-    const nativeList = wx.getStorageSync('nativeList') || []
-    if (!nativeList.length || abumInfoName !== options.abumInfoName) wx.setStorageSync('nativeList', canplay)
-    if (options.noPlay !== 'true') wx.showLoading({ title: '加载中...', mask: true })
+    if (options.noPlay !== 'true' || abumInfoName !== options.abumInfoName) {
+      wx.setStorageSync('nativeList', canplay)
+    }
+    if (options.noPlay !== 'true') {
+      wx.showLoading({ title: '加载中...', mask: true })
+    }
     // 如果没有abumInfoName就把more按钮删掉
     if (!options.abumInfoName) {
       let index = this.data.playInfoBtns.findIndex(n => n.name === 'more')
       this.data.playInfoBtns.splice(index, 1)
       this.setData({playInfoBtns: this.data.playInfoBtns})
     }
+    // 把abumInfoName存在缓存中，切歌的时候如果不是专辑就播放同一首
+    wx.setStorageSync('abumInfoName', options.abumInfoName)
   },
   onShow: function () {
     const that = this;
@@ -214,17 +216,15 @@ Page({
   // 在播放列表里面点击播放歌曲
   async playSong(e) {
     const songInfo = e.currentTarget.dataset.song
-    app.globalData.songInfo = songInfo
     // 获取歌曲详情
-    let params = {mediaId: app.globalData.songInfo.id, contentType: 'story'}
+    let params = {mediaId: songInfo.id, contentType: 'story'}
     await this.getMedia(params)
     this.setData({
       songInfo: songInfo,
-      currentId: app.globalData.songInfo.id,
+      currentId: songInfo.id,
       playing: true
       // noTransform: ''
     })
-    console.log('songInfo', app.globalData.songInfo)
     // 如果没有src playinfo给出弹框，其他页面给出toast提示
     if (!app.globalData.songInfo.src) {
       this.setData({showModal: true, noBack: true})
@@ -234,7 +234,7 @@ Page({
     app.playing()
     wx.setStorage({
       key: "songInfo",
-      data: songInfo
+      data: app.globalData.songInfo
     })
   },
   // 开始拖拽

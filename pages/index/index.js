@@ -44,6 +44,7 @@ Page({
   scrollRight () {
     wx.showToast({
       title: '已经到底啦！',
+      icon: 'none'
     })
   },
   onShow() {

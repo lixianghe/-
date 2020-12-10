@@ -65,6 +65,13 @@ function toggleplay(that, app, cb) {
     that.setData({
       playing: true
     });
+    if (!app.globalData.songInfo.src) {
+      wx.showToast({
+        title: '该内容为会员付费内容，请先成为会员再购买收听~',
+        icon: 'none'
+      })
+      return
+    }
     app.playing(app.globalData.currentPosition, cb);
   }
 }

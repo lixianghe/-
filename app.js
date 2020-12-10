@@ -100,6 +100,7 @@ App({
         }
       })
     });
+    wx.setStorageSync('playing', false)
     if (wx.canIUse('getShareData')) {
       wx.getShareData({
         name: this.globalData.appName,
@@ -113,7 +114,7 @@ App({
     if (wx.canIUse('getPlayInfoSync')) {
       let res = wx.getPlayInfoSync()
     }
-
+    // wx.setStorageSync('abumInfoName', null)
   },
 
   // 保存用户信息
@@ -172,7 +173,6 @@ App({
       wx.stopBackgroundAudio()
     }
     loopType === 'singleLoop' ? this.playing(0) : this.playing()
-    wx.setStorageSync("songInfo",song)
   },
   // 根据循环模式设置播放列表
   setList(loopType, list, cutFlag = false){
@@ -215,10 +215,11 @@ App({
   // 根据歌曲url播放歌曲
   playing: function (seek, cb) {
     const songInfo = this.globalData.songInfo
+    console.log('songInfo--------------------------!' + JSON.stringify(songInfo))
     // 如果是车载情况
     if (this.globalData.useCarPlay) {
       console.log('车载情况')
-      this.carHandle(seek)
+      this.carHandle(songInfo, seek)
     } else {
       console.log('非车载情况')
       this.wxPlayHandle(songInfo, seek, cb)
@@ -226,12 +227,10 @@ App({
 
   },
   // 车载情况下的播放
-  carHandle(seek) {
-    let media = this.globalData.songInfo || wx.getStorageSync('songInfo')
-    console.log('media', media)
-    this.audioManager.src = media.src
-    this.audioManager.title = media.title
-    this.audioManager.coverImgUrl = media.coverImgUrl
+  carHandle(songInfo, seek) {
+    this.audioManager.src = songInfo.src
+    this.audioManager.title = songInfo.title
+    this.audioManager.coverImgUrl = songInfo.coverImgUrl
     if (seek != undefined && typeof (seek) === 'number') {
       wx.seekBackgroundAudio({
         position: seek

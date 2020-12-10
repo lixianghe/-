@@ -131,14 +131,20 @@ module.exports = {
     // 接入凯叔列表数据
     let params = {groupId: id, pageNum: this.pageData.pageNum}
     layout(params).then(res => {
-      let layoutData = [{
-        id: '00',
-        title: '电台',
-        src: '/images/fm.jpg',
-        contentType: 'fm',
-        count: '',
-        isVip: false
-      }]
+      let layoutData = []
+      if (Number(id) === 1) {
+        layoutData = [{
+          id: '00',
+          title: '电台',
+          src: '/images/fm.jpg',
+          contentType: 'fm',
+          count: '',
+          isVip: false
+        }]
+      } else {
+        layoutData = []
+      }
+      
       res.list.forEach(v => {
         v.content.forEach(item => {
           layoutData.push({
