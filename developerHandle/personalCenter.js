@@ -55,6 +55,15 @@ module.exports = {
     } else {
       this.getUserInfo()
     }
+    let that = this
+    if(wx.canIUse('onTaiAccountStatusChange')){
+      wx.onTaiAccountStatusChange((res)=>{
+        console.log(JSON.stringify(res)+'==================62')
+        if(!res.isLoginUser){
+          that.logoutTap()
+        }
+      })
+    }
 
   },
   onLoad(options) {
@@ -293,6 +302,7 @@ module.exports = {
     this.logoutTap()
   },
   logoutTap(){
+    console.log(101010101010)
     this.logout = true;
     setTimeout(()=>{
       this.logout = false;
@@ -306,6 +316,7 @@ module.exports = {
       index: 2, 
       text: '我的',
     })
+    
     this.setData({
       isLogin: false,
       userInfo:{
@@ -325,6 +336,7 @@ module.exports = {
     app.userInfo.forbid = forbid;
     app.userInfo.forbidText = message;
     wx.setStorageSync('userInfo', app.userInfo)
+    
   },
   //加载图片失败
   loadImgError: function (res) {
