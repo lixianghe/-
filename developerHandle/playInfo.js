@@ -46,7 +46,7 @@ module.exports = {
       {
         name: 'loopType',                                         // 循环模式
         img: {
-          listLoop: '/images/listLoop.png' ,                      // 列表循环对应的图标
+          loop: '/images/listLoop.png' ,                      // 列表循环对应的图标
           singleLoop: '/images/singleLoop.png',                   // 单曲循环对应的图标
           shufflePlayback: '/images/shufflePlayback.png'          // 随即循环对应的图标
         }
@@ -66,7 +66,7 @@ module.exports = {
       // this.isFavorite(isFavoriteParams),          // 是否被收藏
       this.getMedia(getInfoParams)                 // 获取歌曲详情
     ]).then((value)=> {
-      // if(this.needFee()) return                            // 检测是否是付费的
+      this.needFee()                           // 检测是否是付费的
       this.play()                                 // 播放歌曲
     })
   },
@@ -86,11 +86,12 @@ module.exports = {
     songInfo.coverImgUrl = data.coverUrl
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
     // 如果没有src说明是要付费播放的
-    if (!songInfo.src) {
-      that.setData({showModal: true})
-      wx.hideLoading()
-      wx.stopBackgroundAudio()
-    }
+    // if (!songInfo.src) {
+    //   that.setData({showModal: true, noBack: true})
+    //   wx.hideLoading()
+    //   wx.stopBackgroundAudio()
+    //   return
+    // }
     that.setData({
       songInfo: songInfo
     })
@@ -113,13 +114,14 @@ module.exports = {
     that.setData({existed: res.existed})
   },
   // 如果mediaUrl没有给出弹框并跳到首页
-  // needFee() {
-  //   if (!this.data.songInfo.src) {
-  //     this.setData({showModal: true})
-  //     wx.hideLoading()
-  //     return true
-  //   }
-  // },
+  needFee() {
+    if (!this.data.songInfo.src) {
+      this.setData({showModal: true})
+      wx.stopBackgroundAudio()
+      wx.hideLoading()
+      return true
+    }
+  },
   // 收藏和取消收藏,playInfo和minibar用到这里
   like(that = this) {
     const app = getApp()

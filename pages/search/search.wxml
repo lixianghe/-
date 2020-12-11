@@ -35,7 +35,6 @@
         </view>
       </view>
     <!-- 页面盒子 -->
-
   </view>
   </scroll-view>
   <view class="miniView" style="top: {{100 * times}}px">
@@ -43,5 +42,7 @@
   </view>
 </view>
 
+<!-- 加入没有数据 -->
+<view class="noData" style="top: {{50 * times}}px" wx:if="{{!info.length && keyWord}}">暂无内容</view>
 
 

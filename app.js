@@ -30,7 +30,7 @@ App({
     currentPosition: 0,
     canplay: [],
     currentList: [],
-    loopType: 'listLoop', // 默认列表循环
+    loopType: 'loop', // 默认列表循环
     useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio'),
     PIbigScreen: null
   },
@@ -88,8 +88,8 @@ App({
     wx.onBackgroundAudioStop(function () {
       const pages = getCurrentPages()
       const currentPage = pages[pages.length - 1]
-      console.log('playnext', currentPage)
-      that.cutplay(currentPage, 1, true)
+      let songInfo = that.globalData.songInfo
+      if (songInfo.src) that.cutplay(currentPage, 1, true)
     });
     //监听音乐暂停，保存播放进度广播暂停状态
     wx.onBackgroundAudioPause(function () {
@@ -100,6 +100,7 @@ App({
         }
       })
     });
+    wx.setStorageSync('playing', false)
     if (wx.canIUse('getShareData')) {
       wx.getShareData({
         name: this.globalData.appName,
@@ -113,7 +114,7 @@ App({
     if (wx.canIUse('getPlayInfoSync')) {
       let res = wx.getPlayInfoSync()
     }
-
+    // wx.setStorageSync('abumInfoName', null)
   },
 
   // 保存用户信息
@@ -135,7 +136,7 @@ App({
     let allList = wx.getStorageSync('nativeList') || []
     // const nativeList = wx.getStorageSync('nativeList') || []
     // 根据循环模式设置数组
-    let loopType = wx.getStorageSync('loopType') || 'listLoop'
+    let loopType = wx.getStorageSync('loopType') || 'loop'
     // 如果缓存没有abumInfoName，说明是从首页单曲进入，list为单首
     let abumInfoName = wx.getStorageSync('abumInfoName')
     // 歌曲列表
@@ -157,14 +158,27 @@ App({
       contentType: 'story'
     }
     await getMedia(params, that)
+    // 如果没有src playinfo给出弹框，其他页面给出toast提示
+    let songInfo = this.globalData.songInfo
+    if (!songInfo.src) {
+      if (that.route === 'pages/playInfo/playInfo') {
+        that.setData({showModal: true, noBack: true})
+      } else {
+        wx.showToast({
+          title: '该内容为会员付费内容，请先成为会员再购买收听~',
+          icon: 'none'
+        })
+      }
+      wx.hideLoading()
+      wx.stopBackgroundAudio()
+    }
     loopType === 'singleLoop' ? this.playing(0) : this.playing()
-    wx.setStorageSync("songInfo",song)
   },
   // 根据循环模式设置播放列表
   setList(loopType, list, cutFlag = false){
     let loopList = []
     // 列表循环
-    if (loopType === 'listLoop') {
+    if (loopType === 'loop') {
       loopList = list     
     } else if (loopType === 'singleLoop') {
       // 单曲循环
@@ -201,10 +215,11 @@ App({
   // 根据歌曲url播放歌曲
   playing: function (seek, cb) {
     const songInfo = this.globalData.songInfo
+    console.log('songInfo--------------------------!' + JSON.stringify(songInfo))
     // 如果是车载情况
     if (this.globalData.useCarPlay) {
       console.log('车载情况')
-      this.carHandle(seek)
+      this.carHandle(songInfo, seek)
     } else {
       console.log('非车载情况')
       this.wxPlayHandle(songInfo, seek, cb)
@@ -212,12 +227,10 @@ App({
 
   },
   // 车载情况下的播放
-  carHandle(seek) {
-    let media = this.globalData.songInfo || wx.getStorageSync('songInfo')
-    console.log('media', media)
-    this.audioManager.src = media.src
-    this.audioManager.title = media.title
-    this.audioManager.coverImgUrl = media.coverImgUrl
+  carHandle(songInfo, seek) {
+    this.audioManager.src = songInfo.src
+    this.audioManager.title = songInfo.title
+    this.audioManager.coverImgUrl = songInfo.coverImgUrl
     if (seek != undefined && typeof (seek) === 'number') {
       wx.seekBackgroundAudio({
         position: seek

@@ -1,4 +1,4 @@
-<view wx:if="{{showModal}}" class="model" bindtap="close"></view>
+<view wx:if="{{showModal}}" class="model"></view>
 <view wx:if="{{showModal}}" class="showInfo">
   <view class="close" bindtap="close">
     <image src="../../images/modal_close.png" />

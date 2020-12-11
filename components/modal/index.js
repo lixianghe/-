@@ -13,6 +13,10 @@ Component({
     content: { 
       type: String,
       value: ''
+    },
+    noBack: { 
+      type: Boolean,
+      value: ''
     }
   },
   data: {
@@ -21,9 +25,12 @@ Component({
   methods: {
     close() {
       this.setData({showModal: false})
-      wx.navigateBack({
-        delta: 1
-      })
+      console.log(this.data.noBack)
+      if (!this.data.noBack) {
+        wx.navigateBack({
+          delta: 1
+        })
+      }
     },
     linkMine() {
       wx.switchTab({
