@@ -13,10 +13,14 @@ Page({
     retcode: 1,
     mainColor: app.globalData.mainColor
   },
-  screen: app.globalData.screen,
   
   
- 
+  scrollRight () {
+    wx.showToast({
+      title: '已经到底啦！',
+      icon: 'none'
+    })
+  },
   onLoad(options) {
     let that = this
     app.getNetWork(that)

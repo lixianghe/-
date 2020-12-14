@@ -310,13 +310,6 @@ module.exports = {
     app.userInfo.token = ''
     app.userInfo.vipStatus = '';
     app.userInfo.expireTime = '';
-    wx.removeStorageSync('userInfo');
-    wx.removeStorageSync('username')
-    wx.setTabBarItem({
-      index: 2, 
-      text: '我的',
-    })
-    
     this.setData({
       isLogin: false,
       userInfo:{
@@ -324,6 +317,24 @@ module.exports = {
         nickname: '',
         userId: '',
         vipTime: ''
+      }
+    })
+    wx.setTabBarItem({
+      index: 2, 
+      text: '我的',
+    })
+    wx.removeStorageSync('userInfo');
+    wx.removeStorageSync('username')
+    wx.setStorage({
+      data: '',
+      key: 'token',
+      success(res) {
+        console.log(res+'332')
+        // 退出初始化信息
+        app.initCode()
+      },
+      fail(err) {
+        console.log(err+'337')
       }
     })
   },

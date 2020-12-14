@@ -289,7 +289,7 @@ App({
   },
   // 初始化token、deviceId、refreshToken
   initCode() {
-    let guestInfo = wx.getStorageSync('guestInfo');
+    // let guestInfo = wx.getStorageSync('guestInfo');
     let userInfo = wx.getStorageSync('userInfo');
     let authInfo = wx.getStorageSync('authInfo');
     if (authInfo){
@@ -301,11 +301,13 @@ App({
       this.guestInfo = guestInfo;
       return;
     }
-    if (guestInfo){
-      this.guestInfo = guestInfo;
-      return;
-    }
+    
+    // if (guestInfo){
+    //   this.guestInfo = guestInfo;
+    //   return;
+    // }
 
+    
     const token = wx.getStorageSync('token')
     if (token) return false
     let deviceInfo = {
