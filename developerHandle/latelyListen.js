@@ -31,7 +31,8 @@ module.exports = {
       {name: '故事', value: 'media'}
     ],
     // 开发者注入模板页面数据
-    info: []
+    info: [],
+    scrollLeft: 0
   },
   onShow() {
     console.log('Log from mixin!')
@@ -66,7 +67,8 @@ module.exports = {
     const index = e.currentTarget.dataset.index
     this.setData({
       currentTap: index,
-      retcode: 0
+      retcode: 0,
+      scrollLeft: 0
     })
     wx.showLoading({
       title: '加载中',

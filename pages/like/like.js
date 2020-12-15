@@ -9,7 +9,6 @@ Page({
     noContent: '/images/nullContent.png',
     info: '',
     currentTap: 0,
-    scrollLeft: 0,
     retcode: 1,
     mainColor: app.globalData.mainColor
   },

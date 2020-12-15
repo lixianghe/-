@@ -7,7 +7,6 @@ Page({
     screen: app.globalData.screen,
     info: '',
     currentTap: 0,
-    scrollLeft: 0,
     
     mainColor: app.globalData.mainColor
   },

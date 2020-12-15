@@ -32,6 +32,7 @@ module.exports = {
       {value: 'album', name: '专辑'},
       {value: 'media', name: '故事'}
     ],
+    scrollLeft: 0
   },
   onShow() {
     console.log('Log from mixin!')
@@ -66,7 +67,8 @@ module.exports = {
     const index = e.currentTarget.dataset.index
     this.setData({
       currentTap: index,
-      req: false
+      req: false,
+      scrollLeft: 0
     })
     wx.showLoading({
       title: '加载中',

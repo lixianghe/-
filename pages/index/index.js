@@ -9,7 +9,6 @@ Page({
     screen: app.globalData.screen,
     confirm: '',
     currentTap: 0,
-    scrollLeft: 0,
     isFixed: false,
     wid: 1
   },

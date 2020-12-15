@@ -29,7 +29,8 @@ module.exports = {
       {value: 'album', name: '专辑'},
       {value: 'media', name: '故事'}
     ],
-    loadReady: false  // 数据请求完毕为true
+    loadReady: false,  // 数据请求完毕为true
+    scrollLeft: 0
   },
   onLoad(options) {   
     this._getList(this.data.labels[0].value)
@@ -60,7 +61,8 @@ module.exports = {
   selectTap(e) {
     const index = e.currentTarget.dataset.index
     this.setData({
-      currentTap: index
+      currentTap: index,
+      scrollLeft: 0
     })
     this._getList(this.data.labels[index].value)
   },

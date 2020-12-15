@@ -38,6 +38,7 @@ module.exports = {
     countPic: '/images/media_num.png',
     reqS: false,
     reqL: false,
+    scrollLeft: 0,
   },
   // 页面后台数据(不参与渲染)
   pageData: {
@@ -84,7 +85,8 @@ module.exports = {
     const id = e.currentTarget.dataset.groupid
     this.setData({
       currentTap: index,
-      retcode: 0
+      retcode: 0,
+      scrollLeft: 0
     })
     wx.showLoading({
       title: '加载中',
