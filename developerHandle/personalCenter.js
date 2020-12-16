@@ -55,6 +55,15 @@ module.exports = {
     } else {
       this.getUserInfo()
     }
+    let that = this
+    if(wx.canIUse('onTaiAccountStatusChange')){
+      wx.onTaiAccountStatusChange((res)=>{
+        console.log(JSON.stringify(res)+'==================62')
+        if(!res.isLoginUser){
+          that.logoutTap()
+        }
+      })
+    }
 
   },
   onLoad(options) {
@@ -293,6 +302,7 @@ module.exports = {
     this.logoutTap()
   },
   logoutTap(){
+    console.log(101010101010)
     this.logout = true;
     setTimeout(()=>{
       this.logout = false;
@@ -300,12 +310,6 @@ module.exports = {
     app.userInfo.token = ''
     app.userInfo.vipStatus = '';
     app.userInfo.expireTime = '';
-    wx.removeStorageSync('userInfo');
-    wx.removeStorageSync('username')
-    wx.setTabBarItem({
-      index: 2, 
-      text: '我的',
-    })
     this.setData({
       isLogin: false,
       userInfo:{
@@ -313,6 +317,24 @@ module.exports = {
         nickname: '',
         userId: '',
         vipTime: ''
+      }
+    })
+    wx.setTabBarItem({
+      index: 2, 
+      text: '我的',
+    })
+    wx.removeStorageSync('userInfo');
+    wx.removeStorageSync('username')
+    wx.setStorage({
+      data: '',
+      key: 'token',
+      success(res) {
+        console.log(res+'332')
+        // 退出初始化信息
+        app.initCode()
+      },
+      fail(err) {
+        console.log(err+'337')
       }
     })
   },
@@ -325,6 +347,7 @@ module.exports = {
     app.userInfo.forbid = forbid;
     app.userInfo.forbidText = message;
     wx.setStorageSync('userInfo', app.userInfo)
+    
   },
   //加载图片失败
   loadImgError: function (res) {
