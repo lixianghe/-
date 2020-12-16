@@ -4,6 +4,8 @@ import btnConfig from '../../utils/pageOtpions/pageOtpions'
 import { isFavorite, like } from '../../developerHandle/playInfo'
 
 var timer = null
+var timer2 = null 
+let showIndex = 0
 
 Component({
   properties: {
@@ -70,14 +72,13 @@ Component({
     playing: false,
     hoverflag: false,
     current: null,
-    canplay: [],
     mianColor: btnConfig.colorOptions.mainColor,
     percentBar: btnConfig.percentBar,
     existed: false
   },
   audioManager: null,
   attached: function () {
-    
+    showIndex = 0
   },
   detached: function () {
 
@@ -95,7 +96,7 @@ Component({
       if (type) this[type]()
     },
     // 上一首
-    pre() {
+    pre(panelCut) {
       if (app.globalData.songInfo.title) {
         setTimeout(() => {
           this.triggerEvent('current', this.data.currentId)
@@ -103,10 +104,10 @@ Component({
       }
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, - 1)
+      app.cutplay(that, - 1, false, panelCut)
     },
     // 下一首
-    next() {
+    next(panelCut) {
       if (app.globalData.songInfo.title) {
         setTimeout(() => {
           this.triggerEvent('current', this.data.currentId)
@@ -114,7 +115,7 @@ Component({
       }
       // 设置播放图片名字和时长
       const that = this
-      app.cutplay(that, + 1)
+      app.cutplay(that, + 1, false, panelCut)
     },
     // 暂停
     toggle() {
@@ -171,21 +172,35 @@ Component({
     },
     // 因为1.9.2版本无法触发onshow和onHide所以事件由它父元素触发
     setOnShow() {
+      let that = this
+      showIndex++
+      // 从面板回来赋值
+      if (showIndex > 1) {
+        tool.panelSetInfo(app, that)
+        setTimeout(() => {
+          this.triggerEvent('current', wx.getStorageSync('songInfo').id)
+        }, 300)
+      }
+      
       clearInterval(timer)
-      let canplay = wx.getStorageSync('canplay')
-      let nativeList = wx.getStorageSync('nativeList') || []
-      this.setData({
-        canplay: canplay
-      })
       this.listenPlaey()
       // 初始化backgroundManager
-      let that = this
-      // tool.initAudioManager(that, nativeList)
+      
       const playing = wx.getStorageSync('playing')
-      if (playing) app.playing()
+      if (playing) app.playing(null, that)
       // 是否被收藏
       let songInfo = wx.getStorageSync('songInfo')
       isFavorite({mediaId: songInfo.id}, that)
+      // 循环去拿songInfo,因为一个奇葩bug。。
+      timer2 = setInterval(() => {
+        let song2 = wx.getStorageSync('songInfo')
+        this.setData({
+          songInfo: song2
+        })
+      }, 1000);
+      setTimeout(() => {
+        clearInterval(timer2)
+      }, 10000);
     },
     setOnHide() {
       clearInterval(timer)

@@ -21,7 +21,7 @@
     ]
  */
 const app = getApp()
-import { layout, layoutGroup, fm } from '../utils/httpOpt/api'
+import { layout, layoutGroup, fm, mediaUrlList } from '../utils/httpOpt/api'
 
 module.exports = {
   data: {
@@ -174,19 +174,52 @@ module.exports = {
   },
   // 首页获取fm
   async getFm() {
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     try {
       let res = await fm()
-      let canplay = res.list
+      let [fmList, idList, cutList] = [[], [], []]
       // 处理字段不一样的情况
-      canplay.map((item) => {
+      res.list.map((item) => {
+        idList.push(item.mediaId)
+      })
+      // 获取带url的list
+      let opt = {
+        mediaId: idList.toString(),
+        contentType: 'story'
+      }
+      let res2 = await mediaUrlList(opt)
+      fmList = res2.mediaPlayVoList
+      fmList.map((item, index) => {
         item.title = item.mediaName
         item.id = item.mediaId
         item.dt = item.timeText
         item.coverImgUrl = item.coverUrl
+        item.src = item.mediaUrl
       })
-      wx.setStorageSync('fmList', canplay)
+      for (let n of fmList) {
+        if (n.mediaUrl) cutList.push(n)
+      }
+      let noOrderfmList = this.randomList(JSON.parse(JSON.stringify(fmList)))
+      wx.setStorageSync('cutList',cutList)
+      wx.setStorageSync('fmList',fmList)
+      wx.setStorageSync('noOrderfmList',noOrderfmList)
+      // wx.hideLoading()
     } catch (error) {
-      wx.setStorageSync('fmList', [])
+      wx.setStorageSync('cutList',[])
+      wx.setStorageSync('fmList',[])
+      wx.setStorageSync('noOrderfmList',[])
+      // wx.hideLoading()
     }
-  }
+  },
+  // 打乱数组，返回
+  randomList(arr) {
+    let len = arr.length;
+    while (len) {
+      let i = Math.floor(Math.random() * len--);
+      [arr[i], arr[len]] = [arr[len], arr[i]];
+    }
+    return arr;
+  },
 }

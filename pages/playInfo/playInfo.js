@@ -2,7 +2,8 @@
 const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
-var timer;
+var timer, timer4, timer5;
+let showIndex = 0
 
 Page({
   mixins: [require('../../developerHandle/playInfo')],
@@ -50,7 +51,7 @@ Page({
     colorStyle: app.sysInfo.colorStyle,
     backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
-    noBack: false
+    noBack: false,
   },
   // 播放器实例
   audioManager: null,
@@ -61,35 +62,59 @@ Page({
     })
   },
   async onLoad(options) {
+    
+    
+    showIndex = 0
     // 根据分辨率设置样式
     this.setStyle()
-    // 获取歌曲列表
-    const canplay = wx.getStorageSync('allList')
-    let abumInfoName = wx.getStorageSync('abumInfoName')
-    const songInfo = app.globalData.songInfo
+    // let songInfo = app.globalData.songInfo
+    let [allList, noOrderList] = [[], [], []]
+    if (options.noPlay !== 'true') {
+      console.log('options.noPlay', options.noPlay)
+      allList = wx.getStorageSync('allList') || []
+      noOrderList = wx.getStorageSync('noOrderList') || []
+      wx.setStorageSync('cutAllList', allList)
+      wx.setStorageSync('cutNoOrderList', noOrderList)
+
+
+      timer4 = setInterval(() => {
+        allList = wx.getStorageSync('allList') || []
+        noOrderList = wx.getStorageSync('noOrderList') || []
+        wx.setStorageSync('cutAllList', allList)
+        wx.setStorageSync('cutNoOrderList', noOrderList)
+      }, 1000)
+      setTimeout(() => {
+        clearInterval(timer4)
+      }, 10000)
+    }
     this.setData({
-      songInfo: songInfo,
-      canplay: canplay,
+      // songInfo: songInfo,
+      id: options.id,
+      // allList: allList,
       noPlay: options.noPlay || null,
       abumInfoName: options.abumInfoName || null,
       loopType: wx.getStorageSync('loopType') || 'loop'
     })
-    if (options.noPlay !== 'true' || abumInfoName !== options.abumInfoName) {
-      wx.setStorageSync('nativeList', canplay)
-    }
-    if (options.noPlay !== 'true') {
-      wx.showLoading({ title: '加载中...', mask: true })
-    }
+    wx.setStorageSync('abumInfoName', options.abumInfoName)
     // 如果没有abumInfoName就把more按钮删掉
     if (!options.abumInfoName) {
       let index = this.data.playInfoBtns.findIndex(n => n.name === 'more')
       this.data.playInfoBtns.splice(index, 1)
       this.setData({playInfoBtns: this.data.playInfoBtns})
     }
-    // 把abumInfoName存在缓存中，切歌的时候如果不是专辑就播放同一首
-    wx.setStorageSync('abumInfoName', options.abumInfoName)
   },
-  onShow: function () {
+  // 打乱数组，返回
+  randomList(arr) {
+    let len = arr.length;
+    while (len) {
+        let i = Math.floor(Math.random() * len--);
+        [arr[i], arr[len]] = [arr[len], arr[i]];
+    }
+    return arr;
+  },
+  onShow: function (options) {
+    showIndex++
+    // console.log('options------' + this.data.id + '-----')
     const that = this;
     // 监听歌曲播放状态，比如进度，时间
     clearInterval(timer)
@@ -98,6 +123,8 @@ Page({
       tool.playAlrc(that, app);
     }, 1000);
     this.queryProcessBarWidth()
+    // 从面板回来赋值
+    if (showIndex > 1) tool.panelSetInfo(app, that)
   },
   onUnload: function () {
 
@@ -111,69 +138,42 @@ Page({
   play() {
     // 初始化audioManager
     let that = this
-    tool.initAudioManager(that, this.data.canplay)
+    // tool.initAudioManager(that, app.globalData.songInfo)
+    
+
     // 从统一播放界面切回来，根据playing判断播放状态options.noPlay为true代表从minibar过来的
     const playing = wx.getStorageSync('playing')
-    if (playing || this.data.noPlay !== 'true') app.playing()
+    if (playing || this.data.noPlay !== 'true') app.playing(null, that)
   },
   btnsPlay(e) {
     const type = e.currentTarget.dataset.name
     if (type) this[type]()
   },
   // 上一首
-  pre() {
-    // let loopType = wx.getStorageSync('loopType')
-    // if (loopType !== 'singleLoop') this.setData({ showImg: false })
+  pre(panelCut) {
     const that = this
-    app.cutplay(that, -1)
+    app.cutplay(that, -1, false, panelCut)
   },
   // 下一首
-  next() {
-    // let loopType = wx.getStorageSync('loopType')
-    // if (loopType !== 'singleLoop') this.setData({ showImg: false })
+  next(panelCut) {
     const that = this
-    app.cutplay(that, 1)
+    app.cutplay(that, 1, false, panelCut)
   },
   // 切换播放模式
   loopType() {
-    const canplay = wx.getStorageSync('allList')
     let nwIndex = this.data.typelist.findIndex(n => n === this.data.loopType)
     let index = nwIndex < 2 ? nwIndex + 1 : 0
     app.globalData.loopType = this.data.typelist[index]
     // 根据播放模式切换currentList
-    const list = this.checkLoop(this.data.typelist[index], canplay)
-    wx.setStorageSync('allList', canplay)
+    this.checkLoop(this.data.typelist[index])
     this.setData({
-      loopType: this.data.typelist[index],
-      canplay: list
+      loopType: this.data.typelist[index]
     })
   },
   // 判断循环模式
-  checkLoop(type, list) {
+  checkLoop(type) {
     wx.setStorageSync('loopType', type)
     wx.showToast({ title: this.data.typeName[type], icon: 'none' })
-    let loopList;
-    // 列表循环
-    if (type === 'loop') {
-      let nativeList = wx.getStorageSync('nativeList') || []
-      loopList = nativeList     
-    } else if (type === 'singleLoop') {
-      // 单曲循环
-      loopList = [list[app.globalData.songInfo.episode]]
-    } else {
-      // 随机播放
-      loopList = this.randomList(list)
-    }
-    return loopList
-  },
-  // 打乱数组
-  randomList(arr) {
-    let len = arr.length;
-    while (len) {
-        let i = Math.floor(Math.random() * len--);
-        [arr[i], arr[len]] = [arr[len], arr[i]];
-    }
-    return arr;
   },
   // 暂停/播放
   toggle() {
@@ -182,14 +182,50 @@ Page({
   },
   // 播放列表
   more() {
-    setTimeout(()=> {
-      this.setScrollTop()
-    }, 100)
-    let allPlay = wx.getStorageSync('allList')
+    
+    let cutAllList = wx.getStorageSync('cutAllList')
+    let canplaying = wx.getStorageSync('canplaying') || []
+    if (canplaying[0].id == cutAllList[0].id) {
+      this.setData({
+        showList: true
+      })
+      // 显示的过度动画
+      this.animation.translate(0, 0).step()
+      this.setData({
+        animation: this.animation.export()
+      })
+      setTimeout(() => {
+        this.setData({
+          noTransform: 'noTransform'
+        })
+      }, 300)
+      this.setData({
+        currentId: this.data.currentId || this.data.songInfo.id,
+        allList: cutAllList
+      })
+      setTimeout(()=> {
+        this.setScrollTop()
+      }, 100)
+      return
+    }
+    
+    timer5 = setInterval(() => {
+      cutAllList = wx.getStorageSync('cutAllList')
+      canplaying = wx.getStorageSync('canplaying') || []
+      if (canplaying[0].id == cutAllList[0].id) {
+        
+        this.setData({
+          currentId: this.data.currentId || this.data.songInfo.id,
+          allList: cutAllList
+        })
+        setTimeout(()=> {
+          this.setScrollTop()
+        }, 100)
+        clearInterval(timer5)
+      }
+    }, 200)
     this.setData({
-      showList: true,
-      currentId: this.data.currentId || Number(this.data.songInfo.id),
-      canplay: allPlay
+      showList: true
     })
     // 显示的过度动画
     this.animation.translate(0, 0).step()
@@ -201,6 +237,7 @@ Page({
         noTransform: 'noTransform'
       })
     }, 300)
+    
   },
   closeList() {
     this.setData({
@@ -215,7 +252,8 @@ Page({
   },
   // 在播放列表里面点击播放歌曲
   async playSong(e) {
-    const songInfo = e.currentTarget.dataset.song
+    let that = this
+    let songInfo = e.currentTarget.dataset.song
     // 获取歌曲详情
     let params = {mediaId: songInfo.id, contentType: 'story'}
     await this.getMedia(params)
@@ -231,7 +269,7 @@ Page({
       wx.hideLoading()
       wx.stopBackgroundAudio()
     }
-    app.playing()
+    app.playing(null, that)
     wx.setStorage({
       key: "songInfo",
       data: app.globalData.songInfo
@@ -331,12 +369,12 @@ Page({
   },
   // 处理scrollTop的高度
   setScrollTop() {
-    let index = this.data.canplay.findIndex(n => Number(n.id) === Number(this.data.songInfo.id))
+    let index = this.data.allList.findIndex(n => Number(n.id) === Number(this.data.songInfo.id))
     let query = wx.createSelectorQuery();
     query.select('.songList').boundingClientRect(rect=>{
       let listHeight = rect.height;
       this.setData({
-        scrolltop: index > 2 ? listHeight / this.data.canplay.length * (index - 2) : 0
+        scrolltop: index > 2 ? listHeight / this.data.allList.length * (index - 2) : 0
       })
     }).exec();
   }

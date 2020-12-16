@@ -41,3 +41,4 @@
 </view>
 
 <no-network wx:if="{{showNonet}}"></no-network>
+<log></log>

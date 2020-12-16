@@ -1,6 +1,7 @@
 import { init, checkStatus } from './utils/httpOpt/api'
 import btnConfig from './utils/pageOtpions/pageOtpions'
 import { getMedia } from './developerHandle/playInfo'
+import tool from './utils/util'
 
 require('./utils/minixs')
 
@@ -28,7 +29,6 @@ App({
     curplay: {},
     globalStop: true,
     currentPosition: 0,
-    canplay: [],
     currentList: [],
     loopType: 'loop', // 默认列表循环
     useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio'),
@@ -101,20 +101,12 @@ App({
       })
     });
     wx.setStorageSync('playing', false)
-    if (wx.canIUse('getShareData')) {
-      wx.getShareData({
-        name: this.globalData.appName,
-        success: (res) => {
-          let playing = res.data.playStatus
-          wx.setStorageSync('playing', playing)
-        }
-      })
-    }
     // 测试getPlayInfoSync
     if (wx.canIUse('getPlayInfoSync')) {
       let res = wx.getPlayInfoSync()
+      let playing = res.playState.status == 1 ? true : false
+      wx.setStorageSync('playing', playing)
     }
-    // wx.setStorageSync('abumInfoName', null)
   },
 
   // 保存用户信息
@@ -131,22 +123,41 @@ App({
     return userInfo
   },
   vision: '1.0.0',
-  cutplay: async function (that, type, cutFlag) {
+  cutplay: async function (that, type, cutFlag, panelCut) {
+    wx.showLoading({
+      title: '加载中',
+    })
     // 判断循环模式
-    let allList = wx.getStorageSync('nativeList') || []
-    // const nativeList = wx.getStorageSync('nativeList') || []
+    let cutAllList = wx.getStorageSync('cutAllList') || []
+    let canplaying = wx.getStorageSync('canplaying') || []
+    if (canplaying[0].id != cutAllList[0].id) {
+      cutAllList = canplaying
+    } 
+    // 如果是在播放面板，剔除掉没有src的
+    if (panelCut) {
+      if (wx.canIUse('getPlayInfoSync')) {
+        let res = wx.getPlayInfoSync()
+        let panelSong = JSON.parse(res.context)
+        console.log('panelSong====================' + JSON.stringify(panelSong))
+        if (panelSong.src) {
+          this.globalData.songInfo = panelSong
+        }
+      }
+      cutAllList = cutAllList.filter(n => n.src)
+    }
     // 根据循环模式设置数组
     let loopType = wx.getStorageSync('loopType') || 'loop'
     // 如果缓存没有abumInfoName，说明是从首页单曲进入，list为单首
     let abumInfoName = wx.getStorageSync('abumInfoName')
     // 歌曲列表
-    allList = abumInfoName ? this.setList(loopType, allList, cutFlag) : [this.globalData.songInfo]
+    cutAllList = abumInfoName ? this.setList(loopType, cutAllList, cutFlag, panelCut) : [this.globalData.songInfo]
     // 当前歌曲的索引
-    let no = allList.findIndex(n => Number(n.id) === Number(this.globalData.songInfo.id))
-    let index = this.setIndex(type, no, allList)
+    let no = cutAllList.findIndex(n => Number(n.id) === Number(this.globalData.songInfo.id))
+    console.log('cutId===================================' + no)
+    let index = this.setIndex(type, no, cutAllList)
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
-    let song = allList[index] || allList[0]
+    let song = cutAllList[index] || cutAllList[0]
     wx.pauseBackgroundAudio();
     that.setData({
       currentId: Number(song.id),       // 当前播放的歌曲id
@@ -172,10 +183,11 @@ App({
       wx.hideLoading()
       wx.stopBackgroundAudio()
     }
-    loopType === 'singleLoop' ? this.playing(0) : this.playing()
+    
+    loopType === 'singleLoop' ? this.playing(0, that) : this.playing(null, that)
   },
   // 根据循环模式设置播放列表
-  setList(loopType, list, cutFlag = false){
+  setList(loopType, list, cutFlag, panelCut){
     let loopList = []
     // 列表循环
     if (loopType === 'loop') {
@@ -184,19 +196,18 @@ App({
       // 单曲循环
       loopList = cutFlag ? [this.globalData.songInfo] : list
     } else {
-      // 随机播放
-      loopList = this.randomList(list)
+      // 随机播放,如果cutNoOrderList还没请求到就用noOrderPing
+      let noOrderPing = wx.getStorageSync('noOrderPing') || []
+      let cutNoOrderList = wx.getStorageSync('cutNoOrderList') || []
+      let cutAllList = wx.getStorageSync('cutAllList') || []
+      let canplaying = wx.getStorageSync('canplaying') || []
+      if (cutAllList[0].id != canplaying[0].id) {
+        cutNoOrderList = noOrderPing
+      }
+      if (panelCut) cutNoOrderList = cutNoOrderList.filter(n => n.src)
+      loopList = cutNoOrderList
     }
     return loopList
-  },
-  // 打乱数组
-  randomList(arr) {
-    let len = arr.length;
-    while (len) {
-        let i = Math.floor(Math.random() * len--);
-        [arr[i], arr[len]] = [arr[len], arr[i]];
-    }
-    return arr;
   },
   // 根据循环模式设置切歌的index,cutFlag为true时说明是自然切歌
   setIndex(type, no, list) {
@@ -213,17 +224,19 @@ App({
     wx.pauseBackgroundAudio();
   },
   // 根据歌曲url播放歌曲
-  playing: function (seek, cb) {
+  playing: function (seek, that) {
     const songInfo = this.globalData.songInfo
-    console.log('songInfo--------------------------!' + JSON.stringify(songInfo))
+    if (!songInfo.src) return
+    this.carHandle(songInfo, seek)
+    tool.initAudioManager(that, songInfo)
     // 如果是车载情况
-    if (this.globalData.useCarPlay) {
-      console.log('车载情况')
-      this.carHandle(songInfo, seek)
-    } else {
-      console.log('非车载情况')
-      this.wxPlayHandle(songInfo, seek, cb)
-    }
+    // if (this.globalData.useCarPlay) {
+    //   console.log('车载情况')
+    //   this.carHandle(songInfo, seek)
+    // } else {
+    //   console.log('非车载情况')
+    //   this.wxPlayHandle(songInfo, seek, cb)
+    // }
 
   },
   // 车载情况下的播放
@@ -436,5 +449,26 @@ App({
       })
     }
   },
-  
+  // 日志
+  log(...text){
+    for(let e of text){
+      if(typeof e == 'object'){
+        try{
+          if(e===null){
+            this.logText += 'null'
+          } else if(e.stack){
+            this.logText += e.stack
+          } else{
+            this.logText += JSON.stringify(e)
+          }
+        }catch(err){
+          this.logText += err.stack
+        }
+      } else {
+        this.logText += e
+      }
+      this.logText += '\n'
+    }
+    this.logText += '########################\n'
+  }
 })

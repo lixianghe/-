@@ -312,3 +312,45 @@
   margin-top: -5vh!important;
   margin-left: -5vh!important;
 }
+.textmask {
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.textmask text {
+  color: #fff;
+  font-size: 5vh;
+  padding: 3vh 10vh;
+  border-radius: 2vh;
+  background: #4c4c4c;
+}
+.gujia {
+  padding: 3vh 2.42vh 3vh 5vh!important;
+}
+.gujia view {
+  
+  height: 8.6vh!important;
+  display: flex;
+  justify-content: space-around;
+}
+.gujia view text {
+  margin: 0!important;
+  height: 100%;
+  background: rgba(255,255,255, 0.1);
+  border-radius: 1vh;
+}
+.gujia view text:nth-child(1) {
+  width: 10vh;
+}
+.gujia view text:nth-child(2) {
+  width: 112vh;
+}
+.gujia view text:nth-child(3) {
+  width: 20vh;
+}

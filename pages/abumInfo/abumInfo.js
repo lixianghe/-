@@ -9,6 +9,7 @@ let scrollTopNo = 0
 
 // 选择的选集
 let selectedNo = 0
+let timer3 = null
 let abumInfoMixin = require('../../developerHandle/abumInfo')
 Page({
   mixins: [abumInfoMixin],
@@ -78,9 +79,11 @@ Page({
       this.getTenHeight()
     }, 500)
     scrollTopNo = 0
+    selectedNo = 0
   },
   onShow() {
     const currentId = wx.getStorageSync('songInfo').id
+    app.log('currentId' + currentId)
     this.setData({
       currentId: Number(currentId),
     })
@@ -123,14 +126,12 @@ Page({
   goPlayInfo(e) {
     // 点击歌曲的时候把歌曲信息存到globalData里面
     const songInfo = e.currentTarget.dataset.song
-    app.globalData.songInfo = songInfo
-    wx.setStorage({ key: 'songInfo', data: songInfo })
     this.setData({ currentId: songInfo.id })
-    this.toInfo()
+    this.toInfo(songInfo.id)
   },
-  toInfo() {
+  toInfo(id) {
     app.globalData.abumInfoId = this.data.optionId
-    wx.navigateTo({ url: `../playInfo/playInfo?id=${app.globalData.songInfo.id}&abumInfoName=${this.data.abumInfoName}` })
+    wx.navigateTo({ url: `../playInfo/playInfo?id=${id}&abumInfoName=${this.data.abumInfoName}` })
   },
   // 改变current
   changeCurrent(currentId) {
@@ -140,23 +141,38 @@ Page({
     this.setData({
       canplay: canplay,
     })
-    wx.setStorage({
-      key: 'canplay',
-      data: canplay,
-    })
   },
   
   // 播放全部
   async playAll() {
-    wx.showLoading({
-      title: '加载中',
-    })
+    if (app.globalData.songInfo.id != this.data.canplay[0].id) {
+      wx.showLoading({
+        title: '加载中',
+      })
+    }
+    wx.setStorageSync('abumInfoName', this.data.abumInfoName)
+    let canplay = this.data.canplay || []
+    wx.setStorageSync('canplaying', canplay)
+
     let allList = wx.getStorageSync('allList') || []
-    wx.setStorageSync('nativeList', allList)
-    app.globalData.canplay = JSON.parse(JSON.stringify(this.data.canplay))
-    app.globalData.songInfo = app.globalData.canplay[0]
+    let noOrderList = wx.getStorageSync('noOrderList') || []
+    wx.setStorageSync('cutAllList', allList)
+    wx.setStorageSync('cutNoOrderList', noOrderList)
+    // allList还没请求到的乱序
+    let noOrderPing = this.randomList(JSON.parse(JSON.stringify(canplay)))
+    wx.setStorageSync('noOrderPing', noOrderPing)
+    timer3 = setInterval(() => {
+      allList = wx.getStorageSync('allList') || []
+      noOrderList = wx.getStorageSync('noOrderList') || []
+      wx.setStorageSync('cutAllList', allList)
+      wx.setStorageSync('cutNoOrderList', noOrderList)
+    }, 1000)
+    setTimeout(() => {
+      clearInterval(timer3)
+    }, 10000)
+    app.globalData.songInfo = canplay[0]
     app.globalData.abumInfoId = this.data.optionId
-    this.initAudioManager(this.data.canplay)
+    // this.initAudioManager(allList)
     let params = {
       mediaId: app.globalData.songInfo.id,
       contentType: 'story'
@@ -167,12 +183,16 @@ Page({
     })
     let that = this
     if (getMedia) await getMedia(params, that)
-    app.playing()
-    
-    // wx.setStorage({
-    //   key: 'songInfo',
-    //   data: this.data.canplay[0],
-    // })
+    app.playing(null, that)
+  },
+  // 打乱数组，返回
+  randomList(arr) {
+    let len = arr.length;
+    while (len) {
+        let i = Math.floor(Math.random() * len--);
+        [arr[i], arr[len]] = [arr[len], arr[i]];
+    }
+    return arr;
   },
   setPlaying(e) {
     this.setData({
@@ -180,10 +200,13 @@ Page({
     })
   },
   // 初始化 BackgroundAudioManager
-  initAudioManager(list) {
-    this.audioManager = wx.getBackgroundAudioManager()
-    this.audioManager.playInfo = { playList: list }
-  },
+  // initAudioManager(list) {
+  //   this.audioManager = wx.getBackgroundAudioManager()
+  //   this.audioManager.playInfo = { 
+  //     playList: list,
+      
+  //   }
+  // },
   // 列表滚动事件
   listScroll: tool.debounce(async function (res) {
     let top = res.detail.scrollTop
@@ -219,11 +242,8 @@ Page({
         canplay: list,
         showLoadEnd: false,
       })
-      wx.setStorage({
-        key: 'canplay',
-        data: list,
-      })
     }, 800)
+    wx.setStorageSync('canplay',list)
   }, 1000),
   getTenHeight() {
     let query = wx.createSelectorQuery()

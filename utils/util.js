@@ -28,9 +28,6 @@ function playAlrc(that, app) {
       }
       if (res.status == 1) {
         playing = true;
-        setTimeout(()=> {
-          wx.hideLoading()
-        }, 1000)
       }
       app.globalData.playing = playing;
       app.globalData.percent = time
@@ -53,7 +50,7 @@ function playAlrc(that, app) {
 };
 
 
-function toggleplay(that, app, cb) {
+function toggleplay(that, app) {
   if (that.data.playing) {
     console.log("暂停播放");
     that.setData({ 
@@ -65,23 +62,49 @@ function toggleplay(that, app, cb) {
     that.setData({
       playing: true
     });
-    if (!app.globalData.songInfo.src) {
+    if (!that.data.songInfo || !that.data.songInfo.src) {
       wx.showToast({
         title: '该内容为会员付费内容，请先成为会员再购买收听~',
         icon: 'none'
       })
       return
     }
-    app.playing(app.globalData.currentPosition, cb);
+    app.playing(app.globalData.currentPosition, that);
+    app.log('toggle' + app.globalData.songInfo + JSON.stringify(that))
   }
 }
 
 
 // 初始化 BackgroundAudioManager
-function initAudioManager(that, list) {
+function initAudioManager(that, songInfo) {
+  // app.log('that'+ JSON.stringify(that))
+  // let list = wx.getStorageSync('cutList')
   that.audioManager = wx.getBackgroundAudioManager()
-  that.audioManager.playInfo = {playList: list};
+  that.audioManager.playInfo = {
+    playList: [],
+    context: songInfo
+  };
   EventListener(that)
+}
+
+// 从面板切到小程序的赋值
+function panelSetInfo(app, that) {
+  // 测试getPlayInfoSync
+  if (wx.canIUse('getPlayInfoSync')) {
+    let res = wx.getPlayInfoSync()
+    app.log(JSON.stringify(res.context))
+    let panelSong = JSON.parse(res.context)
+    if (panelSong.src) {
+      app.globalData.songInfo = panelSong
+      wx.setStorageSync('songInfo', panelSong)
+      that.setData({
+        songInfo: panelSong,
+        showModal: false
+      })
+    }
+    let playing = res.playState.status == 1 ? true : false
+    wx.setStorageSync('playing', playing)
+  }
 }
 
 // 监听播放，上一首，下一首
@@ -89,7 +112,7 @@ function EventListener(that){
   //播放事件
   that.audioManager.onPlay(() => {
     console.log('-------------------------------onPlay-----------------------------------')
-    // wx.hideLoading()
+    wx.hideLoading()
     wx.setStorageSync('playing', true)
   })
   //暂停事件
@@ -100,12 +123,12 @@ function EventListener(that){
   //上一首事件
   that.audioManager.onPrev(() => {
     console.log('触发上一首事件');
-    that.pre()
+    that.pre(true)
   })
   //下一首事件
   that.audioManager.onNext(() => {
     console.log('触发onNext事件');
-    that.next();
+    that.next(true);
   })
   //停止事件
   that.audioManager.onStop(() => {
@@ -120,6 +143,8 @@ function EventListener(that){
     console.log('触发播放完成事件');
   })
 }
+
+
 
 // 函数节流
 function throttle(fn, interval) {
@@ -148,6 +173,16 @@ function debounce(fn, interval = 300) {
   };
 }
 
+// 打乱数组，返回
+function randomList(arr) {
+  let len = arr.length;
+  while (len) {
+      let i = Math.floor(Math.random() * len--);
+      [arr[i], arr[len]] = [arr[len], arr[i]];
+  }
+  return arr;
+}
+
 
 module.exports = {
   formatToSend: formatToSend,
@@ -157,5 +192,7 @@ module.exports = {
   initAudioManager: initAudioManager,
   EventListener: EventListener,
   throttle: throttle,
-  debounce: debounce
+  debounce: debounce,
+  panelSetInfo: panelSetInfo,
+  randomList: randomList
 }

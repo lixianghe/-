@@ -18,7 +18,7 @@
       item.episode = (params.pageNum - 1) * 15 + index + 1      // 歌曲的集数（这个按这种方式赋值即可）
     })
  */
-import { albumMedia, isAlbumFavorite, fm, albumFavoriteAdd, albumFavoriteCancel } from '../utils/httpOpt/api'
+import { albumMedia, isAlbumFavorite, fm, albumFavoriteAdd, albumFavoriteCancel, mediaUrlList } from '../utils/httpOpt/api'
 
 const app = getApp()
 module.exports = {
@@ -34,12 +34,28 @@ module.exports = {
   },
   async onLoad(options) {
     let routeType = options.routeType   // 如果专辑详情有不同接口，如电台的详情，通过它判断请求不同的接口
-
     let params = {pageNum: 1, albumId: options.id}
     let allParams = {pageNum: 1, pageSize: 999, albumId: options.id}
 
-    this._getList(params, routeType)
-    if (routeType === 'album') this.getAllList(allParams)
+    // 缓存播放中的列表
+    let abumInfoName = wx.getStorageSync('abumInfoName')
+    if (options.title == abumInfoName) {
+      let canplaying = wx.getStorageSync('canplaying')
+      let allList = wx.getStorageSync('cutAllList')
+      this.setData({
+        total: allList.length,
+        canplay: canplaying
+      })
+      wx.setStorageSync('canplay',canplaying)
+      if (routeType === 'album') await this.getAllList(allParams)
+      return
+    }
+    
+
+    
+
+    await this._getList(params, routeType)
+    if (routeType === 'album') await this.getAllList(allParams)
   },
   onReady() {
 
@@ -47,7 +63,6 @@ module.exports = {
   // 凯叔专辑详情列表，album为专辑，fm为电台
   async _getList(params, routeType = 'album') {
     // 是否被收藏
-    this.isAlbumFavorite(params.albumId)
     if (routeType === 'album') {
       let canplay = await this.getData(params)
       this.setData({canplay})
@@ -55,54 +70,90 @@ module.exports = {
     } else if (routeType === 'fm') {
       this.getFm()
     }
+    await this.isAlbumFavorite(params.albumId)
   },
   // 获取专辑列表，因为懒加载的原因这里不直接setData，而是retur canplay和total,在getList里面进行赋值操作
   async getData(params) {
-    let canplay, total
+    let [canplay, idList, auditionDurationList, total] = [[], [], [], 0]
     try {
       let res = await albumMedia(params)
-      canplay = res.mediaList
       total = res.totalCount
       // 处理字段不一样的情况
+      res.mediaList.map((item, index) => {
+        idList.push(item.mediaId)
+        auditionDurationList.push(item.auditionDuration)
+      })
+      // 获取带url的list
+      let opt = {
+        mediaId: idList.toString(),
+        contentType: 'story'
+      }
+      let res2 = await mediaUrlList(opt)
+      canplay = res2.mediaPlayVoList
       canplay.map((item, index) => {
         item.title = item.mediaName
         item.id = item.mediaId
         item.dt = item.timeText
         item.coverImgUrl = item.coverUrl
+        item.src = item.mediaUrl
+        item.auditionDuration = auditionDurationList[index]
       })
+      wx.setStorageSync('canplay',canplay)
       this.setData({total})
+      // wx.hideLoading()
       return canplay
     } catch (error) {
+      // wx.hideLoading()
       return []
     }
   },
   // 获取电台列表
   async getFm() {
     let fmList = wx.getStorageSync('fmList')
-    // 处理字段不一样的情况
-    fmList.map((item) => {
-      item.title = item.mediaName
-      item.id = item.mediaId
-      item.dt = item.timeText
-      item.coverImgUrl = item.coverUrl
-    })
-    this.setData({canplay: fmList})
+    let noOrderfmList = wx.getStorageSync('noOrderfmList')
     wx.setStorageSync('allList', fmList)
-
+    wx.setStorageSync('noOrderList', noOrderfmList)
+    this.setData({canplay: fmList})
   },
   async getAllList(allParams) {
-    let allList
-    // 数据请求
-    let res = await albumMedia(allParams)
-    
-    allList = res.mediaList
-    allList.map((item, index) => {
-      item.title = item.mediaName
-      item.id = item.mediaId
-      item.dt = item.timeText
-      item.coverImgUrl = item.coverUrl
-    })
-    wx.setStorageSync('allList',allList)
+    let [allList, idList] = [[], []]
+    try {
+      // 数据请求
+      let res = await albumMedia(allParams)
+      res.mediaList.map((item, index) => {
+        idList.push(item.mediaId)
+      })
+      // 获取带url的list
+      let opt = {
+        mediaId: idList.toString(),
+        contentType: 'story'
+      }
+      let res2 = await mediaUrlList(opt)
+      console.log('res2', res2)
+      allList = res2.mediaPlayVoList
+      allList.map((item, index) => {
+        item.title = item.mediaName
+        item.id = item.mediaId
+        item.dt = item.timeText
+        item.coverImgUrl = item.coverUrl
+        item.src = item.mediaUrl
+      })
+      let noOrderList = this.randomList(JSON.parse(JSON.stringify(allList)))
+      wx.setStorageSync('allList',allList)
+      wx.setStorageSync('noOrderList',noOrderList)
+    } catch (error) {
+      wx.setStorageSync('allList', [])
+      wx.setStorageSync('noOrderList', [])
+    }
+  },
+  // 打乱数组，返回
+  randomList(arr) {
+    let len = arr.length;
+    while (len) {
+        let i = Math.floor(Math.random() * len--);
+        [arr[i], arr[len]] = [arr[len], arr[i]];
+    }
+    return arr;
   },
   // 专辑是否被收藏
   async isAlbumFavorite(id) {
@@ -132,15 +183,5 @@ module.exports = {
         })
       })
     }
-  },
-  // 获取歌曲列表，假数据
-  // async getPlayList(params) {
-  //   let canplay = showData.abumInfo.data
-  //   let total = showData.abumInfo.total
-  //   canplay.forEach((item) => {
-  //     item.formatDt = tool.formatduration(Number(item.dt))
-  //   })
-  //   this.setData({total})
-  //   return canplay
-  // },
+  }
 }

@@ -121,7 +121,7 @@
 <!-- 弹出播放列表 -->
 <view class="playList {{noTransform}}" animation="{{animation}}">
   <view class="title">
-    <text>播放列表({{canplay.length}})</text>
+    <text>播放列表({{allList.length}})</text>
     <button bindtap="closeList">
       <image src="/images/closeList.png" />
     </button>
@@ -136,21 +136,35 @@
       bindscrolltolower="listBehind"
     >
   <view class="songList">
-      <view class="view" style="color: {{item.id === currentId ? mainColor : '#fff'}}"  wx:key="index" wx:for="{{canplay}}">
+
+      <view class="view" wx:if="{{allList.length}}" style="color: {{item.id == currentId ? mainColor : '#fff'}}"  wx:key="index" wx:for="{{allList}}">
         <view  bindtap="playSong" data-no='{{index}}' data-song="{{item}}" style="width: 100%;height: 6.6vh;line-height: 6.6vh">
-          <image class="playGif" wx:if="{{item.id === currentId && playing}}" src="/images/playing.gif" />
+          <image class="playGif" wx:if="{{item.id == currentId && playing}}" src="/images/playing.gif" />
           <text wx:else>{{index + 1}}</text>
           <text>{{item.title}}</text>
           <text class="audition" style="color:{{mainColor}};border: 1px solid {{mainColor}}" wx:if="{{item.feeType === '01'}}">试听</text>
           <text>{{item.dt}}</text>
         </view>
       </view>
+
+      <view wx:if="{{!allList.length}}" class="view gujia" wx:key="index" wx:for="{{5}}">
+        <view style="width: 100%;height: 6.6vh;line-height: 6.6vh">
+          <text></text>
+          <text></text>
+          <text></text>
+        </view>
+      </view>
+
     </view>
 
   </scroll-view>
   </view>
 
 <view wx:if="{{showList}}" bindtap="closeList" class="mask"></view>
+<!-- <view wx:if="{{showText}}" class="textmask">
+  <text>曲目列表加载中请稍等...</text>
+</view> -->
 
 <!-- 弹框组件 -->
 <modal showModal="{{showModal}}" content="{{content}}" noBack="{{noBack}}" />
+<log></log>

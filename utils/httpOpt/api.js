@@ -68,6 +68,8 @@ const buyResultApi = '/open/buy/payResult'                                 // ge
 const userInfoApi = '/open/user/info'                                      // get
 // 会员信息
 const vipInfoApi = '/open/vip/basicInfo'                                   // get
+// 查找mediaId的list
+const mediaUrlListApi = '/open/media/batch/play'                     // get
 
 export const init = (data) => request(initApi, data, 'POST')
 export const checkStatus = (params) => request(checkStatusApi, params)
@@ -98,6 +100,7 @@ export const buy = (data) => request(buyApi, data, 'POST')
 export const buyResult = (params) => request(buyResultApi, params)
 export const userInfo = (params) => request(userInfoApi, params)
 export const vipInfo = (params) => request(vipInfoApi, params)
+export const mediaUrlList = (params) => request(mediaUrlListApi, params)
 
 // export const domain = domain
 // export const appId = appId

@@ -57,7 +57,8 @@
     "mini-player": "/components/miniPlayer/index",
     "selectWorks": "/components/selectWorks/index",
     "bgConfirm": "/components/bgConfirm/index",
-    "no-network": "/components/noNetwork/index"
+    "no-network": "/components/noNetwork/index",
+    "log": "/components/log/log"
   },
   "requiredBackgroundModes": ["audio"],
   "sitemapLocation": "sitemap.json"
