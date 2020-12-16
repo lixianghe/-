@@ -62,30 +62,49 @@ Page({
     })
   },
   async onLoad(options) {
-    
+    clearInterval(timer4)
     
     showIndex = 0
     // 根据分辨率设置样式
     this.setStyle()
-    // let songInfo = app.globalData.songInfo
-    let [allList, noOrderList] = [[], [], []]
     if (options.noPlay !== 'true') {
       console.log('options.noPlay', options.noPlay)
-      allList = wx.getStorageSync('allList') || []
-      noOrderList = wx.getStorageSync('noOrderList') || []
-      wx.setStorageSync('cutAllList', allList)
-      wx.setStorageSync('cutNoOrderList', noOrderList)
+
+      wx.getStorage({
+        key: 'allList',
+        success (res) {
+          let data = res.data
+          wx.setStorageSync('cutAllList', data)
+        }
+      })
+      wx.getStorage({
+        key: 'noOrderList',
+        success (res) {
+          let data = res.data
+          wx.setStorageSync('cutNoOrderList', data)
+        }
+      })
 
 
       timer4 = setInterval(() => {
-        allList = wx.getStorageSync('allList') || []
-        noOrderList = wx.getStorageSync('noOrderList') || []
-        wx.setStorageSync('cutAllList', allList)
-        wx.setStorageSync('cutNoOrderList', noOrderList)
-      }, 1000)
+        wx.getStorage({
+          key: 'allList',
+          success (res) {
+            let data = res.data
+            wx.setStorageSync('cutAllList', data)
+          }
+        })
+        wx.getStorage({
+          key: 'noOrderList',
+          success (res) {
+            let data = res.data
+            wx.setStorageSync('cutNoOrderList', data)
+          }
+        })
+      }, 500)
       setTimeout(() => {
         clearInterval(timer4)
-      }, 10000)
+      }, 5000)
     }
     this.setData({
       // songInfo: songInfo,
@@ -185,7 +204,7 @@ Page({
     
     let cutAllList = wx.getStorageSync('cutAllList')
     let canplaying = wx.getStorageSync('canplaying') || []
-    if (canplaying[0].id == cutAllList[0].id) {
+    if (this.data.noPlay == 'true' || canplaying[0].id == cutAllList[0].id) {
       this.setData({
         showList: true
       })

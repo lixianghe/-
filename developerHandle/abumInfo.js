@@ -40,6 +40,7 @@ module.exports = {
     // 缓存播放中的列表
     let abumInfoName = wx.getStorageSync('abumInfoName')
     if (options.title == abumInfoName) {
+      console.log('专辑')
       let canplaying = wx.getStorageSync('canplaying')
       let allList = wx.getStorageSync('cutAllList')
       this.setData({
@@ -110,18 +111,25 @@ module.exports = {
   // 获取电台列表
   async getFm() {
     let fmList = wx.getStorageSync('fmList')
+    this.setData({canplay: fmList})
+
     let noOrderfmList = wx.getStorageSync('noOrderfmList')
     wx.setStorageSync('allList', fmList)
     wx.setStorageSync('noOrderList', noOrderfmList)
-    this.setData({canplay: fmList})
+
+    wx.setStorageSync('canplay', fmList)
+
+
+    
   },
   async getAllList(allParams) {
-    let [allList, idList] = [[], []]
+    let [allList, idList, auditionDurationList] = [[], [], []]
     try {
       // 数据请求
       let res = await albumMedia(allParams)
       res.mediaList.map((item, index) => {
         idList.push(item.mediaId)
+        auditionDurationList.push(item.auditionDuration)
       })
       // 获取带url的list
       let opt = {
@@ -137,6 +145,7 @@ module.exports = {
         item.dt = item.timeText
         item.coverImgUrl = item.coverUrl
         item.src = item.mediaUrl
+        item.auditionDuration = auditionDurationList[index]
       })
       let noOrderList = this.randomList(JSON.parse(JSON.stringify(allList)))
       wx.setStorageSync('allList',allList)

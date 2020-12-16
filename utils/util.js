@@ -77,8 +77,6 @@ function toggleplay(that, app) {
 
 // 初始化 BackgroundAudioManager
 function initAudioManager(that, songInfo) {
-  // app.log('that'+ JSON.stringify(that))
-  // let list = wx.getStorageSync('cutList')
   that.audioManager = wx.getBackgroundAudioManager()
   that.audioManager.playInfo = {
     playList: [],

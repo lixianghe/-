@@ -166,10 +166,13 @@ Page({
       noOrderList = wx.getStorageSync('noOrderList') || []
       wx.setStorageSync('cutAllList', allList)
       wx.setStorageSync('cutNoOrderList', noOrderList)
-    }, 1000)
+      // if (canplay[0].id == allList[0].id) {
+      //   clearInterval(timer3)
+      // }
+    }, 500)
     setTimeout(() => {
       clearInterval(timer3)
-    }, 10000)
+    }, 5000)
     app.globalData.songInfo = canplay[0]
     app.globalData.abumInfoId = this.data.optionId
     // this.initAudioManager(allList)

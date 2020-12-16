@@ -181,10 +181,11 @@ module.exports = {
     // })
     try {
       let res = await fm()
-      let [fmList, idList, cutList] = [[], [], []]
+      let [fmList, idList, auditionDurationList] = [[], [], []]
       // 处理字段不一样的情况
       res.list.map((item) => {
         idList.push(item.mediaId)
+        auditionDurationList.push(item.auditionDuration)
       })
       // 获取带url的list
       let opt = {
@@ -199,17 +200,13 @@ module.exports = {
         item.dt = item.timeText
         item.coverImgUrl = item.coverUrl
         item.src = item.mediaUrl
+        item.auditionDuration = auditionDurationList[index]
       })
-      for (let n of fmList) {
-        if (n.mediaUrl) cutList.push(n)
-      }
       let noOrderfmList = this.randomList(JSON.parse(JSON.stringify(fmList)))
-      wx.setStorageSync('cutList',cutList)
       wx.setStorageSync('fmList',fmList)
       wx.setStorageSync('noOrderfmList',noOrderfmList)
       // wx.hideLoading()
     } catch (error) {
-      wx.setStorageSync('cutList',[])
       wx.setStorageSync('fmList',[])
       wx.setStorageSync('noOrderfmList',[])
       // wx.hideLoading()

@@ -67,7 +67,6 @@ module.exports = {
       if (options.id != oldSong.id && options.noPlay !== 'true') wx.showLoading({ title: '加载中...', mask: true })
       // 因为有时候切歌时alllist还没加载出来，会用canplay，但是用的是播放中的canplay，所以存一个播放中的canplay做对比
       let canplay = wx.getStorageSync('canplay') || []
-      console.log('canplay', canplay)
       wx.setStorageSync('canplaying', canplay)
       // allList还没请求到的乱序
       let noOrderPing = tool.randomList(JSON.parse(JSON.stringify(canplay)))
@@ -97,7 +96,6 @@ module.exports = {
       songInfo = cutAllList.filter(n => Number(n.mediaId) === Number(params.mediaId))[0]
     }    
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
-    console.log('pppp-----------------------------', (app.globalData.songInfo), canplaying, cutAllList)
     that.setData({
       songInfo: app.globalData.songInfo
     })
