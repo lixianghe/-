@@ -175,12 +175,12 @@ Component({
       let that = this
       showIndex++
       // 从面板回来赋值
-      if (showIndex > 1) {
-        tool.panelSetInfo(app, that)
-        setTimeout(() => {
-          this.triggerEvent('current', wx.getStorageSync('songInfo').id)
-        }, 300)
-      }
+      // if (showIndex > 1) {
+      //   tool.panelSetInfo(app, that)
+      //   setTimeout(() => {
+      //     this.triggerEvent('current', wx.getStorageSync('songInfo').id)
+      //   }, 300)
+      // }
       
       clearInterval(timer)
       this.listenPlaey()

@@ -77,9 +77,10 @@ function toggleplay(that, app) {
 
 // 初始化 BackgroundAudioManager
 function initAudioManager(that, songInfo) {
+  let cutAllList = wx.getStorageSync('cutAllList') || []
   that.audioManager = wx.getBackgroundAudioManager()
   that.audioManager.playInfo = {
-    playList: [],
+    playList: cutAllList,
     context: songInfo
   };
   EventListener(that)
@@ -97,7 +98,8 @@ function panelSetInfo(app, that) {
       wx.setStorageSync('songInfo', panelSong)
       that.setData({
         songInfo: panelSong,
-        showModal: false
+        showModal: false,
+        currentId: panelSong.id
       })
     }
     let playing = res.playState.status == 1 ? true : false

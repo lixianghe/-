@@ -19,7 +19,7 @@
  */
 const app = getApp()
 const { showData } = require('../utils/httpOpt/localData')
-import { history } from '../utils/httpOpt/api'
+import { history, mediaUrlList } from '../utils/httpOpt/api'
 
 module.exports = {
   data: {
@@ -54,14 +54,34 @@ module.exports = {
     console.log(app.globalData.latelyListenId, routeType)
     let url
     if (routeType === 'album') {
-      url = `../abumInfo/abumInfo?id=${id}&title=${title}`
+      url = `../abumInfo/abumInfo?id=${id}&title=${title}&routeType=${routeType}`
+      wx.navigateTo({
+        url: url
+      })
     } else if (routeType === 'media') {
-      url = `../playInfo/playInfo?id=${id}`
+      let opt = {
+        mediaId: id,
+        contentType: 'story'
+      }
+      mediaUrlList(opt).then(res2 => {
+        let canplay = res2.mediaPlayVoList
+        canplay.map((item, index) => {
+          item.title = item.mediaName
+          item.id = item.mediaId
+          item.dt = item.timeText
+          item.coverImgUrl = item.coverUrl
+          item.src = item.mediaUrl
+        })
+        
+        wx.setStorageSync('canplay',canplay)
+        url = `../playInfo/playInfo?id=${id}`
+        wx.navigateTo({
+          url: url
+        })
+      })
     }
     
-    wx.navigateTo({
-      url: url
-    })
+    
   },
   selectTap(e) {
     const index = e.currentTarget.dataset.index
@@ -96,6 +116,7 @@ module.exports = {
           })
       })
       } else if (type === 'media') {
+        console.log('history---------------------' + JSON.stringify(res))
         res.list.forEach(item => {
           layoutData.push({
             id: item.media.mediaId,

@@ -151,24 +151,49 @@ Page({
       })
     }
     wx.setStorageSync('abumInfoName', this.data.abumInfoName)
+
+
     let canplay = this.data.canplay || []
     wx.setStorageSync('canplaying', canplay)
 
-    let allList = wx.getStorageSync('allList') || []
-    let noOrderList = wx.getStorageSync('noOrderList') || []
-    wx.setStorageSync('cutAllList', allList)
-    wx.setStorageSync('cutNoOrderList', noOrderList)
+
+    wx.getStorage({
+      key: 'allList',
+      success (res) {
+        let data = res.data
+        wx.setStorageSync('cutAllList', data)
+      }
+    })
+
+    wx.getStorage({
+      key: 'noOrderList',
+      success (res) {
+        let data = res.data
+        wx.setStorageSync('cutNoOrderList', data)
+      }
+    })
+
     // allList还没请求到的乱序
     let noOrderPing = this.randomList(JSON.parse(JSON.stringify(canplay)))
     wx.setStorageSync('noOrderPing', noOrderPing)
+
     timer3 = setInterval(() => {
-      allList = wx.getStorageSync('allList') || []
-      noOrderList = wx.getStorageSync('noOrderList') || []
-      wx.setStorageSync('cutAllList', allList)
-      wx.setStorageSync('cutNoOrderList', noOrderList)
-      // if (canplay[0].id == allList[0].id) {
-      //   clearInterval(timer3)
-      // }
+      wx.getStorage({
+        key: 'allList',
+        success (res) {
+          let data = res.data
+          wx.setStorageSync('cutAllList', data)
+        }
+      })
+  
+      wx.getStorage({
+        key: 'noOrderList',
+        success (res) {
+          let data = res.data
+          wx.setStorageSync('cutNoOrderList', data)
+        }
+      })
+
     }, 500)
     setTimeout(() => {
       clearInterval(timer3)

@@ -1,5 +1,6 @@
 
 import tool from '../../utils/util'
+import { mediaUrlList } from '../../utils/httpOpt/api'
 const app = getApp()
 let searchMixin = require('../../developerHandle/search')
 Page({
@@ -60,12 +61,34 @@ Page({
     let url
     if (routeType === 'album') {
       url = `../abumInfo/abumInfo?id=${id}&title=${title}&routeType=${routeType}`
+      wx.navigateTo({
+        url: url
+      })
     } else if (routeType === 'media') {
-      url = `../playInfo/playInfo?id=${id}`
+
+      let opt = {
+        mediaId: id,
+        contentType: 'story'
+      }
+      mediaUrlList(opt).then(res2 => {
+        let canplay = res2.mediaPlayVoList
+        canplay.map((item, index) => {
+          item.title = item.mediaName
+          item.id = item.mediaId
+          item.dt = item.timeText
+          item.coverImgUrl = item.coverUrl
+          item.src = item.mediaUrl
+        })
+        
+        wx.setStorageSync('canplay',canplay)
+        url = `../playInfo/playInfo?id=${id}`
+        wx.navigateTo({
+          url: url
+        })
+      })
+
     } 
-    wx.navigateTo({
-      url: url
-    })
+    
   },
   getData(index) {
     this.getSearch(this.data.labels[index].value)

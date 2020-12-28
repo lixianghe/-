@@ -119,11 +119,11 @@ module.exports = {
         })
       },
       fail: (err) => {
-        console.log('扫码失败', JSON.stringify(err))
+        console.log('扫码失败' + JSON.stringify(err))
         this.authRequest = false
       },
       complete: (res) => {
-        console.log('扫码complete', JSON.stringify(res))
+        console.log('扫码complete' + JSON.stringify(res))
       }
     })
   },

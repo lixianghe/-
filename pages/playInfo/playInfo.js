@@ -204,7 +204,8 @@ Page({
     
     let cutAllList = wx.getStorageSync('cutAllList')
     let canplaying = wx.getStorageSync('canplaying') || []
-    if (this.data.noPlay == 'true' || canplaying[0].id == cutAllList[0].id) {
+    console.log(canplaying, cutAllList)
+    if (canplaying[0].id == cutAllList[0].id) {
       this.setData({
         showList: true
       })

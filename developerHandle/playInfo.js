@@ -112,7 +112,11 @@ module.exports = {
     }
     if (!app.userInfo || !app.userInfo.token) return
     let opt = { historys: [saveHistoryParams] }
-    saveHistory(opt)
+    saveHistory(opt).then(res => {
+      console.log('saveHistory---------------------' + JSON.stringify(res))
+    }).catch(error => {
+      console.log('errorsaveHistory---------------------' + JSON.stringify(error))
+    })
   },
   // 获取已经收藏歌曲
   async isFavorite(params, that = this) {

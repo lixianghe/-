@@ -138,7 +138,6 @@ App({
       if (wx.canIUse('getPlayInfoSync')) {
         let res = wx.getPlayInfoSync()
         let panelSong = JSON.parse(res.context)
-        console.log('panelSong====================' + JSON.stringify(panelSong))
         if (panelSong.src) {
           this.globalData.songInfo = panelSong
         }
@@ -153,7 +152,6 @@ App({
     cutAllList = abumInfoName ? this.setList(loopType, cutAllList, cutFlag, panelCut) : [this.globalData.songInfo]
     // 当前歌曲的索引
     let no = cutAllList.findIndex(n => Number(n.id) === Number(this.globalData.songInfo.id))
-    console.log('cutId===================================' + no)
     let index = this.setIndex(type, no, cutAllList)
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
@@ -175,12 +173,13 @@ App({
       if (that.route === 'pages/playInfo/playInfo') {
         that.setData({showModal: true, noBack: true})
       } else {
+        wx.hideLoading()
         wx.showToast({
           title: '该内容为会员付费内容，请先成为会员再购买收听~',
           icon: 'none'
         })
       }
-      wx.hideLoading()
+      
       wx.stopBackgroundAudio()
     }
     

@@ -19,7 +19,7 @@
  */
 const app = getApp()
 const { showData } = require('../utils/httpOpt/localData')
-import { bought } from '../utils/httpOpt/api'
+import { bought, mediaUrlList } from '../utils/httpOpt/api'
 
 module.exports = {
   data: {
@@ -50,13 +50,33 @@ module.exports = {
     let url
     if (routeType === 'album') {
       url = `../abumInfo/abumInfo?id=${id}&title=${title}`
+      wx.navigateTo({
+        url: url
+      })
     } else if (routeType === 'media') {
-      url = `../playInfo/playInfo?id=${id}`
+      let opt = {
+        mediaId: id,
+        contentType: 'story'
+      }
+      mediaUrlList(opt).then(res2 => {
+        let canplay = res2.mediaPlayVoList
+        canplay.map((item, index) => {
+          item.title = item.mediaName
+          item.id = item.mediaId
+          item.dt = item.timeText
+          item.coverImgUrl = item.coverUrl
+          item.src = item.mediaUrl
+        })
+        
+        wx.setStorageSync('canplay',canplay)
+        url = `../playInfo/playInfo?id=${id}`
+        wx.navigateTo({
+          url: url
+        })
+      })
     }
     
-    wx.navigateTo({
-      url: url
-    })
+    
   },
   selectTap(e) {
     const index = e.currentTarget.dataset.index

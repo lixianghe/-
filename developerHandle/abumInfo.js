@@ -40,7 +40,7 @@ module.exports = {
     // 缓存播放中的列表
     let abumInfoName = wx.getStorageSync('abumInfoName')
     if (options.title == abumInfoName) {
-      console.log('专辑')
+      console.log('专辑------------------------------------------')
       let canplaying = wx.getStorageSync('canplaying')
       let allList = wx.getStorageSync('cutAllList')
       this.setData({
