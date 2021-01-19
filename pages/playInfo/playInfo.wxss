@@ -194,7 +194,7 @@
 /* 弹出的播放列表 */
 .playList {
   position: fixed;
-  background: #222222;
+  background: #151515;
   left: 0;
   top: 0;
   width: 180vh;
@@ -220,7 +220,7 @@
 .playList .songList .view {
   color: #fff;
   overflow: hidden;
-  border-bottom: 1px solid #2d2d2d;
+  border-bottom: 1px solid rgba(255,255,255, 0.1);
   height: 16.5vh;
   padding: 5vh 2.42vh 5vh 5vh;
 }
@@ -268,7 +268,6 @@
   position: fixed;
   width: 160vh;
   top: 0;
-  background: #222222;
   z-index: 999;
 }
 .playList .title button {

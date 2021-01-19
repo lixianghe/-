@@ -442,6 +442,7 @@ App({
     if(wx.canIUse('onColorStyleChange')){
       wx.onColorStyleChange((res) => {
         this.sysInfo.colorStyle = res.colorStyle
+        console.log(JSON.stringify(res)+'获取配色成功999行')
         this.sysInfo.backgroundColor = res.backgroundColor
         page.setData({
           colorStyle: this.sysInfo.colorStyle,

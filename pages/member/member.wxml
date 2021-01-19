@@ -6,19 +6,19 @@
       <view class="tagDesc" wx:if="{{item.tagDesc}}">{{item.tagDesc}}</view>
       <view class="cardTitle">{{item.cardTitle}}</view>
       <view class="cardPrice"><text>￥</text>{{item.cardPrice}}</view>
-      <view class="subTitle" wx:if="{{item.subTitle}}" bindtap="showInfo" data-info="{{item.subTitle}}">{{item.subTitle}}</view>
-      <button bindtap="toPay" data-id="{{item.productId}}">开通</button>
+      <view class="subTitle" wx:if="{{item.subTitle}}" data-defaultfocus="true" bindtap="showInfo" data-focusindex="2" data-info="{{item.subTitle}}">{{item.subTitle}}</view>
+      <button bindtap="toPay" data-focusindex="2" class="btnFocus" data-id="{{item.productId}}">开通</button>
     </view>
   </scroll-view>
-  <view wx:if="{{showInfo}}" class="model" bindtap="close"></view>
+  <view wx:if="{{showInfo}}" class="model" bindtap="close" data-disablefocus="true"></view>
   <view wx:if="{{showInfo}}" class="showInfo">
-    <view class="close" bindtap="close">
+    <view class="close" bindtap="close" data-focusindex="2">
       <image src="../../images/modal_close.png" />
     </view>
     <view class="info">
       {{info}}
     </view>
-    <button bindtap="toPay" data-id="{{item.productId}}">开通</button>
+    <button bindtap="toPay" class="btnFocus" data-focusindex="2" data-id="{{item.productId}}">开通</button>
   </view>
 </view>
 

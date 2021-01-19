@@ -79,6 +79,7 @@ function toggleplay(that, app) {
 function initAudioManager(that, songInfo) {
   let cutAllList = wx.getStorageSync('cutAllList') || []
   that.audioManager = wx.getBackgroundAudioManager()
+  songInfo.abumInfoName = wx.getStorageSync('abumInfoName') || ''
   that.audioManager.playInfo = {
     playList: cutAllList,
     context: songInfo
@@ -99,7 +100,8 @@ function panelSetInfo(app, that) {
       that.setData({
         songInfo: panelSong,
         showModal: false,
-        currentId: panelSong.id
+        currentId: panelSong.id,
+        abumInfoName: panelSong.abumInfoName
       })
     }
     let playing = res.playState.status == 1 ? true : false

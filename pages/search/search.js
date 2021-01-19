@@ -106,5 +106,8 @@ Page({
   },
   blur() {
     this.setData({showMInibar: true})
+  },
+  aa() {
+    
   }
 })

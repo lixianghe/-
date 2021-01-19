@@ -50,6 +50,9 @@
   color: #000;
   width: 37.74vh;
 }
+.page .left .btns .playAll[focus-select=true] {
+  box-shadow: inset 0px 0px 0px 4px #ff5100;
+}
 .page .left .btns .playAll image {
   width: 10.64vh;
   height: 10.64vh;

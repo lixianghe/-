@@ -14,11 +14,11 @@
 <view wx:if="{{canplay.length}}" class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;">
   <view style="padding: {{leftPadding}}" class="left">
     <view class="btns" style="width: {{btnsWidth}};background-color: {{backgroundColor}}">
-      <button hover-class="playAllHover" class="playAll" bindtap="playAll" style="background-color: {{mainColor}}">
+      <button hover-class="playAllHover" class="playAll" data-defaultfocus="true" data-focusindex="2" bindtap="playAll" style="background-color: {{mainColor}}">
         <image src="{{playAllPic}}" />
         <text>播放全部</text>
       </button>
-      <button class="select" style="background: rgba(255,255,255, 0.1)" bindtap="changeProp" wx:if="{{selectWordBtn && routeType === 'album'}}">
+      <button class="select" style="background: rgba(255,255,255, 0.1)" data-focusindex="2" bindtap="changeProp" wx:if="{{selectWordBtn && routeType === 'album'}}">
         
         <text>共{{total}}首</text>
         <image src="/images/selectWorks.png" />
@@ -36,7 +36,7 @@
     <!-- <view class="songList"> -->
     <view class="songList" animation="{{loadAnimate}}" bindtouchstart="touchStart" bindtouchend="touchEnd" bindtouchmove="touchMove">
       <view wx-if="{{showLoadTop}}" class="loading">加载中...</view>
-      <view bindtap="goPlayInfo" style="color: {{item.id == currentId ? mainColor : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
+      <view bindtap="goPlayInfo" data-focusindex="2" style="color: {{item.id == currentId ? mainColor : '#fff'}}" data-song='{{item}}' data-no='{{index}}' wx:key="index" wx:for="{{canplay}}">
         <image class="playGif" wx:if="{{item.id == currentId && palying}}" src="/images/playing.gif" />
         
         <text wx:else>{{(pageNo-1) * pageSize + index + 1}}</text>
@@ -59,7 +59,8 @@
         class="like"
         wx:if="{{routeType === 'album'}}"
         style="background: rgba(0, 0, 0, 0.6) url({{existed ? likeIcon1 : likeIcon2}}) no-repeat center center / 17vh 13vh;"
-        bindtap="likeAbum">
+        bindtap="likeAbum"
+        data-focusindex="3">
         <!-- <image src="../../images/like_none.png" /> -->
       </view>
       <view class="like" wx:else >

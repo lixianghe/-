@@ -5,7 +5,7 @@
   margin-right: 7.6vh;
   /* margin-top: 15.7vh; */
   height: 68.6vh;
-  overflow: hidden;
+  /* overflow: hidden; */
   position: relative;
 }
 .halbumCard .image {
@@ -13,7 +13,17 @@
   height: 41.81vh;
   border-radius: 2vh;
   vertical-align: bottom;
+  /* box-shadow: 0px 0px 10px red inset; */
 }
+/* .halbumCard .image:before {
+  content:"";
+  position:absolute;
+  width: 41.81vh;
+  height: 41.81vh;
+  border-radius: 2vh;
+  vertical-align: bottom;
+  box-shadow: inset 4px 4px #ffac2d, inset -4px -4px #ffac2d;
+} */
 .halbumCard .albumTit {
   margin-top: 3.5vh;
   color: #ffffff;
@@ -42,6 +52,9 @@
   left: 2.73vh;
   bottom: 28.72vh;
   background: rgba(0, 0, 0, 0.6) no-repeat center 0.3vh / 11vh 11vh
+}
+.halbumCard .like[focus-select=true] {
+  box-shadow: inset 0px 0px 0px 4px#ffac2d;
 }
 .halbumCard .conut {
   position: absolute;
@@ -73,3 +86,13 @@
   /* top: -0.5vh; */
   float: left;
 }
+.image[focus-select=true]:before {
+  content:"";
+  position:absolute;
+  width: 41.81vh;
+  height: 41.81vh;
+  border-radius: 2vh;
+  vertical-align: bottom;
+  box-shadow: inset 4px 4px #ffac2d, inset -4px -4px #ffac2d;
+}
+

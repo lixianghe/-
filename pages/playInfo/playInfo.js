@@ -62,6 +62,7 @@ Page({
     })
   },
   async onLoad(options) {
+    this.setData({backgroundColor: '#303240'})
     clearInterval(timer4)
     
     showIndex = 0

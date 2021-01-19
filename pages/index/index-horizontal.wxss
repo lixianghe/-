@@ -111,3 +111,6 @@
 .absolutes {
   position: absolute;
 }
+.label-view .title[focus-select=true] {
+  box-shadow: inset 0px 0px 0px 4px#ffac2d;
+}

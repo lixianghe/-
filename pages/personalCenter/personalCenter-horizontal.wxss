@@ -106,3 +106,6 @@
   font-size: 5.3vh;
   color: #ffffff ;
 }
+.adminBtnOut[focus-select=true] {
+  box-shadow: inset 0px 0px 0px 4px #ff5100;
+}

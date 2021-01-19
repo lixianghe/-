@@ -88,7 +88,7 @@ module.exports = {
     console.log(222222)
     wx.login({
       success: (loginRes) => {
-        console.log('扫码成功', 63)
+        console.log('扫码成功', 63, loginRes.code)
         console.log(loginRes, 64)
         this.authRequest = true
         console.log(33333)
@@ -158,7 +158,9 @@ module.exports = {
    * 绑定手机号
    */
   getPhoneNumber(e) {
-    console.log('手机号加密信息：', app.authInfo, JSON.stringify(e))
+    console.log('手机号加密信息：', app.authInfo, e)
+    console.log('手机号加密信息2：-------------------------------'+JSON.stringify(app.authInfo))
+    console.log('手机号加密信息3：--------------------------------'+JSON.stringify(e))
     let {
       iv,
       encryptedData
@@ -185,10 +187,12 @@ module.exports = {
     console.log('postData' + postData + '120行')
     console.log('手机号登录信息：', JSON.stringify(postData))
     login(postData).then(res => {
-      console.log('成功成功成功成功', JSON.stringify(res))
+      console.log('成功成功成功成功', res)
+      console.log('成功成功成功成功----------------' + JSON.stringify(res))
       app.userInfo = res
       app.tokenStatus = 0
       wx.setStorageSync('userInfo', app.userInfo)
+      wx.setStorageSync('token', app.userInfo.token)
       this.getUserInfo(true)
       this.setForbidStatus(false, '')
 
@@ -202,6 +206,7 @@ module.exports = {
   getUserInfo(showGzh){
     console.log('获取用户信息');
     userInfo({}).then(res => {
+      console.log('getUserInfo----------------' + JSON.stringify(res))
       if(this.logout){
         this.logout = false;
         return;

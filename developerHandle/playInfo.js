@@ -110,6 +110,7 @@ module.exports = {
       duration: 1,
       playTime: 0
     }
+    console.log('saveHistoryParams-------------------+++++++++++++++++++++' + JSON.stringify(saveHistoryParams))
     if (!app.userInfo || !app.userInfo.token) return
     let opt = { historys: [saveHistoryParams] }
     saveHistory(opt).then(res => {

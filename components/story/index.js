@@ -61,6 +61,9 @@ Component({
       this.setData({
         'item.coverUrl': app.sysInfo.defaultImg
       })
+    },
+    aa() {
+      
     }
   },
 

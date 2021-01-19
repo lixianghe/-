@@ -119,7 +119,7 @@
 </view>
 
 <!-- 弹出播放列表 -->
-<view class="playList {{noTransform}}" animation="{{animation}}">
+<view class="playList {{noTransform}}" animation="{{animation}}" style="background-color: {{backgroundColor}}; height: 100%">
   <view class="title">
     <text>播放列表({{allList.length}})</text>
     <button bindtap="closeList">

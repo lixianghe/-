@@ -64,6 +64,9 @@
   height: 11.04vh;
   text-align: center;
 }
+.label-view .title[focus-select=true] {
+  box-shadow: inset 0px 0px 0px 4px #ff5100;
+}
 .label-view .active-tap {
   color: #000;
 }

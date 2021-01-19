@@ -11,7 +11,7 @@
       </view>
       <view class="storyBox">
         <!-- 页面盒子 -->
-        <story wx:if="{{loadReady}}" wx:for="{{info}}" wx:key="index" data-no="{{index}}" data-id="{{item.id}}"
+        <story wx:if="{{loadReady}}" wx:for="{{info}}" wx:key="index" data-no="{{index}}" data-id="{{item.id}}" data-disablefocus="true"
           data-title="{{item.title}}" data-src="{{item.src}}" data-contentype="{{item.label}}" bindtap="linkAbumInfo"
           datasource="{{item}}" className="{{screen}}"></story>
         <!-- 加载中盒子 -->
