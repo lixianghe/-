@@ -56,6 +56,19 @@ module.exports = {
     }
   },
   onLoad(options) {
+    let intervalTime = 600
+    let nowTime =new Date().getTime()
+    if (nowTime - this.data.lastTime1 > intervalTime || !this.data.lastTime) {
+      this.initLoad()
+      this.data.lastTime1 = nowTime;
+    }else{
+      console.log('小于间隔秒数')    
+    }
+  },
+  onReady() {
+
+  },
+  initLoad() {
     this.getFm()
     // 接入凯叔频道数据
     layoutGroup().then(res => {
@@ -77,10 +90,25 @@ module.exports = {
       console.log(JSON.stringify(err))
     })
   },
-  onReady() {
+  // selectTap(e) {
+  //   const index = e.currentTarget.dataset.index
+  //   const id = e.currentTarget.dataset.groupid
+  //   this.setData({
+  //     currentTap: index,
+  //     retcode: 0,
+  //     scrollLeft: 0
+  //   })
+  //   wx.showLoading({
+  //     title: '加载中',
+  //   })
+  //   this._getList(id)
+  // },
 
-  },
-  selectTap(e) {
+
+  // 点击切换频道
+  selectTap(e) {
+    let intervalTime = 600
+    let nowTime =new Date().getTime()
     const index = e.currentTarget.dataset.index
     const id = e.currentTarget.dataset.groupid
     this.setData({
@@ -88,11 +116,19 @@ module.exports = {
       retcode: 0,
       scrollLeft: 0
     })
-    wx.showLoading({
-      title: '加载中',
-    })
-    this._getList(id)
+    if (nowTime - this.data.lastTime > intervalTime || !this.data.lastTime) {
+      wx.showLoading({
+        title: '加载中',
+      })
+      this._getList(id)
+      this.data.lastTime = nowTime;
+    }else{
+      console.log('小于间隔秒数')    
+    }
   },
+
+
+
   // 跳转到快捷入口界面
   tolatelyListen (e) {
     const index = e.currentTarget.dataset.index

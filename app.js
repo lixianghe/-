@@ -282,7 +282,7 @@ App({
         wx.hideLoading()
       } else {
         that.setData({showNonet: false})
-        currentPage.onLoad(currentPage.options)
+        // currentPage.onLoad(currentPage.options)
       }
     })
   },
