@@ -14,6 +14,7 @@ Component({
       wx.getNetworkType({
         async success(res) {
           const networkType = res.networkType
+          console.log('networkType', networkType, currentPage)
           if (networkType === 'none') {
             wx.showToast({
               title: '网络异常，请检查网络',
@@ -21,6 +22,7 @@ Component({
             })
           } else {
             currentPage.onLoad(currentPage.options)
+            currentPage.setData({showNonet: false})
           }
         },
       })

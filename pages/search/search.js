@@ -19,11 +19,14 @@ Page({
     colorStyle: app.sysInfo.colorStyle,
     backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
+    topHeight: 3000
   },
   onLoad() {
+    this.getMiniHeight()
     this.setData({
-      times: ((wx.getSystemInfoSync().screenHeight)/ 100)
+      times: ((wx.getSystemInfoSync().windowHeight)/ 100)
     })
+
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()
@@ -100,6 +103,21 @@ Page({
     }
     this._getList(params)
     
+  },
+  // 获取minibar的高度
+  getMiniHeight() {
+    let query = wx.createSelectorQuery()
+    query
+      .select('.miniView')
+      .boundingClientRect((rect) => {
+        let miniHeight = rect.height
+        let topHeight = wx.getSystemInfoSync().windowHeight - miniHeight
+        console.log(wx.getSystemInfoSync().screenHeight, miniHeight, topHeight, rect)
+        this.setData({
+          topHeight: topHeight,
+        })
+      })
+      .exec()
   },
   focus() {
     this.setData({showMInibar: false})

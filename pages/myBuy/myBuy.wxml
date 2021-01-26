@@ -5,7 +5,7 @@
       <view class="label-view">
         <view class="title{{index === currentTap ? ' active-tap' : ''}}" wx:for="{{labels}}" wx:key="index"
           style="background-color: {{index === currentTap ? mainColor : 'rgba(255,255,255, 0.1)'}}"
-          data-index="{{index}}" bindtap="selectTap">
+          data-index="{{index}}" bindtap="selectTap" data-focusindex="2">
           <text>{{item.name}}</text>
         </view>
       </view>
@@ -34,7 +34,7 @@
     <image src="../../images/modal_close.png" />
   </view>
   <view class="info">
-    暂时还没有内容哦，请去收藏喜欢的故事吧
+    暂时还没有内容哦，请去购买喜欢的故事吧
   </view>
   <button bindtap="close">确定</button>
 </view>

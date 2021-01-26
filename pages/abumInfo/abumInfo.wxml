@@ -11,7 +11,7 @@
   module.exports.filterNum = filterNum;
 </wxs>
 
-<view wx:if="{{canplay.length}}" class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;">
+<view class="page {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;">
   <view style="padding: {{leftPadding}}" class="left">
     <view class="btns" style="width: {{btnsWidth}};background-color: {{backgroundColor}}">
       <button hover-class="playAllHover" class="playAll" data-defaultfocus="true" data-focusindex="2" bindtap="playAll" style="background-color: {{mainColor}}">
@@ -26,6 +26,7 @@
     </view>
 
     <scroll-view
+      wx:if="{{canplay.length}}"
       class="scrollView"
       scroll-top="{{scrollTop}}"
       scroll-y style="width: 100%; height: 62vh"
@@ -52,8 +53,19 @@
 
     
 
+    <view class="skeleton" wx:else>
+      <view class="songList">
+        <view wx:key="index" wx:for="{{4}}">
+          <text class="A"></text>
+          <text class="B"></text>
+        </view>
+      </view>
+    </view>
+    
+
   </view>
-  <view class="right" style="width:{{rightWidth}}">
+
+  <view class="right" style="width:{{rightWidth}}" wx:if="{{canplay.length}}">
     <view class="image" style="width: {{imageWidth}};height: {{imageWidth}};background: url({{src}}) no-repeat top left / 100% 100%">
       <view 
         class="like"
@@ -68,10 +80,18 @@
       </view>
     </view>
   </view>
+
+  <view class="skeleton" wx:else>
+    <view class="right" style="width:{{rightWidth}}">
+      <view class="image" style="width: {{imageWidth}};height: {{imageWidth}}"></view>
+    </view>
+  </view>
+
+
 </view>
 
   <!-- 骨架屏 -->
-<view class="page skeleton {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" wx:else>
+<!-- <view class="page skeleton {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" wx:else>
   <view style="padding: {{leftPadding}}" class="left">
     <view class="btns" style="width: {{btnsWidth}};background-color: {{backgroundColor}};">
       <button hover-class="playAllHover" class="playAll" bindtap="playAll" style="background-color: {{mainColor}}">
@@ -95,7 +115,7 @@
   <view class="right" style="width:{{rightWidth}}">
     <view class="image" style="width: {{imageWidth}};height: {{imageWidth}}"></view>
   </view>
-</view>
+</view> -->
 
 <no-network wx:if="{{showNonet}}"></no-network>
 

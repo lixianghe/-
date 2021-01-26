@@ -14,7 +14,7 @@ Page({
   screen: app.globalData.screen,
   onLoad(options) {
     let that = this
-    app.getNetWork(that)
+    // app.getNetWork(that)
   },
   
   onShow() {

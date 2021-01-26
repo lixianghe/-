@@ -24,7 +24,7 @@ Page({
   },
   onLoad(options) {
     let that = this
-    app.getNetWork(that)
+    // app.getNetWork(that)
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()

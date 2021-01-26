@@ -46,6 +46,10 @@ export function request(url, data = {}, method = 'GET') {
       },
       fail: function (err) {
         reject(err)
+        console.log('请求失败')
+        let page = getCurrentPages()[getCurrentPages().length - 1]
+        page.setData({showNonet: true})
+        console.log(page)
       }
     })
   })

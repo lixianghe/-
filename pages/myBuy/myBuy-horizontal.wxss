@@ -120,3 +120,6 @@
 .storyBox {
   margin-top: 1vh;
 }
+.label-view .title[focus-select=true] {
+  box-shadow: inset 0px 0px 0px 4px #ff5100;
+}

@@ -77,13 +77,15 @@ function toggleplay(that, app) {
 
 // 初始化 BackgroundAudioManager
 function initAudioManager(that, songInfo) {
-  let cutAllList = wx.getStorageSync('cutAllList') || []
   that.audioManager = wx.getBackgroundAudioManager()
   songInfo.abumInfoName = wx.getStorageSync('abumInfoName') || ''
-  that.audioManager.playInfo = {
-    playList: cutAllList,
-    context: songInfo
-  };
+  setTimeout(() => {
+    let cutAllList = songInfo.abumInfoName ? wx.getStorageSync('cutAllList') || [] : [songInfo]
+    that.audioManager.playInfo = {
+      playList: cutAllList,
+      context: songInfo
+    }
+  }, 1000)
   EventListener(that)
 }
 
@@ -135,6 +137,7 @@ function EventListener(that){
   //停止事件
   that.audioManager.onStop(() => {
     console.log('触发停止事件');
+    wx.hideLoading()
   })
   //播放错误事件
   that.audioManager.onError(() => {

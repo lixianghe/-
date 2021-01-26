@@ -60,7 +60,7 @@ Page({
   async onLoad(options) {
     // 检测网络
     let that = this
-    app.getNetWork(that)
+    // app.getNetWork(that)
 
     // 暂存专辑全部歌曲
     this.setData({

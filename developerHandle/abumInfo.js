@@ -38,19 +38,24 @@ module.exports = {
     let allParams = {pageNum: 1, pageSize: 999, albumId: options.id}
 
     // 缓存播放中的列表
-    let abumInfoName = wx.getStorageSync('abumInfoName')
-    if (options.title == abumInfoName) {
-      console.log('专辑------------------------------------------')
-      let canplaying = wx.getStorageSync('canplaying')
-      let allList = wx.getStorageSync('cutAllList')
-      this.setData({
-        total: allList.length,
-        canplay: canplaying
-      })
-      wx.setStorageSync('canplay',canplaying)
-      if (routeType === 'album') await this.getAllList(allParams)
-      return
-    }
+    // let abumInfoName = wx.getStorageSync('abumInfoName')
+    // if (options.title == abumInfoName) {
+    //   console.log('专辑------------------------------------------')
+    //   let canplaying = wx.getStorageSync('canplaying')
+    //   let allList = wx.getStorageSync('cutAllList')
+    //   this.setData({
+    //     total: allList.length,
+    //     canplay: canplaying
+    //   })
+    //   wx.setStorageSync('canplay',canplaying)
+    //   if (routeType === 'album') {
+    //     this.isAlbumFavorite(allParams.albumId)
+    //     this.getAllList(allParams)
+        
+    //   }
+      
+    //   return
+    // }
     
 
     
@@ -98,6 +103,7 @@ module.exports = {
         item.coverImgUrl = item.coverUrl
         item.src = item.mediaUrl
         item.auditionDuration = auditionDurationList[index]
+        item.dataUrl = item.mediaUrl
       })
       wx.setStorageSync('canplay',canplay)
       this.setData({total})
@@ -146,6 +152,7 @@ module.exports = {
         item.coverImgUrl = item.coverUrl
         item.src = item.mediaUrl
         item.auditionDuration = auditionDurationList[index]
+        item.dataUrl = item.mediaUrl
       })
       let noOrderList = this.randomList(JSON.parse(JSON.stringify(allList)))
       wx.setStorageSync('allList',allList)

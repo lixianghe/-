@@ -104,8 +104,9 @@ module.exports = {
     let res = await isFavorite(params)
     that.setData({existed: res.existed})
     // 添加历史记录
+    let abumInfoName = wx.getStorageSync('abumInfoName')
     let saveHistoryParams = {
-      ablumId: app.globalData.abumInfoId || app.globalData.songInfo.id,
+      ablumId: abumInfoName ? app.globalData.abumInfoId : app.globalData.songInfo.id,
       storyId: app.globalData.songInfo.id,
       duration: 1,
       playTime: 0

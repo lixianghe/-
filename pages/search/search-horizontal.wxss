@@ -1,3 +1,6 @@
+.h #miniPlayer {
+  overflow: hidden;
+}
 .h .searchContent {
   overflow: auto;
   box-sizing: border-box;
@@ -137,6 +140,18 @@
   text-align: center;
   color: #bbb;
   font-size: 5vh;
+}
+
+.vip {
+  /* background-color: #fa6500; */
+  border-radius: 0.89vh;
+  font-size: 4vh;
+  display: inline-block;
+  margin-right: 1.81vh;
+  width: 8vh;
+  text-align: center;
+  height: 5vh;
+  line-height: 5vh;
 }
 
 .image[focus-select=true]:before {

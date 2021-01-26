@@ -222,8 +222,31 @@
   overflow: hidden;
   border-bottom: 1px solid rgba(255,255,255, 0.1);
   height: 16.5vh;
-  padding: 5vh 2.42vh 5vh 5vh;
+  padding: 4vh 1vh 4vh 2.5vh;
 }
+.playList .songList .view .viewbox {
+  /* width: 100%; */
+  height: 6.6vh;
+  line-height: 6.6vh;
+  padding: 1vh 1vh 1vh 2.5vh;
+  box-sizing: content-box;
+}
+.playList .songList .view .fakeView {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  padding: 1vh 1vh 1vh 4vh;
+  box-sizing: content-box;
+  transform: translate(-4vh, -1vh);
+}
+
+/* .playList .songList .view */
+
+button[focus-select=true]{
+
+  box-shadow: inset 0px 0px 0px 4px#ffac2d;
+}
+
 .playList .songList .view text:nth-child(1) {
   width: 8vh;
 }

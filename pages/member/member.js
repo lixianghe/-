@@ -21,7 +21,7 @@ Page({
   async onLoad(options) {
     // 检测网络
     let that = this
-    app.getNetWork(that)
+    // app.getNetWork(that)
     this.getList()
   },
   getList() {
