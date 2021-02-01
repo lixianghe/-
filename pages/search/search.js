@@ -13,13 +13,14 @@ Page({
     currentTap: 0,
     scrollLeft: 0,
     picWidth: '33vh',
-    showMInibar: true,
+    showFocus: true,
     times: 1,
     mainColor: app.globalData.mainColor,
     colorStyle: app.sysInfo.colorStyle,
     backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
-    topHeight: 3000
+    topHeight: 3000,
+    focus: false
   },
   onLoad() {
     this.getMiniHeight()
@@ -30,9 +31,11 @@ Page({
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()
+    this.setData({focus: true})
   },
   onHide() {
     this.selectComponent('#miniPlayer').setOnHide()
+    this.setData({focus: false})
   },
   // 函数节流防止请求过多
   search: tool.throttle(function (e) {
@@ -120,10 +123,10 @@ Page({
       .exec()
   },
   focus() {
-    this.setData({showMInibar: false})
+    this.setData({showFocus: false})
   },
   blur() {
-    this.setData({showMInibar: true})
+    this.setData({showFocus: true})
   },
   aa() {
     

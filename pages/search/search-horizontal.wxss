@@ -58,6 +58,33 @@
   color: #bbbbbb;
   font-size: 12.56rpx;
 }
+/* .h .mianContent .search input::after {
+  content: '';
+  display: block;
+  height: 70%;
+  width: 0.5vh;
+  background: #fff;
+  position: absolute;
+  top: 15%;
+  opacity: 0.4;
+  animation: warn 1s ease-out 0s infinite;
+} */
+@keyframes warn {
+  0% {
+    /* transform: scale(0.5); */
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    /* transform: scale(1.4); */
+    opacity: 0.6;
+  }
+
+}
 .h .cancel {
   width: 51.26rpx;
   height: 25.124rpx;
@@ -165,14 +192,14 @@
   box-shadow: inset 4px 4px #ffac2d, inset -4px -4px #ffac2d;
   z-index: 666;
 }
-.input[focus-select=true]:before {
+.input[focus-select=true] {
   content:"";
-  position:absolute;
+  /* position:absolute; */
   width: calc(100% - 140px);
   height: 100%;
   vertical-align: bottom;
   box-shadow: inset 4px 4px #ffac2d, inset -4px -4px #ffac2d;
-  z-index: 666;
+  /* z-index: 666; */
 }
 button[focus-select=true]{
   box-shadow: inset 0px 0px 0px 4px #ff5100;

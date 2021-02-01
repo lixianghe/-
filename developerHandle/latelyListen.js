@@ -104,19 +104,18 @@ module.exports = {
     history(params).then(res => {
       let layoutData = []
       if(type === 'album') {
+        console.log('history1---------------------',res)
         res.list.forEach(item => {
-          console.log(`${item}58行`)
           layoutData.push({
             id: item.album.albumId,
             title: item.album.albumName,
             src: item.album.coverUrl, 
             contentType: 'album',
             // isVip: true
-            isVip: item.feeType == '01' && (item.product || item.product && [2, 3].indexOf(item.product.vipLabelType) < 0)
+            isVip: item.album.feeType == '01' && (item.album.product || item.album.product && [2, 3].indexOf(item.album.product.vipLabelType) < 0)
           })
       })
       } else if (type === 'media') {
-        console.log('history---------------------' + JSON.stringify(res))
         res.list.forEach(item => {
           layoutData.push({
             id: item.media.mediaId,

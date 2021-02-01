@@ -211,6 +211,15 @@ Page({
     })
     let that = this
     if (getMedia) await getMedia(params, that)
+    if (!app.globalData.songInfo.src) {
+      wx.hideLoading()
+      wx.showToast({
+        title: '该内容为会员付费内容，请先成为会员再购买收听~',
+        icon: 'none'
+      })
+      wx.stopBackgroundAudio()
+      return
+    }
     app.playing(null, that)
   },
   // 打乱数组，返回

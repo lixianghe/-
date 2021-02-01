@@ -79,13 +79,13 @@ function toggleplay(that, app) {
 function initAudioManager(that, songInfo) {
   that.audioManager = wx.getBackgroundAudioManager()
   songInfo.abumInfoName = wx.getStorageSync('abumInfoName') || ''
-  setTimeout(() => {
-    let cutAllList = songInfo.abumInfoName ? wx.getStorageSync('cutAllList') || [] : [songInfo]
+  // setTimeout(() => {
+    let canplaying = songInfo.abumInfoName ? wx.getStorageSync('canplaying') || [] : [songInfo]
     that.audioManager.playInfo = {
-      playList: cutAllList,
+      playList: canplaying,
       context: songInfo
     }
-  }, 1000)
+  // }, 1000)
   EventListener(that)
 }
 
@@ -127,12 +127,33 @@ function EventListener(that){
   //上一首事件
   that.audioManager.onPrev(() => {
     console.log('触发上一首事件');
-    that.pre(true)
+    // that.pre(true)
+
+     // 如果是专辑详情点击的播放
+     let pages = getCurrentPages()
+     let abum = pages.filter(n => n.route == 'pages/abumInfo/abumInfo')[0]
+     if (abum) {
+       let minibar = abum.selectComponent('#miniPlayer')
+       minibar.pre(true)
+     } else {
+       that.pre(true)
+     }
   })
   //下一首事件
   that.audioManager.onNext(() => {
     console.log('触发onNext事件');
-    that.next(true);
+    
+    // 如果是专辑详情点击的播放
+    let pages = getCurrentPages()
+    let abum = pages.filter(n => n.route == 'pages/abumInfo/abumInfo')[0]
+    if (abum) {
+      let minibar = abum.selectComponent('#miniPlayer')
+      minibar.next(true)
+    } else {
+      that.next(true)
+    }
+    
+
   })
   //停止事件
   that.audioManager.onStop(() => {

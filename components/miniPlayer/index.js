@@ -186,6 +186,13 @@ Component({
       this.listenPlaey()
       // 初始化backgroundManager
       
+      if (wx.canIUse('getPlayInfoSync')) {
+        let res = wx.getPlayInfoSync()
+        console.log('getPlayInfoSync---------------------------'+JSON.stringify(res))
+        let playing = res.playState && res.playState.status == 1 ? true : false
+        wx.setStorageSync('playing', playing)
+      }
+
       const playing = wx.getStorageSync('playing')
       if (playing) app.playing(null, that)
       // 是否被收藏

@@ -212,7 +212,7 @@ module.exports = {
             src: item.coverUrl,
             contentType: item.contentType,
             count: item.album ? item.album.mediaCount : '',
-            isVip: item[item.contentType].feeType == '01' && (item[item.contentType].product || item[item.contentType].product && [2, 3].indexOf(item[item.contentType].product.vipLabelType) < 0)
+            isVip: item.contentType == 'media' ? (item[item.contentType].feeType == '01' && item[item.contentType].auditiDuration === 0) : item[item.contentType].feeType == '01' && (item[item.contentType].product || item[item.contentType].product && [2, 3].indexOf(item[item.contentType].product.vipLabelType) < 0)
           })
         })
 

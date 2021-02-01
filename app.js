@@ -104,7 +104,8 @@ App({
     // 测试getPlayInfoSync
     if (wx.canIUse('getPlayInfoSync')) {
       let res = wx.getPlayInfoSync()
-      let playing = res.playState.status == 1 ? true : false
+      console.log('appgetPlayInfoSync---------------------------'+JSON.stringify(res))
+      let playing = res.playState && res.playState.status == 1 ? true : false
       wx.setStorageSync('playing', playing)
     }
   },
@@ -183,7 +184,7 @@ App({
       wx.stopBackgroundAudio()
     }
     
-    loopType === 'singleLoop' ? this.playing(0, that) : this.playing(null, that)
+    loopType === 'singleLoop' || !abumInfoName ? this.playing(0, that) : this.playing(null, that)
   },
   // 根据循环模式设置播放列表
   setList(loopType, list, cutFlag, panelCut){
@@ -224,7 +225,7 @@ App({
   },
   // 根据歌曲url播放歌曲
   playing: function (seek, that) {
-    const songInfo = this.globalData.songInfo
+    const songInfo = wx.getStorageSync('songInfo')
     if (!songInfo.src) return
     this.carHandle(songInfo, seek)
     tool.initAudioManager(that, songInfo)
@@ -310,7 +311,7 @@ App({
     }
     if (userInfo){
       this.userInfo = userInfo;
-      this.guestInfo = guestInfo;
+      // this.guestInfo = guestInfo;
       return;
     }
     

@@ -50,6 +50,8 @@ module.exports = {
     }]
   },
   onShow() {
+    console.log('personal的onShow=========================--------------')
+    app.checkStatus()
     if (!this.data.isLogin) {
       this.loginIn()
     } else {
@@ -67,7 +69,7 @@ module.exports = {
 
   },
   onLoad(options) {
-    app.checkStatus()
+    
     // if(JSON.stringify(wx.getStorageSync('username'))) {
     //   this.getUserInfo()
     // }
@@ -317,6 +319,7 @@ module.exports = {
     app.userInfo.expireTime = '';
     this.setData({
       isLogin: false,
+      showWxLogin: true,
       userInfo:{
         avatar: '',
         nickname: '',
