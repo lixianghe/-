@@ -203,17 +203,21 @@ module.exports = {
     if (flag) {
       mediaFavoriteCancel({mediaId: id}).then(res => {
         wx.showToast({ icon: 'none', title: '取消收藏成功' })
-        that.setData({
+        this.setData({
           existed: false
         })
+        let minibar = this.selectComponent('#miniPlayer')
+        minibar.setOnShow()
       })
     } else {
       console.log('mediaFavoriteAdd')
       mediaFavoriteAdd({mediaId: id}).then(res => {
         wx.showToast({ icon: 'none', title: '收藏成功' })
-        that.setData({
+        this.setData({
           existed: true
         })
+        let minibar = this.selectComponent('#miniPlayer')
+        minibar.setOnShow()
       })
     }
   },

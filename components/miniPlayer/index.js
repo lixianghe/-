@@ -5,7 +5,6 @@ import { isFavorite, like } from '../../developerHandle/playInfo'
 
 var timer = null
 var timer2 = null 
-let showIndex = 0
 
 Component({
   properties: {
@@ -78,7 +77,7 @@ Component({
   },
   audioManager: null,
   attached: function () {
-    showIndex = 0
+
   },
   detached: function () {
 
@@ -164,6 +163,10 @@ Component({
       let that = this
       like(that)
     },
+    setExisted(bool) {
+      console.log('setExisted------------------------------------------------------', bool)
+      this.setData({existed: bool})
+    },
     watchPlay() {
       app.globalData.songInfo = wx.getStorageSync('songInfo')
       this.setData({
@@ -172,16 +175,7 @@ Component({
     },
     // 因为1.9.2版本无法触发onshow和onHide所以事件由它父元素触发
     setOnShow() {
-      let that = this
-      showIndex++
-      // 从面板回来赋值
-      // if (showIndex > 1) {
-      //   tool.panelSetInfo(app, that)
-      //   setTimeout(() => {
-      //     this.triggerEvent('current', wx.getStorageSync('songInfo').id)
-      //   }, 300)
-      // }
-      
+      let that = this 
       clearInterval(timer)
       this.listenPlaey()
       // 初始化backgroundManager

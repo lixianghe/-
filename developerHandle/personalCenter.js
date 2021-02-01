@@ -53,6 +53,10 @@ module.exports = {
     console.log('personal的onShow=========================--------------')
     app.checkStatus()
     if (!this.data.isLogin) {
+      app.userInfo = {}
+      wx.setStorageSync('token', null)
+      wx.setStorageSync('userInfo', app.userInfo)
+
       this.loginIn()
     } else {
       this.getUserInfo()
@@ -150,6 +154,8 @@ module.exports = {
       wx.setStorageSync('userInfo', app.userInfo)
       this.getUserInfo()
       this.setForbidStatus(false, '')
+      let minibar = this.selectComponent('#miniPlayer')
+      minibar.setOnShow()
       wx.hideLoading()
     }).catch(err => {
       this.setForbidStatus(true, err)
@@ -199,6 +205,8 @@ module.exports = {
       this.setForbidStatus(false, '')
 
       wx.hideLoading()
+      let minibar = this.selectComponent('#miniPlayer')
+      minibar.setOnShow()
     }).catch(err => {
       this.setForbidStatus(true, err)
       console.log(err, 95)
@@ -333,18 +341,15 @@ module.exports = {
     })
     wx.removeStorageSync('userInfo');
     wx.removeStorageSync('username')
-    wx.setStorage({
-      data: '',
-      key: 'token',
-      success(res) {
-        console.log(res+'332')
-        // 退出初始化信息
-        app.initCode()
-      },
-      fail(err) {
-        console.log(err+'337')
-      }
-    })
+    wx.removeStorageSync('token')
+    console.log(77777777777777777777777777)
+    setTimeout(() => {
+      let minibar = this.selectComponent('#miniPlayer')
+      minibar.setOnShow()
+    }, 1000)
+    // 退出初始化信息
+    app.initCode()
+    
   },
   setForbidStatus(forbid, message) {
     this.setData({

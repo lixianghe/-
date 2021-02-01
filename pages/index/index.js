@@ -35,6 +35,7 @@ Page({
           app.userInfo.expireTime = '';
           wx.removeStorageSync('userInfo');
           wx.removeStorageSync('username')
+          wx.removeStorageSync('token')
         }
       })
       
