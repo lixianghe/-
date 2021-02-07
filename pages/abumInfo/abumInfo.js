@@ -9,7 +9,6 @@ let scrollTopNo = 0
 
 // 选择的选集
 let selectedNo = 0
-let timer3 = null
 let abumInfoMixin = require('../../developerHandle/abumInfo')
 Page({
   mixins: [abumInfoMixin],
@@ -77,7 +76,7 @@ Page({
     // 获取十首歌得高度
     setTimeout(() => {
       this.getTenHeight()
-    }, 500)
+    }, 2000)
     scrollTopNo = 0
     selectedNo = 0
   },
@@ -100,6 +99,7 @@ Page({
       sum: this.data.total,
     }
     this.selectWorks.hideShow(val)
+    console.log(selectedNo, this.data.pageNo)
     this.setData({
       selected: selectedNo + this.data.pageNo - 1,
     })
@@ -118,8 +118,7 @@ Page({
       initPageNo: e.detail.pageNum,
     })
     let idName = this.data.idName
-    const canplay = await this.getData({ ...e.detail, [idName]: this.data.optionId })
-    this.setCanplay(canplay)
+    this.getData({ ...e.detail, [idName]: this.data.optionId })
   },
 
   // 点击歌曲名称跳转到歌曲详情
@@ -130,17 +129,15 @@ Page({
     this.toInfo(songInfo.id)
   },
   toInfo(id) {
-    app.globalData.abumInfoId = this.data.optionId
-    wx.navigateTo({ url: `../playInfo/playInfo?id=${id}&abumInfoName=${this.data.abumInfoName}` })
+    let index = this.data.canplay.findIndex(n => n.id == id)
+    let currentPageNo = this.data.pageNo + parseInt(index / 15)
+    let total = this.data.total
+    wx.setStorageSync('abumInfoId', this.data.optionId)
+    wx.navigateTo({ url: `../playInfo/playInfo?id=${id}&abumInfoName=${this.data.abumInfoName}&currentPageNo=${currentPageNo}&total=${total}` })
   },
   // 改变current
   changeCurrent(currentId) {
     this.setData({ currentId: currentId.detail })
-  },
-  setCanplay(canplay) {
-    this.setData({
-      canplay: canplay,
-    })
   },
   
   // 播放全部
@@ -150,57 +147,18 @@ Page({
         title: '加载中',
       })
     }
-    wx.setStorageSync('abumInfoName', this.data.abumInfoName)
-
-
+    
     let canplay = this.data.canplay || []
     wx.setStorageSync('canplaying', canplay)
-
-
-    wx.getStorage({
-      key: 'allList',
-      success (res) {
-        let data = res.data
-        wx.setStorageSync('cutAllList', data)
-      }
-    })
-
-    wx.getStorage({
-      key: 'noOrderList',
-      success (res) {
-        let data = res.data
-        wx.setStorageSync('cutNoOrderList', data)
-      }
-    })
-
-    // allList还没请求到的乱序
-    let noOrderPing = this.randomList(JSON.parse(JSON.stringify(canplay)))
-    wx.setStorageSync('noOrderPing', noOrderPing)
-
-    timer3 = setInterval(() => {
-      wx.getStorage({
-        key: 'allList',
-        success (res) {
-          let data = res.data
-          wx.setStorageSync('cutAllList', data)
-        }
-      })
-  
-      wx.getStorage({
-        key: 'noOrderList',
-        success (res) {
-          let data = res.data
-          wx.setStorageSync('cutNoOrderList', data)
-        }
-      })
-
-    }, 500)
-    setTimeout(() => {
-      clearInterval(timer3)
-    }, 5000)
+    wx.setStorageSync('abumInfoName', this.data.abumInfoName)
+    wx.setStorageSync('abumInfoId', this.data.optionId)
+    wx.setStorageSync('total', this.data.total)
+    wx.setStorageSync('currentPageNo', 1)
+    let noOrderList = tool.randomList(JSON.parse(JSON.stringify(canplay)))
+    wx.setStorageSync('noOrderList', noOrderList)
     app.globalData.songInfo = canplay[0]
-    app.globalData.abumInfoId = this.data.optionId
-    // this.initAudioManager(allList)
+
+    
     let params = {
       mediaId: app.globalData.songInfo.id,
       contentType: 'story'
@@ -222,31 +180,15 @@ Page({
     }
     app.playing(null, that)
   },
-  // 打乱数组，返回
-  randomList(arr) {
-    let len = arr.length;
-    while (len) {
-        let i = Math.floor(Math.random() * len--);
-        [arr[i], arr[len]] = [arr[len], arr[i]];
-    }
-    return arr;
-  },
   setPlaying(e) {
     this.setData({
       palying: e.detail,
     })
   },
-  // 初始化 BackgroundAudioManager
-  // initAudioManager(list) {
-  //   this.audioManager = wx.getBackgroundAudioManager()
-  //   this.audioManager.playInfo = { 
-  //     playList: list,
-      
-  //   }
-  // },
   // 列表滚动事件
   listScroll: tool.debounce(async function (res) {
     let top = res.detail.scrollTop
+    console.log(top, this.data.tenHeight)
     selectedNo = parseInt(top / this.data.tenHeight)
   }, 50),
   // 滚到顶部
@@ -272,15 +214,13 @@ Page({
     let idName = this.data.idName
     console.log('scrollTopNo', scrollTopNo)
     let params = { [pageNoName]: this.data.initPageNo + scrollTopNo, [idName]: this.data.optionId }
-    const data = await this.getData(params)
-    const list = this.data.canplay.concat(data)
+    params.lazy = 'up'
+    this.getData(params)
     setTimeout(() => {
       this.setData({
-        canplay: list,
         showLoadEnd: false,
       })
     }, 800)
-    wx.setStorageSync('canplay',list)
   }, 1000),
   getTenHeight() {
     let query = wx.createSelectorQuery()
@@ -288,6 +228,7 @@ Page({
       .select('.songList')
       .boundingClientRect((rect) => {
         let listHeight = rect.height
+        console.log(listHeight)
         this.setData({
           tenHeight: listHeight - 40,
         })
@@ -354,10 +295,8 @@ Page({
   async topHandle() {
     let pageNoName = this.data.pageNoName
     let idName = this.data.idName
-    const data = await this.getData({ [pageNoName]: this.data.pageNo - 1, [idName]: this.data.optionId })
-    const list = data.concat(this.data.canplay)
+    await this.getData({ [pageNoName]: this.data.pageNo - 1, [idName]: this.data.optionId, lazy: 'down' })
     this.setData({
-      canplay: list,
       showLoadTop: false,
       scrollTop: 0,
       pageNo: this.data.pageNo - 1,

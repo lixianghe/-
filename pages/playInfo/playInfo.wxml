@@ -121,7 +121,7 @@
 <!-- 弹出播放列表 -->
 <view class="playList {{noTransform}}" animation="{{animation}}" style="background-color: {{backgroundColor}}; height: 100%">
   <view class="title">
-    <text>播放列表({{allList.length}})</text>
+    <text>播放列表({{total}})</text>
     <button bindtap="closeList">
       <image src="/images/closeList.png" />
     </button>
@@ -131,17 +131,21 @@
       class="scrollView"
       scroll-top="{{scrolltop}}"
       scroll-y style="width: 100%; height: 80vh;margin-top:18.5vh;margin-left: -5vh;width: 163vh"
+
       bindscroll="listScroll"
       bindscrolltoupper="listTop"
       bindscrolltolower="listBehind"
     >
-  <view class="songList">
+  <view class="songList" animation="{{loadAnimate}}" bindtouchstart="touchStart" bindtouchend="touchEnd" bindtouchmove="touchMove">
 
-      <view class="view" wx:if="{{allList.length}}" style="color: {{item.id == currentId ? mainColor : '#fff'}}"  wx:key="index" wx:for="{{allList}}">
+
+      <view wx-if="{{showLoadTop}}" class="loading">加载中...</view>
+
+      <view class="view" wx:if="{{infoList.length}}" style="color: {{item.id == currentId ? mainColor : '#fff'}}"  wx:key="index" wx:for="{{infoList}}">
         <view data-no='{{index}}' class="viewbox" data-song="{{item}}" bindtap="playSong">
           <!-- <view class="fakeView" bindtap="playSong" data-no='{{index}}' data-song="{{item}}" data-focusindex="2"></view> -->
           <image class="playGif" wx:if="{{item.id == currentId && playing}}" src="/images/playing.gif" />
-          <text wx:else>{{index + 1}}</text>
+          <text wx:else>{{(pageNo-1) * 15 + index + 1}}</text>
           <text>{{item.title}}</text>
 
 
@@ -154,13 +158,16 @@
         </view>
       </view>
 
-      <view wx:if="{{!allList.length}}" class="view gujia" wx:key="index" wx:for="{{5}}">
+      <view wx:if="{{!infoList.length}}" class="view gujia" wx:key="index" wx:for="{{5}}">
         <view style="width: 100%;height: 6.6vh;line-height: 6.6vh">
           <text></text>
           <text></text>
           <text></text>
         </view>
       </view>
+
+
+    <view wx-if="{{showLoadEnd}}" class="loading">加载中...</view>
 
     </view>
 

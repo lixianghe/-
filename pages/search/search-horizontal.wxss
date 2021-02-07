@@ -57,6 +57,7 @@
   width: 302.5rpx;
   color: #bbbbbb;
   font-size: 12.56rpx;
+  /* padding-left: 0.7vh; */
 }
 /* .h .mianContent .search input::after {
   content: '';
@@ -206,5 +207,12 @@ button[focus-select=true]{
 }
 .label-view .title[focus-select=true] {
   box-shadow: inset 0px 0px 0px 4px #ff5100;
+}
+.getSystemInfoSync {
+  position: absolute;
+  left: 20vh;
+  top: 20vh;
+  color: #fff;
+  font-size: 6vh;
 }
 

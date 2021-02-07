@@ -2,6 +2,7 @@ import { init, checkStatus } from './utils/httpOpt/api'
 import btnConfig from './utils/pageOtpions/pageOtpions'
 import { getMedia } from './developerHandle/playInfo'
 import tool from './utils/util'
+import { albumMedia, mediaUrlList } from './utils/httpOpt/api'
 
 require('./utils/minixs')
 
@@ -129,11 +130,7 @@ App({
       title: '加载中',
     })
     // 判断循环模式
-    let cutAllList = wx.getStorageSync('cutAllList') || []
-    let canplaying = wx.getStorageSync('canplaying') || []
-    if (canplaying[0].id != cutAllList[0].id) {
-      cutAllList = canplaying
-    } 
+    var cutList = wx.getStorageSync('canplaying') || []
     // 如果是在播放面板，剔除掉没有src的
     if (panelCut) {
       if (wx.canIUse('getPlayInfoSync')) {
@@ -142,26 +139,63 @@ App({
         if (panelSong.src) {
           this.globalData.songInfo = panelSong
         }
+        cutList = res.playList.filter(n => n.src)
+        wx.setStorageSync('canplaying', cutList)
+        wx.setStorageSync('currentPageNo', panelSong.currentPageNo)
+        let noOrderList = tool.randomList(JSON.parse(JSON.stringify(cutList)))
+        wx.setStorageSync('noOrderList', noOrderList)
       }
-      cutAllList = cutAllList.filter(n => n.src)
+      
     }
+    // console.log('cutList33333----------------------' + JSON.stringify(cutList))
     // 根据循环模式设置数组
     let loopType = wx.getStorageSync('loopType') || 'loop'
     // 如果缓存没有abumInfoName，说明是从首页单曲进入，list为单首
     let abumInfoName = wx.getStorageSync('abumInfoName')
     // 歌曲列表
-    cutAllList = abumInfoName ? this.setList(loopType, cutAllList, cutFlag, panelCut) : [this.globalData.songInfo]
+    cutList = abumInfoName ? this.setList(loopType, cutList, cutFlag, panelCut) : [this.globalData.songInfo]
     // 当前歌曲的索引
-    let no = cutAllList.findIndex(n => Number(n.id) === Number(this.globalData.songInfo.id))
-    let index = this.setIndex(type, no, cutAllList)
+    let no = cutList.findIndex(n => Number(n.id) === Number(this.globalData.songInfo.id))
+    let index = this.setIndex(type, no, cutList)
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
-    let song = cutAllList[index] || cutAllList[0]
+    let song = cutList[index] || cutList[0]
+
+    let currentPageNo = wx.getStorageSync('currentPageNo')
+    let maxPageNo = Math.ceil(wx.getStorageSync('total') / 15)
+    if (this.globalData.songInfo.id == cutList[cutList.length - 1].id && loopType !== 'singleLoop') {
+      let params
+      let abumInfoId = wx.getStorageSync('abumInfoId')
+      // 如果不是最后一页
+      if (currentPageNo < maxPageNo) { 
+        params = {pageNum: Number(currentPageNo) + 1, albumId: abumInfoId}
+        currentPageNo = Number(currentPageNo) + 1
+      } else {
+        params = {pageNum: 1, albumId: abumInfoId}
+        currentPageNo = 1
+      }
+      cutList = await this.getList(params)
+      
+      // 判断这首歌是否是最后一首歌，如果是看是跳到第一首还是翻页
+      if (!cutList[0].src) {
+        let params = {pageNum: 1, albumId: abumInfoId}
+        cutList = await this.getList(params)
+        currentPageNo = 1
+      }
+      song = cutList[0]
+      wx.setStorageSync('canplaying', cutList)
+      wx.setStorageSync('currentPageNo', currentPageNo)
+      let noOrderList = tool.randomList(JSON.parse(JSON.stringify(cutList)))
+      wx.setStorageSync('noOrderList', noOrderList)
+    } 
+
+    // console.log('song------------------------'+JSON.stringify(song))
+    // console.log('cutList------------------------'+JSON.stringify(cutList))
     wx.pauseBackgroundAudio();
     that.setData({
-      currentId: Number(song.id),       // 当前播放的歌曲id
-      currentIndex: index
+      currentId: Number(song.id)
     })
+    that.triggerEvent('current', song.id)
     // 获取歌曲的url
     let params = {
       mediaId: song.id,
@@ -196,16 +230,9 @@ App({
       // 单曲循环
       loopList = cutFlag ? [this.globalData.songInfo] : list
     } else {
-      // 随机播放,如果cutNoOrderList还没请求到就用noOrderPing
-      let noOrderPing = wx.getStorageSync('noOrderPing') || []
-      let cutNoOrderList = wx.getStorageSync('cutNoOrderList') || []
-      let cutAllList = wx.getStorageSync('cutAllList') || []
-      let canplaying = wx.getStorageSync('canplaying') || []
-      if (cutAllList[0].id != canplaying[0].id) {
-        cutNoOrderList = noOrderPing
-      }
-      if (panelCut) cutNoOrderList = cutNoOrderList.filter(n => n.src)
-      loopList = cutNoOrderList
+      let noOrderList = wx.getStorageSync('noOrderList') || []
+      if (panelCut) noOrderList = noOrderList.filter(n => n.src)
+      loopList = noOrderList
     }
     return loopList
   },
@@ -219,6 +246,35 @@ App({
     }
     return index
   },
+  // 获取歌曲列表
+  async getList(params) {
+    let [canplay, idList] = [[], []]
+    try {
+      let res = await albumMedia(params)
+      res.mediaList.map((item, index) => {
+        idList.push(item.mediaId)
+      })
+      // 获取带url的list
+      let opt = {
+        mediaId: idList.toString(),
+        contentType: 'story'
+      }
+      let res2 = await mediaUrlList(opt)
+      canplay = res2.mediaPlayVoList
+      canplay.map((item, index) => {
+        item.title = item.mediaName
+        item.id = item.mediaId
+        item.dt = item.timeText
+        item.coverImgUrl = item.coverUrl
+        item.src = item.mediaUrl
+        item.dataUrl = item.mediaUrl
+      })
+      console.log('---------', canplay)
+      return canplay
+    } catch (error) {
+      return []
+    }
+  },
   // 暂停音乐
   stopmusic: function () {
     wx.pauseBackgroundAudio();
@@ -229,15 +285,6 @@ App({
     if (!songInfo.src) return
     this.carHandle(songInfo, seek)
     tool.initAudioManager(that, songInfo)
-    // 如果是车载情况
-    // if (this.globalData.useCarPlay) {
-    //   console.log('车载情况')
-    //   this.carHandle(songInfo, seek)
-    // } else {
-    //   console.log('非车载情况')
-    //   this.wxPlayHandle(songInfo, seek, cb)
-    // }
-
   },
   // 车载情况下的播放
   carHandle(songInfo, seek) {
@@ -249,27 +296,6 @@ App({
         position: seek
       })
     }
-  },
-  // 非车载情况的播放
-  wxPlayHandle(songInfo, seek, cb) {
-    var that = this
-    wx.playBackgroundAudio({
-      dataUrl: songInfo.src,
-      title: songInfo.title,
-      success: function (res) {
-        if (seek != undefined && typeof (seek) === 'number') {
-          console.log('seek', seek)
-          wx.seekBackgroundAudio({
-            position: seek
-          })
-        };
-        that.globalData.playing = true;
-        cb && cb();
-      },
-      fail: function () {
-        console.log(888)
-      }
-    })
   },
   // 获取网络信息，给出相应操作
   getNetWork(that) {
@@ -311,14 +337,8 @@ App({
     }
     if (userInfo){
       this.userInfo = userInfo;
-      // this.guestInfo = guestInfo;
       return;
     }
-    
-    // if (guestInfo){
-    //   this.guestInfo = guestInfo;
-    //   return;
-    // }
 
     
     const token = wx.getStorageSync('token')
@@ -364,30 +384,6 @@ App({
         v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     })
-  },
-  /**
-   * 记录日志
-   */
-  log(...text){
-    for(let e of text){
-      if(typeof e == 'object'){
-        try{
-          if(e===null){
-            this.logText += 'null'
-          } else if(e.stack){
-            this.logText += e.stack
-          } else{
-            this.logText += JSON.stringify(e)
-          }
-        }catch(err){
-          this.logText += err.stack
-        }
-      } else {
-        this.logText += e
-      }
-      this.logText += '\n'
-    }
-    this.logText += '########################\n'
   },
   // 获取颜色主题
   getTheme: function () {

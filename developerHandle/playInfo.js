@@ -59,54 +59,55 @@ module.exports = {
     ]
   },
   async onLoad(options) {
+    let app = getApp()
     // 不是从minibar切过来的
     if (options.noPlay !== 'true') {
-      const app = getApp()
-      let oldSong = app.globalData.songInfo
-      console.log(oldSong.id, options.id)
-      if (options.id != oldSong.id && options.noPlay !== 'true') wx.showLoading({ title: '加载中...', mask: true })
-      // 因为有时候切歌时alllist还没加载出来，会用canplay，但是用的是播放中的canplay，所以存一个播放中的canplay做对比
       let canplay = wx.getStorageSync('canplay') || []
-      wx.setStorageSync('canplaying', canplay)
-      // allList还没请求到的乱序
-      let noOrderPing = tool.randomList(JSON.parse(JSON.stringify(canplay)))
-      wx.setStorageSync('noOrderPing', noOrderPing)
+      let total = options.total
+      let oldSong = app.globalData.songInfo
+      if (options.id != oldSong.id) wx.showLoading({ title: '加载中...', mask: true })
+      wx.setStorageSync('canplaying', canplay) 
+      wx.setStorageSync('total', total)
+      let noOrderList = tool.randomList(JSON.parse(JSON.stringify(canplay)))
+      wx.setStorageSync('noOrderList', noOrderList)
     }
+
     // 拿到歌曲的id: options.id
-    let getInfoParams = {mediaId: options.id || wx.getStorageSync('songInfo').id, contentType: 'story'}
-    Promise.all([
-      // this.isFavorite(isFavoriteParams),          // 是否被收藏
-      this.getMedia(getInfoParams)                 // 获取歌曲详情
-    ]).then((value)=> {
-      this.needFee()                           // 检测是否是付费的
-      this.play()                                 // 播放歌曲
-    })
+    let params = {mediaId: options.id || wx.getStorageSync('songInfo').id, contentType: 'story'}
+    await this.getMedia(params)                 // 获取歌曲详情
+    this.needFee()                           // 检测是否是付费的
+    console.log(this.data.songInfo.src === false)
+    this.play() 
+    if (options.noPlay !== 'true') {                           // 播放歌曲
+      let currentPageNo = options.currentPageNo
+      wx.setStorageSync('currentPageNo', currentPageNo)
+    }
+    
   },
   // 通过mediaId获取歌曲url及详情，并增加播放历史
   async getMedia(params, that = this) {   
     const app = getApp()
     // 获取歌曲                   
     let songInfo = {}
-    let cutAllList = wx.getStorageSync('cutAllList')
     let canplaying = wx.getStorageSync('canplaying') || []
-    // 因为allList加载很慢，所以在没有加载出来的时候先用canplaying
-    if (!cutAllList.length || (canplaying[0].id != cutAllList[0].id)) {
-      songInfo = canplaying.filter(n => Number(n.mediaId) === Number(params.mediaId))[0]
-    } else {
-      songInfo = cutAllList.filter(n => Number(n.mediaId) === Number(params.mediaId))[0]
-    }    
+    songInfo = canplaying.filter(n => Number(n.mediaId) === Number(params.mediaId))[0]
+    console.log('songInfo', canplaying, params.mediaId)
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
     that.setData({
       songInfo: app.globalData.songInfo
     })
     wx.setStorageSync('songInfo', app.globalData.songInfo)
     // 是否被收藏
-    let res = await isFavorite(params)
-    that.setData({existed: res.existed})
+    if (app.userInfo && app.userInfo.token) {
+      let res = await isFavorite(params)
+      that.setData({existed: res.existed})
+    }
+    
     // 添加历史记录
     let abumInfoName = wx.getStorageSync('abumInfoName')
+    let abumInfoId = wx.getStorageSync('abumInfoId')
     let saveHistoryParams = {
-      ablumId: abumInfoName ? app.globalData.abumInfoId : app.globalData.songInfo.id,
+      ablumId: abumInfoName ? abumInfoId : app.globalData.songInfo.id,
       storyId: app.globalData.songInfo.id,
       duration: 1,
       playTime: 0
@@ -132,7 +133,7 @@ module.exports = {
       this.setData({showModal: true})
       wx.stopBackgroundAudio()
       wx.hideLoading()
-      return true
+      return false
     }
   },
   // 收藏和取消收藏,playInfo和minibar用到这里

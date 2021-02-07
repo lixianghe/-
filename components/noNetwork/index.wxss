@@ -19,6 +19,6 @@
   color: #E6E6E6;
   margin-top: 4vh;
 }
-.noData .text-view text:nth-child(2) {
+.noData .text-view .text:nth-child(2) {
   color: #f4c901;
 }

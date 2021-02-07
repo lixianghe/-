@@ -4,9 +4,9 @@
     <view class="mianContent"
     style="width: {{126 * times}}px; height: {{11 * times}}px; border-radius: {{11 * times}}px; left: {{9 * times}}px;  top: {{4.3 * times}}px;">
        <view class="search" style="width: {{126 * times}}px; height: {{11 * times}}px;left: {{9 * times}}px;top:{{4.3 * times}}px">
-        <image src="../../images/search.png" alt=""  style="width: {{10 * times}}px; height: {{10 * times}}px;  margin: 0 {{2 * times}}px;"/>
+        <image src="../../images/search.png" alt=""  style="width: {{10 * times}}px; height: {{10 * times}}px;  margin: 0 {{2 * times}}px;margin-right: {{1.5 * times}}px"/>
         <input focus="{{focus}}" class="input" type="text" value="{{keyWord}}" bindinput="search" bindfocus="focus" bindblur="blur" placeholder="请输入进行搜索"
-        style="width: {{105 * times}}px; height: {{11 * times}}px;  font-size: {{4.9 * times}}px;"
+        style="width: {{105 * times}}px; height: {{11 * times}}px;  font-size: {{4.9 * times}}px;padding-left: {{1 * times}}px"
         data-focusindex="2"
         bindtap="aa"/>
       </view>
@@ -43,6 +43,7 @@
     <!-- 页面盒子 -->
   </view>
   </scroll-view>
+  <!-- <view class="getSystemInfoSync">windowHeight:{{getSystemInfoSync}} ------  screenHeight:{{screenHeight}}</view> -->
   <view class="miniView" style="top: {{topHeight}}px;height: 17.3vh">
     <mini-player id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
   </view>

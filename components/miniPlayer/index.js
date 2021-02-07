@@ -96,22 +96,12 @@ Component({
     },
     // 上一首
     pre(panelCut) {
-      if (app.globalData.songInfo.title) {
-        setTimeout(() => {
-          this.triggerEvent('current', this.data.currentId)
-        }, 300)
-      }
       // 设置播放图片名字和时长
       const that = this
       app.cutplay(that, - 1, false, panelCut)
     },
     // 下一首
     next(panelCut) {
-      if (app.globalData.songInfo.title) {
-        setTimeout(() => {
-          this.triggerEvent('current', this.data.currentId)
-        }, 300)
-      }
       // 设置播放图片名字和时长
       const that = this
       app.cutplay(that, + 1, false, panelCut)
@@ -191,7 +181,9 @@ Component({
       if (playing) app.playing(null, that)
       // 是否被收藏
       let songInfo = wx.getStorageSync('songInfo')
-      isFavorite({mediaId: songInfo.id}, that)
+      if (app.userInfo && app.userInfo.token) {
+        isFavorite({mediaId: songInfo.id}, that)
+      }
       // 循环去拿songInfo,因为一个奇葩bug。。
       timer2 = setInterval(() => {
         let song2 = wx.getStorageSync('songInfo')

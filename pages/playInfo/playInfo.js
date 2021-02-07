@@ -1,9 +1,12 @@
 
 const app = getApp()
 import tool from '../../utils/util'
+import { albumMedia, mediaUrlList } from '../../utils/httpOpt/api'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
 var timer, timer4, timer5;
 let showIndex = 0
+// 记录上拉拉刷新了多少次
+let scrollTopNo = 0
 
 Page({
   mixins: [require('../../developerHandle/playInfo')],
@@ -52,6 +55,7 @@ Page({
     backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
     noBack: false,
+    infoList: []
   },
   // 播放器实例
   audioManager: null,
@@ -64,53 +68,13 @@ Page({
   async onLoad(options) {
     this.setData({backgroundColor: '#303240'})
     clearInterval(timer4)
-    
+    scrollTopNo = 0
     showIndex = 0
     // 根据分辨率设置样式
     this.setStyle()
-    if (options.noPlay !== 'true') {
-      console.log('options.noPlay', options.noPlay)
-
-      wx.getStorage({
-        key: 'allList',
-        success (res) {
-          let data = res.data
-          wx.setStorageSync('cutAllList', data)
-        }
-      })
-      wx.getStorage({
-        key: 'noOrderList',
-        success (res) {
-          let data = res.data
-          wx.setStorageSync('cutNoOrderList', data)
-        }
-      })
-
-
-      timer4 = setInterval(() => {
-        wx.getStorage({
-          key: 'allList',
-          success (res) {
-            let data = res.data
-            wx.setStorageSync('cutAllList', data)
-          }
-        })
-        wx.getStorage({
-          key: 'noOrderList',
-          success (res) {
-            let data = res.data
-            wx.setStorageSync('cutNoOrderList', data)
-          }
-        })
-      }, 500)
-      setTimeout(() => {
-        clearInterval(timer4)
-      }, 5000)
-    }
     this.setData({
       // songInfo: songInfo,
       id: options.id,
-      // allList: allList,
       noPlay: options.noPlay || null,
       abumInfoName: options.abumInfoName || null,
       loopType: wx.getStorageSync('loopType') || 'loop'
@@ -122,15 +86,6 @@ Page({
       this.data.playInfoBtns.splice(index, 1)
       this.setData({playInfoBtns: this.data.playInfoBtns})
     }
-  },
-  // 打乱数组，返回
-  randomList(arr) {
-    let len = arr.length;
-    while (len) {
-        let i = Math.floor(Math.random() * len--);
-        [arr[i], arr[len]] = [arr[len], arr[i]];
-    }
-    return arr;
   },
   onShow: function (options) {
     showIndex++
@@ -156,11 +111,8 @@ Page({
     this.setData({ showImg: true })
   },
   play() {
-    // 初始化audioManager
+    console.log('play')
     let that = this
-    // tool.initAudioManager(that, app.globalData.songInfo)
-    
-
     // 从统一播放界面切回来，根据playing判断播放状态options.noPlay为true代表从minibar过来的
     const playing = wx.getStorageSync('playing')
     if (playing || this.data.noPlay !== 'true') app.playing(null, that)
@@ -201,63 +153,29 @@ Page({
     tool.toggleplay(that, app)
   },
   // 播放列表
-  more() {
+  async more() {
+    scrollTopNo = 0
+    let total = wx.getStorageSync('total')
     
-    let cutAllList = wx.getStorageSync('cutAllList')
-    let canplaying = wx.getStorageSync('canplaying') || []
-    console.log(canplaying, cutAllList)
-    if (canplaying[0].id == cutAllList[0].id) {
-      this.setData({
-        showList: true
-      })
-      // 显示的过度动画
-      this.animation.translate(0, 0).step()
-      this.setData({
-        animation: this.animation.export()
-      })
-      setTimeout(() => {
-        this.setData({
-          noTransform: 'noTransform'
-        })
-      }, 300)
-      this.setData({
-        currentId: this.data.currentId || this.data.songInfo.id,
-        allList: cutAllList
-      })
-      setTimeout(()=> {
-        this.setScrollTop()
-      }, 100)
-      return
-    }
-    
-    timer5 = setInterval(() => {
-      cutAllList = wx.getStorageSync('cutAllList')
-      canplaying = wx.getStorageSync('canplaying') || []
-      if (canplaying[0].id == cutAllList[0].id) {
-        
-        this.setData({
-          currentId: this.data.currentId || this.data.songInfo.id,
-          allList: cutAllList
-        })
-        setTimeout(()=> {
-          this.setScrollTop()
-        }, 100)
-        clearInterval(timer5)
-      }
-    }, 200)
-    this.setData({
-      showList: true
-    })
     // 显示的过度动画
     this.animation.translate(0, 0).step()
     this.setData({
-      animation: this.animation.export()
+      showList: true,
+      total,
+      currentId: this.data.currentId || this.data.songInfo.id,
+      animation: this.animation.export(),
+      pageNo: Number(wx.getStorageSync('currentPageNo'))
     })
+    let abumInfoId = wx.getStorageSync('abumInfoId')
+    await this.getList({ pageNum: this.data.pageNo, albumId: abumInfoId })
     setTimeout(() => {
       this.setData({
         noTransform: 'noTransform'
       })
     }, 300)
+    this.setScrollTop()
+    return
+    
     
   },
   closeList() {
@@ -291,10 +209,9 @@ Page({
       wx.stopBackgroundAudio()
     }
     app.playing(null, that)
-    wx.setStorage({
-      key: "songInfo",
-      data: app.globalData.songInfo
-    })
+    let index = this.data.infoList.findIndex(n => n.id == songInfo.id)
+    let currentPageNo = this.data.pageNo + parseInt(index / 15)
+    wx.setStorageSync('currentPageNo', currentPageNo)
   },
   // 开始拖拽
   dragStartHandle(event) {
@@ -362,6 +279,10 @@ Page({
     }, 150)
   },
    // ******按钮点击态处理********/
+
+
+   // 列表上拉和下拉加载
+
    
   // 根据分辨率判断显示哪种样式
   setStyle() {
@@ -390,13 +311,141 @@ Page({
   },
   // 处理scrollTop的高度
   setScrollTop() {
-    let index = this.data.allList.findIndex(n => Number(n.id) === Number(this.data.songInfo.id))
+    let index = this.data.infoList.findIndex(n => Number(n.id) === Number(this.data.songInfo.id))
     let query = wx.createSelectorQuery();
     query.select('.songList').boundingClientRect(rect=>{
       let listHeight = rect.height;
       this.setData({
-        scrolltop: index > 2 ? listHeight / this.data.allList.length * (index - 2) : 0
+        scrolltop: index > 2 ? listHeight / this.data.infoList.length * (index - 2) : 0
       })
     }).exec();
+  },
+
+  // <--================================================ 播放列表懒加载 ===========================================================-->
+  // 滚到底部
+  listBehind: tool.throttle(async function (res) {
+    let total = wx.getStorageSync('total')
+    // 滑倒最底下
+    let lastIndex = (this.data.pageNo   - 1) * 15 + this.data.infoList.length      // 目前最后一个的索引值
+    if (lastIndex >= total) {
+      this.setData({ showLoadEnd: false })
+      wx.showToast({
+        title: '已经到底啦！',
+        icon: 'none'
+      })
+      return false
+    } else {
+      this.setData({ showLoadEnd: true })
+    }
+    scrollTopNo++
+    console.log('scrollTopNo', scrollTopNo, this.data.pageNo)
+    let abumInfoId = wx.getStorageSync('abumInfoId')
+    let params = { pageNum: this.data.pageNo + scrollTopNo, albumId: abumInfoId }
+    params.lazy = 'up'
+    await this.getList(params)
+    this.setData({
+      showLoadEnd: false,
+    })
+  }, 1000),
+  // 为了实现上拉可以加载更多
+  touchStart(e) {
+    this.setData({
+      startY: e.changedTouches[0].pageY,
+    })
+  },
+  // 触摸移动
+  touchMove(e) {
+    let endY = e.changedTouches[0].pageY
+    let startY = this.data.startY
+    let dis = endY - startY
+    // 判断是否下拉
+    if (dis <= 0 || this.data.pageNo <= 1) {
+      return false
+    }
+    if (dis < 60) {
+      // 下拉60内随下拉高度增加
+      this.move = wx.createAnimation({
+        duration: 100,
+        timingFunction: 'linear',
+      })
+      this.move.translate(0, '6vh').step()
+      this.setData({
+        loadAnimate: this.move.export(),
+        showLoadTop: true,
+      })
+    }
+    // 滑动距离大于20开始刷新
+    this.showRefresh = dis > 20
+  },
+  // 触摸结束
+  touchEnd: tool.throttle(function(e) {
+    console.log('结束=================')
+    if (this.data.pageNo <= 1 || !this.showRefresh) {
+      return false
+    }
+    //1s后回弹
+    setTimeout(() => {
+      // 创建动画实例
+      this.animation = wx.createAnimation({
+        duration: 300,
+        timingFunction: 'ease',
+        delay: 0,
+      })
+      this.animation.translate(0, 0).step()
+      this.setData({
+        loadAnimate: this.animation.export(),
+        showLoadTop: false,
+      })
+      this.topHandle()
+      this.showRefresh = false
+    }, 600)
+  }, 2000),
+
+  // 下拉结束后的处理
+  async topHandle() {
+    let abumInfoId = wx.getStorageSync('abumInfoId')
+    await this.getList({ pageNum: this.data.pageNo - 1, albumId: abumInfoId, lazy: 'down' })
+    this.setData({
+      showLoadTop: false,
+      scrollTop: 0,
+      pageNo: this.data.pageNo - 1,
+    })
+  },
+
+  // 获取歌曲列表
+  async getList(params) {
+    let [canplay, idList, auditionDurationList] = [[], [], []]
+    try {
+      let res = await albumMedia(params)
+      res.mediaList.map((item, index) => {
+        idList.push(item.mediaId)
+        auditionDurationList.push(item.auditionDuration)
+      })
+      // 获取带url的list
+      let opt = {
+        mediaId: idList.toString(),
+        contentType: 'story'
+      }
+      let res2 = await mediaUrlList(opt)
+      canplay = res2.mediaPlayVoList
+      canplay.map((item, index) => {
+        item.title = item.mediaName
+        item.id = item.mediaId
+        item.dt = item.timeText
+        item.coverImgUrl = item.coverUrl
+        item.src = item.mediaUrl
+        item.auditionDuration = auditionDurationList[index]
+        item.dataUrl = item.mediaUrl
+      })
+      // 上拉和下拉的情况
+      if (params.lazy == 'up'){
+        canplay = this.data.infoList.concat(canplay)
+      } else if (params.lazy == 'down') {
+        canplay = canplay.concat(this.data.infoList)
+      }
+      this.setData({infoList: canplay})
+    } catch (error) {
+      this.setData({infoList: []})
+    }
   }
 })

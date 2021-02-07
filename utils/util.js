@@ -70,7 +70,6 @@ function toggleplay(that, app) {
       return
     }
     app.playing(app.globalData.currentPosition, that);
-    app.log('toggle' + app.globalData.songInfo + JSON.stringify(that))
   }
 }
 
@@ -79,6 +78,7 @@ function toggleplay(that, app) {
 function initAudioManager(that, songInfo) {
   that.audioManager = wx.getBackgroundAudioManager()
   songInfo.abumInfoName = wx.getStorageSync('abumInfoName') || ''
+  songInfo.currentPageNo = wx.getStorageSync('currentPageNo') || ''
   // setTimeout(() => {
     let canplaying = songInfo.abumInfoName ? wx.getStorageSync('canplaying') || [] : [songInfo]
     that.audioManager.playInfo = {

@@ -20,7 +20,9 @@ Page({
     backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
     topHeight: 3000,
-    focus: false
+    focus: false,
+    getSystemInfoSync: 0,
+    screenHeight: 0
   },
   onLoad() {
     this.getMiniHeight()
@@ -115,7 +117,7 @@ Page({
       .boundingClientRect((rect) => {
         let miniHeight = rect.height
         let topHeight = wx.getSystemInfoSync().windowHeight - miniHeight
-        console.log(wx.getSystemInfoSync().screenHeight, miniHeight, topHeight, rect)
+        console.log(wx.getSystemInfoSync().windowHeight, miniHeight, topHeight, rect)
         this.setData({
           topHeight: topHeight,
         })

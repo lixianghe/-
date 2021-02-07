@@ -292,6 +292,7 @@ button[focus-select=true]{
   width: 160vh;
   top: 0;
   z-index: 999;
+  background: #303240;
 }
 .playList .title button {
   width: 19.6vh;
@@ -375,4 +376,12 @@ button[focus-select=true]{
 }
 .gujia view text:nth-child(3) {
   width: 20vh;
+}
+
+.loading {
+  width: 100%;
+  font-size: 4.5vh;
+  color: #fff;
+  text-align: center;
+  transform: translateY(-2vh);
 }

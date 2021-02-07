@@ -90,19 +90,7 @@ module.exports = {
       console.log(JSON.stringify(err))
     })
   },
-  // selectTap(e) {
-  //   const index = e.currentTarget.dataset.index
-  //   const id = e.currentTarget.dataset.groupid
-  //   this.setData({
-  //     currentTap: index,
-  //     retcode: 0,
-  //     scrollLeft: 0
-  //   })
-  //   wx.showLoading({
-  //     title: '加载中',
-  //   })
-  //   this._getList(id)
-  // },
+
 
 
   // 点击切换频道
@@ -258,15 +246,12 @@ module.exports = {
         item.coverImgUrl = item.coverUrl
         item.src = item.mediaUrl
         item.auditionDuration = auditionDurationList[index]
+        item.dataUrl = item.mediaUrl
       })
-      let noOrderfmList = this.randomList(JSON.parse(JSON.stringify(fmList)))
-      wx.setStorageSync('fmList',fmList)
-      wx.setStorageSync('noOrderfmList',noOrderfmList)
-      // wx.hideLoading()
+      // console.log(fmList)
+      wx.setStorageSync('canplay',fmList)
     } catch (error) {
-      wx.setStorageSync('fmList',[])
-      wx.setStorageSync('noOrderfmList',[])
-      // wx.hideLoading()
+      wx.setStorageSync('canplay',[])
     }
   },
   // 打乱数组，返回

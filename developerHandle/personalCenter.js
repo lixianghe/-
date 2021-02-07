@@ -50,7 +50,6 @@ module.exports = {
     }]
   },
   onShow() {
-    console.log('personal的onShow=========================--------------')
     app.checkStatus()
     if (!this.data.isLogin) {
       app.userInfo = {}
@@ -64,7 +63,6 @@ module.exports = {
     let that = this
     if(wx.canIUse('onTaiAccountStatusChange')){
       wx.onTaiAccountStatusChange((res)=>{
-        console.log(JSON.stringify(res)+'==================62')
         if(!res.isLoginUser){
           that.logoutTap()
         }
