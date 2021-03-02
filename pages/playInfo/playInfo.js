@@ -110,12 +110,12 @@ Page({
   imgOnLoad() {
     this.setData({ showImg: true })
   },
-  play() {
-    console.log('play')
+  play(isSameSong) {
+    // console.log('play')
     let that = this
     // 从统一播放界面切回来，根据playing判断播放状态options.noPlay为true代表从minibar过来的
     const playing = wx.getStorageSync('playing')
-    if (playing || this.data.noPlay !== 'true') app.playing(null, that)
+    if (playing || (this.data.noPlay !== 'true' && !isSameSong)) app.playing(null, that)
   },
   btnsPlay(e) {
     const type = e.currentTarget.dataset.name
@@ -129,6 +129,7 @@ Page({
   // 下一首
   next(panelCut) {
     const that = this
+    console.log('playinfo', that)
     app.cutplay(that, 1, false, panelCut)
   },
   // 切换播放模式
@@ -155,19 +156,29 @@ Page({
   // 播放列表
   async more() {
     scrollTopNo = 0
+    let fmList = wx.getStorageSync('fmList') || []
     let total = wx.getStorageSync('total')
     
     // 显示的过度动画
     this.animation.translate(0, 0).step()
     this.setData({
       showList: true,
-      total,
+      total: Number(total) ? total : fmList.length,
       currentId: this.data.currentId || this.data.songInfo.id,
       animation: this.animation.export(),
-      pageNo: Number(wx.getStorageSync('currentPageNo'))
+      // pageNo: Number(wx.getStorageSync('currentPageNo'))
     })
     let abumInfoId = wx.getStorageSync('abumInfoId')
-    await this.getList({ pageNum: this.data.pageNo, albumId: abumInfoId })
+    if (Number(total)) {
+      // 普通专辑
+      this.setData({pageNo: Number(wx.getStorageSync('currentPageNo'))})
+      await this.getList({ pageNum: this.data.pageNo, albumId: abumInfoId })
+    } else {
+      // 电台
+      this.setData({pageNo: 1})
+      this.setData({infoList: fmList})
+    }
+    
     setTimeout(() => {
       this.setData({
         noTransform: 'noTransform'
@@ -177,6 +188,11 @@ Page({
     return
     
     
+  },
+  isFm() {
+    this.setData({
+      
+    })
   },
   closeList() {
     this.setData({

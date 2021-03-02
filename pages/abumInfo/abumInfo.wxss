@@ -94,6 +94,7 @@
   height: 7.6vh;
   line-height: 7.6vh;
   transform: translateY(-5vh);
+  display: flex;
 }
 .page .left .songList view text:nth-child(1) {
   width: 7.6vh;
@@ -103,9 +104,14 @@
 }
 .page .left .songList view text:nth-child(2) {
   margin-left: 7.35vh;
+  max-width: 66%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .page .left .songList view text:last-child {
-  float: right;
+  position: absolute;
+  right: 0;
 }
 .page .left .songList .playCount {
   margin-left: 3vh;
@@ -176,6 +182,7 @@
   /* width: 109vh; */
   flex: 1;
   margin-left: 4vh!important;
+  max-width: none!important;
 }
 .skeleton .right .image {
   border-radius: 5vh;

@@ -57,6 +57,7 @@
       <view class="songList">
         <view wx:key="index" wx:for="{{4}}">
           <text class="A"></text>
+          <text class="A"></text>
           <text class="B"></text>
         </view>
       </view>

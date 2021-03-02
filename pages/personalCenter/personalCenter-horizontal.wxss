@@ -71,7 +71,7 @@
 }
 .viptime {
   color: #a8a8a8;
-  font-size: 3.97vh;
+  font-size: 4.6vh;
   margin-top: 2vh;
 }
 .isVip {

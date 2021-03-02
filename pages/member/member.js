@@ -9,7 +9,8 @@ Page({
     colorStyle: app.sysInfo.colorStyle,
     backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
-    showNonet: false
+    showNonet: false,
+    prdId: null
   },
   onReady() {},
   onShow() {
@@ -34,7 +35,8 @@ Page({
     let info = e.currentTarget.dataset.info
     this.setData({
       showInfo: true,
-      info: info
+      info: info,
+      prdId: e.currentTarget.dataset.id
     })
   },
   close() {

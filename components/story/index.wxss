@@ -4,7 +4,7 @@
   display: inline-block;
   margin-right: 7.6vh;
   /* margin-top: 15.7vh; */
-  height: 68.6vh;
+  /* height: 68.6vh; */
   /* overflow: hidden; */
   position: relative;
 }
@@ -50,7 +50,7 @@
   border-radius: 50%;
   position: absolute;
   left: 2.73vh;
-  bottom: 28.72vh;
+  top: 28.72vh;
   background: rgba(0, 0, 0, 0.6) no-repeat center 0.3vh / 11vh 11vh
 }
 .halbumCard .like[focus-select=true] {

@@ -98,7 +98,7 @@ module.exports = {
 
   // 获取电台列表
   async getFm() {
-    let fmList = wx.getStorageSync('canplay')
+    let fmList = wx.getStorageSync('fmList')
     this.setData({canplay: fmList})
     // let noOrderfmList = wx.getStorageSync('noOrderfmList')
     // wx.setStorageSync('noOrderList', noOrderfmList)

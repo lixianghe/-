@@ -31,7 +31,7 @@
         bindtap="linkAbumInfo"
         class="{{screen}}albumCard"
         data-disablefocus="true"
-        style="width: {{33.7 * times}}px; height: {{68.6 * times}}px; margin-top: {{31.5 * times}}px">
+        style="width: {{33.7 * times}}px; margin-top: {{31.5 * times}}px">
         <image class="image" src="{{item.src}}"
         data-focusindex="4" bindtap="linkAbumInfo"
         style="width: {{33.7 * times}}px; height: {{33.7 * times}}px; border-radius: {{2 * times}}px;"></image>

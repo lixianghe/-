@@ -73,11 +73,14 @@ module.exports = {
     }
 
     // 拿到歌曲的id: options.id
-    let params = {mediaId: options.id || wx.getStorageSync('songInfo').id, contentType: 'story'}
+    let songId = wx.getStorageSync('songInfo').id
+    let params = {mediaId: options.id || songId, contentType: 'story'}
+    console.log(songId, options.id)
+    let isSameSong = songId == options.id
     await this.getMedia(params)                 // 获取歌曲详情
     this.needFee()                           // 检测是否是付费的
-    console.log(this.data.songInfo.src === false)
-    this.play() 
+    // console.log(this.data.songInfo.src === false)
+    this.play(isSameSong) 
     if (options.noPlay !== 'true') {                           // 播放歌曲
       let currentPageNo = options.currentPageNo
       wx.setStorageSync('currentPageNo', currentPageNo)
@@ -91,7 +94,7 @@ module.exports = {
     let songInfo = {}
     let canplaying = wx.getStorageSync('canplaying') || []
     songInfo = canplaying.filter(n => Number(n.mediaId) === Number(params.mediaId))[0]
-    console.log('songInfo', canplaying, params.mediaId)
+    // console.log('songInfo', canplaying, params.mediaId)
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
     that.setData({
       songInfo: app.globalData.songInfo
@@ -116,9 +119,9 @@ module.exports = {
     if (!app.userInfo || !app.userInfo.token) return
     let opt = { historys: [saveHistoryParams] }
     saveHistory(opt).then(res => {
-      console.log('saveHistory---------------------' + JSON.stringify(res))
+      // console.log('saveHistory---------------------' + JSON.stringify(res))
     }).catch(error => {
-      console.log('errorsaveHistory---------------------' + JSON.stringify(error))
+      // console.log('errorsaveHistory---------------------' + JSON.stringify(error))
     })
   },
   // 获取已经收藏歌曲

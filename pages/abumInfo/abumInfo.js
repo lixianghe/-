@@ -228,7 +228,7 @@ Page({
       .select('.songList')
       .boundingClientRect((rect) => {
         let listHeight = rect.height
-        console.log(listHeight)
+        // console.log(listHeight)
         this.setData({
           tenHeight: listHeight - 40,
         })

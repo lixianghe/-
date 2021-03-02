@@ -249,9 +249,9 @@ module.exports = {
         item.dataUrl = item.mediaUrl
       })
       // console.log(fmList)
-      wx.setStorageSync('canplay',fmList)
+      wx.setStorageSync('fmList',fmList)
     } catch (error) {
-      wx.setStorageSync('canplay',[])
+      wx.setStorageSync('fmList',[])
     }
   },
   // 打乱数组，返回

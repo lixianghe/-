@@ -104,6 +104,7 @@ Component({
     next(panelCut) {
       // 设置播放图片名字和时长
       const that = this
+      console.log('minibar', that)
       app.cutplay(that, + 1, false, panelCut)
     },
     // 暂停
@@ -139,6 +140,12 @@ Component({
         current: index
 
       })
+      setTimeout(()=> {
+        this.setData({
+          hoverflag: false,
+          current: null
+        })
+      }, 2000)
     },
     btend() {
       setTimeout(()=> {
