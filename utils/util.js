@@ -84,7 +84,8 @@ function initAudioManager(app, that, songInfo, fl) {
   // let loopType = wx.getStorageSync('loopType')
   that.audioManager.playInfo = {
     playList: canplaying,
-    context: songInfo
+    context: songInfo,
+    playDetailPagePath: "pages/index/index"
   }
   // if (loopType === 'singleLoop') that.audioManager.setPlayMode = 2
   
@@ -94,9 +95,8 @@ function initAudioManager(app, that, songInfo, fl) {
 function panelSetInfo(app, that) {
   // 测试getPlayInfoSync
   if (wx.canIUse('getPlayInfoSync')) {
-    let res = wx.getPlayInfoSync()
-    app.log(JSON.stringify(res.context))
-    let panelSong = JSON.parse(res.context)
+    let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
+    let panelSong = res.playList[res.playState.curIndex]
     if (panelSong.src) {
       app.globalData.songInfo = panelSong
       wx.setStorageSync('songInfo', panelSong)

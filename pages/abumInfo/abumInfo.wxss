@@ -95,6 +95,7 @@
   line-height: 7.6vh;
   transform: translateY(-5vh);
   display: flex;
+  align-items: center;
 }
 .page .left .songList view text:nth-child(1) {
   width: 7.6vh;
@@ -124,6 +125,9 @@
   padding: 0.5vh 1.5vh;
   border: 1px solid #fa6501;
   border-radius: 1vh;
+  display: flex;
+  align-items: center;
+  height: 6.5vh;
 }
 .page .left::after {
   content: '';

@@ -43,8 +43,8 @@
         <text wx:else>{{(pageNo-1) * pageSize + index + 1}}</text>
         <text>{{item.title}}</text>
         <!-- <text class="playCount">{{m1.filterNum(item.playCount)}}</text> -->
-        <text class="audition" style="color:{{mainColor}};border: 1px solid {{mainColor}}" wx:if="{{item.feeType === '01' && item.auditionDuration !== 0}}">试听</text>
-        <text class="audition" style="color:{{mainColor}};border: 1px solid {{mainColor}}" wx:if="{{item.feeType === '01' && item.auditionDuration === 0}}">付费</text>
+        <text class="audition" style="color:{{mainColor}};border: 0.2vh solid {{mainColor}}" wx:if="{{item.feeType === '01' && item.auditionDuration !== 0}}">试听</text>
+        <text class="audition" style="color:{{mainColor}};border: 0.2vh solid {{mainColor}}" wx:if="{{item.feeType === '01' && item.auditionDuration === 0}}">付费</text>
         <text>{{item.dt}}</text>
       </view>
       <view wx-if="{{showLoadEnd}}" class="loading">加载中...</view>

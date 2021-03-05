@@ -99,6 +99,7 @@ Page({
     }, 1000);
     this.queryProcessBarWidth()
     // 从面板回来赋值
+    console.log('showIndex', showIndex)
     if (showIndex > 1) tool.panelSetInfo(app, that)
   },
   onUnload: function () {
@@ -155,6 +156,7 @@ Page({
   },
   // 播放列表
   async more() {
+    console.log('more')
     scrollTopNo = 0
     let fmList = wx.getStorageSync('fmList') || []
     let total = wx.getStorageSync('total')
@@ -179,11 +181,11 @@ Page({
       this.setData({infoList: fmList})
     }
     
-    setTimeout(() => {
-      this.setData({
-        noTransform: 'noTransform'
-      })
-    }, 300)
+    // setTimeout(() => {
+    //   this.setData({
+    //     noTransform: 'noTransform'
+    //   })
+    // }, 300)
     this.setScrollTop()
     return
     
@@ -195,15 +197,18 @@ Page({
     })
   },
   closeList() {
-    this.setData({
-      showList: false,
-      noTransform: ''
-    })
+    console.log('close')
+    // this.setData({
+    //   noTransform: ''
+    // })
     // 显示的过度动画
-    this.animation.translate('-180vh', 0).step()
-    this.setData({
-      animation: this.animation.export()
-    })
+    // setTimeout(() => {
+      this.animation.translate('-180vh', 0).step()
+      this.setData({
+        showList: false,
+        animation: this.animation.export()
+      })
+    // }, 300)
   },
   // 在播放列表里面点击播放歌曲
   async playSong(e) {
