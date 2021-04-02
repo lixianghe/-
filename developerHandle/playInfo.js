@@ -115,7 +115,6 @@ module.exports = {
       duration: 1,
       playTime: 0
     }
-    console.log('saveHistoryParams-------------------+++++++++++++++++++++' + JSON.stringify(saveHistoryParams))
     if (!app.userInfo || !app.userInfo.token) return
     let opt = { historys: [saveHistoryParams] }
     saveHistory(opt).then(res => {
@@ -149,14 +148,14 @@ module.exports = {
     }
     if (that.data.existed) {
       mediaFavoriteCancel(params).then(res => {
-        wx.showToast({ icon: 'none', title: '取消收藏成功' })
+        wx.showToast({ icon: 'none', title: '故事取消收藏成功' })
         that.setData({
           existed: false
         })
       })
     } else {
       mediaFavoriteAdd(params).then(res => {
-        wx.showToast({ icon: 'none', title: '收藏成功' })
+        wx.showToast({ icon: 'none', title: '故事收藏成功' })
         that.setData({
           existed: true
         })

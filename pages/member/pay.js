@@ -61,6 +61,7 @@ Page({
       orderChannel: 'car-app-tencent'
     }
     this.setData({signature: res.signature})
+    console.log('pastData=----------------------============-' + JSON.stringify(postData))
     buy(postData).then(res => {
       console.log('createOrder',res)
       let { totalPrice, payResult } = res
@@ -69,6 +70,8 @@ Page({
         codeUrl: payResult.codeUrl
       })
       this.getPayResult()
+    }).catch(error => {
+      console.log('error', error)
     })
   },
 

@@ -119,6 +119,10 @@ function EventListener(app, that, fl){
     console.log('-------------------------------onPlay-----------------------------------')
     wx.hideLoading()
     wx.setStorageSync('playing', true)
+    let pages = getCurrentPages()
+    let cureentPage = pages[pages.length - 1]
+    let minibar = cureentPage.selectComponent('#miniPlayer')
+    if (minibar) minibar.isLiked()
   })
   //暂停事件
   that.audioManager.onPause(() => {

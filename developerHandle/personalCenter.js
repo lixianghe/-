@@ -72,10 +72,6 @@ module.exports = {
   },
   onLoad(options) {
     
-    // if(JSON.stringify(wx.getStorageSync('username'))) {
-    //   this.getUserInfo()
-    // }
-    
     
   },
   onReady() {
@@ -104,7 +100,7 @@ module.exports = {
           console.log(res, 69);
           console.log('请求成功', 70)
           app.authInfo  = res;
-          wx.setStorageSync('deviceId', res.deviceId)
+          // wx.setStorageSync('deviceId', res.deviceId)
           // 转换按钮状态
 
           this.setData({
@@ -249,10 +245,11 @@ module.exports = {
         })
       }
     }).catch(err => {
-      wx.showToast({
-        icon: 'none',
-        title: err || '网络异常'
-      })
+      // wx.showToast({
+      //   icon: 'none',
+      //   title: err || '网络异常'
+      // })
+      this.setData({isLogin: false})
       console.log(err, 181)
     })
 
@@ -305,6 +302,7 @@ module.exports = {
         vipPic: vipPic
       })
     }).catch(err => {
+      this.setData({isLogin: false})
       console.log(JSON.stringify(err)+'261行--mine')
     })
   },

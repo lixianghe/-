@@ -209,6 +209,15 @@ Component({
         clearInterval(timer2)
       }, 10000);
     },
+    // 判断是否是收藏，切歌时候用
+    isLiked() {
+       // 是否被收藏
+       let that = this 
+       let songInfo = wx.getStorageSync('songInfo')
+       if (app.userInfo && app.userInfo.token) {
+         isFavorite({mediaId: songInfo.id}, that)
+       }
+    },
     setOnHide() {
       clearInterval(timer)
     }

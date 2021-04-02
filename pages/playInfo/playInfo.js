@@ -99,7 +99,6 @@ Page({
     }, 1000);
     this.queryProcessBarWidth()
     // 从面板回来赋值
-    console.log('showIndex', showIndex)
     if (showIndex > 1) tool.panelSetInfo(app, that)
   },
   onUnload: function () {
@@ -116,7 +115,10 @@ Page({
     let that = this
     // 从统一播放界面切回来，根据playing判断播放状态options.noPlay为true代表从minibar过来的
     const playing = wx.getStorageSync('playing')
-    if (playing || (this.data.noPlay !== 'true' && !isSameSong)) app.playing(null, that)
+    if ((this.data.noPlay !== 'true' && !isSameSong)){
+      console.log('重新调用播放')
+      app.playing(null, that)
+    }
   },
   btnsPlay(e) {
     const type = e.currentTarget.dataset.name
@@ -216,7 +218,7 @@ Page({
     let songInfo = e.currentTarget.dataset.song
     // 获取歌曲详情
     let params = {mediaId: songInfo.id, contentType: 'story'}
-    await this.getMedia(params)
+    await this.getMedia2(params)
     this.setData({
       songInfo: songInfo,
       currentId: songInfo.id,
@@ -234,6 +236,46 @@ Page({
     let currentPageNo = this.data.pageNo + parseInt(index / 15)
     wx.setStorageSync('currentPageNo', currentPageNo)
   },
+
+  // 通过mediaId获取歌曲url及详情，并增加播放历史
+  async getMedia2(params, that = this) {   
+    // 获取歌曲                   
+    let songInfo = {}
+    let canplaying = this.data.infoList || []
+    songInfo = canplaying.filter(n => Number(n.mediaId) === Number(params.mediaId))[0]
+    // console.log('songInfo', canplaying, params.mediaId)
+    app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
+    that.setData({
+      songInfo: app.globalData.songInfo
+    })
+    wx.setStorageSync('songInfo', app.globalData.songInfo)
+    // 是否被收藏
+    if (app.userInfo && app.userInfo.token) {
+      let res = await isFavorite(params)
+      that.setData({existed: res.existed})
+    }
+    
+    // 添加历史记录
+    let abumInfoName = wx.getStorageSync('abumInfoName')
+    let abumInfoId = wx.getStorageSync('abumInfoId')
+    let saveHistoryParams = {
+      ablumId: abumInfoName ? abumInfoId : app.globalData.songInfo.id,
+      storyId: app.globalData.songInfo.id,
+      duration: 1,
+      playTime: 0
+    }
+    console.log('saveHistoryParams-------------------+++++++++++++++++++++' + JSON.stringify(saveHistoryParams))
+    if (!app.userInfo || !app.userInfo.token) return
+    let opt = { historys: [saveHistoryParams] }
+    saveHistory(opt).then(res => {
+      // console.log('saveHistory---------------------' + JSON.stringify(res))
+    }).catch(error => {
+      // console.log('errorsaveHistory---------------------' + JSON.stringify(error))
+    })
+  },
+
+
+
   // 开始拖拽
   dragStartHandle(event) {
     console.log('isDrag', this.data.isDrag)

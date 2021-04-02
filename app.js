@@ -241,7 +241,7 @@ App({
 
     // console.log('song------------------------'+JSON.stringify(song))
     // console.log('cutList------------------------'+JSON.stringify(cutList))
-    wx.pauseBackgroundAudio();
+    // wx.pauseBackgroundAudio();
     that.setData({
       currentId: Number(song.id)
     })
@@ -418,12 +418,13 @@ App({
     })
   },
   checkStatus(){
+    console.log('this.userInfo.token', this.userInfo.token)
     if(!this.userInfo.token){
       return
     }
     checkStatus({}).then(res => {
       // 若code为0且changeFlag为true，更新token和refreshToken
-      console.log('checkStatus---302行', JSON.stringify(res))
+      console.log('checkStatus---302行-----------', JSON.stringify(res))
       if (res.changeFlag){
         this.userInfo.token = res.token
         this.userInfo.refreshToken = res.refreshToken
@@ -434,7 +435,7 @@ App({
       this.tokenStatus = 0
       wx.setStorageSync('userInfo', this.userInfo)
     }).catch(err => {
-      console.log('checkStatus失败')
+      console.log('checkStatus失败437-----------')
       console.log(err)
     })
   },

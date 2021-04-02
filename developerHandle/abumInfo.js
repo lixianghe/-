@@ -87,7 +87,6 @@ module.exports = {
       } else if (params.lazy == 'down') {
         canplay = canplay.concat(this.data.canplay)
       }
-      console.log(canplay, this.data.canplay)
       wx.setStorageSync('canplay',canplay)
       this.setData({total, canplay})
     } catch (error) {
@@ -130,14 +129,14 @@ module.exports = {
     let params = {albumId: this.data.optionId}
     if (this.data.existed) {
       albumFavoriteCancel(params).then(res => {
-        wx.showToast({ icon: 'none', title: '取消收藏成功' })
+        wx.showToast({ icon: 'none', title: '专辑取消收藏成功' })
         this.setData({
           existed: false
         })
       })
     } else {
       albumFavoriteAdd(params).then(res => {
-        wx.showToast({ icon: 'none', title: '收藏成功' })
+        wx.showToast({ icon: 'none', title: '专辑收藏成功' })
         this.setData({
           existed: true
         })
