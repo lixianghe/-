@@ -66,6 +66,10 @@ Page({
     })
   },
   async onLoad(options) {
+    let that = this
+    // that.audioManager = wx.getBackgroundAudioManager()
+    tool.EventListener(app, that, false)
+
     this.setData({backgroundColor: '#303240'})
     clearInterval(timer4)
     scrollTopNo = 0
@@ -84,6 +88,8 @@ Page({
     if (!options.abumInfoName) {
       let index = this.data.playInfoBtns.findIndex(n => n.name === 'more')
       this.data.playInfoBtns.splice(index, 1)
+      let index2 = this.data.playInfoBtns.findIndex(n => n.name === 'loopType')
+      this.data.playInfoBtns.splice(index2, 1)
       this.setData({playInfoBtns: this.data.playInfoBtns})
     }
   },
@@ -114,7 +120,6 @@ Page({
     // console.log('play')
     let that = this
     // 从统一播放界面切回来，根据playing判断播放状态options.noPlay为true代表从minibar过来的
-    const playing = wx.getStorageSync('playing')
     if ((this.data.noPlay !== 'true' && !isSameSong)){
       console.log('重新调用播放')
       app.playing(null, that)

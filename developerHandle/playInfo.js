@@ -95,10 +95,19 @@ module.exports = {
     let canplaying = wx.getStorageSync('canplaying') || []
     songInfo = canplaying.filter(n => Number(n.mediaId) === Number(params.mediaId))[0]
     // console.log('songInfo', canplaying, params.mediaId)
+    let abumInfoName = wx.getStorageSync('abumInfoName')
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
+    if (!abumInfoName) {
+      app.globalData.songInfo.src = `${app.globalData.songInfo.src}?flag=${new Date().getTime()}`
+    }
+    console.log('setData前的songInfo', that.data.songInfo)
+    console.log('setData前的globalData.songInfo', app.globalData.songInfo)
     that.setData({
       songInfo: app.globalData.songInfo
     })
+    console.log('setData后的songInfo', that.data.songInfo)
+    console.log('setData后的globalData.songInfo', app.globalData.songInfo)
+
     wx.setStorageSync('songInfo', app.globalData.songInfo)
     // 是否被收藏
     if (app.userInfo && app.userInfo.token) {
@@ -107,7 +116,7 @@ module.exports = {
     }
     
     // 添加历史记录
-    let abumInfoName = wx.getStorageSync('abumInfoName')
+    // let abumInfoName = wx.getStorageSync('abumInfoName')
     let abumInfoId = wx.getStorageSync('abumInfoId')
     let saveHistoryParams = {
       ablumId: abumInfoName ? abumInfoId : app.globalData.songInfo.id,

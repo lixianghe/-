@@ -47,3 +47,7 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+.showInfo button[focus-select=true] {
+  box-shadow: inset 4px 4px #ff5100, inset -4px -4px #ff5100;
+}

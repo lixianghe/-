@@ -71,7 +71,7 @@
       <view 
         class="like"
         wx:if="{{routeType === 'album'}}"
-        style="background: rgba(0, 0, 0, 0.6) url({{existed ? likeIcon1 : likeIcon2}}) no-repeat center center / 17vh 13vh;"
+        style="background: rgba(0, 0, 0, 0.6) url({{abexisted ? likeIcon1 : likeIcon2}}) no-repeat center center / 17vh 13vh;"
         bindtap="likeAbum"
         data-focusindex="3">
         <!-- <image src="../../images/like_none.png" /> -->

@@ -77,7 +77,9 @@ Component({
   },
   audioManager: null,
   attached: function () {
-
+    let that = this
+    // app.audioManager = wx.getBackgroundAudioManager()
+    tool.EventListener(app, that, false)
   },
   detached: function () {
 
@@ -192,7 +194,12 @@ Component({
       }
 
       const playing = wx.getStorageSync('playing')
-      if (playing) app.playing(null, that)
+      console.log('minibarcurrentPosition', app.globalData.currentPosition)
+      // if (playing) app.playing(app.globalData.currentPosition, that)
+      that.setData({
+        playing: playing,
+        percent: app.globalData.percent || 0
+      })
       // 是否被收藏
       let songInfo = wx.getStorageSync('songInfo')
       if (app.userInfo && app.userInfo.token) {

@@ -251,6 +251,7 @@ App({
       mediaId: song.id,
       contentType: 'story'
     }
+    console.log('根据index在列表拿到的song', index, song)
     await getMedia(params, that)
     // 如果没有src playinfo给出弹框，其他页面给出toast提示
     let songInfo = this.globalData.songInfo
@@ -351,10 +352,12 @@ App({
     this.audioManager.src = songInfo.src
     this.audioManager.title = songInfo.title
     this.audioManager.coverImgUrl = songInfo.coverImgUrl
+    // this.audioManager.play()
     if (seek != undefined && typeof (seek) === 'number') {
-      wx.seekBackgroundAudio({
-        position: seek
-      })
+      // wx.seekBackgroundAudio({
+      //   position: seek
+      // })
+      this.audioManager.seek(seek)
     }
   },
   // 获取网络信息，给出相应操作

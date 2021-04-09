@@ -1,4 +1,4 @@
-<view class="noData {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;">
+<view class="noData {{screen}} {{colorStyle}}" style="height: 100%;">
   <image class="img" src="{{noDataImg}}"></image>
   <view class="text-view" bindtap="refresh">
     <text class="text">网络异常，</text>

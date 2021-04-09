@@ -76,18 +76,20 @@ function toggleplay(that, app) {
 
 // 初始化 BackgroundAudioManager
 function initAudioManager(app, that, songInfo, fl) {
-  that.audioManager = wx.getBackgroundAudioManager()
-  EventListener(app, that, fl)
-  songInfo.abumInfoName = wx.getStorageSync('abumInfoName')
-  songInfo.currentPageNo = wx.getStorageSync('currentPageNo')
-  let canplaying = songInfo.abumInfoName ? wx.getStorageSync('canplaying') || [] : [songInfo]
-  // let loopType = wx.getStorageSync('loopType')
-  that.audioManager.playInfo = {
-    playList: canplaying,
-    context: songInfo,
-    playDetailPagePath: "pages/index/index"
+  // that.audioManager = wx.getBackgroundAudioManager()
+  // EventListener(app, that, fl)
+  if (fl) {
+    songInfo.abumInfoName = wx.getStorageSync('abumInfoName') || 1
+    songInfo.currentPageNo = wx.getStorageSync('currentPageNo') 
+    let canplaying = songInfo.abumInfoName ? wx.getStorageSync('canplaying') || [] : [songInfo]
+    // let loopType = wx.getStorageSync('loopType')
+    app.audioManager.playInfo = {
+      playList: canplaying,
+      context: JSON.stringify(songInfo),
+      playDetailPagePath: "pages/index/index"
+    }
+    // if (loopType === 'singleLoop') that.audioManager.setPlayMode = 2
   }
-  // if (loopType === 'singleLoop') that.audioManager.setPlayMode = 2
   
 }
 
@@ -115,7 +117,7 @@ function panelSetInfo(app, that) {
 // 监听播放，上一首，下一首
 function EventListener(app, that, fl){
   //播放事件
-  that.audioManager.onPlay(() => {
+  app.audioManager.onPlay(() => {
     console.log('-------------------------------onPlay-----------------------------------')
     wx.hideLoading()
     wx.setStorageSync('playing', true)
@@ -125,54 +127,45 @@ function EventListener(app, that, fl){
     if (minibar) minibar.isLiked()
   })
   //暂停事件
-  that.audioManager.onPause(() => {
+  app.audioManager.onPause(() => {
     console.log('触发播放暂停事件');
     wx.setStorageSync('playing', false)
   })
   //上一首事件
-  that.audioManager.onPrev(() => {
+  app.audioManager.onPrev(() => {
     console.log('触发上一首事件');
     // that.pre(true)
+     
+    const pages = getCurrentPages()
+    let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
+    if (miniPlayer) {
+      miniPlayer.pre(true)
+    } else {
+      that.pre(true)
+    }
 
-     // 如果是专辑详情点击的播放
-     let pages = getCurrentPages()
-     let inAbum = pages[pages.length - 1].route == 'pages/abumInfo/abumInfo'
-     if (inAbum) {
-       let abum = pages.filter(n => n.route == 'pages/abumInfo/abumInfo')[0]
-       let minibar = abum.selectComponent('#miniPlayer')
-       minibar.pre(true)
-     } else {
-       that.pre(true)
-     }
   })
   //下一首事件
-  that.audioManager.onNext(() => {
+  app.audioManager.onNext(() => {
     console.log('触发onNext事件');
-    
-    // 如果是专辑详情点击的播放
-    let pages = getCurrentPages()
-    console.log('pages', pages)
-    let inAbum = pages[pages.length - 1].route == 'pages/abumInfo/abumInfo'
-    if (inAbum) {
-      let abum = pages.filter(n => n.route == 'pages/abumInfo/abumInfo')[0]
-      // console.log('abum999', abum)
-      let minibar = abum.selectComponent('#miniPlayer')
-      // console.log('minibar999', minibar)
-      minibar.next(true)
+
+    const pages = getCurrentPages()
+    let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
+    if (miniPlayer) {
+      miniPlayer.next(true)
     } else {
-      // console.log('else----------------')
       that.next(true)
     }
     
 
   })
   //停止事件
-  that.audioManager.onStop(() => {
+  app.audioManager.onStop(() => {
     console.log('触发停止事件');
     wx.hideLoading()
   })
   //播放错误事件
-  that.audioManager.onError(() => {
+  app.audioManager.onError(() => {
     console.log('触发播放错误事件');
     // 在播放错误的时候触发下播放事件,且只调用一次
     
@@ -185,7 +178,7 @@ function EventListener(app, that, fl){
     
   })
   //播放完成事件
-  that.audioManager.onEnded(() => {
+  app.audioManager.onEnded(() => {
     console.log('触发播放完成事件');
   })
 }

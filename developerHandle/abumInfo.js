@@ -26,7 +26,7 @@ module.exports = {
     pageNoName: 'pageNum',
     pageSizeName: 'pageSize',
     idName: 'albumId',
-    existed: false,                     // 是否被收藏
+    abexisted: false,                     // 是否被收藏
     playAllPic: '/images/playAll.png'
   },
   onShow() {
@@ -118,7 +118,7 @@ module.exports = {
   async isAlbumFavorite(id) {
     let params = {albumId: id}
     let res = await isAlbumFavorite(params)
-    this.setData({existed: res.existed})
+    this.setData({abexisted: res.existed})
   },
   // 收藏专辑
   likeAbum() {
@@ -127,18 +127,18 @@ module.exports = {
       return;
     }
     let params = {albumId: this.data.optionId}
-    if (this.data.existed) {
+    if (this.data.abexisted) {
       albumFavoriteCancel(params).then(res => {
         wx.showToast({ icon: 'none', title: '专辑取消收藏成功' })
         this.setData({
-          existed: false
+          abexisted: false
         })
       })
     } else {
       albumFavoriteAdd(params).then(res => {
         wx.showToast({ icon: 'none', title: '专辑收藏成功' })
         this.setData({
-          existed: true
+          abexisted: true
         })
       })
     }

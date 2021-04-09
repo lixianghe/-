@@ -9,6 +9,7 @@
   left: 0;
   top: 0;
   z-index: 1000;
+  background: #303240;
 }
 .noData .img {
   width: 36.9vh;
