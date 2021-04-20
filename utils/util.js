@@ -53,16 +53,16 @@ function playAlrc(that, app) {
 function toggleplay(that, app) {
   if (that.data.playing) {
     console.log("暂停播放");
-    that.setData({ 
-      playing: false 
-    });
+    // that.setData({ 
+    //   playing: false 
+    // });
     app.stopmusic();
   } else {
     console.log("继续播放")
-    that.setData({
-      playing: true
-    });
-    if (!that.data.songInfo || !that.data.songInfo.src) {
+    // that.setData({
+    //   playing: true
+    // });
+    if (!that.data.songInfo || !that.data.songInfo.dataUrl) {
       wx.showToast({
         title: '该内容为会员付费内容，请先成为会员再购买收听~',
         icon: 'none'
@@ -99,7 +99,7 @@ function panelSetInfo(app, that) {
   if (wx.canIUse('getPlayInfoSync')) {
     let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
     let panelSong = res.playList[res.playState.curIndex]
-    if (panelSong.src) {
+    if (panelSong.dataUrl) {
       app.globalData.songInfo = panelSong
       wx.setStorageSync('songInfo', panelSong)
       that.setData({

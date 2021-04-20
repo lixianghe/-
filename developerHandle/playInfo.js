@@ -3,7 +3,7 @@
  * 开发者编写的播放中,通过歌曲id获取歌曲的uel相关信息，id在onLoad的options.id取
  * 这里开发者需要：
  * 1、通过歌曲id获取歌曲详情，由于模板内的字段名称可能和后台提供不一样，在获取歌曲详情后重新给模板内的字段赋值：如下
- *  songInfo.src = data.mediaUrl                          // 音频地址
+ *  songInfo.dataUrl = data.mediaUrl                          // 音频地址
  *  songInfo.title = data.mediaName                       // 音频名称
  *  songInfo.id = params.mediaId                          // 音频Id
  *  songInfo.dt = data.timeText                           // 音频时常
@@ -79,7 +79,7 @@ module.exports = {
     let isSameSong = songId == options.id
     await this.getMedia(params)                 // 获取歌曲详情
     this.needFee()                           // 检测是否是付费的
-    // console.log(this.data.songInfo.src === false)
+    // console.log(this.data.songInfo.dataUrl === false)
     this.play(isSameSong) 
     if (options.noPlay !== 'true') {                           // 播放歌曲
       let currentPageNo = options.currentPageNo
@@ -98,7 +98,7 @@ module.exports = {
     let abumInfoName = wx.getStorageSync('abumInfoName')
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
     if (!abumInfoName) {
-      app.globalData.songInfo.src = `${app.globalData.songInfo.src}?flag=${new Date().getTime()}`
+      app.globalData.songInfo.dataUrl = `${app.globalData.songInfo.dataUrl}?flag=${new Date().getTime()}`
     }
     console.log('setData前的songInfo', that.data.songInfo)
     console.log('setData前的globalData.songInfo', app.globalData.songInfo)
@@ -140,7 +140,7 @@ module.exports = {
   },
   // 如果mediaUrl没有给出弹框并跳到首页
   needFee() {
-    if (!this.data.songInfo.src) {
+    if (!this.data.songInfo.dataUrl) {
       this.setData({showModal: true})
       wx.stopBackgroundAudio()
       wx.hideLoading()

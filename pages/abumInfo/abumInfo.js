@@ -169,7 +169,7 @@ Page({
     })
     let that = this
     if (getMedia) await getMedia(params, that)
-    if (!app.globalData.songInfo.src) {
+    if (!app.globalData.songInfo.dataUrl) {
       wx.hideLoading()
       wx.showToast({
         title: '该内容为会员付费内容，请先成为会员再购买收听~',

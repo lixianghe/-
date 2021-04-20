@@ -160,7 +160,6 @@ module.exports = {
           item.id = item.mediaId
           item.dt = item.timeText
           item.coverImgUrl = item.coverUrl
-          item.src = item.mediaUrl
           item.dataUrl = item.mediaUrl
         })
         
@@ -244,7 +243,6 @@ module.exports = {
         item.id = item.mediaId
         item.dt = item.timeText
         item.coverImgUrl = item.coverUrl
-        item.src = item.mediaUrl
         item.auditionDuration = auditionDurationList[index]
         item.dataUrl = item.mediaUrl
       })

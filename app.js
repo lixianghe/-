@@ -91,7 +91,7 @@ App({
       const pages = getCurrentPages()
       const currentPage = pages[pages.length - 1]
       let songInfo = that.globalData.songInfo
-      if (songInfo.src) that.cutplay(currentPage, 1, true)
+      if (songInfo.dataUrl) that.cutplay(currentPage, 1, true)
     });
     //监听音乐暂停，保存播放进度广播暂停状态
     wx.onBackgroundAudioPause(function () {
@@ -116,8 +116,8 @@ App({
     if (wx.canIUse('getPlayInfoSync')) {
       let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
       let panelSong = res.playList[res.playState.curIndex]
-      console.log('panelSong', panelSong, panelSong.src)
-      if (panelSong.src) {
+      console.log('panelSong', panelSong, panelSong.dataUrl)
+      if (panelSong.dataUrl) {
         this.globalData.songInfo = panelSong
         console.log('panelSong2222222222222', panelSong)
         wx.setStorageSync('songInfo', panelSong)
@@ -149,15 +149,15 @@ App({
     })
     // 判断循环模式
     var cutList = wx.getStorageSync('canplaying') || []
-    // 如果是在播放面板，剔除掉没有src的
+    // 如果是在播放面板，剔除掉没有dataUrl的
     if (panelCut) {
       if (wx.canIUse('getPlayInfoSync')) {
         let res = wx.getPlayInfoSync()
         let panelSong = JSON.parse(res.context)
-        if (panelSong.src) {
+        if (panelSong.dataUrl) {
           this.globalData.songInfo = panelSong
         }
-        cutList = res.playList.filter(n => n.src)
+        cutList = res.playList.filter(n => n.dataUrl)
         wx.setStorageSync('canplaying', cutList)
         wx.setStorageSync('currentPageNo', panelSong.currentPageNo)
         let noOrderList = tool.randomList(JSON.parse(JSON.stringify(cutList)))
@@ -200,7 +200,7 @@ App({
         cutList = await this.getList(params)
 
         // 判断这首歌是否是最后一首歌，如果是看是跳到第一首还是翻页
-        if (!cutList[0].src) {
+        if (!cutList[0].dataUrl) {
           let params = {pageNum: 1, albumId: abumInfoId}
           cutList = await this.getList(params)
           currentPageNo = 1
@@ -225,7 +225,7 @@ App({
         }
         cutList = await this.getList(params)
         // 判断这首歌是否是最后一首歌，如果是看是跳到第一首还是翻页
-        if (!cutList[0].src) {
+        if (!cutList[0].dataUrl) {
           let params = {pageNum: 1, albumId: abumInfoId}
           cutList = await this.getList(params)
           currentPageNo = 1
@@ -253,9 +253,9 @@ App({
     }
     console.log('根据index在列表拿到的song', index, song)
     await getMedia(params, that)
-    // 如果没有src playinfo给出弹框，其他页面给出toast提示
+    // 如果没有dataUrl playinfo给出弹框，其他页面给出toast提示
     let songInfo = this.globalData.songInfo
-    if (!songInfo.src) {
+    if (!songInfo.dataUrl) {
       if (that.route === 'pages/playInfo/playInfo') {
         that.setData({showModal: true, noBack: true})
       } else {
@@ -285,7 +285,7 @@ App({
       loopList = cutFlag ? [this.globalData.songInfo] : list
     } else {
       let noOrderList = wx.getStorageSync('noOrderList') || []
-      if (panelCut) noOrderList = noOrderList.filter(n => n.src)
+      if (panelCut) noOrderList = noOrderList.filter(n => n.dataUrl)
       loopList = noOrderList
     }
     return loopList
@@ -320,7 +320,6 @@ App({
         item.id = item.mediaId
         item.dt = item.timeText
         item.coverImgUrl = item.coverUrl
-        item.src = item.mediaUrl
         item.dataUrl = item.mediaUrl
       })
       console.log('---------', canplay)
@@ -337,7 +336,7 @@ App({
   playing: function (seek, that) {
     const songInfo = wx.getStorageSync('songInfo')
     console.log('songInfo', songInfo)
-    if (!songInfo.src) return
+    if (!songInfo.dataUrl) return
     // 播放错误时，调起播放的标识符
     let fl = true
     // setTimeout(() => {
@@ -349,7 +348,7 @@ App({
   },
   // 车载情况下的播放
   carHandle(songInfo, seek) {
-    this.audioManager.src = songInfo.src
+    this.audioManager.src = songInfo.dataUrl
     this.audioManager.title = songInfo.title
     this.audioManager.coverImgUrl = songInfo.coverImgUrl
     // this.audioManager.play()

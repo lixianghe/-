@@ -231,7 +231,7 @@ Page({
       // noTransform: ''
     })
     // 如果没有src playinfo给出弹框，其他页面给出toast提示
-    if (!app.globalData.songInfo.src) {
+    if (!app.globalData.songInfo.dataUrl) {
       this.setData({showModal: true, noBack: true})
       wx.hideLoading()
       wx.stopBackgroundAudio()
@@ -501,7 +501,6 @@ Page({
         item.id = item.mediaId
         item.dt = item.timeText
         item.coverImgUrl = item.coverUrl
-        item.src = item.mediaUrl
         item.auditionDuration = auditionDurationList[index]
         item.dataUrl = item.mediaUrl
       })

@@ -85,7 +85,7 @@ Page({
           item.id = item.mediaId
           item.dt = item.timeText
           item.coverImgUrl = item.coverUrl
-          item.src = item.mediaUrl
+          item.dataUrl = item.mediaUrl
         })
         
         wx.setStorageSync('canplay',canplay)
