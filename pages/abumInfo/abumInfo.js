@@ -82,7 +82,6 @@ Page({
   },
   onShow() {
     const currentId = wx.getStorageSync('songInfo').id
-    app.log('currentId' + currentId)
     this.setData({
       currentId: Number(currentId),
     })

@@ -194,14 +194,17 @@ Component({
       }
 
       const playing = wx.getStorageSync('playing')
-      console.log('minibarcurrentPosition', app.globalData.currentPosition)
-      // if (playing) app.playing(app.globalData.currentPosition, that)
+      
+      // console.log('minibarcurrentPosition', app.globalData.currentPosition)
+      setTimeout(() => {
+        if (playing) app.carHandle(app.globalData.songInfo, app.globalData.currentPosition)
+      }, 50)
       that.setData({
         playing: playing,
         percent: app.globalData.percent || 0
       })
       // 是否被收藏
-      let songInfo = wx.getStorageSync('songInfo')
+      // let songInfo = wx.getStorageSync('songInfo')
       if (app.userInfo && app.userInfo.token) {
         isFavorite({mediaId: songInfo.id}, that)
       }

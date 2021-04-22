@@ -81,7 +81,8 @@ Page({
       id: options.id,
       noPlay: options.noPlay || null,
       abumInfoName: options.abumInfoName || null,
-      loopType: wx.getStorageSync('loopType') || 'loop'
+      loopType: wx.getStorageSync('loopType') || 'loop',
+      currentId: wx.getStorageSync('canplaying').filter(n => n.dataUrl === app.globalData.songInfo.dataUrl)[0].id
     })
     wx.setStorageSync('abumInfoName', options.abumInfoName)
     // 如果没有abumInfoName就把more按钮删掉

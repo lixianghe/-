@@ -100,13 +100,9 @@ module.exports = {
     if (!abumInfoName) {
       app.globalData.songInfo.dataUrl = `${app.globalData.songInfo.dataUrl}?flag=${new Date().getTime()}`
     }
-    console.log('setData前的songInfo', that.data.songInfo)
-    console.log('setData前的globalData.songInfo', app.globalData.songInfo)
     that.setData({
       songInfo: app.globalData.songInfo
     })
-    console.log('setData后的songInfo', that.data.songInfo)
-    console.log('setData后的globalData.songInfo', app.globalData.songInfo)
 
     wx.setStorageSync('songInfo', app.globalData.songInfo)
     // 是否被收藏

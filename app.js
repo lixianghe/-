@@ -115,15 +115,18 @@ App({
 
     if (wx.canIUse('getPlayInfoSync')) {
       let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
-      let panelSong = res.playList[res.playState.curIndex]
-      console.log('panelSong', panelSong, panelSong.dataUrl)
-      if (panelSong.dataUrl) {
-        this.globalData.songInfo = panelSong
-        console.log('panelSong2222222222222', panelSong)
-        wx.setStorageSync('songInfo', panelSong)
-      }
-      let playing = res.playState.status == 1 ? true : false
-      wx.setStorageSync('playing', playing)
+      console.log('res.playState.curIndex----', res.playState.curIndex)
+      setTimeout(() => {
+        let panelSong = res.playList[res.playState.curIndex]
+        console.log('panelSong', panelSong, panelSong.dataUrl)
+        if (panelSong.dataUrl) {
+          this.globalData.songInfo = panelSong
+          console.log('panelSong2222222222222', panelSong)
+          wx.setStorageSync('songInfo', panelSong)
+        }
+        let playing = res.playState.status == 1 ? true : false
+        wx.setStorageSync('playing', playing)
+      }, 10)
     }
 
 
@@ -165,7 +168,6 @@ App({
       }
       
     }
-    console.log('cutList33333----------------------', cutList)
     // 根据循环模式设置数组
     let loopType = wx.getStorageSync('loopType') || 'loop'
     // 如果缓存没有abumInfoName，说明是从首页单曲进入，list为单首
@@ -173,7 +175,8 @@ App({
     // 歌曲列表
     cutList = abumInfoName ? this.setList(loopType, cutList, cutFlag, panelCut) : [this.globalData.songInfo]
     // 当前歌曲的索引
-    let no = cutList.findIndex(n => Number(n.id) === Number(this.globalData.songInfo.id))
+    console.log(cutList, this.globalData.songInfo)
+    let no = cutList.findIndex(n => n.dataUrl === this.globalData.songInfo.dataUrl.split('?')[0])
     let index = this.setIndex(type, no, cutList)
     console.log(cutList, no, index, type)
     //歌曲切换 停止当前音乐
@@ -186,7 +189,7 @@ App({
       
       let maxPageNo = Math.ceil(wx.getStorageSync('total') / 15)
       // 下一首的情况
-      if (type == 1 && this.globalData.songInfo.id == cutList[cutList.length - 1].id && loopType !== 'singleLoop') {
+      if (type == 1 && this.globalData.songInfo.dataUrl == cutList[cutList.length - 1].dataUrl && loopType !== 'singleLoop') {
         let params
         let abumInfoId = wx.getStorageSync('abumInfoId')
         // 如果不是最后一页
@@ -212,7 +215,7 @@ App({
         wx.setStorageSync('noOrderList', noOrderList)
       } 
       // 上一首的情况
-      if (type == -1 && this.globalData.songInfo.id == cutList[0].id && loopType !== 'singleLoop') {
+      if (type == -1 && this.globalData.songInfo.dataUrl == cutList[0].dataUrl && loopType !== 'singleLoop') {
         let params
         let abumInfoId = wx.getStorageSync('abumInfoId')
         // 如果不是第一页
@@ -335,7 +338,6 @@ App({
   // 根据歌曲url播放歌曲
   playing: function (seek, that) {
     const songInfo = wx.getStorageSync('songInfo')
-    console.log('songInfo', songInfo)
     if (!songInfo.dataUrl) return
     // 播放错误时，调起播放的标识符
     let fl = true
