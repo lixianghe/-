@@ -1,5 +1,7 @@
 <view class="{{className}}albumCard" style="">
-  <image bindtap="aa" class="image" data-focusindex="3" src="{{datasource.src}}"></image>
+  <view  class="image-content" bindtap="aa" data-focusindex="3">
+    <image  class="image" data-disablefocus="true"  src="{{datasource.src}}"></image>
+  </view>
   <view class="linerbg">
 
   </view>

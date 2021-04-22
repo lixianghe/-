@@ -207,6 +207,10 @@ Component({
       // let songInfo = wx.getStorageSync('songInfo')
       if (app.userInfo && app.userInfo.token) {
         isFavorite({mediaId: songInfo.id}, that)
+      }else{
+        this.setData({
+          existed:false
+        })
       }
       // 循环去拿songInfo,因为一个奇葩bug。。
       timer2 = setInterval(() => {
