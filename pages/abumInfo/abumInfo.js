@@ -1,7 +1,7 @@
 const app = getApp()
 import tool from '../../utils/util'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
-import { getMedia } from '../../developerHandle/playInfo'
+import { getMedia, isFavorite } from '../../developerHandle/playInfo'
 import { albumFavoriteAdd, albumFavoriteCancel } from '../../utils/httpOpt/api'
 
 // 记录上拉拉刷新了多少次
@@ -177,6 +177,14 @@ Page({
       wx.stopBackgroundAudio()
       return
     }
+    // 判断是否收藏
+    if (app.userInfo && app.userInfo.token) {
+      isFavorite({mediaId: app.globalData.songInfo.id}, that)
+    }else{
+      that.setData({
+        existed:false
+      })
+    }
     app.playing(null, that)
   },
   setPlaying(e) {
@@ -311,7 +319,7 @@ Page({
       this.setData({
         rightWidth: windowWidth * 0.28 + 'px',
         leftPadding: '0vh 3.3vh 20vh 8.3vh',
-        btnsWidth: windowWidth * 0.67 + 'px',
+        btnsWidth: windowWidth * 0.6 + 'px',
         imageWidth: windowWidth * 0.21 + 'px',
       })
     } else {

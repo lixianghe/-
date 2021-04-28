@@ -148,6 +148,7 @@
   height: 55.36vh;
   border-radius: 3vh;
   position: relative;
+  z-index: 9999;
 }
 .page .right .image .like {
   width: 14.73vh;

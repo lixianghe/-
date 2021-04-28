@@ -115,7 +115,8 @@ App({
 
     if (wx.canIUse('getPlayInfoSync')) {
       let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
-      console.log('res.playState.curIndex----', res.playState.curIndex)
+      console.log('res.playState----------------------', res)
+      if (!res.playState) return
       setTimeout(() => {
         let panelSong = res.playList[res.playState.curIndex]
         console.log('panelSong', panelSong, panelSong.dataUrl)
@@ -160,7 +161,8 @@ App({
         if (panelSong.dataUrl) {
           this.globalData.songInfo = panelSong
         }
-        cutList = res.playList.filter(n => n.dataUrl)
+        const list = wx.getStorageSync('canplaying')
+        cutList = list.filter(n => n.dataUrl)
         wx.setStorageSync('canplaying', cutList)
         wx.setStorageSync('currentPageNo', panelSong.currentPageNo)
         let noOrderList = tool.randomList(JSON.parse(JSON.stringify(cutList)))
@@ -246,12 +248,14 @@ App({
     // console.log('cutList------------------------'+JSON.stringify(cutList))
     // wx.pauseBackgroundAudio();
     that.setData({
-      currentId: Number(song.id)
+      // currentId: wx.getStorageSync('canplaying').filter(n => n.dataUrl === song.dataUrl)[0].id
+      currentId: Number(song.id) || wx.getStorageSync('canplaying').filter(n => n.dataUrl === song.dataUrl)[0].id
     })
     that.triggerEvent('current', song.id)
     // 获取歌曲的url
     let params = {
       mediaId: song.id,
+      song: song,
       contentType: 'story'
     }
     console.log('根据index在列表拿到的song', index, song)

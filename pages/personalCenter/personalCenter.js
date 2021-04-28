@@ -28,6 +28,10 @@ Page({
   },
   onShow() {
     this.selectComponent('#miniPlayer').setOnShow()
+    // 没登陆的情况
+    if (!app.userInfo || !app.userInfo.token) {
+      this.logoutTap()
+    }
   },
   onHide() {
     this.selectComponent('#miniPlayer').setOnHide()

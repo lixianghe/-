@@ -93,7 +93,13 @@ module.exports = {
     // 获取歌曲                   
     let songInfo = {}
     let canplaying = wx.getStorageSync('canplaying') || []
-    songInfo = canplaying.filter(n => Number(n.mediaId) === Number(params.mediaId))[0]
+    console.log('canplaying--------------', canplaying, params)
+    if (params.song) {
+      songInfo = params.song
+    } else {
+      songInfo = canplaying.filter(n => Number(n.mediaId) === Number(params.mediaId))[0]
+    }
+    
     // console.log('songInfo', canplaying, params.mediaId)
     let abumInfoName = wx.getStorageSync('abumInfoName')
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)

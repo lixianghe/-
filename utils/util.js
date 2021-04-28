@@ -134,14 +134,13 @@ function EventListener(app, that, fl){
   //上一首事件
   app.audioManager.onPrev(() => {
     console.log('触发上一首事件');
-    // that.pre(true)
      
     const pages = getCurrentPages()
     let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
     if (miniPlayer) {
       miniPlayer.pre(true)
     } else {
-      that.pre(true)
+      pages[pages.length - 1].pre(true)
     }
 
   })
@@ -154,7 +153,7 @@ function EventListener(app, that, fl){
     if (miniPlayer) {
       miniPlayer.next(true)
     } else {
-      that.next(true)
+      pages[pages.length - 1].next(true)
     }
     
 

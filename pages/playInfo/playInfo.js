@@ -74,6 +74,7 @@ Page({
     clearInterval(timer4)
     scrollTopNo = 0
     showIndex = 0
+    const curId = wx.getStorageSync('canplaying').filter(n => n.dataUrl === app.globalData.songInfo.dataUrl).length && wx.getStorageSync('canplaying').filter(n => n.dataUrl === app.globalData.songInfo.dataUrl)[0].id
     // 根据分辨率设置样式
     this.setStyle()
     this.setData({
@@ -82,7 +83,7 @@ Page({
       noPlay: options.noPlay || null,
       abumInfoName: options.abumInfoName || null,
       loopType: wx.getStorageSync('loopType') || 'loop',
-      currentId: wx.getStorageSync('canplaying').filter(n => n.dataUrl === app.globalData.songInfo.dataUrl)[0].id
+      currentId: curId
     })
     wx.setStorageSync('abumInfoName', options.abumInfoName)
     // 如果没有abumInfoName就把more按钮删掉
