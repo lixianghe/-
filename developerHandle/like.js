@@ -180,12 +180,14 @@ module.exports = {
     }
   },
   likeAbum(flag, id) {
+    let { info } = this.data
     if (flag) {
       console.log('albumFavoriteAdd')
       albumFavoriteCancel({albumId: id}).then(res => {
         wx.showToast({ icon: 'none', title: '取消收藏成功' })
         this.setData({
-          existed: false
+          existed: false,
+          info:info.filter(item => item.id != id) || []
         })
       })
     } else {
@@ -200,11 +202,13 @@ module.exports = {
     
   },
   likeMedia (flag, id) {
+    let { info } = this.data
     if (flag) {
       mediaFavoriteCancel({mediaId: id}).then(res => {
         wx.showToast({ icon: 'none', title: '取消收藏成功' })
         this.setData({
-          existed: false
+          existed: false,
+          info:info.filter(item => item.id != id) || []
         })
         let minibar = this.selectComponent('#miniPlayer')
         minibar.setOnShow()

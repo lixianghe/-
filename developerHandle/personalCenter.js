@@ -131,12 +131,12 @@ module.exports = {
    * 微信登录
    */
   loginWx() {
-    console.log('微信登录');
     let postData = {
       openId: app.authInfo.openId,
       authCode: app.authInfo.authCode
     }
     loginWx(postData).then(res => {
+      wx.hideLoading()
       if (this.logout) {
         this.logout = false;
         return;
@@ -150,8 +150,8 @@ module.exports = {
       this.setForbidStatus(false, '')
       let minibar = this.selectComponent('#miniPlayer')
       minibar.setOnShow()
-      wx.hideLoading()
     }).catch(err => {
+      wx.hideLoading()
       this.setForbidStatus(true, err)
       console.log(err, 95)
     })
@@ -160,9 +160,6 @@ module.exports = {
    * 绑定手机号
    */
   getPhoneNumber(e) {
-    console.log('手机号加密信息：', app.authInfo, e)
-    console.log('手机号加密信息2：-------------------------------'+JSON.stringify(app.authInfo))
-    console.log('手机号加密信息3：--------------------------------'+JSON.stringify(e))
     let {
       iv,
       encryptedData
@@ -180,28 +177,25 @@ module.exports = {
       this.loginWx()
       return;
     }
-
     let postData = {
       mobile: encryptedData,
       mobileIv: iv,
       authCode: app.authInfo.authCode
     }
     console.log('postData' + postData + '120行')
-    console.log('手机号登录信息：', JSON.stringify(postData))
     login(postData).then(res => {
       console.log('成功成功成功成功', res)
-      console.log('成功成功成功成功----------------' + JSON.stringify(res))
       app.userInfo = res
+      wx.hideLoading()
       app.tokenStatus = 0
       wx.setStorageSync('userInfo', app.userInfo)
       wx.setStorageSync('token', app.userInfo.token)
       this.getUserInfo(true)
       this.setForbidStatus(false, '')
-
-      wx.hideLoading()
       let minibar = this.selectComponent('#miniPlayer')
       minibar.setOnShow()
     }).catch(err => {
+      wx.hideLoading()
       this.setForbidStatus(true, err)
       console.log(err, 95)
     })
@@ -338,7 +332,6 @@ module.exports = {
     wx.removeStorageSync('userInfo');
     wx.removeStorageSync('username')
     wx.removeStorageSync('token')
-    console.log(77777777777777777777777777)
     setTimeout(() => {
       let minibar = this.selectComponent('#miniPlayer')
       minibar.setOnShow()
