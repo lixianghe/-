@@ -204,7 +204,7 @@ Component({
         percent: app.globalData.percent || 0
       })
       // 是否被收藏
-      // let songInfo = wx.getStorageSync('songInfo')
+      let songInfo = wx.getStorageSync('songInfo')
       if (app.userInfo && app.userInfo.token) {
         isFavorite({mediaId: songInfo.id}, that)
       }else{

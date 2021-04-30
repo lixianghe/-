@@ -108,8 +108,12 @@ module.exports = {
       wx.showLoading({
         title: '加载中',
       })
-      this._getList(id)
-      this.data.lastTime = nowTime;
+      this.setData({
+        info:[]
+      },()=>{
+        this._getList(id)
+        this.data.lastTime = nowTime;
+      })
     }else{
       console.log('小于间隔秒数')    
     }
