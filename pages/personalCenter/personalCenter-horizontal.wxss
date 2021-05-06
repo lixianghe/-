@@ -109,3 +109,59 @@
 .adminBtnOut[focus-select=true] {
   box-shadow: inset 0px 0px 0px 4px #ff5100;
 }
+ /* 退出登录确认弹框 */
+ .to-login-container {
+  display: flex;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .6);
+  z-index: 11;
+}
+.to-login-wrap {
+  margin: auto;
+  width: 128.205vh;
+  padding: 10.256vh;
+  background: #282828;
+  color: #FFFFFF;
+  border-radius: 2.564vh;
+}
+.to-login-hd {
+  opacity: 0.8;
+  font-size: 7.692vh;
+  text-align: center;
+  line-height: 7.692vh;
+  margin-bottom: 12vh;
+}
+.to-login-ft {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.to-login-ft .btn {
+  flex: 0 0 48.738vh;
+  height: 15.385vh;
+  line-height: 15.385vh;
+  border-radius: 2.564vh;
+  margin: 0;
+  font-size: 5.768vh;
+  color: #FFFFFF;
+  padding: 1.2vh;
+}
+.login-btn{
+  border-radius: 2.564vh;
+  text-align: center;
+}
+.zbe-border{
+  
+  padding: 3px;
+}
+.zbe-border [focus-select=true]{
+  box-shadow: inset 0px 0px 0px 4px #ff5100 !important;
+}
+
+.btn-cancel {
+  background: #464646;
+}

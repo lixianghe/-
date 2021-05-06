@@ -46,15 +46,15 @@ Component({
    */
   methods: {
     likeOne(e) {
-      let flag = !this.data.flag
-      let num = Number(flag)
-      this.setData({
-        src: this.data.likePic[num],
-        flag: flag
-      })
+      // let flag = !this.data.flag
+      // let num = Number(flag)
+      // this.setData({
+      //   src: this.data.likePic[num],
+      //   flag: flag
+      // })
       let typeid = e.currentTarget.dataset.typeid
       let contentType = e.currentTarget.dataset.contenttype
-      this.triggerEvent('clickHadle', { typeid: typeid, contentType: contentType, flag: flag});
+      this.triggerEvent('clickHadle', { typeid: typeid, contentType: contentType, flag: 1});
     },
     //加载图片失败
     loadImgError: function (res) {

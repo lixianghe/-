@@ -47,7 +47,8 @@ module.exports = {
       type: 'myBuy',
       icon: '/images/vip.png',
       title: '我购买的'
-    }]
+    }],
+    showChangeAccount:false
   },
   onShow() {
     app.checkStatus()
@@ -302,9 +303,21 @@ module.exports = {
   },
   logoutBtn () {
     this.setData({
-      showWxLogin: false
+      showChangeAccount:true,
+    })
+
+  },
+  confirm(){
+    this.setData({
+      showWxLogin: false,
+      showChangeAccount:false
     })
     this.logoutTap()
+  },
+  cancel(){
+    this.setData({
+      showChangeAccount:false
+    })
   },
   logoutTap(){
     console.log(101010101010)

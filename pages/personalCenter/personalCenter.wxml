@@ -33,6 +33,19 @@
       <view class="cardTit">{{ item.title }}</view>
     </view>
   </scroll-view>
+  <view wx:if="{{showChangeAccount}}" class="to-login-container {{colorStyle}}">
+    <view class="to-login-wrap" style="background-color: {{backgroundColor}};">
+      <view class="to-login-hd">您确定要退出登录吗？</view>
+      <view class="to-login-ft">
+      <view  bindtap="confirm" class="to-login-fbtn btn zbe-border" >
+        <view style="background-color: {{mainColor}}" class="login-btn"  data-defaultfocus="true" data-setfocus="true" data-focusindex="1">确定</view>
+      </view>
+        <view bindtap="cancel" class="btn zbe-border">
+        <view bindtap="cancel" class="login-btn btn-cancel">取消</view>
+      </view>
+      </view>
+    </view>
+  </view>
   <mini-player songInfo="{{songInfo}}" id="miniPlayer"></mini-player>
 </view>
 
