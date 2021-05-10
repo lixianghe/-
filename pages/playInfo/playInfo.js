@@ -1,7 +1,7 @@
 
 const app = getApp()
 import tool from '../../utils/util'
-import { albumMedia, mediaUrlList } from '../../utils/httpOpt/api'
+import { albumMedia, mediaUrlList ,isFavorite, saveHistory} from '../../utils/httpOpt/api'
 import btnConfig from '../../utils/pageOtpions/pageOtpions'
 var timer, timer4, timer5;
 let showIndex = 0
@@ -238,6 +238,7 @@ Page({
       wx.hideLoading()
       wx.stopBackgroundAudio()
     }
+    wx.setStorageSync('songInfo',songInfo)
     app.playing(null, that)
     let index = this.data.infoList.findIndex(n => n.id == songInfo.id)
     let currentPageNo = this.data.pageNo + parseInt(index / 15)
@@ -258,10 +259,12 @@ Page({
     wx.setStorageSync('songInfo', app.globalData.songInfo)
     // 是否被收藏
     if (app.userInfo && app.userInfo.token) {
-      let res = await isFavorite(params)
-      that.setData({existed: res.existed})
+      try {
+        let res = await isFavorite(params)
+        that.setData({existed: res.existed})
+      } catch (error) {
+      }
     }
-    
     // 添加历史记录
     let abumInfoName = wx.getStorageSync('abumInfoName')
     let abumInfoId = wx.getStorageSync('abumInfoId')
@@ -271,14 +274,9 @@ Page({
       duration: 1,
       playTime: 0
     }
-    console.log('saveHistoryParams-------------------+++++++++++++++++++++' + JSON.stringify(saveHistoryParams))
     if (!app.userInfo || !app.userInfo.token) return
     let opt = { historys: [saveHistoryParams] }
-    saveHistory(opt).then(res => {
-      // console.log('saveHistory---------------------' + JSON.stringify(res))
-    }).catch(error => {
-      // console.log('errorsaveHistory---------------------' + JSON.stringify(error))
-    })
+    saveHistory(opt).then(res => {}).catch(error => {})
   },
 
 
