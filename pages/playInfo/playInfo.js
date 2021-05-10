@@ -55,7 +55,8 @@ Page({
     backgroundColor: app.sysInfo.backgroundColor,
     screen: app.globalData.screen,
     noBack: false,
-    infoList: []
+    infoList: [],
+    scrollState:true
   },
   // 播放器实例
   audioManager: null,
@@ -393,13 +394,18 @@ Page({
   // 滚到底部
   listBehind: tool.throttle(async function (res) {
     let total = wx.getStorageSync('total')
+    let { scrollState } = this.data
     // 滑倒最底下
     let lastIndex = (this.data.pageNo   - 1) * 15 + this.data.infoList.length      // 目前最后一个的索引值
-    if (lastIndex >= total) {
-      this.setData({ showLoadEnd: false })
-      wx.showToast({
-        title: '已经到底啦！',
-        icon: 'none'
+    if (lastIndex >= total && scrollState) {
+      this.setData({
+        showLoadEnd: false,
+        scrollState:false
+      },()=>{
+        wx.showToast({
+          title: '已经到底啦！',
+          icon: 'none'
+        })
       })
       return false
     } else {
