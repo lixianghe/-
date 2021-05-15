@@ -191,10 +191,6 @@ Component({
         wx.setStorageSync('playing', playing)
       }
       const playing = wx.getStorageSync('playing')
-      // 注释初始化 miniPlayer 组件进入页面是重新调用播放会导致声音重复卡顿
-      // setTimeout(() => {
-      //   if (playing) app.carHandle(app.globalData.songInfo, app.globalData.currentPosition)
-      // }, 50)
       that.setData({
         playing: playing,
         percent: app.globalData.percent || 0

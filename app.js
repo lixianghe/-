@@ -103,34 +103,20 @@ App({
       })
     });
     wx.setStorageSync('playing', false)
-    // 测试getPlayInfoSync
-    // if (wx.canIUse('getPlayInfoSync')) {
-    //   let res = wx.getPlayInfoSync()
-    //   console.log('appgetPlayInfoSync---------------------------'+JSON.stringify(res))
-    //   let playing = res.playState && res.playState.status == 1 ? true : false
-    //   wx.setStorageSync('playing', playing)
-    // }
-
-
-
     if (wx.canIUse('getPlayInfoSync')) {
       let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
-      console.log('res.playState----------------------', res)
       if (!res.playState) return
       setTimeout(() => {
         let panelSong = res.playList[res.playState.curIndex]
         console.log('panelSong', panelSong, panelSong.dataUrl)
         if (panelSong.dataUrl) {
           this.globalData.songInfo = panelSong
-          console.log('panelSong2222222222222', panelSong)
           wx.setStorageSync('songInfo', panelSong)
         }
         let playing = res.playState.status == 1 ? true : false
         wx.setStorageSync('playing', playing)
       }, 10)
     }
-
-
   },
 
   // 保存用户信息

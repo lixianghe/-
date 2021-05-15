@@ -30,7 +30,7 @@
 
 <view wx:if="{{showModal}}" class="model" bindtap="close"></view>
 <view wx:if="{{showModal}}" class="showInfo">
-  <view class="close" bindtap="close">
+  <view class="close" bindtap="close" data-closepopup data-defaultfocus data-focusindex="1">
     <image src="../../images/modal_close.png" />
   </view>
   <view class="info">
