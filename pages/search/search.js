@@ -52,10 +52,14 @@ Page({
   },
   selectTap(e) {
     const index = e.currentTarget.dataset.index
-    this.setData({
-      currentTap: index
-    })
-    this.getData(index)
+    if(this.data.currentTap != index){
+      this.setData({
+        scrollLeft: 0,
+        currentTap: index
+      },()=>{
+        this.getData(index)
+      })
+    }
   },
   // 跳转到播放详情界面
   linkAbumInfo (e) {

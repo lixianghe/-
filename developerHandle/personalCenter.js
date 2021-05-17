@@ -66,6 +66,10 @@ module.exports = {
       wx.onTaiAccountStatusChange((res)=>{
         if(!res.isLoginUser){
           that.logoutTap()
+        }else if(res.isLoginUser && app.authInfo.openId){
+          this.setData({
+            showWxLogin: false
+          })
         }
       })
     }
@@ -86,20 +90,13 @@ module.exports = {
     if (this.authRequest) {
       return
     }
-    console.log(222222)
     wx.login({
       success: (loginRes) => {
-        console.log('扫码成功', 63, loginRes.code)
-        console.log(loginRes, 64)
         this.authRequest = true
-        console.log(33333)
 
         auth({
           code: loginRes.code
         }).then(res => {
-          console.log('登录成功', 65)
-          console.log(res, 69);
-          console.log('请求成功', 70)
           app.authInfo  = res;
           // wx.setStorageSync('deviceId', res.deviceId)
           // 转换按钮状态
@@ -107,8 +104,6 @@ module.exports = {
           this.setData({
             showWxLogin: false
           })
-
-          console.log(app.authInfo, 82);
           if (!event && app.authInfo.mobileFlag && this.data.isLogin) {
             this.loginWx()
           }
@@ -116,15 +111,12 @@ module.exports = {
 
           this.authRequest = false
         }).catch(err => {
-          console.log(err, 95)
         })
       },
       fail: (err) => {
-        console.log('扫码失败' + JSON.stringify(err))
         this.authRequest = false
       },
       complete: (res) => {
-        console.log('扫码complete' + JSON.stringify(res))
       }
     })
   },
