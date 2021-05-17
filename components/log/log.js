@@ -1,71 +1,72 @@
 // components/log/log.js
 //获取应用实例
-const app = getApp()
+const app = getApp();
 Component({
   /**
    * 组件的属性列表
    */
-  properties: {
-
-  },
+  properties: {},
 
   /**
    * 组件的初始数据
    */
   data: {
-    log:'',
-    mini:true,
-    logTop:'100vh',
-    logWidth:'100vh',
-    timer:[]
+    log: "",
+    mini: true,
+    logTop: "100vh",
+    logWidth: "100vh",
+    timer: [],
+    openLog:app.openLog
+  },
+  created() {
+    app.log("v" + app.version);
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
-    refreshLog(){
-                  // return;
+    refreshLog() {
       this.setData({
-        log: app.logText
-      })
-      clearTimeout(app.logTimer)
-      app.logTimer = setTimeout(()=>{
-        this.refreshLog()
-      },1000)
+        log: app.logText,
+      });
+      clearTimeout(app.logTimer);
+      app.logTimer = setTimeout(() => {
+        this.refreshLog();
+      }, 1000);
     },
-    openLog(){
+    openLog() {
       this.setData({
-        logTop:'0',
-        mini:false
-      })
-      this.refreshLog()
+        logTop: "0",
+        mini: false,
+      });
+      this.refreshLog();
     },
     closeLog() {
       this.setData({
-        logTop: '100vh',
-        mini: true
-      })
+        logTop: "100vh",
+        mini: true,
+      });
     },
     maxLog() {
-      app.showHttpLog = !app.showHttpLog
+      app.showHttpLog = !app.showHttpLog;
       this.setData({
-        logWidth: '100vw'
-      })
+        logWidth: "100vw",
+      });
     },
     minLog() {
       this.setData({
-        logWidth: '100vh'
-      })
+        logWidth: "100vh",
+      });
     },
     clearLog() {
-      app.logText = 'v' + app.version + '\n';
+      app.logText = "v" + app.version + "\n";
       this.setData({
-        log: app.logText
-      })
+        log: app.logText,
+      });
     },
     tapLog() {
-      let stamp = new Date().getTime()
+      let stamp = new Date().getTime();
       let timer = this.data.timer;
       if (timer.length < 3) {
         timer.push(stamp);
@@ -73,15 +74,18 @@ Component({
         if (timer[2] - timer[0] < 5000) {
           this.openLog();
         }
-        timer = []
+        timer = [];
       }
       this.setData({
-        timer
-      })
-    }
+        timer,
+      });
+    },
+    logHandle() {
+      // this.tapLog();
+      this.openLog();
+    },
   },
 
   // 以下是旧式的定义方式，可以保持对 <2.2.3 版本基础库的兼容
-  attached: function () {
-  }
-})
+  attached: function () {},
+});
