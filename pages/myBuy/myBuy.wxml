@@ -5,7 +5,7 @@
       <view class="label-view">
         <view class="title{{index === currentTap ? ' active-tap' : ''}}" wx:for="{{labels}}" wx:key="index"
           style="background-color: {{index === currentTap ? mainColor : 'rgba(255,255,255, 0.1)'}}"
-          data-index="{{index}}" bindtap="selectTap" data-focusindex="2">
+          data-index="{{index}}" bindtap="selectTap" data-focusindex="1">
           <text>{{item.name}}</text>
         </view>
       </view>
@@ -30,7 +30,7 @@
 
 <view wx:if="{{showModal}}" class="model" bindtap="close"></view>
 <view wx:if="{{showModal}}" class="showInfo">
-  <view class="close" bindtap="close" data-closepopup data-defaultfocus data-setfocus="true" data-focusindex="1">
+  <view class="close" bindtap="close" data-setfocus="true" data-focusindex="1" data-closepopup data-defaultfocus>
     <image src="../../images/modal_close.png" />
   </view>
   <view class="info">
