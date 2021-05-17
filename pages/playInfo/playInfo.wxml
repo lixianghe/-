@@ -181,4 +181,3 @@
 
 <!-- 弹框组件 -->
 <modal showModal="{{showModal}}" content="{{content}}" noBack="{{noBack}}" />
-<log></log>
