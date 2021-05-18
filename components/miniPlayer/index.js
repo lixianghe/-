@@ -189,6 +189,20 @@ Component({
         let res = wx.getPlayInfoSync()
         let playing = res.playState && res.playState.status == 1 ? true : false
         wx.setStorageSync('playing', playing)
+        if( res.playList && res.playList.length){
+          if(playing){
+            let song = res.playList[res.playState.curIndex]
+            app.globalData.songInfo = song
+            wx.setStorageSync('songInfo', song)
+            this.triggerEvent('current', song.id)
+          }else{
+            wx.setStorageSync('playing', playing)
+            let percent = res.playState.currentPosition / res.playState.duration * 100
+            app.globalData.percent = percent
+          }
+        }else{
+          wx.setStorageSync('songInfo', {})
+        }
       }
       const playing = wx.getStorageSync('playing')
       that.setData({

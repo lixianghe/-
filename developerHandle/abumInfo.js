@@ -86,6 +86,7 @@ module.exports = {
       } else if (params.lazy == 'down') {
         canplay = canplay.concat(this.data.canplay)
       }
+      wx.setStorageSync('canplaying',canplay)
       wx.setStorageSync('canplay',canplay)
       this.setData({total, canplay})
     } catch (error) {

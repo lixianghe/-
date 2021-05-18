@@ -30,15 +30,15 @@ function playAlrc(that, app) {
         playing = true;
       }
       app.globalData.playing = playing;
-      app.globalData.percent = time
       app.globalData.currentPosition = playtime
       // console.log('========监听捕获========='+ playing+'==========='+time+'=============')
       if (that.data.isDrag) return
       that.setData({
         playtime: playtime ? formatduration(playtime * 1000) : '00:00',
-        percent: time || 0,
+        percent: time || app.globalData.percent,
         playing: playing
       })
+      app.globalData.percent = time
       wx.setStorage({
         key: "playing",
         data: playing
