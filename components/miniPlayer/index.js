@@ -106,7 +106,6 @@ Component({
     next(panelCut) {
       // 设置播放图片名字和时长
       const that = this
-      console.log('minibar', that)
       app.cutplay(that, + 1, false, panelCut)
     },
     // 暂停
@@ -190,13 +189,13 @@ Component({
         let playing = res.playState && res.playState.status == 1 ? true : false
         wx.setStorageSync('playing', playing)
         if( res.playList && res.playList.length){
+        let options = res.playList.map(item=>{return JSON.parse(item.options)})
           if(playing){
-            let song = res.playList[res.playState.curIndex]
+            let song = options[res.playState.curIndex]
             app.globalData.songInfo = song
             wx.setStorageSync('songInfo', song)
             this.triggerEvent('current', song.id)
           }else{
-            wx.setStorageSync('playing', playing)
             let percent = res.playState.currentPosition / res.playState.duration * 100
             app.globalData.percent = percent
           }

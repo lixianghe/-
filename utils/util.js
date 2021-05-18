@@ -82,7 +82,7 @@ function initAudioManager(app, that, songInfo, fl) {
     songInfo.abumInfoName = wx.getStorageSync('abumInfoName') || 1
     songInfo.currentPageNo = wx.getStorageSync('currentPageNo') 
     let canplaying = songInfo.abumInfoName ? wx.getStorageSync('canplaying') || [] : [songInfo]
-    // let loopType = wx.getStorageSync('loopType')
+    if(canplaying.length)canplaying.map(item=>item.options = JSON.stringify(item))
     app.audioManager.playInfo = {
       playList: canplaying,
       context: JSON.stringify(songInfo),
@@ -98,7 +98,8 @@ function panelSetInfo(app, that) {
   // 测试getPlayInfoSync
   if (wx.canIUse('getPlayInfoSync')) {
     let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
-    let panelSong = res.playList[res.playState.curIndex]
+    let options = res.playList.map(item=>{return JSON.parse(item.options)})
+    let panelSong = options[res.playState.curIndex]
     if (panelSong.dataUrl) {
       app.globalData.songInfo = panelSong
       wx.setStorageSync('songInfo', panelSong)

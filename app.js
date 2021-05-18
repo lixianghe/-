@@ -107,7 +107,8 @@ App({
       let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
       if (!res.playState) return
       setTimeout(() => {
-        let panelSong = res.playList[res.playState.curIndex]
+        let options = res.playList.map(item=>{return JSON.parse(item.options)})
+        let panelSong = options[res.playState.curIndex]
         console.log('panelSong', panelSong, panelSong.dataUrl)
         if (panelSong.dataUrl) {
           this.globalData.songInfo = panelSong
@@ -163,8 +164,6 @@ App({
     // 歌曲列表
     cutList = abumInfoName ? this.setList(loopType, cutList, cutFlag, panelCut) : [this.globalData.songInfo]
     // 当前歌曲的索引
-    // console.log(cutList, this.globalData.songInfo)
-    // console.log(this.globalData.songInfo.id);
     // let no = cutList.findIndex(n => n.dataUrl === this.globalData.songInfo.dataUrl.split('?')[0])
     let no = cutList.findIndex(n => n.id === this.globalData.songInfo.id)
     let index = this.setIndex(type, no, cutList)
