@@ -26,7 +26,9 @@ module.exports = {
       {value: 'media', label: '故事'}
     ]
   },
-  onShow() {},
+  onShow() {
+    this.pathSearch()
+  },
   async onLoad(options) {},
   // 凯叔搜索api数据
   _getList(params) {
@@ -67,6 +69,7 @@ module.exports = {
       //   })
       // }
       this.setData({
+        searchState:false,
         info: layoutData,
       });
     })
@@ -76,5 +79,24 @@ module.exports = {
         icon: 'none'
       })
     });
+  },
+  pathSearch() {
+    const pages = getCurrentPages();
+    const currentPage = pages[pages.length - 1];
+    let { keyword } = currentPage.options;
+    if (keyword) {
+      this.setData(
+        {
+          keyWord: keyword,
+          searchState:true
+        },
+        () => {
+          this._getList({
+            label: this.data.labels[0].value,
+            keyWord: this.data.keyWord,
+          });
+        }
+      );
+    }
   },
 };

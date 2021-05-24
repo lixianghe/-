@@ -22,7 +22,8 @@ Page({
     topHeight: 3000,
     focus: false,
     getSystemInfoSync: 0,
-    screenHeight: 0
+    screenHeight: 0,
+    searchState:false
   },
   onLoad() {
     this.getMiniHeight()

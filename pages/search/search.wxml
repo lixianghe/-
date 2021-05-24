@@ -50,6 +50,6 @@
 </view>
 
 <!-- 加入没有数据 -->
-<view class="noData" style="top: {{50 * times}}px" wx:if="{{!info.length && keyWord}}">暂无内容</view>
+<view class="noData" style="top: {{50 * times}}px" wx:if="{{!info.length && keyWord && !searchState }}">暂无内容</view>
 
 
