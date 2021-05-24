@@ -50,7 +50,6 @@ module.exports = {
     hasNext: true,
   },
   onShow() {
-    console.log()
     if(app.globalData.indexData.length > 0) {
       
     }
@@ -69,6 +68,9 @@ module.exports = {
 
   },
   initLoad() {
+    const pages = getCurrentPages();
+    const currentPage = pages[pages.length - 1];
+    let { groupId } = currentPage.options;
     this.getFm()
     // 接入凯叔频道数据
     layoutGroup().then(res => {
@@ -85,7 +87,12 @@ module.exports = {
         labels: formatData,
         reqS: true
       })
-      this._getList(formatData[0].id)
+      if(groupId){
+        this.setData({
+          currentTap: formatData.findIndex(item=>item.id == groupId)
+        })
+      }
+      this._getList(groupId?Number(groupId):formatData[0].id)
     }).catch(err => {
       console.log(JSON.stringify(err))
     })
