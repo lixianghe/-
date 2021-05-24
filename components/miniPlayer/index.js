@@ -136,10 +136,12 @@ Component({
         })
       }
       // 监听歌曲播放状态，比如进度，时间
-      tool.playAlrc(that, app);
-      timer = setInterval(() => {
-        tool.playAlrc(that, app);
-      }, 1000);
+       tool.NewPlayAlrc(that, app);
+      //  tool.playAlrc(that, app);
+
+      // timer = setInterval(() => {
+      //   tool.playAlrc(that, app);
+      // }, 1000);
     },
     btnstart(e) {
       const index = e.currentTarget.dataset.index

@@ -31,7 +31,6 @@ function playAlrc(that, app) {
       }
       app.globalData.playing = playing;
       app.globalData.currentPosition = playtime
-      // console.log('========监听捕获========='+ playing+'==========='+time+'=============')
       if (that.data.isDrag) return
       that.setData({
         playtime: playtime ? formatduration(playtime * 1000) : '00:00',
@@ -48,20 +47,58 @@ function playAlrc(that, app) {
     }
   });
 };
+ /**
+     * 监听播放器播放进度事件
+     */
+    function  NewPlayAlrc(that, app) {
+      app.audioManager.onTimeUpdate(() => {
+        wx.setStorageSync('mediaPage', 'player')
+        if (that.data.isDrag) {
+          return
+        }
+
+        //  console.log('util-----playProcessListener------app.audioManager',app.audioManager)
+        var time = 0, playing = false, playtime = 0;
+        time = app.audioManager.currentTime / app.audioManager.duration * 100;
+        playtime = app.audioManager.currentTime;
+        // console.log('onTimeUpdate触发：playtime='+playtime+',time='+time);
+        app.globalData.playing = true;
+        app.globalData.currentPosition = playtime
+        //  console.log('========监听捕获========='+ playing+'==========='+time+'=============')
+        // if (that.data.isDrag) return
+        that.setData({
+          playtime: playtime ? formatduration(playtime * 1000) : '00:00',
+          percent: time || app.globalData.percent,
+          // playing: playing
+        })
+        app.globalData.percent = time
+        // wx.setStorage({
+        //   key: "playing",
+        //   data: playing
+        // })
+        // 设置abumInfo页面的播放状态用来控制gif是否展示
+        that.triggerEvent('setPlaying', playing)
+      }
+      
+    
+      )
+    }
+
+
 
 
 function toggleplay(that, app) {
   if (that.data.playing) {
     console.log("暂停播放");
-    // that.setData({ 
-    //   playing: false 
-    // });
+    that.setData({ 
+      playing: false 
+    });
     app.stopmusic();
   } else {
     console.log("继续播放")
-    // that.setData({
-    //   playing: true
-    // });
+    that.setData({
+      playing: true
+    });
     if (!that.data.songInfo || !that.data.songInfo.dataUrl) {
       wx.showToast({
         title: '该内容为会员付费内容，请先成为会员再购买收听~',
@@ -122,6 +159,9 @@ function EventListener(app, that, fl){
     console.log('-------------------------------onPlay-----------------------------------')
     wx.hideLoading()
     wx.setStorageSync('playing', true)
+    that.setData({
+      playing: true
+    })
     let pages = getCurrentPages()
     let cureentPage = pages[pages.length - 1]
     let minibar = cureentPage.selectComponent('#miniPlayer')
@@ -131,6 +171,9 @@ function EventListener(app, that, fl){
   app.audioManager.onPause(() => {
     console.log('触发播放暂停事件');
     wx.setStorageSync('playing', false)
+    that.setData({
+      playing: false
+    })
   })
   //上一首事件
   app.audioManager.onPrev(() => {
@@ -226,12 +269,13 @@ function randomList(arr) {
 module.exports = {
   formatToSend: formatToSend,
   formatduration: formatduration,
-  playAlrc: playAlrc,
+  // playAlrc: playAlrc,
   toggleplay: toggleplay,
   initAudioManager: initAudioManager,
   EventListener: EventListener,
   throttle: throttle,
   debounce: debounce,
   panelSetInfo: panelSetInfo,
-  randomList: randomList
+  randomList: randomList,
+  NewPlayAlrc:NewPlayAlrc
 }

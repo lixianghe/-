@@ -32,7 +32,6 @@ App({
     currentPosition: 0,
     currentList: [],
     loopType: 'loop', // 默认列表循环
-    useCarPlay: wx.canIUse('backgroundAudioManager.onUpdateAudio'),
     PIbigScreen: null
   },
   // 小程序颜色主题
