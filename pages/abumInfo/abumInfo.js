@@ -63,7 +63,7 @@ Page({
 
     // 暂存专辑全部歌曲
     this.setData({
-      src: wx.getStorageSync('img'),
+      src: wx.getStorageSync('img') || options.img,
       optionId: options.id,
       abumInfoName: options.title,
       routeType: options.routeType
