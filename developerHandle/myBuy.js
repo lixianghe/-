@@ -32,8 +32,14 @@ module.exports = {
     loadReady: false,  // 数据请求完毕为true
     scrollLeft: 0
   },
-  onLoad(options) {   
-    this._getList(this.data.labels[0].value)
+  onLoad(options) {
+    if(!app.userInfo.token){
+      wx.switchTab({
+        url: '/pages/personalCenter/personalCenter'
+      })
+    }else{
+      this._getList(this.data.labels[0].value)
+    }
   },
   onReady() {
 

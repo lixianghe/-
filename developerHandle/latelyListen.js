@@ -35,7 +35,11 @@ module.exports = {
     scrollLeft: 0
   },
   onShow() {
-    console.log('Log from mixin!')
+    if(!app.userInfo.token){
+      wx.switchTab({
+        url: '/pages/personalCenter/personalCenter'
+      })
+    }
   },
   onLoad(options) {
     this._getList(this.data.labels[0].value)
