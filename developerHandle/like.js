@@ -19,6 +19,7 @@
  * 4、likePic: ['/images/info_like.png', '/images/info_like_no.png'],
  * 收藏和取消收藏图片
  */
+import tool from '../utils/util'
 const app = getApp();
 import {
   albumFavorite,
@@ -28,8 +29,9 @@ import {
   mediaFavoriteCancel,
   mediaFavoriteAdd,
   mediaUrlList,
+  albumMedia,
 } from "../utils/httpOpt/api";
-
+import { getMedia,isFavorite } from '../developerHandle/playInfo'
 module.exports = {
   data: {
     info: [],
@@ -102,13 +104,15 @@ module.exports = {
     this._getList(this.data.labels[index].value);
   },
   _getList(value) {
+    let pages = getCurrentPages();
+    let currentPage = pages[pages.length-1];
     if (value == "album") {
-      this.getAlbum();
+      this.getAlbum(currentPage.options.playing);
     } else if (value == "media") {
-      this.getMedia();
+      this.getMedia(currentPage.options.playing);
     }
   },
-  getAlbum() {
+  getAlbum(playing) {
     let params = {
       pageNum: 1,
       pageSize: 20,
@@ -133,6 +137,8 @@ module.exports = {
           info: layoutData,
           req: true,
         });
+        playing = true
+        if(playing && layoutData.length) this.pathPlay(layoutData[0])
         if (layoutData.length === 0) {
           this.setData({
             showModal: true,
@@ -227,4 +233,66 @@ module.exports = {
   close() {
     this.setData({ showModal: false });
   },
+  async pathPlay(item){
+      let [canplay, idList, auditionDurationList, total] = [[], [], [], 0]
+      try {
+        let res = await albumMedia({pageNum: 1, albumId: item.id})
+        total = res.totalCount
+        // 处理字段不一样的情况
+        res.mediaList.map((item, index) => {
+          idList.push(item.mediaId)
+          auditionDurationList.push(item.auditionDuration)
+        })
+        // 获取带url的list
+        let opt = {
+          mediaId: idList.toString(),
+          contentType: 'story'
+        }
+        let res2 = await mediaUrlList(opt)
+        canplay = res2.mediaPlayVoList
+        canplay.map((item, index) => {
+          item.title = item.mediaName
+          item.id = item.mediaId
+          item.dt = item.timeText
+          item.coverImgUrl = item.coverUrl
+          item.auditionDuration = auditionDurationList[index]
+          item.dataUrl = item.mediaUrl
+          return item
+        })
+        wx.setStorageSync('canplay',canplay)
+        wx.setStorageSync('canplaying', canplay)
+        wx.setStorageSync('abumInfoName', item.title)
+        wx.setStorageSync('abumInfoId', item.id)
+        wx.setStorageSync('total', total)
+        wx.setStorageSync('currentPageNo', 1)
+        let noOrderList = tool.randomList(JSON.parse(JSON.stringify(canplay)))
+        wx.setStorageSync('noOrderList', noOrderList)
+        app.globalData.songInfo = canplay[0]
+        let that = this
+        if (getMedia) await getMedia({
+          mediaId: app.globalData.songInfo.id,
+          contentType: 'story'
+        }, that)
+        if (!app.globalData.songInfo.dataUrl) {
+          wx.hideLoading()
+          wx.showToast({
+            title: '该内容为会员付费内容，请先成为会员再购买收听~',
+            icon: 'none'
+          })
+          wx.stopBackgroundAudio()
+          return
+        }
+        // 判断是否收藏
+        if (app.userInfo && app.userInfo.token) {
+          isFavorite({mediaId: app.globalData.songInfo.id}, that)
+        }else{
+          that.setData({
+            existed:false
+          })
+        }
+        app.playing(null, that)
+      } catch (error) {
+        wx.setStorageSync('canplay',[])
+      }
+  }
 };
