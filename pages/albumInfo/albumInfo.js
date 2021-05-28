@@ -9,7 +9,7 @@ let scrollTopNo = 0
 
 // 选择的选集
 let selectedNo = 0
-let abumInfoMixin = require('../../developerHandle/abumInfo')
+let abumInfoMixin = require('../../developerHandle/albumInfo')
 Page({
   mixins: [abumInfoMixin],
   data: {

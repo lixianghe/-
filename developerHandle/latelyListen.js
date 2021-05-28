@@ -17,10 +17,11 @@
       item.isVip = true                                         // 是否是会员
     })
  */
+import tool from '../utils/util'
 const app = getApp()
 const { showData } = require('../utils/httpOpt/localData')
-import { history, mediaUrlList } from '../utils/httpOpt/api'
-
+import { history, mediaUrlList, albumMedia, } from '../utils/httpOpt/api'
+import { getMedia,isFavorite } from '../developerHandle/playInfo'
 module.exports = {
   data: {
     showModal:false,
@@ -42,7 +43,7 @@ module.exports = {
     }
   },
   onLoad(options) {
-    this._getList(this.data.labels[0].value)
+    this._getList(this.data.labels[0].value,options)
   },
   onReady() {
 
@@ -58,7 +59,7 @@ module.exports = {
     console.log(app.globalData.latelyListenId, routeType)
     let url
     if (routeType === 'album') {
-      url = `../abumInfo/abumInfo?id=${id}&title=${title}&routeType=${routeType}`
+      url = `../albumInfo/albumInfo?id=${id}&title=${title}&routeType=${routeType}`
       wx.navigateTo({
         url: url
       })
@@ -99,7 +100,7 @@ module.exports = {
     })
     this._getList(this.data.labels[index].value)
   },
-  _getList(type) {
+  _getList(type,options=null) {
     let params = {
       pageNum: 1,
       pageSize: 20,
@@ -132,16 +133,16 @@ module.exports = {
         })
       }
       
-      this.setData({
-        info: layoutData,
-        // info: [{id: 'qd223',title: '哈哈',src: "https://cdn.kaishuhezi.com/kstory/ablum/image/389e9f12-0c12-4df3-a06e-62a83fd923ab_info_w=450&h=450.jpg",contentType: 'album',isVip:true}],
-        req: true
-      })
       if(layoutData.length === 0) {
         this.setData({
           showModal: true
         })
       }
+      if(options && options.playing && layoutData.length) this.pathPlay(layoutData[0])
+      this.setData({
+        info: layoutData,
+        req: true
+      })
       wx.hideLoading()
     }).catch(err => {
       wx.hideLoading()
@@ -150,5 +151,67 @@ module.exports = {
   },
   close() {
     this.setData({showModal: false})
-  }
+  },
+  async pathPlay(item){
+    let [canplay, idList, auditionDurationList, total] = [[], [], [], 0]
+    try {
+      let res = await albumMedia({pageNum: 1, albumId: item.id})
+      total = res.totalCount
+      // 处理字段不一样的情况
+      res.mediaList.map((item, index) => {
+        idList.push(item.mediaId)
+        auditionDurationList.push(item.auditionDuration)
+      })
+      // 获取带url的list
+      let opt = {
+        mediaId: idList.toString(),
+        contentType: 'story'
+      }
+      let res2 = await mediaUrlList(opt)
+      canplay = res2.mediaPlayVoList
+      canplay.map((item, index) => {
+        item.title = item.mediaName
+        item.id = item.mediaId
+        item.dt = item.timeText
+        item.coverImgUrl = item.coverUrl
+        item.auditionDuration = auditionDurationList[index]
+        item.dataUrl = item.mediaUrl
+        return item
+      })
+      wx.setStorageSync('canplay',canplay)
+      wx.setStorageSync('canplaying', canplay)
+      wx.setStorageSync('abumInfoName', item.title)
+      wx.setStorageSync('abumInfoId', item.id)
+      wx.setStorageSync('total', total)
+      wx.setStorageSync('currentPageNo', 1)
+      let noOrderList = tool.randomList(JSON.parse(JSON.stringify(canplay)))
+      wx.setStorageSync('noOrderList', noOrderList)
+      app.globalData.songInfo = canplay[0]
+      let that = this
+      if (getMedia) await getMedia({
+        mediaId: app.globalData.songInfo.id,
+        contentType: 'story'
+      }, that)
+      if (!app.globalData.songInfo.dataUrl) {
+        wx.hideLoading()
+        wx.showToast({
+          title: '该内容为会员付费内容，请先成为会员再购买收听~',
+          icon: 'none'
+        })
+        wx.stopBackgroundAudio()
+        return
+      }
+      // 判断是否收藏
+      if (app.userInfo && app.userInfo.token) {
+        isFavorite({mediaId: app.globalData.songInfo.id}, that)
+      }else{
+        that.setData({
+          existed:false
+        })
+      }
+      app.playing(null, that)
+    } catch (error) {
+      wx.setStorageSync('canplay',[])
+    }
+}
 }

@@ -55,7 +55,7 @@ module.exports = {
     console.log(app.globalData.latelyListenId, routeType)
     let url
     if (routeType === 'album') {
-      url = `../abumInfo/abumInfo?id=${id}&title=${title}`
+      url = `../albumInfo/albumInfo?id=${id}&title=${title}`
       wx.navigateTo({
         url: url
       })
