@@ -57,13 +57,14 @@ Page({
   ctx: null,
   onReady() {},
   async onLoad(options) {
+    if(options.img) wx.setStorageSync('img', options.img)
     // 检测网络
     let that = this
     // app.getNetWork(that)
 
     // 暂存专辑全部歌曲
     this.setData({
-      src: wx.getStorageSync('img') || options.img,
+      src: wx.getStorageSync('img'),
       optionId: options.id,
       abumInfoName: options.title,
       routeType: options.routeType
@@ -141,12 +142,11 @@ Page({
   
   // 播放全部
   async playAll() {
-    if (app.globalData.songInfo.id != this.data.canplay[0].id) {
+    if (app.globalData.songInfo && app.globalData.songInfo.id != this.data.canplay[0].id) {
       wx.showLoading({
         title: '加载中',
       })
     }
-    
     let canplay = this.data.canplay || []
     wx.setStorageSync('canplaying', canplay)
     wx.setStorageSync('abumInfoName', this.data.abumInfoName)
