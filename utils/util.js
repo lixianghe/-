@@ -56,9 +56,8 @@ function playAlrc(that, app) {
         if (that.data.isDrag) {
           return
         }
-
         //  console.log('util-----playProcessListener------app.audioManager',app.audioManager)
-        var time = 0, playing = false, playtime = 0;
+        var time = 0, playtime = 0;
         time = app.audioManager.currentTime / app.audioManager.duration * 100;
         playtime = app.audioManager.currentTime;
         // console.log('onTimeUpdate触发：playtime='+playtime+',time='+time);
@@ -68,8 +67,7 @@ function playAlrc(that, app) {
         // if (that.data.isDrag) return
         that.setData({
           playtime: playtime ? formatduration(playtime * 1000) : '00:00',
-          percent: time || app.globalData.percent,
-          // playing: playing
+          percent: time || app.globalData.percent
         })
         app.globalData.percent = time
         // wx.setStorage({
@@ -77,7 +75,6 @@ function playAlrc(that, app) {
         //   data: playing
         // })
         // 设置abumInfo页面的播放状态用来控制gif是否展示
-        that.triggerEvent('setPlaying', playing)
       }
       
     
@@ -175,6 +172,7 @@ function EventListener(app, that, fl){
     let cureentPage = pages[pages.length - 1]
     let minibar = cureentPage.selectComponent('#miniPlayer')
     if (minibar) minibar.isLiked()
+    that.triggerEvent('setPlaying', true)
   })
   //暂停事件
   app.audioManager.onPause(() => {
@@ -183,6 +181,7 @@ function EventListener(app, that, fl){
     that.setData({
       playing: false
     })
+    that.triggerEvent('setPlaying', false)
   })
   //上一首事件
   app.audioManager.onPrev(() => {

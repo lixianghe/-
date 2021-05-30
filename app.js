@@ -252,6 +252,14 @@ App({
         that.setData({showModal: true, noBack: true})
       } else {
         wx.hideLoading()
+        const pages = getCurrentPages()
+        let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
+        if (miniPlayer) {
+          miniPlayer.setData({ playing: false })
+        }
+          pages[pages.length - 1].setData({
+            playing: false
+        })
         setTimeout(() => {
           wx.showToast({
             title: '该内容为会员付费内容，请先成为会员再购买收听~',
@@ -259,11 +267,11 @@ App({
           })
         }, 500)
       }
-      
       wx.stopBackgroundAudio()
+      return false
+    }else{
+      loopType === 'singleLoop' || !abumInfoName ? this.playing(0, that) : this.playing(null, that)
     }
-    console.log('ppalying')
-    loopType === 'singleLoop' || !abumInfoName ? this.playing(0, that) : this.playing(null, that)
   },
   // 根据循环模式设置播放列表
   setList(loopType, list, cutFlag, panelCut){
