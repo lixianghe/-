@@ -101,11 +101,12 @@ Page({
     // console.log('options------' + this.data.id + '-----')
     const that = this;
     // 监听歌曲播放状态，比如进度，时间
-    clearInterval(timer)
-    tool.playAlrc(that, app);
-    timer = setInterval(() => {
-      tool.playAlrc(that, app);
-    }, 1000);
+    // clearInterval(timer)
+    // tool.playAlrc(that, app);
+    // timer = setInterval(() => {
+    //   tool.playAlrc(that, app);
+    // }, 1000);
+    tool.NewPlayAlrc(that, app);
     this.queryProcessBarWidth()
     // 从面板回来赋值
     if (showIndex > 1) tool.panelSetInfo(app, that)

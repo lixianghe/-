@@ -331,8 +331,8 @@ App({
     // 播放错误时，调起播放的标识符
     let fl = true
     // setTimeout(() => {
-      this.carHandle(songInfo, seek)
       tool.initAudioManager(this, that, songInfo, fl)
+      this.carHandle(songInfo, seek)
     // }, 200)
     // wx.hideLoading()
     

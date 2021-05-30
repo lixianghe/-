@@ -19,6 +19,7 @@ module.exports = {
     // 是否登录
     isLogin: app.userInfo.token,
     showWxLogin: true,
+    showWxLoginBtn:false,
     vipImg: '/images/vip_ing.png',
     vipImged: '/images/vip_ed.png',
     vipPic: '',
@@ -56,21 +57,31 @@ module.exports = {
       app.userInfo = {}
       wx.setStorageSync('token', null)
       wx.setStorageSync('userInfo', app.userInfo)
-
+      this.setData({
+        showWxLoginBtn:true,
+      })
       this.loginIn()
     } else {
+      this.setData({
+        showWxLoginBtn:true,
+      })
       this.getUserInfo()
     }
     let that = this
     if(wx.canIUse('onTaiAccountStatusChange')){
       wx.onTaiAccountStatusChange((res)=>{
         if(!res.isLoginUser){
+          this.setData({
+            showWxLoginBtn: true
+          })
           that.logoutTap()
         }else if(res.isLoginUser && app.authInfo.openId){
           this.setData({
-            showWxLogin: false
+            showWxLogin: false,
+            showWxLoginBtn: true
           })
         }
+
       })
     }
 
@@ -82,7 +93,6 @@ module.exports = {
   onReady() {
 
   },
-
   /**
    * 登录
    */
@@ -93,7 +103,6 @@ module.exports = {
     wx.login({
       success: (loginRes) => {
         this.authRequest = true
-
         auth({
           code: loginRes.code
         }).then(res => {
@@ -102,7 +111,7 @@ module.exports = {
           // 转换按钮状态
 
           this.setData({
-            showWxLogin: false
+            showWxLogin: false,
           })
           if (!event && app.authInfo.mobileFlag && this.data.isLogin) {
             this.loginWx()

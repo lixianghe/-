@@ -113,21 +113,30 @@ function toggleplay(that, app) {
 
 // 初始化 BackgroundAudioManager
 function initAudioManager(app, that, songInfo, fl) {
+    app = getApp()
   // that.audioManager = wx.getBackgroundAudioManager()
   // EventListener(app, that, fl)
   if (fl) {
+    let playList = []
     songInfo.abumInfoName = wx.getStorageSync('abumInfoName') || 1
     songInfo.currentPageNo = wx.getStorageSync('currentPageNo') 
     let canplaying = songInfo.abumInfoName ? wx.getStorageSync('canplaying') || [] : [songInfo]
-    if(canplaying.length)canplaying.map(item=>item.options = JSON.stringify(item))
+
+    if(canplaying.length) playList = canplaying.map(item=>{
+      return{
+        title:item.title || '',
+        singer:item.singer || '',
+        coverImgUrl:item.coverImgUrl || '',
+        dataUrl:item.dataUrl || '',
+        options:JSON.stringify(item),
+      }
+    })
     app.audioManager.playInfo = {
-      playList: canplaying,
-      context: JSON.stringify(songInfo),
-      playDetailPagePath: "pages/index/index"
-    }
-    // if (loopType === 'singleLoop') that.audioManager.setPlayMode = 2
+        playList,
+        context: JSON.stringify(songInfo),
+        playDetailPagePath: "pages/index/index"
+      }
   }
-  
 }
 
 // 从面板切到小程序的赋值

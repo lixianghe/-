@@ -34,6 +34,9 @@ Page({
     }
   },
   onHide() {
+    this.setData({
+      showWxLoginBtn: false
+    })
     this.selectComponent('#miniPlayer').setOnHide()
   }
 })
