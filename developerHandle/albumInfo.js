@@ -56,6 +56,8 @@ module.exports = {
   
   // 获取专辑列表，因为懒加载的原因这里不直接setData，而是retur canplay和total,在getList里面进行赋值操作
   async getData(params) {
+    let pages = getCurrentPages();
+    let currentPage = pages[pages.length-1];
     let [canplay, idList, auditionDurationList, total] = [[], [], [], 0]
     try {
       let res = await albumMedia(params)
@@ -89,6 +91,7 @@ module.exports = {
       wx.setStorageSync('canplaying',canplay)
       wx.setStorageSync('canplay',canplay)
       this.setData({total, canplay})
+      if(currentPage.options && currentPage.options.img)this.playAll()
     } catch (error) {
       wx.setStorageSync('canplay',[])
       this.setData({total: 0, canplay: []})

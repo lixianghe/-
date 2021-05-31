@@ -180,31 +180,32 @@ Component({
         songInfo: app.globalData.songInfo 
       })
     },
-    // 因为1.9.2版本无法触发onshow和onHide所以事件由它父元素触发
-    setOnShow() {
-      let that = this 
-      clearInterval(timer)
-      this.listenPlaey()
+     getPlayInfo(){
+       let that = this
       // 初始化backgroundManager
       if (wx.canIUse('getPlayInfoSync')) {
         let res = wx.getPlayInfoSync()
         let playing = res.playState && res.playState.status == 1 ? true : false
         wx.setStorageSync('playing', playing)
         if( res.playList && res.playList.length){
-        let options = res.playList.map(item=>{return JSON.parse(item.options)})
-          if(playing){
-            let song = options[res.playState.curIndex]
-            app.globalData.songInfo = song
-            wx.setStorageSync('songInfo', song)
-            this.triggerEvent('current', song.id)
-          }else{
-            let percent = res.playState.currentPosition / res.playState.duration * 100
-            app.globalData.percent = percent
-          }
+          let options = res.playList.map(item=>{return JSON.parse(item.options)})
+          let song = options[res.playState.curIndex]
+          app.globalData.songInfo = song
+          wx.setStorageSync('songInfo', song)
+          this.triggerEvent('current', song.id)
+          let percent = res.playState.currentPosition / res.playState.duration * 100
+          app.globalData.percent = percent
+          if(playing) app.playing(res.playState.currentPosition, that)
         }else{
           wx.setStorageSync('songInfo', {})
         }
       }
+    },
+    // 因为1.9.2版本无法触发onshow和onHide所以事件由它父元素触发
+    setOnShow() {
+      let that = this 
+      clearInterval(timer)
+      this.listenPlaey()
       const playing = wx.getStorageSync('playing')
       that.setData({
         playing: playing,

@@ -84,7 +84,8 @@ Page({
       noPlay: options.noPlay || null,
       abumInfoName: options.abumInfoName || null,
       loopType: wx.getStorageSync('loopType') || 'loop',
-      currentId: curId
+      currentId: curId,
+      playing:wx.getStorageSync('playing') || false
     })
     wx.setStorageSync('abumInfoName', options.abumInfoName)
     // 如果没有abumInfoName就把more按钮删掉

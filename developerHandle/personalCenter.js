@@ -57,9 +57,6 @@ module.exports = {
       app.userInfo = {}
       wx.setStorageSync('token', null)
       wx.setStorageSync('userInfo', app.userInfo)
-      this.setData({
-        showWxLoginBtn:true,
-      })
       this.loginIn()
     } else {
       this.setData({
@@ -71,9 +68,6 @@ module.exports = {
     if(wx.canIUse('onTaiAccountStatusChange')){
       wx.onTaiAccountStatusChange((res)=>{
         if(!res.isLoginUser){
-          this.setData({
-            showWxLoginBtn: true
-          })
           that.logoutTap()
         }else if(res.isLoginUser && app.authInfo.openId){
           this.setData({
@@ -109,9 +103,9 @@ module.exports = {
           app.authInfo  = res;
           // wx.setStorageSync('deviceId', res.deviceId)
           // 转换按钮状态
-
           this.setData({
-            showWxLogin: false,
+            showWxLoginBtn:true,
+            showWxLogin: false
           })
           if (!event && app.authInfo.mobileFlag && this.data.isLogin) {
             this.loginWx()
@@ -120,9 +114,15 @@ module.exports = {
 
           this.authRequest = false
         }).catch(err => {
+          this.setData({
+            showWxLoginBtn:true
+          })
         })
       },
       fail: (err) => {
+        this.setData({
+          showWxLoginBtn:true
+        })
         this.authRequest = false
       },
       complete: (res) => {

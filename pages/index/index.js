@@ -13,12 +13,10 @@ Page({
     wid: 1
   },
   onLoad(options) {
-    let that = this
-    // app.getNetWork(that)
+    this.selectComponent('#miniPlayer').getPlayInfo()
     this.setData({
       wid: wx.getSystemInfoSync().screenWidth - ((wx.getSystemInfoSync().windowHeight)/ 100) * 55
     })
-
     setTimeout(() => {
       wx.checkSession({
         success:(res)=> {
