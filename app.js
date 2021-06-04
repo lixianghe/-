@@ -271,6 +271,14 @@ App({
       wx.stopBackgroundAudio()
       return false
     }else{
+      let songInfo = wx.getStorageSync('songInfo')
+      if(this.cardPplayList.length){
+        let song =  this.cardPplayList.find(item=>item.title == songInfo.title)
+        songInfo.title = song.title
+        songInfo.dataUrl = song.dataUrl
+        songInfo.coverImgUrl = song.coverImgUrl
+      }
+      wx.setStorageSync('songInfo',songInfo)
       loopType === 'singleLoop' || !abumInfoName ? this.playing(0, that) : this.playing(null, that)
     }
   },

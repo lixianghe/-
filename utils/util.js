@@ -115,12 +115,14 @@ function initAudioManager(app, that, songInfo, fl) {
     songInfo.currentPageNo = wx.getStorageSync('currentPageNo') 
     let canplaying = songInfo.abumInfoName ? wx.getStorageSync('canplaying') || [] : [songInfo]
     if(canplaying.length) playList = canplaying.map(item=>{
-      return{
-        title:item.title || '',
-        coverImgUrl:item.coverImgUrl || '',
-        dataUrl:item.dataUrl || '',
-        options:JSON.stringify(item),
-      }
+      item.options = JSON.stringify(item)
+      return item
+      // return{
+      //   title:item.title || '',
+      //   coverImgUrl:item.coverImgUrl || '',
+      //   dataUrl:item.dataUrl || '',
+      //   options:JSON.stringify(item),
+      // }
     })
     if(JSON.stringify(app.cardPplayList) != JSON.stringify(playList)){
       app.cardPplayList = playList
@@ -186,9 +188,9 @@ function EventListener(app, that, fl){
     const pages = getCurrentPages()
     let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
     if (miniPlayer) {
-      miniPlayer.pre(true)
+      miniPlayer.pre()
     } else {
-      pages[pages.length - 1].pre(true)
+      pages[pages.length - 1].pre()
     }
 
   })
@@ -199,9 +201,9 @@ function EventListener(app, that, fl){
     const pages = getCurrentPages()
     let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
     if (miniPlayer) {
-      miniPlayer.next(true)
+      miniPlayer.next()
     } else {
-      pages[pages.length - 1].next(true)
+      pages[pages.length - 1].next()
     }
     
 
