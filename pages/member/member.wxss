@@ -10,7 +10,7 @@
   white-space: nowrap;
 }
 .vipCard {
-  width: 63vh;
+  min-width: 63vh;
   height: 71.53vh;
   border-radius: 3vh;
   background: #222222;
@@ -35,7 +35,7 @@
   font-size: 5.5vh;
 }
 .vipCard .subTitle {
-  width: 100%;
+  max-width: 60vh;
   height: 16.7vh;
   line-height: 7vh;
   border-radius: 3vh;
@@ -127,6 +127,10 @@
   background: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
+}
+.btn-view{
+  display:flex;
+  justify-content:center;
 }
 .btnFocus[focus-select=true] {
   box-shadow: inset 0px 0px 0px 4px #ff5100;

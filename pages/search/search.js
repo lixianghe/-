@@ -33,8 +33,11 @@ Page({
 
   },
   onShow() {
+    const pages = getCurrentPages();
+    const currentPage = pages[pages.length - 1];
+    let { keyword } = currentPage.options;
     this.selectComponent('#miniPlayer').setOnShow()
-    this.setData({focus: true})
+    this.setData({focus:!keyword})
   },
   onHide() {
     this.selectComponent('#miniPlayer').setOnHide()

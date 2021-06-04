@@ -15,7 +15,7 @@
       style="background-image:url({{src}})"
       catchtap="likeOne"
       data-typeid="{{datasource.id}}"
-      data-focusindex="4"
+      data-focusindex="3"
       data-contentType="{{datasource.contentType}}">
   </view>
 

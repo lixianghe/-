@@ -171,7 +171,6 @@ Component({
       like(that)
     },
     setExisted(bool) {
-      console.log('setExisted------------------------------------------------------', bool)
       this.setData({existed: bool})
     },
     watchPlay() {
@@ -181,9 +180,9 @@ Component({
       })
     },
      getPlayInfo(){
+       // 初始化backgroundManager
        let that = this
-      // 初始化backgroundManager
-      if (wx.canIUse('getPlayInfoSync')) {
+       if (wx.canIUse('getPlayInfoSync')) {
         let res = wx.getPlayInfoSync()
         let playing = res.playState && res.playState.status == 1 ? true : false
         wx.setStorageSync('playing', playing)
@@ -207,6 +206,11 @@ Component({
       clearInterval(timer)
       this.listenPlaey()
       const playing = wx.getStorageSync('playing')
+      if(!playing){
+        that.setData({
+          percent: app.globalData.percent || 0
+        })
+      }
       that.setData({
         playing: playing,
         percent: app.globalData.percent || 0
@@ -241,6 +245,9 @@ Component({
        }
     },
     setOnHide() {
+      this.setData({
+        percent:  0
+      })
       clearInterval(timer)
     }
   }

@@ -148,21 +148,15 @@
         mediaFavorite(params).then(res => {
           let layoutData = []
           res.list.forEach(item => {
-              console.log(`${item}89行`)
-              // console.log(item.feeType == '01' && (item.product || item.product && [2, 3].indexOf(item.product.vipLabelType) < 0)+'57行')
               layoutData.push({
                 id: item.mediaId,
                 title: item.mediaName,
                 src: item.coverUrl, 
                 contentType: 'media'
-                // isVip: true
               })
-    
           })
-          console.log(`${layoutData}67行`)
           this.setData({
             info: layoutData,
-            // info: [{id: 'qd223',title: '哈哈',src: "https://cdn.kaishuhezi.com/kstory/ablum/image/389e9f12-0c12-4df3-a06e-62a83fd923ab_info_w=450&h=450.jpg",contentType: 'album',isVip:true}],
             req: true
           })
           if(layoutData.length === 0) {
@@ -173,7 +167,6 @@
           wx.hideLoading()
         }).catch(err => {
           wx.hideLoading()
-          console.log(JSON.stringify(err)+'73行')
         })
       },
       like (e) {

@@ -102,21 +102,21 @@ App({
       })
     });
     wx.setStorageSync('playing', false)
-    if (wx.canIUse('getPlayInfoSync')) {
-      let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
-      if (!res.playState) return
-      setTimeout(() => {
-        let options = res.playList.map(item=>{return JSON.parse(item.options)})
-        let panelSong = options[res.playState.curIndex]
-        console.log('panelSong', panelSong, panelSong.dataUrl)
-        if (panelSong.dataUrl) {
-          this.globalData.songInfo = panelSong
-          wx.setStorageSync('songInfo', panelSong)
-        }
-        let playing = res.playState.status == 1 ? true : false
-        wx.setStorageSync('playing', playing)
-      }, 10)
-    }
+// if (wx.canIUse('getPlayInfoSync')) {
+//   let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
+//   if (!res.playState) return
+//   setTimeout(() => {
+//     let options = res.playList.map(item=>{return JSON.parse(item.options)})
+//     let panelSong = options[res.playState.curIndex]
+//     console.log('panelSong', panelSong, panelSong.dataUrl)
+//     if (panelSong.dataUrl) {
+//       this.globalData.songInfo = panelSong
+//       wx.setStorageSync('songInfo', panelSong)
+//     }
+//     let playing = res.playState.status == 1 ? true : false
+//     wx.setStorageSync('playing', playing)
+//   }, 10)
+// }
   },
 
   // 保存用户信息
@@ -260,6 +260,7 @@ App({
           pages[pages.length - 1].setData({
             playing: false
         })
+        wx.setStorageSync('playing',false)
         setTimeout(() => {
           wx.showToast({
             title: '该内容为会员付费内容，请先成为会员再购买收听~',
@@ -335,9 +336,16 @@ App({
   // 根据歌曲url播放歌曲
   playing: function (seek, that) {
     const songInfo = wx.getStorageSync('songInfo')
+    const pages = getCurrentPages()
+    let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
     if (!songInfo.dataUrl) return
     // 播放错误时，调起播放的标识符
     let fl = true
+    if (miniPlayer) miniPlayer.setData({ playing: true })
+    pages[pages.length - 1].setData({
+        playing: true
+    })
+    wx.setStorageSync('playing',true)
     // setTimeout(() => {
       tool.initAudioManager(this, that, songInfo, fl)
       this.carHandle(songInfo, seek)
@@ -538,4 +546,5 @@ App({
   logText: "",
   // log - 日志开关，1 => 开启，0 => 关闭
   openLog: 1,
+  cardPplayList:[],
 })

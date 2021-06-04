@@ -7,7 +7,7 @@
       <view class="cardTitle">{{item.cardTitle}}</view>
       <view class="cardPrice"><text>￥</text>{{item.cardPrice}}</view>
       <view class="subTitle" wx:if="{{item.subTitle}}" data-defaultfocus="true" data-id="{{item.productId}}" bindtap="showInfo" data-focusindex="2" data-info="{{item.subTitle}}">{{item.subTitle}}</view>
-      <button bindtap="toPay" data-focusindex="2" class="btnFocus" data-id="{{item.productId}}">开通</button>
+       <view class="btn-view"> <button bindtap="toPay" data-focusindex="2" class="btnFocus" data-id="{{item.productId}}">开通</button></view>
     </view>
   </scroll-view>
   <view wx:if="{{showInfo}}" class="model" bindtap="close" data-disablefocus="true"></view>
@@ -18,7 +18,9 @@
     <view class="info">
       {{info}}
     </view>
-    <button bindtap="toPay" class="btnFocus" data-focusindex="2" data-id="{{prdId}}">开通</button>
+    <view class="btn-view">
+      <button bindtap="toPay" class="btnFocus" data-focusindex="2" data-id="{{prdId}}">开通</button>
+     </view>
   </view>
 </view>
 

@@ -11,7 +11,7 @@
       </view>
       <!-- 页面盒子 -->
       <view class="storyBox">
-        <story wx:if="{{info.length>0 && req}}" wx:for="{{info}}" wx:key="index" data-no="{{index}}"
+        <story wx:if="{{info.length>0 && req}}" wx:for="{{info}}" wx:key="index" data-no="{{index}}" style="{{index == 0?'margin-left: 4vh;':''}}"
           data-id="{{item.id}}" data-title="{{item.title}}" data-src="{{item.src}}" data-disablefocus="true"
           data-contentype="{{item.contentType}}" bindtap="linkAbumInfo" datasource="{{item}}" likePic="{{likePic}}"
           bind:clickHadle="like" className="{{screen}}"></story>

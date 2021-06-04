@@ -103,7 +103,7 @@ module.exports = {
     // console.log('songInfo', canplaying, params.mediaId)
     let abumInfoName = wx.getStorageSync('abumInfoName')
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
-    if (!abumInfoName) {
+    if (!abumInfoName && app.globalData.songInfo.dataUrl) {
       app.globalData.songInfo.dataUrl = `${app.globalData.songInfo.dataUrl}?flag=${new Date().getTime()}`
     }
     that.setData({
@@ -143,7 +143,11 @@ module.exports = {
   // 如果mediaUrl没有给出弹框并跳到首页
   needFee() {
     if (!this.data.songInfo.dataUrl) {
-      this.setData({showModal: true})
+      this.setData({
+        showModal: true,
+        playing: false,
+      });
+      wx.setStorageSync("playing", false);
       wx.stopBackgroundAudio()
       wx.hideLoading()
       return false

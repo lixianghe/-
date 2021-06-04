@@ -14,7 +14,7 @@ Page({
     songInfo: {},
     playing: false,
     drapType: false,
-    percent: 0,
+    percent: app.globalData.percent || 0,
     drapPercent: 0,
     playtime: '00:00',
     showList: false,
@@ -85,7 +85,8 @@ Page({
       abumInfoName: options.abumInfoName || null,
       loopType: wx.getStorageSync('loopType') || 'loop',
       currentId: curId,
-      playing:wx.getStorageSync('playing') || false
+      playing:wx.getStorageSync('playing') || false,
+      percent:app.globalData.percent || 0,
     })
     wx.setStorageSync('abumInfoName', options.abumInfoName)
     // 如果没有abumInfoName就把more按钮删掉
@@ -110,7 +111,7 @@ Page({
     tool.NewPlayAlrc(that, app);
     this.queryProcessBarWidth()
     // 从面板回来赋值
-    if (showIndex > 1) tool.panelSetInfo(app, that)
+    // if (showIndex > 1) tool.panelSetInfo(app, that)
   },
   onUnload: function () {
 
@@ -226,20 +227,33 @@ Page({
   async playSong(e) {
     let that = this
     let songInfo = e.currentTarget.dataset.song
-    // 获取歌曲详情
-    let params = {mediaId: songInfo.id, contentType: 'story'}
-    await this.getMedia2(params)
+    let canplaying =  wx.getStorageSync('canplaying')
+    if(app.cardPplayList.length){
+      let song =  app.cardPplayList.find(item=>item.title == songInfo.title)
+      songInfo.title = song.title
+      songInfo.dataUrl = song.dataUrl
+      songInfo.coverImgUrl = song.coverImgUrl
+    }else{
+      songInfo = canplaying.find(item=>item.title == songInfo.title)
+    }
     this.setData({
       songInfo: songInfo,
       currentId: songInfo.id,
-      playing: true
-      // noTransform: ''
+      playing: true,
     })
+    // 获取歌曲详情
+    let params = {mediaId: songInfo.id, contentType: 'story'}
+    await this.getMedia2(params)
     // 如果没有src playinfo给出弹框，其他页面给出toast提示
     if (!app.globalData.songInfo.dataUrl) {
-      this.setData({showModal: true, noBack: true})
-      wx.hideLoading()
-      wx.stopBackgroundAudio()
+      this.setData({
+        showModal: true,
+        noBack: true,
+        playing: false,
+      });
+      wx.setStorageSync("playing", false);
+      wx.hideLoading();
+      wx.stopBackgroundAudio();
     }
     wx.setStorageSync('songInfo',songInfo)
     app.playing(null, that)

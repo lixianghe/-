@@ -92,10 +92,6 @@ function toggleplay(that, app) {
     });
     app.stopmusic();
   } else {
-    console.log("继续播放")
-    that.setData({
-      playing: true
-    });
     if (!that.data.songInfo || !that.data.songInfo.dataUrl) {
       wx.showToast({
         title: '该内容为会员付费内容，请先成为会员再购买收听~',
@@ -103,6 +99,9 @@ function toggleplay(that, app) {
       })
       return
     }
+    that.setData({
+      playing: true
+    });
     app.playing(app.globalData.currentPosition, that);
   }
 }
@@ -110,53 +109,50 @@ function toggleplay(that, app) {
 
 // 初始化 BackgroundAudioManager
 function initAudioManager(app, that, songInfo, fl) {
-    app = getApp()
-  // that.audioManager = wx.getBackgroundAudioManager()
-  // EventListener(app, that, fl)
   if (fl) {
     let playList = []
     songInfo.abumInfoName = wx.getStorageSync('abumInfoName') || 1
     songInfo.currentPageNo = wx.getStorageSync('currentPageNo') 
     let canplaying = songInfo.abumInfoName ? wx.getStorageSync('canplaying') || [] : [songInfo]
-
     if(canplaying.length) playList = canplaying.map(item=>{
       return{
         title:item.title || '',
-        singer:item.singer || '',
         coverImgUrl:item.coverImgUrl || '',
         dataUrl:item.dataUrl || '',
         options:JSON.stringify(item),
       }
     })
-    app.audioManager.playInfo = {
-        playList,
-        context: JSON.stringify(songInfo),
-        playDetailPagePath: "pages/index/index"
+    if(JSON.stringify(app.cardPplayList) != JSON.stringify(playList)){
+      app.cardPplayList = playList
+      app.audioManager.playInfo = {
+          playList,
+          context: JSON.stringify(songInfo)
       }
+    }
   }
 }
 
 // 从面板切到小程序的赋值
-function panelSetInfo(app, that) {
-  // 测试getPlayInfoSync
-  if (wx.canIUse('getPlayInfoSync')) {
-    let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
-    let options = res.playList.map(item=>{return JSON.parse(item.options)})
-    let panelSong = options[res.playState.curIndex]
-    if (panelSong.dataUrl) {
-      app.globalData.songInfo = panelSong
-      wx.setStorageSync('songInfo', panelSong)
-      that.setData({
-        songInfo: panelSong,
-        showModal: false,
-        currentId: panelSong.id,
-        abumInfoName: panelSong.abumInfoName
-      })
-    }
-    let playing = res.playState.status == 1 ? true : false
-    wx.setStorageSync('playing', playing)
-  }
-}
+// function panelSetInfo(app, that) {
+//   // 测试getPlayInfoSync
+//   if (wx.canIUse('getPlayInfoSync')) {
+//     let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
+//     let options = res.playList.map(item=>{return JSON.parse(item.options)})
+//     let panelSong = options[res.playState.curIndex]
+//     if (panelSong.dataUrl) {
+//       app.globalData.songInfo = panelSong
+//       wx.setStorageSync('songInfo', panelSong)
+//       that.setData({
+//         songInfo: panelSong,
+//         showModal: false,
+//         currentId: panelSong.id,
+//         abumInfoName: panelSong.abumInfoName
+//       })
+//     }
+//     let playing = res.playState.status == 1 ? true : false
+//     wx.setStorageSync('playing', playing)
+//   }
+// }
 
 // 监听播放，上一首，下一首
 function EventListener(app, that, fl){
@@ -283,7 +279,7 @@ module.exports = {
   EventListener: EventListener,
   throttle: throttle,
   debounce: debounce,
-  panelSetInfo: panelSetInfo,
+  // panelSetInfo: panelSetInfo,
   randomList: randomList,
   NewPlayAlrc:NewPlayAlrc
 }
