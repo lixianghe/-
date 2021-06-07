@@ -66,7 +66,8 @@ function playAlrc(that, app) {
         //  console.log('========监听捕获========='+ playing+'==========='+time+'=============')
         // if (that.data.isDrag) return
         that.setData({
-          playtime: playtime ? formatduration(playtime * 1000) : '00:00',
+          // playtime: playtime ? formatduration(playtime * 1000) : '00:00',
+          playtime:formatduration(playtime * 1000),
           percent: time || app.globalData.percent
         })
         app.globalData.percent = time

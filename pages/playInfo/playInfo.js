@@ -87,6 +87,8 @@ Page({
       currentId: curId,
       playing:wx.getStorageSync('playing') || false,
       percent:app.globalData.percent || 0,
+      playtime:app.audioManager.currentTime?tool.formatduration(app.audioManager.currentTime * 1000):'00:00',
+
     })
     wx.setStorageSync('abumInfoName', options.abumInfoName)
     // 如果没有abumInfoName就把more按钮删掉

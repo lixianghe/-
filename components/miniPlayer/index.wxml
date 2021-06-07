@@ -9,7 +9,8 @@
   <view class="btns">
     <view data-name="{{item.name}}" data-focusindex="5" bindtap="player" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}" class="view" wx:key="index" wx:for="{{miniBtns.length ? miniBtns : defaultBtns}}">
       <view wx:if="{{hoverflag && current === index}}" class="modal"></view>
-      <image class="image" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
+       <!--<image class="image" wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />-->
+      <view class="image {{ playing ? 'play':'stop'}}" wx:if="{{item.name === 'toggle'}}"></view>
       <image class="image" wx:elif="{{item.name === 'like'}}" src="{{existed ? item.img.liked : item.img.noLike}}" />
       <image class="image" wx:else src="{{item.img}}" />
     </view>

@@ -143,7 +143,6 @@ module.exports = {
         this.logout = false;
         return;
       }
-      console.log(JSON.stringify(res)+'用户信息  114行')
       app.userInfo = res
       wx.setStorageSync('token', res.token)
       app.tokenStatus = 0
@@ -155,7 +154,6 @@ module.exports = {
     }).catch(err => {
       wx.hideLoading()
       this.setForbidStatus(true, err)
-      console.log(err, 95)
     })
   },
   /**
@@ -184,9 +182,7 @@ module.exports = {
       mobileIv: iv,
       authCode: app.authInfo.authCode
     }
-    console.log('postData' + postData + '120行')
     login(postData).then(res => {
-      console.log('成功成功成功成功', res)
       app.userInfo = res
       wx.hideLoading()
       app.tokenStatus = 0
@@ -199,20 +195,15 @@ module.exports = {
     }).catch(err => {
       wx.hideLoading()
       this.setForbidStatus(true, err)
-      console.log(err, 95)
     })
 
   },
   getUserInfo(showGzh){
-    console.log('获取用户信息');
     userInfo({}).then(res => {
-      console.log('getUserInfo----------------' + JSON.stringify(res))
       if(this.logout){
         this.logout = false;
         return;
       }
-      // console.log(resUser)
-      console.log('resUser', res)
       let { headImgUrl, nickname, appUserId, status } = res;
       let forbid = false;
       let showModalForbid = false;
@@ -241,19 +232,13 @@ module.exports = {
         })
       }
     }).catch(err => {
-      // wx.showToast({
-      //   icon: 'none',
-      //   title: err || '网络异常'
-      // })
       this.setData({isLogin: false})
-      console.log(err, 181)
     })
 
 
     vipInfo({}).then(res => {
       let vipPic = ''
       let { expireTime, vipStatus } = res
-      console.log(JSON.stringify(vipStatus),JSON.stringify(expireTime)+'224行--mine')
       if (expireTime){
         let expireDate = new Date(expireTime)
         let year = expireDate.getFullYear()
@@ -299,7 +284,6 @@ module.exports = {
       })
     }).catch(err => {
       this.setData({isLogin: false})
-      console.log(JSON.stringify(err)+'261行--mine')
     })
   },
   logoutBtn () {
@@ -321,7 +305,6 @@ module.exports = {
     })
   },
   logoutTap(){
-    console.log(101010101010)
     this.logout = true;
     setTimeout(()=>{
       this.logout = false;

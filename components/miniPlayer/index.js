@@ -245,9 +245,6 @@ Component({
        }
     },
     setOnHide() {
-      this.setData({
-        percent:  0
-      })
       clearInterval(timer)
     }
   }
