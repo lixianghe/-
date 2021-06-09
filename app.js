@@ -249,7 +249,15 @@ App({
     let songInfo = this.globalData.songInfo
     if (!songInfo.dataUrl) {
       if (that.route === 'pages/playInfo/playInfo') {
-        that.setData({showModal: true, noBack: true})
+        that.setData({
+          showModal: true, 
+          noBack: true,
+          playing: false,
+          playtime: '00:00',
+          percent:0,
+        })
+        wx.hideLoading()
+        wx.setStorageSync('playing',false)
       } else {
         wx.hideLoading()
         const pages = getCurrentPages()
@@ -272,7 +280,8 @@ App({
       return false
     }else{
       let songInfo = wx.getStorageSync('songInfo')
-      if(this.cardPplayList.length){
+      let isInclusion = this.cardPplayList.findIndex(item=>item.title == songInfo.title) !=-1
+      if(this.cardPplayList.length && isInclusion){
         let song =  this.cardPplayList.find(item=>item.title == songInfo.title)
         songInfo.title = song.title
         songInfo.dataUrl = song.dataUrl
@@ -553,6 +562,6 @@ App({
   // log - 日志文本
   logText: "",
   // log - 日志开关，1 => 开启，0 => 关闭
-  openLog: 1,
+  openLog: 0,
   cardPplayList:[],
 })

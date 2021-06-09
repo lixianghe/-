@@ -44,12 +44,17 @@
   </view>
   </scroll-view>
   <!-- <view class="getSystemInfoSync">windowHeight:{{getSystemInfoSync}} ------  screenHeight:{{screenHeight}}</view> -->
-  <view class="miniView" style="top: {{topHeight}}px;height: 17.3vh">
+  <view class="miniView" style="top: {{topHeight}}px;height: 17.3vh" wx:if="{{!showNonet}}">
     <mini-player id="miniPlayer" songInfo="{{songInfo}}"></mini-player>
   </view>
 </view>
-
 <!-- 加入没有数据 -->
 <view class="noData" style="top: {{50 * times}}px" wx:if="{{!info.length && keyWord && !searchState }}">暂无内容</view>
-
-
+<!-- 网络异常 -->
+<view class="noData" style="top: {{26 * times}}px" wx:if="{{showNonet}}">
+<image class="img" style="width: {{36.8 * times}}px; height: {{36.8 * times}}px; " src="../../images/img_wangluoyichang.png"></image>
+  <view class="text-view" bindtap="refresh" style="margin-top: {{3 * times}}px;font-size: {{5.48 * times}}px;">
+    <text class="text" style="color: #E6E6E6;">网络异常，</text>
+    <text class="text" style=" color: #f4c901;">点击刷新~</text>
+  </view>
+</view>

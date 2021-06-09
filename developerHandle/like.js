@@ -40,6 +40,9 @@
             url: '/pages/personalCenter/personalCenter'
           })
         }
+        if(this.data.info.length){
+          this._getList(this.data.labels[this.data.currentTap].value)
+        }
       },
       onLoad(options) {
         this._getList(this.data.labels[0].value)

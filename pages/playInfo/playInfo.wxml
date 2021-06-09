@@ -149,7 +149,7 @@
           <text>{{item.title}}</text>
 
 
-          <text class="audition" style="color:{{mainColor}};border: 1px solid {{mainColor}}" wx:if="{{item.feeType === '01' && item.auditionDuration != 0}}">试听</text>
+          <text class="audition" style="color:{{mainColor}};border: 1px solid {{mainColor}}" wx:if="{{(item.feeType === '01' && item.auditionDuration != 0) || (item.feeType === '00' && item.auditionDuration == 1)}}">试听</text>
           <text class="audition" style="color:{{mainColor}};border: 1px solid {{mainColor}}" wx:if="{{item.feeType === '01' && item.auditionDuration == 0}}">付费</text>
 
 

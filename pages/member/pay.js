@@ -25,7 +25,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('当前购买id：',options.id)
     this.setData({
       productId: options.id
     })
@@ -50,7 +49,6 @@ Page({
 
   async createOrder(){
     let res = await signature()
-    console.log('signature', res)
     let postData = {
       productType: 1,
       productId: this.data.productId,
@@ -61,9 +59,7 @@ Page({
       orderChannel: 'car-app-tencent'
     }
     this.setData({signature: res.signature})
-    console.log('pastData=----------------------============-' + JSON.stringify(postData))
     buy(postData).then(res => {
-      console.log('createOrder',res)
       let { totalPrice, payResult } = res
       this.setData({
         totalPrice,
@@ -71,7 +67,13 @@ Page({
       })
       this.getPayResult()
     }).catch(error => {
-      console.log('error', error)
+      let {data:{success,code,message}} = error
+      if(!success && code=='700111'){
+        wx.showToast({
+          title: '请不要频繁操作，请稍后再试',
+          icon: 'none'
+        })
+      }
     })
   },
 
@@ -82,7 +84,6 @@ Page({
     payTimer = setTimeout(()=>{
       let params = { signature: this.data.signature }
       buyResult(params).then(res => {
-        console.log('注册轮询查询支付结果事件', res)
         let { payResult } = res
         let payStatus = ''
         switch (payResult) {

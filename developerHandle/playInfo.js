@@ -146,6 +146,8 @@ module.exports = {
       this.setData({
         showModal: true,
         playing: false,
+        playtime: '00:00',
+        percent:0,
       });
       wx.setStorageSync("playing", false);
       wx.stopBackgroundAudio()

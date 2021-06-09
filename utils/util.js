@@ -211,7 +211,11 @@ function EventListener(app, that, fl){
   })
   //停止事件
   app.audioManager.onStop(() => {
-    console.log('触发停止事件');
+   let time = app.audioManager.currentTime / app.audioManager.duration * 100;
+    that.setData({
+      percent: time
+    })
+    app.globalData.percent = time
     wx.hideLoading()
   })
   //播放错误事件

@@ -111,12 +111,12 @@ module.exports = {
             this.authRequest = false;
           })
           .catch((err) => {
-            wx.showToast({
-              title: "手机号授权登录失败，请重新授权登录",
-              icon: "none",
-              duration: 1500,
-              mask: false,
-            });
+            // wx.showToast({
+            //   title: "手机号授权登录失败，请重新授权登录",
+            //   icon: "none",
+            //   duration: 1500,
+            //   mask: false,
+            // });
             this.setData({
               showWxLoginBtn: true,
             });
@@ -127,12 +127,12 @@ module.exports = {
           showWxLoginBtn: true,
         });
         this.authRequest = false;
-        wx.showToast({
-          title: "授权登录失败，请重新授权登录",
-          icon: "none",
-          duration: 1500,
-          mask: false,
-        });
+        // wx.showToast({
+        //   title: "授权登录失败，请重新授权登录",
+        //   icon: "none",
+        //   duration: 1500,
+        //   mask: false,
+        // });
       },
       complete: (res) => {},
     });
@@ -321,17 +321,16 @@ module.exports = {
   },
   confirm() {
     this.setData({
-      showWxLogin: false,
       showChangeAccount: false,
     });
-    this.logoutTap();
+    this.logoutTap(false);
   },
   cancel() {
     this.setData({
       showChangeAccount: false,
     });
   },
-  logoutTap() {
+  logoutTap(showWxLogin = true) {
     this.logout = true;
     setTimeout(() => {
       this.logout = false;
@@ -341,7 +340,7 @@ module.exports = {
     app.userInfo.expireTime = "";
     this.setData({
       isLogin: false,
-      showWxLogin: true,
+      showWxLogin: showWxLogin,
       userInfo: {
         avatar: "",
         nickname: "",

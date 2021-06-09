@@ -62,22 +62,21 @@ module.exports = {
           });
         }
       });
-      // if (!layoutData.length) {
-      //   wx.showToast({
-      //     title: '未查询到相关内容',
-      //     icon: 'none'
-      //   })
-      // }
       this.setData({
+        showNonet:false,
         searchState:false,
         info: layoutData,
       });
     })
     .catch((err) => {
-      wx.showToast({
-        title: '未查询到相关内容',
-        icon: 'none'
-      })
+      let { data } = err
+      if(!data){
+        this.setData({
+          info:[],
+          searchState:true,
+          showNonet:true
+        });
+      }
     });
   },
   pathSearch() {
@@ -99,4 +98,10 @@ module.exports = {
       );
     }
   },
+  refresh(){
+    this._getList({
+      label: this.data.labels[this.data.currentTap].value,
+      keyWord: this.data.keyWord,
+    });
+  }
 };

@@ -6,7 +6,6 @@ let searchMixin = require('../../developerHandle/search')
 Page({
   mixins: [searchMixin],
   data: {
-    
     screen: app.globalData.screen,
     noContent: '/images/nullContent.png',
     info: [],
@@ -23,7 +22,8 @@ Page({
     focus: false,
     getSystemInfoSync: 0,
     screenHeight: 0,
-    searchState:false
+    searchState:false,
+    showNonet:false
   },
   onLoad() {
     this.getMiniHeight()
@@ -56,10 +56,12 @@ Page({
   },
   selectTap(e) {
     const index = e.currentTarget.dataset.index
+    let { info } = this.data
     if(this.data.currentTap != index){
       this.setData({
         scrollLeft: 0,
-        currentTap: index
+        currentTap: index,
+        info:info.map(()=>{})
       },()=>{
         this.getData(index)
       })

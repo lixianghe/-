@@ -252,6 +252,8 @@ Page({
         showModal: true,
         noBack: true,
         playing: false,
+        playtime: '00:00',
+        percent:0
       });
       wx.setStorageSync("playing", false);
       wx.hideLoading();
