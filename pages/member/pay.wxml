@@ -2,13 +2,15 @@
 <view class="container {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" style="background-color:{{backgroundColor}}">
   <view class="content-container">
     <view class="pay-panel" wx:if="{{payStatus == 'pre'}}">
-      <image class="ercode" src="{{codeUrl}}"></image>
+      <vehicle-speed isWhole="true">
+        <image class="ercode" src="{{codeUrl}}"></image>
+      </vehicle-speed>
       <view class="price">
         <text>待付款</text>
         <text class="price-val">￥{{totalPrice}}</text>
       </view>
       <view class="price-tip">使用微信扫一扫付款</view>
-      <view class="price-tip">付款成功即可畅享凯叔海量精品内容</view>
+      <view class="price-tip">付款成功即可畅享凯叔海量精品内容</view> 
     </view>
     <view class="success-panel" wx:if="{{payStatus == 'success'}}">
       <image class="pay-icon" src="/images/pic_succeed.png"></image>

@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "等待支付",
-  "usingComponents": {}
+  "usingComponents": {
+    "vehicle-speed": "/components/vehicle_speed/index"
+  }
 }

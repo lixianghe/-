@@ -1,0 +1,29 @@
+   
+<view class="vehicle-speed-content">
+<slot></slot>
+<view class="vehicle-whole"  wx:if="{{showQrcodeMask && isWhole}}">
+  <view class="vehicle-layer">
+    <view class="vehicle-layer-content">
+      <view class="vehicle-content">
+        <view class="vehicle-tips">
+          <view>{{vehicleTips}}</view>
+        </view>
+        <view class="vehicle-confirm zbe-border mark" data-focusindex="1" catchtap="destructionWatc" >{{confirmText}}</view>
+      </view>
+    </view>
+  </view> 
+</view>
+<view class="vehicle-part"  wx:if="{{showQrcodeMask && !isWhole}}">
+  <view class="vehicle-layer">
+    <view class="vehicle-layer-content">
+      <view class="vehicle-content">
+        <view class="vehicle-tips">
+          <view wx:if="{{vehicleTipsArray[0]}}" >{{vehicleTipsArray[0]}}</view>
+          <view wx:if="{{vehicleTipsArray[1]}}" >{{vehicleTipsArray[1]}}</view>
+        </view>
+        <view class="vehicle-confirm zbe-border mark" data-focusindex="1" catchtap="destructionWatc" >{{confirmText}}</view>
+      </view> 
+    </view>
+  </view>
+</view>
+</view>

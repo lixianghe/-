@@ -134,34 +134,10 @@ function initAudioManager(app, that, songInfo, fl) {
     }
   }
 }
-
-// 从面板切到小程序的赋值
-// function panelSetInfo(app, that) {
-//   // 测试getPlayInfoSync
-//   if (wx.canIUse('getPlayInfoSync')) {
-//     let res = JSON.parse(JSON.stringify(wx.getPlayInfoSync()))
-//     let options = res.playList.map(item=>{return JSON.parse(item.options)})
-//     let panelSong = options[res.playState.curIndex]
-//     if (panelSong.dataUrl) {
-//       app.globalData.songInfo = panelSong
-//       wx.setStorageSync('songInfo', panelSong)
-//       that.setData({
-//         songInfo: panelSong,
-//         showModal: false,
-//         currentId: panelSong.id,
-//         abumInfoName: panelSong.abumInfoName
-//       })
-//     }
-//     let playing = res.playState.status == 1 ? true : false
-//     wx.setStorageSync('playing', playing)
-//   }
-// }
-
 // 监听播放，上一首，下一首
 function EventListener(app, that, fl){
   //播放事件
   app.audioManager.onPlay(() => {
-    console.log('-------------------------------onPlay-----------------------------------')
     wx.hideLoading()
     wx.setStorageSync('playing', true)
     that.setData({
