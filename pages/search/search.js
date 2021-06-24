@@ -23,7 +23,9 @@ Page({
     getSystemInfoSync: 0,
     screenHeight: 0,
     searchState:false,
-    showNonet:false
+    showNonet:false,
+    keyWord:'',
+    cursor:0
   },
   onLoad() {
     this.getMiniHeight()
@@ -37,7 +39,10 @@ Page({
     const currentPage = pages[pages.length - 1];
     let { keyword } = currentPage.options;
     this.selectComponent('#miniPlayer').setOnShow()
-    this.setData({focus:!keyword})
+    this.setData({
+      focus:!keyword,
+      cursor:app.globalData.keyWord?app.globalData.keyWord.length:0
+    })
   },
   onHide() {
     this.selectComponent('#miniPlayer').setOnHide()
@@ -45,6 +50,7 @@ Page({
   },
   // 函数节流防止请求过多
   search: tool.throttle(function (e) {
+    app.globalData.keyWord = e[0].detail.value
     this.setData({keyWord: e[0].detail.value,searchState:true})
     this.getData(this.data.currentTap)
   }, 200),
