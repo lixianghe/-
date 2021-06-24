@@ -96,6 +96,11 @@ Component({
       const type = e.currentTarget.dataset.name
       if (type) this[type]()
     },
+    showPlaying(){
+      this.setData({
+        playing:true
+      })
+    },
     // 上一首
     pre(panelCut) {
       // 设置播放图片名字和时长
@@ -194,7 +199,7 @@ Component({
           this.triggerEvent('current', song.id)
           let percent = res.playState.currentPosition / res.playState.duration * 100
           app.globalData.percent = percent
-          app.globalData.currentPosition = currentPosition
+          app.globalData.currentPosition = res.playState.currentPosition
           if(playing) app.playing(res.playState.currentPosition, that)
         }else{
           wx.setStorageSync('songInfo', {})

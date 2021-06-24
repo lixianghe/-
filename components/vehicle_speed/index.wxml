@@ -5,6 +5,9 @@
   <view class="vehicle-layer">
     <view class="vehicle-layer-content">
       <view class="vehicle-content">
+      <view class="vehicle-icon-content">
+        <image class="vehicle-icon" src="images/vehicleIcon.png"></image>
+      </view>
         <view class="vehicle-tips">
           <view>{{vehicleTips}}</view>
         </view>
@@ -17,9 +20,11 @@
   <view class="vehicle-layer">
     <view class="vehicle-layer-content">
       <view class="vehicle-content">
+      <view class="vehicle-icon-content">
+        <image class="vehicle-icon" src="images/vehicleIcon.png"></image>
+      </view>
         <view class="vehicle-tips">
-          <view wx:if="{{vehicleTipsArray[0]}}" >{{vehicleTipsArray[0]}}</view>
-          <view wx:if="{{vehicleTipsArray[1]}}" >{{vehicleTipsArray[1]}}</view>
+          <view wx:if="{{vehicleTips}}" >{{vehicleTips}}</view>
         </view>
         <view class="vehicle-confirm zbe-border mark" data-focusindex="1" catchtap="destructionWatc" >{{confirmText}}</view>
       </view> 

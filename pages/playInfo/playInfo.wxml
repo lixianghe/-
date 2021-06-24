@@ -46,7 +46,8 @@
 
 
       <text class="duration" wx:if="{{percentBar}}">{{songInfo.dt}}</text>
-      <view class="btns">
+      <view  class="btnView">
+      <view class="btns" wx:if="{{showBtn}}" >
         <view data-name="{{item.name}}" data-focusindex="2" bindtap="btnsPlay" wx:for="{{playInfoBtns.length ? playInfoBtns : defaultBtns}}" wx:key="index" bindtouchstart="btnstart" bindtouchend="btend" data-index="{{index}}">
           <view wx:if="{{btnCurrent === index}}" class="modal"></view>
           <image wx:if="{{item.name === 'toggle'}}" src="{{playing ? item.img.stopUrl : item.img.playUrl}}" />
@@ -54,6 +55,7 @@
           <image wx:elif="{{item.name === 'like'}}" src="{{existed ? item.img.liked : item.img.noLike}}" />
           <image wx:elif="{{item.name === 'loopType'}}" src="{{item.img[loopType]}}" />
           <image wx:else src="{{item.img}}" />
+        </view>
         </view>
     </view>
     </view>

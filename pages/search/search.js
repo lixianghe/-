@@ -45,7 +45,7 @@ Page({
   },
   // 函数节流防止请求过多
   search: tool.throttle(function (e) {
-    this.setData({keyWord: e[0].detail.value})
+    this.setData({keyWord: e[0].detail.value,searchState:true})
     this.getData(this.data.currentTap)
   }, 200),
   cancel() {
@@ -61,7 +61,7 @@ Page({
       this.setData({
         scrollLeft: 0,
         currentTap: index,
-        info:info.map(()=>{})
+        info:[null]
       },()=>{
         this.getData(index)
       })

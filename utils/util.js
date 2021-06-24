@@ -47,43 +47,26 @@ function playAlrc(that, app) {
     }
   });
 };
- /**
-     * 监听播放器播放进度事件
-     */
-    function  NewPlayAlrc(that, app) {
-      app.audioManager.onTimeUpdate(() => {
-        wx.setStorageSync('mediaPage', 'player')
-        if (that.data.isDrag) {
-          return
-        }
-        //  console.log('util-----playProcessListener------app.audioManager',app.audioManager)
-        var time = 0, playtime = 0;
-        time = app.audioManager.currentTime / app.audioManager.duration * 100;
-        playtime = app.audioManager.currentTime;
-        // console.log('onTimeUpdate触发：playtime='+playtime+',time='+time);
-        app.globalData.playing = true;
-        app.globalData.currentPosition = playtime
-        //  console.log('========监听捕获========='+ playing+'==========='+time+'=============')
-        // if (that.data.isDrag) return
-        that.setData({
-          // playtime: playtime ? formatduration(playtime * 1000) : '00:00',
-          playtime:formatduration(playtime * 1000),
-          percent: time || app.globalData.percent
-        })
-        app.globalData.percent = time
-        // wx.setStorage({
-        //   key: "playing",
-        //   data: playing
-        // })
-        // 设置abumInfo页面的播放状态用来控制gif是否展示
-      }
-      
-    
-      )
+/**
+* 监听播放器播放进度事件
+*/
+function NewPlayAlrc(that, app) {
+  let time = 0, playtime = 0;
+  app.audioManager.onTimeUpdate(() => {
+    time = app.audioManager.currentTime / app.audioManager.duration * 100;
+    playtime = app.audioManager.currentTime;
+    app.globalData.playing = true;
+    app.globalData.currentPosition = playtime
+    if (!that.data.isDrag) {
+      that.setData({
+        // playtime: playtime ? formatduration(playtime * 1000) : '00:00',
+        playtime: formatduration(playtime * 1000),
+        percent: time || app.globalData.percent
+      })
+      app.globalData.percent = time
     }
-
-
-
+  })
+}
 
 function toggleplay(that, app) {
   if (that.data.playing) {

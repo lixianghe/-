@@ -16,7 +16,6 @@ Component({
     vehicleTips: "请遵守交通法规，请勿在驾驶时扫描二维码",
     confirmText: "我知道了",
     showQrcodeMask: false,
-    vehicleTipsArray: [],
     callbackkey: '',
   },
   // 页面初始化
@@ -39,10 +38,6 @@ Component({
   methods: {
     // 页面初始化
     initialization() {
-      if (!this.data.isWhole)
-        this.setData({
-          vehicleTipsArray: this.data.vehicleTips.split("，"),
-        });
       if (wx.canIUse("getRestrictions")) {
         wx.getRestrictions({
           type: 1,

@@ -2,9 +2,8 @@
 <view class="container {{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;" style="background-color:{{backgroundColor}}">
   <view class="content-container">
     <view class="pay-panel" wx:if="{{payStatus == 'pre'}}">
-      <vehicle-speed isWhole="true">
-        <image class="ercode" src="{{codeUrl}}"></image>
-      </vehicle-speed>
+      <vehicle-speed isWhole="true"></vehicle-speed>
+      <image class="ercode" src="{{codeUrl}}"></image>
       <view class="price">
         <text>待付款</text>
         <text class="price-val">￥{{totalPrice}}</text>

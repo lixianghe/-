@@ -198,8 +198,6 @@
             })
           })
         }
-    
-        
       },
       likeMedia (flag, id) {
         let { info } = this.data
@@ -227,5 +225,18 @@
       },
       close() {
         this.setData({showModal: false})
-      }
+      },
+      // miniPlayer的取消收藏
+      existedLike(event) {
+        const { type, id } = event.detail;
+        const { info, labels, currentTap } = this.data;
+        const state = info.findIndex((item) => id == item.id) > -1;
+        if (type == "cancel" && state) {
+          this.setData({
+            info: info.filter((item) => item.id != id) || [],
+          });
+        } else if (type == "add" && labels[currentTap].value == "media") {
+          this.getMedia();
+        }
+      },
     }

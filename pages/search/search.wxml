@@ -21,7 +21,7 @@
       </view>
       <!-- 页面盒子 -->
       <view 
-        wx:if="{{info.length>0}}"
+        wx:if="{{info.length>0 && info[0]!=null}}"
         wx:for="{{info}}"
         wx:key="index"
         data-id="{{item.id}}"
@@ -31,7 +31,7 @@
         bindtap="linkAbumInfo"
         class="{{screen}}albumCard"
         data-disablefocus="true"
-        style="width: {{33.7 * times}}px; margin-top: {{31.5 * times}}px">
+        style="margin-right: {{6.5* times}}px;width: {{33.7 * times}}px; margin-top: {{31.5 * times}}px">
         <image class="image" src="{{item.src}}"
         data-focusindex="4" bindtap="linkAbumInfo"
         style="width: {{33.7 * times}}px; height: {{33.7 * times}}px; border-radius: {{2 * times}}px;"></image>

@@ -12,7 +12,7 @@
   </scroll-view>
   <view wx:if="{{showInfo}}" class="model" bindtap="close" data-disablefocus="true"></view>
   <view wx:if="{{showInfo}}" class="showInfo">
-    <view class="close" bindtap="close" data-focusindex="2">
+    <view class="close" bindtap="close" data-closepopup data-focusindex="2">
       <image src="../../images/modal_close.png" />
     </view>
     <view class="info">

@@ -112,7 +112,7 @@
 }
 .page .left .songList view text:last-child {
   position: absolute;
-  right: 0;
+  right: 3vh;
 }
 .page .left .songList .playCount {
   margin-left: 3vh;

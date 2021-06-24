@@ -77,11 +77,13 @@
   font-size: 4.3vh;
   color: #696969;
 }
-
+.btnView{
+  height: 15.5vh;
+  width: 100%;
+  margin-top: 15vh;
+}
 .page .playLeft .btns {
   display: flex;
-  margin-top: 15vh;
-  height: 15.5vh;
   justify-content: space-around;
   align-items: center;
 }

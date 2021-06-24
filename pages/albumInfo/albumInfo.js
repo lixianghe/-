@@ -57,11 +57,8 @@ Page({
   ctx: null,
   onReady() {},
   async onLoad(options) {
-    if(options.img) wx.setStorageSync('img', options.img)
-    // 检测网络
-    let that = this
-    // app.getNetWork(that)
-
+    // 初始化语音Path逻辑
+    this.initiaVoicePath(options)
     // 暂存专辑全部歌曲
     this.setData({
       src: wx.getStorageSync('img'),
@@ -156,8 +153,6 @@ Page({
     let noOrderList = tool.randomList(JSON.parse(JSON.stringify(canplay)))
     wx.setStorageSync('noOrderList', noOrderList)
     app.globalData.songInfo = canplay[0]
-
-    
     let params = {
       mediaId: app.globalData.songInfo.id,
       contentType: 'story'
@@ -185,6 +180,7 @@ Page({
         existed:false
       })
     }
+    this.selectComponent('#miniPlayer').showPlaying();
     app.playing(null, that)
   },
   setPlaying(e) {
@@ -274,7 +270,6 @@ Page({
   },
   // 触摸结束
   touchEnd: tool.throttle(function(e) {
-    console.log('结束=================')
     if (this.data.pageNo <= 1 || !this.showRefresh) {
       return false
     }
@@ -330,5 +325,14 @@ Page({
         imageWidth: '55.36vh',
       })
     }
-  }
+  },
+  // 语音直达Path初始化逻辑
+  initiaVoicePath(options) {
+    if (options.img){
+      for (const key in options) {
+        options[key] = decodeURIComponent(options[key]) || options.title;
+      }
+    wx.setStorageSync("img", options.img);
+    }
+  },
 })

@@ -97,7 +97,14 @@ Page({
       this.data.playInfoBtns.splice(index, 1)
       let index2 = this.data.playInfoBtns.findIndex(n => n.name === 'loopType')
       this.data.playInfoBtns.splice(index2, 1)
-      this.setData({playInfoBtns: this.data.playInfoBtns})
+      this.setData({
+        playInfoBtns: this.data.playInfoBtns,
+        showBtn:true
+      })
+    }else{
+      this.setData({
+        showBtn:true
+      })
     }
   },
   onShow: function (options) {
@@ -521,8 +528,8 @@ Page({
         contentType: 'story'
       }
       let res2 = await mediaUrlList(opt)
-      canplay = res2.mediaPlayVoList
-      canplay.map((item, index) => {
+      canplay =[...res2.mediaPlayVoList]
+      canplay.forEach((item, index) => {
         item.title = item.mediaName
         item.id = item.mediaId
         item.dt = item.timeText

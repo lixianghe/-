@@ -273,7 +273,7 @@ App({
         songInfo.coverImgUrl = song.coverImgUrl
       }
       wx.setStorageSync('songInfo',songInfo)
-      loopType === 'singleLoop' || !abumInfoName ? this.playing(0, that) : this.playing(null, that)
+      loopType === 'singleLoop' || !abumInfoName ? this.playing(null, that) : this.playing(null, that)
     }
   },
   // 根据循环模式设置播放列表
@@ -348,11 +348,8 @@ App({
         playing: true
     })
     wx.setStorageSync('playing',true)
-    // setTimeout(() => {
-      tool.initAudioManager(this, that, songInfo, fl)
-      this.carHandle(songInfo, seek)
-    // }, 200)
-    // wx.hideLoading()
+    tool.initAudioManager(this, that, songInfo, fl)
+    this.carHandle(songInfo, seek)
     
   },
   // 车载情况下的播放

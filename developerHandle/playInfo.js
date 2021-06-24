@@ -104,7 +104,8 @@ module.exports = {
     let abumInfoName = wx.getStorageSync('abumInfoName')
     app.globalData.songInfo = Object.assign({}, app.globalData.songInfo, songInfo)
     if (!abumInfoName && app.globalData.songInfo.dataUrl) {
-      app.globalData.songInfo.dataUrl = `${app.globalData.songInfo.dataUrl}?flag=${new Date().getTime()}`
+      // app.globalData.songInfo.dataUrl = `${app.globalData.songInfo.dataUrl}?flag=${new Date().getTime()}`
+      app.globalData.songInfo.dataUrl = `${app.globalData.songInfo.dataUrl}`
     }
     that.setData({
       songInfo: app.globalData.songInfo
@@ -166,6 +167,10 @@ module.exports = {
     if (that.data.existed) {
       mediaFavoriteCancel(params).then(res => {
         wx.showToast({ icon: 'none', title: '故事取消收藏成功' })
+        that.triggerEvent("existedLike",{
+          type:'cancel',
+          id:that.data.songInfo.id
+        })
         that.setData({
           existed: false
         })
@@ -173,6 +178,10 @@ module.exports = {
     } else {
       mediaFavoriteAdd(params).then(res => {
         wx.showToast({ icon: 'none', title: '故事收藏成功' })
+        that.triggerEvent("existedLike",{
+          type:'add',
+          id:that.data.songInfo.id
+        })
         that.setData({
           existed: true
         })
