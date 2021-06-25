@@ -165,6 +165,7 @@ Page({
     if (getMedia) await getMedia(params, that)
     if (!app.globalData.songInfo.dataUrl) {
       wx.hideLoading()
+      tool.resetAudioManager(app)
       wx.showToast({
         title: '该内容为会员付费内容，请先成为会员再购买收听~',
         icon: 'none'

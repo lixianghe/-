@@ -77,6 +77,7 @@ function toggleplay(that, app) {
     app.stopmusic();
   } else {
     if (!that.data.songInfo || !that.data.songInfo.dataUrl) {
+      resetAudioManager(app)
       wx.showToast({
         title: '该内容为会员付费内容，请先成为会员再购买收听~',
         icon: 'none'
@@ -117,6 +118,14 @@ function initAudioManager(app, that, songInfo, fl) {
     }
   }
 }
+// VIP音频时重置统一播放器
+const resetAudioManager =(app)=>{
+  app.cardPplayList = []
+    app.audioManager.playInfo = {
+      playList:[],
+      context: ''
+    }
+}
 // 监听播放，上一首，下一首
 function EventListener(app, that, fl){
   //播放事件
@@ -148,9 +157,9 @@ function EventListener(app, that, fl){
     const pages = getCurrentPages()
     let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
     if (miniPlayer) {
-      miniPlayer.pre()
+      miniPlayer.pre(true)
     } else {
-      pages[pages.length - 1].pre()
+      pages[pages.length - 1].pre(true)
     }
 
   })
@@ -161,9 +170,9 @@ function EventListener(app, that, fl){
     const pages = getCurrentPages()
     let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
     if (miniPlayer) {
-      miniPlayer.next()
+      miniPlayer.next(true)
     } else {
-      pages[pages.length - 1].next()
+      pages[pages.length - 1].next(true)
     }
     
 
@@ -247,5 +256,6 @@ module.exports = {
   debounce: debounce,
   // panelSetInfo: panelSetInfo,
   randomList: randomList,
-  NewPlayAlrc:NewPlayAlrc
+  NewPlayAlrc:NewPlayAlrc,
+  resetAudioManager
 }

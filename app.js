@@ -125,22 +125,21 @@ App({
     // 判断循环模式
     var cutList = wx.getStorageSync('canplaying') || []
     // 如果是在播放面板，剔除掉没有dataUrl的
-    if (panelCut) {
-      if (wx.canIUse('getPlayInfoSync')) {
-        let res = wx.getPlayInfoSync()
-        let panelSong = JSON.parse(res.context)
-        if (panelSong.dataUrl) {
-          this.globalData.songInfo = panelSong
-        }
-        const list = wx.getStorageSync('canplaying')
-        cutList = list.filter(n => n.dataUrl)
-        wx.setStorageSync('canplaying', cutList)
-        wx.setStorageSync('currentPageNo', panelSong.currentPageNo)
-        let noOrderList = tool.randomList(JSON.parse(JSON.stringify(cutList)))
-        wx.setStorageSync('noOrderList', noOrderList)
-      }
-      
-    }
+    // if (panelCut) {
+    //   if (wx.canIUse('getPlayInfoSync')) {
+    //     let res = wx.getPlayInfoSync()
+    //     let panelSong = JSON.parse(res.context)
+    //     if (panelSong.dataUrl) {
+    //       this.globalData.songInfo = panelSong
+    //     }
+    //     const list = wx.getStorageSync('canplaying')
+    //     cutList = list.filter(n => n.dataUrl)
+    //     wx.setStorageSync('canplaying', cutList)
+    //     wx.setStorageSync('currentPageNo', panelSong.currentPageNo)
+    //     let noOrderList = tool.randomList(JSON.parse(JSON.stringify(cutList)))
+    //     wx.setStorageSync('noOrderList', noOrderList)
+    //   }
+    // }
     // 根据循环模式设置数组
     let loopType = wx.getStorageSync('loopType') || 'loop'
     // 如果缓存没有abumInfoName，说明是从首页单曲进入，list为单首
@@ -154,7 +153,10 @@ App({
     //歌曲切换 停止当前音乐
     this.globalData.playing = false;
     let song = cutList[index] || cutList[0]
-
+    if(!song.dataUrl && panelCut){
+      wx.hideLoading()
+      song  =  this.globalData.songInfo
+    }
     let currentPageNo = wx.getStorageSync('currentPageNo')
     // 如果是专辑类型才会执行下面代码
     if (Number(wx.getStorageSync('total'))) {
@@ -243,6 +245,7 @@ App({
         })
         wx.hideLoading()
         wx.setStorageSync('playing',false)
+        tool.resetAudioManager(this)
       } else {
         wx.hideLoading()
         const pages = getCurrentPages()
@@ -254,6 +257,7 @@ App({
             playing: false
         })
         wx.setStorageSync('playing',false)
+        tool.resetAudioManager(this)
         setTimeout(() => {
           wx.showToast({
             title: '该内容为会员付费内容，请先成为会员再购买收听~',
@@ -288,7 +292,7 @@ App({
       loopList = cutFlag ? [this.globalData.songInfo] : list
     } else {
       let noOrderList = wx.getStorageSync('noOrderList') || []
-      if (panelCut) noOrderList = noOrderList.filter(n => n.dataUrl)
+      // if (panelCut) noOrderList = noOrderList.filter(n => n.dataUrl)
       loopList = noOrderList
     }
     return loopList

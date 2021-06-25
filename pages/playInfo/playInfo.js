@@ -262,6 +262,7 @@ Page({
         playtime: '00:00',
         percent:0
       });
+      tool.resetAudioManager(app)
       wx.setStorageSync("playing", false);
       wx.hideLoading();
       wx.stopBackgroundAudio();

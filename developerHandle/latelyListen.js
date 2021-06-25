@@ -41,6 +41,10 @@ module.exports = {
         url: '/pages/personalCenter/personalCenter'
       })
     }
+    let {info,labels,currentTap} = this.data
+    if(info.length){
+      this._getList(labels[currentTap].value)
+    }
   },
   onLoad(options) {
     this._getList(this.data.labels[0].value,options)
@@ -85,8 +89,6 @@ module.exports = {
         })
       })
     }
-    
-    
   },
   selectTap(e) {
     const index = e.currentTarget.dataset.index
@@ -152,6 +154,7 @@ module.exports = {
   close() {
     this.setData({showModal: false})
   },
+  // 语音直达功能
   async pathPlay(item){
     let [canplay, idList, auditionDurationList, total] = [[], [], [], 0]
     try {
@@ -194,6 +197,7 @@ module.exports = {
       }, that)
       if (!app.globalData.songInfo.dataUrl) {
         wx.hideLoading()
+        tool.resetAudioManager(app)
         wx.showToast({
           title: '该内容为会员付费内容，请先成为会员再购买收听~',
           icon: 'none'
