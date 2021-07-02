@@ -1,6 +1,6 @@
 <view class="{{screen}} {{colorStyle}}" style="background-color: {{backgroundColor}}; height: 100%;">
   <scroll-view class="searchContent" scroll-x="true" scroll-left="{{scrollLeft}}" lower-threshold="1920"bindscrolltolower="getLayoutData"
-  style="padding: {{2.5 * times}}px {{9 * times}}px; height: {{82 * times}}px;">
+  style="padding: {{2.5 * times}}px {{9 * times}}px;">
     <view class="mianContent"
     style="width: {{126 * times}}px; height: {{11 * times}}px; border-radius: {{11 * times}}px; left: {{9 * times}}px;  top: {{4.3 * times}}px;">
        <view class="search" style="width: {{126 * times}}px; height: {{11 * times}}px;left: {{9 * times}}px;top:{{4.3 * times}}px">
@@ -31,7 +31,7 @@
         bindtap="linkAbumInfo"
         class="{{screen}}albumCard"
         data-disablefocus="true"
-        style="margin-right: {{6.5* times}}px;width: {{33.7 * times}}px; margin-top: {{31.5 * times}}px">
+        style="margin-right: {{6.5* times}}px;width: {{33.7 * times}}px; top: {{31.5 * times}}px">
         <image class="image" src="{{item.src}}"
         data-focusindex="4" bindtap="linkAbumInfo"
         style="width: {{33.7 * times}}px; height: {{33.7 * times}}px; border-radius: {{2 * times}}px;"></image>

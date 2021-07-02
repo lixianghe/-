@@ -152,7 +152,6 @@ Page({
   // 下一首
   next(panelCut) {
     const that = this
-    console.log('playinfo', that)
     app.cutplay(that, 1, false, panelCut)
   },
   // 切换播放模式
@@ -237,11 +236,14 @@ Page({
     let that = this
     let songInfo = e.currentTarget.dataset.song
     let canplaying =  wx.getStorageSync('canplaying')
-    if(app.cardPplayList.length){
-      let song =  app.cardPplayList.find(item=>item.title == songInfo.title)
-      songInfo.title = song.title
-      songInfo.dataUrl = song.dataUrl
-      songInfo.coverImgUrl = song.coverImgUrl
+    let isContain = app.cardPplayList.findIndex(item=>item.title == songInfo.title) > -1
+    if(app.cardPplayList.length && isContain){
+      let song =  app.cardPplayList.find(item=>item.title == songInfo.title) ||[]
+      if(song.length){
+        songInfo.title = song.title
+        songInfo.dataUrl = song.dataUrl
+        songInfo.coverImgUrl = song.coverImgUrl
+      }
     }else{
       songInfo = canplaying.find(item=>item.title == songInfo.title)
     }
@@ -255,6 +257,8 @@ Page({
     await this.getMedia2(params)
     // 如果没有src playinfo给出弹框，其他页面给出toast提示
     if (!app.globalData.songInfo.dataUrl) {
+      wx.hideLoading();
+      wx.setStorageSync("playing", false);
       this.setData({
         showModal: true,
         noBack: true,
@@ -263,8 +267,6 @@ Page({
         percent:0
       });
       tool.resetAudioManager(app)
-      wx.setStorageSync("playing", false);
-      wx.hideLoading();
       wx.stopBackgroundAudio();
     }
     wx.setStorageSync('songInfo',songInfo)
@@ -430,10 +432,10 @@ Page({
         showLoadEnd: false,
         scrollState:false
       },()=>{
-        wx.showToast({
-          title: '已经到底啦！',
-          icon: 'none'
-        })
+        // wx.showToast({
+        //   title: '已经到底啦！',
+        //   icon: 'none'
+        // })
       })
       return false
     } else {
@@ -544,6 +546,7 @@ Page({
       } else if (params.lazy == 'down') {
         canplay = canplay.concat(this.data.infoList)
       }
+      wx.setStorageSync('canplaying',canplay)
       this.setData({infoList: canplay})
     } catch (error) {
       this.setData({infoList: []})

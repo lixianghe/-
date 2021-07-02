@@ -11,10 +11,10 @@ Page({
     mainColor: app.globalData.mainColor
   },
   scrollRight () {
-    wx.showToast({
-      title: '已经到底啦！',
-      icon: 'none'
-    })
+    // wx.showToast({
+    //   title: '已经到底啦！',
+    //   icon: 'none'
+    // })
   },
  
   onLoad(options) {

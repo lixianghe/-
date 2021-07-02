@@ -17,7 +17,7 @@
  */
 import { search } from "../utils/httpOpt/api";
 const { showData } = require("../utils/httpOpt/localData");
-
+const app = getApp()
 module.exports = {
   data: {
     // 搜素页面分类的lables
@@ -65,7 +65,10 @@ module.exports = {
       this.setData({
         showNonet:false,
         searchState:false,
-        info: layoutData,
+        info:layoutData.map(item=>{
+          item.src = item.src?app.impressImg(item.src,300,300):''
+          return item
+        }) || [],
       });
     })
     .catch((err) => {

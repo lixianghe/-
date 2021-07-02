@@ -13,6 +13,7 @@ let abumInfoMixin = require('../../developerHandle/albumInfo')
 Page({
   mixins: [abumInfoMixin],
   data: {
+    dataSetfocus:false,
     canplay: [],
     percent: 0,
     id: null,
@@ -99,6 +100,7 @@ Page({
     console.log(selectedNo, this.data.pageNo)
     this.setData({
       selected: selectedNo + this.data.pageNo - 1,
+      dataSetfocus:true
     })
   },
   // 接受子组件传值
@@ -165,12 +167,23 @@ Page({
     if (getMedia) await getMedia(params, that)
     if (!app.globalData.songInfo.dataUrl) {
       wx.hideLoading()
+      let playing = wx.getStorageSync('playing')
+      console.log(playing);
+      if(playing){
+        wx.stopBackgroundAudio()
+        wx.setStorageSync('playing',false)
+      } 
+      const pages = getCurrentPages()
+      let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
+      if (miniPlayer) miniPlayer.setData({ playing: false })
       tool.resetAudioManager(app)
-      wx.showToast({
-        title: '该内容为会员付费内容，请先成为会员再购买收听~',
-        icon: 'none'
-      })
-      wx.stopBackgroundAudio()
+      setTimeout(() => {
+        wx.showToast({
+          title: '该内容为会员付费内容，请先成为会员再购买收听~',
+          icon: 'none',
+          duration:2000,
+        })
+      }, 500);
       return
     }
     // 判断是否收藏
@@ -205,10 +218,10 @@ Page({
     let lastIndex = (this.data.pageNo   - 1) * this.data.pageSize + this.data.canplay.length      // 目前最后一个的索引值
     if (lastIndex >= this.data.total) {
       this.setData({ showLoadEnd: false })
-      wx.showToast({
-        title: '已经到底啦！',
-        icon: 'none'
-      })
+      // wx.showToast({
+      //   title: '已经到底啦！',
+      //   icon: 'none'
+      // })
       return false
     } else {
       this.setData({ showLoadEnd: true })

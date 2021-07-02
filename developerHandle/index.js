@@ -216,7 +216,10 @@ module.exports = {
 
       })
       this.setData({
-        info: layoutData,
+        info: layoutData.map(item=>{
+          item.src = app.impressImg(item.src,300,300)
+          return item
+        }) || [],
         reqL: true
       })
       wx.hideLoading()

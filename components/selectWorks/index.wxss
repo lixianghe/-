@@ -21,13 +21,16 @@
   transform: translateX(-160vh);
   z-index: 1000;
 }
+.worksScroll{
+  height:60vh;
+  width: 100%;
+}
 .worksList {
-  height: 60vh;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-content: baseline;
-  overflow: auto;
+  /* overflow: auto; */
   padding: 1.5vh;
   margin-left: -1.5vh;
   margin-top: -1.5vh;

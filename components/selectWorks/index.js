@@ -10,6 +10,10 @@ Component({
     pageSize: {
       type: Number,
       default: 10
+    },
+    dataSetfocus:{
+      type: Boolean,
+      default: false
     }
   },
   data: {
@@ -32,7 +36,8 @@ Component({
       this.animation.translate('-160vh', 0).step()
       this.setData({
         animation: this.animation.export(),
-        isSelectWorks: false
+        isSelectWorks: false,
+        dataSetfocus:false
       })
     },
     hideShow(val) {

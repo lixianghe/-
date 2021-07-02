@@ -200,7 +200,7 @@ Component({
           let percent = res.playState.currentPosition / res.playState.duration * 100
           app.globalData.percent = percent
           app.globalData.currentPosition = res.playState.currentPosition
-          if(playing) app.playing(res.playState.currentPosition, that)
+          if(playing) app.playing(null, that)
         }else{
           wx.setStorageSync('songInfo', {})
         }

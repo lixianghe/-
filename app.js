@@ -8,6 +8,7 @@ require('./utils/minixs')
 
 App({
   globalData: {
+    isBmw:false,
     appName: 'kaishustory',
     // 屏幕类型
     screen: '',
@@ -37,7 +38,8 @@ App({
   // 小程序颜色主题
   sysInfo: {
     colorStyle: 'dark',
-    backgroundColor: 'transparent',
+    // backgroundColor: 'transparent',
+    backgroundColor: '#101010',
     defaultBgColor: '#151515'
   },
    // 用户信息
@@ -102,6 +104,10 @@ App({
       })
     });
     wx.setStorageSync('playing', false)
+    //区分平台
+    this.isBMW()
+    //图片压缩
+    this.initImgPress()
   },
 
   // 保存用户信息
@@ -244,30 +250,39 @@ App({
           percent:0,
         })
         wx.hideLoading()
-        wx.setStorageSync('playing',false)
         tool.resetAudioManager(this)
       } else {
         wx.hideLoading()
         const pages = getCurrentPages()
         let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
         if (miniPlayer) {
-          miniPlayer.setData({ playing: false })
+          miniPlayer.setData({
+          playing: false,
+          playtime: '00:00',
+          percent:0,
+        })
         }
           pages[pages.length - 1].setData({
             playing: false
         })
-        wx.setStorageSync('playing',false)
+
         tool.resetAudioManager(this)
         setTimeout(() => {
           wx.showToast({
             title: '该内容为会员付费内容，请先成为会员再购买收听~',
-            icon: 'none'
+            icon: 'none',
+            duration:2000,
           })
         }, 500)
       }
-      wx.stopBackgroundAudio()
+      let playing =  wx.getStorageSync('playing')
+      if(playing){
+        wx.stopBackgroundAudio()
+        wx.setStorageSync('playing',false)
+      }
       return false
     }else{
+      wx.hideLoading()
       let songInfo = wx.getStorageSync('songInfo')
       let isInclusion = this.cardPplayList.findIndex(item=>item.title == songInfo.title) !=-1
       if(this.cardPplayList.length && isInclusion){
@@ -277,7 +292,9 @@ App({
         songInfo.coverImgUrl = song.coverImgUrl
       }
       wx.setStorageSync('songInfo',songInfo)
-      loopType === 'singleLoop' || !abumInfoName ? this.playing(null, that) : this.playing(null, that)
+      if(abumInfoName){
+        loopType === 'singleLoop' || !abumInfoName ? this.playing(null, that) : this.playing(null, that)
+      }
     }
   },
   // 根据循环模式设置播放列表
@@ -521,6 +538,79 @@ App({
       })
     }
   },
+    //判断是否bmw平台
+    isBMW() {
+      const sysInfo = wx.getSystemInfoSync();
+      this.globalData.isBmw = sysInfo.brand == "BMW"
+    },
+    
+    /**
+     * 初始化图片压缩
+     */
+    initImgPress() {
+      let canUseImgCompress = false;
+      let imgCompresDomain = '';
+      const that = this;
+      
+      if (wx.canIUse('getMossApiSync') || wx.canIUse('getMossApi')) {
+        const ret = wx.getMossApiSync({
+          type: 'image-compress',
+        });
+        if (typeof ret === null || ret === '' || ret === undefined) {
+          wx.getMossApi({
+            type: 'image-compress',
+            success(e) {
+              that.globalData.initImgCount = 0;
+              console.log(`getMossApi${e.url}`);
+              canUseImgCompress = true;
+              imgCompresDomain = e.url;
+              that.globalData.canUseImgCompress = canUseImgCompress;
+              that.globalData.imgCompresDomain = imgCompresDomain;
+            },
+            fail(res) {
+              that.globalData.initImgTimer && clearTimeout(that.globalData.initImgTimer);
+              if (that.globalData.initImgCount < 10) {
+                that.globalData.initImgTimer = setTimeout(() => {
+                  that.globalData.initImgCount += 1;
+                  that.initImgPress();
+                }, 30000);
+              }
+              Report.apiCallFailReport('getMossApi', JSON.stringify(res));
+            }
+          });
+        } else {
+          canUseImgCompress = true;
+          imgCompresDomain = ret;
+          this.globalData.canUseImgCompress = canUseImgCompress;
+          this.globalData.imgCompresDomain = imgCompresDomain;
+        }
+      }
+    },
+    /**
+     * 压缩图片
+    */
+    impressImg(imgUrl, width, height) {
+      let impressImg = imgUrl;
+      const  canUseImgCompress  = this.globalData.canUseImgCompress;
+      const  imgCompresDomain  = this.globalData.imgCompresDomain;
+      //判断是否为BMW
+      if(this.globalData.isBmw && (imgUrl.search("http:") != -1 || imgUrl.search("https:") != -1)){
+        if (canUseImgCompress) {
+          if (imgCompresDomain.length > 0) {
+            const encodeImgUrl = encodeURIComponent(imgUrl);
+            impressImg = `${imgCompresDomain}&w=${width}&h=${height}&url=${encodeImgUrl}`;
+          } else {
+            impressImg = '';
+            this.initImgPress();
+          }
+        } else {
+          impressImg = imgUrl;
+        }
+      }else{
+        impressImg = imgUrl;
+      }
+      return impressImg;
+    },
   // 记录日志
   log(...text) {
     // 全局log开关

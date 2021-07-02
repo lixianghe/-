@@ -142,7 +142,10 @@ module.exports = {
       }
       if(options && options.playing && layoutData.length) this.pathPlay(layoutData[0])
       this.setData({
-        info: layoutData,
+        info: layoutData.map(item=>{
+          item.src = item.src?app.impressImg(item.src,300,300):''
+          return item
+        }) || [],
         req: true
       })
       wx.hideLoading()
@@ -200,7 +203,8 @@ module.exports = {
         tool.resetAudioManager(app)
         wx.showToast({
           title: '该内容为会员付费内容，请先成为会员再购买收听~',
-          icon: 'none'
+          icon: 'none',
+          duration:2000,
         })
         wx.stopBackgroundAudio()
         return

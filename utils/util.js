@@ -80,7 +80,8 @@ function toggleplay(that, app) {
       resetAudioManager(app)
       wx.showToast({
         title: '该内容为会员付费内容，请先成为会员再购买收听~',
-        icon: 'none'
+        icon: 'none',
+        duration:2000,
       })
       return
     }
@@ -119,8 +120,8 @@ function initAudioManager(app, that, songInfo, fl) {
   }
 }
 // VIP音频时重置统一播放器
-const resetAudioManager =(app)=>{
-  app.cardPplayList = []
+function resetAudioManager(app){
+    app.cardPplayList = []
     app.audioManager.playInfo = {
       playList:[],
       context: ''
@@ -180,9 +181,17 @@ function EventListener(app, that, fl){
   //停止事件
   app.audioManager.onStop(() => {
    let time = app.audioManager.currentTime / app.audioManager.duration * 100;
+   const pages = getCurrentPages()
+   let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
+   if (miniPlayer) {
+      miniPlayer.setData({
+      percent:time,
+    })
+   }else{
     that.setData({
       percent: time
     })
+   }
     app.globalData.percent = time
     wx.hideLoading()
   })
@@ -190,14 +199,10 @@ function EventListener(app, that, fl){
   app.audioManager.onError(() => {
     console.log('触发播放错误事件');
     // 在播放错误的时候触发下播放事件,且只调用一次
-    
     if (fl) {
-      console.log('重新调用播放')
       app.playing(app.globalData.currentPosition, that);
       fl = false
     }
-    
-    
   })
   //播放完成事件
   app.audioManager.onEnded(() => {

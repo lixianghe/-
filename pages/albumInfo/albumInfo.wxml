@@ -120,6 +120,6 @@
 
 <no-network wx:if="{{showNonet}}"></no-network>
 
-<selectWorks id="selectWorks" bindchangeWords="changeWords" selected="{{selected}}" pageSize="{{pageSize}}"> </selectWorks>
+<selectWorks id="selectWorks" bindchangeWords="changeWords" selected="{{selected}}" pageSize="{{pageSize}}" dataSetfocus="{{dataSetfocus}}"> </selectWorks>
 <mini-player id="miniPlayer" songInfo="{{songInfo}}" bindcurrent="changeCurrent" bindsetPlaying="setPlaying"></mini-player>
 <bgConfirm id="bgConfirm" msg="{{msg}}" confirm="确定" cancel=""></bgConfirm>

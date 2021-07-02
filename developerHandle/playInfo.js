@@ -144,6 +144,12 @@ module.exports = {
   // 如果mediaUrl没有给出弹框并跳到首页
   needFee() {
     if (!this.data.songInfo.dataUrl) {
+      wx.hideLoading()
+      wx.setStorageSync("playing", false);
+     let playing =  wx.getStorageSync("playing");
+      if(playing){
+      wx.stopBackgroundAudio()
+      }
       this.setData({
         showModal: true,
         playing: false,
@@ -151,9 +157,6 @@ module.exports = {
         percent:0,
       });
       tool.resetAudioManager(app)
-      wx.setStorageSync("playing", false);
-      wx.stopBackgroundAudio()
-      wx.hideLoading()
       return false
     }
   },
