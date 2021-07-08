@@ -25,10 +25,12 @@ Component({
   },
   methods: {
     selectThis(e) {
+      console.log('----selectThis--------',e);
       this.setData({
         selected: e.currentTarget.dataset.index
       })
       let pageNo = this.data.order ? e.currentTarget.dataset.index + 1 : (this.data.data.length - e.currentTarget.dataset.index)
+      console.log('----selectThis--------',e.currentTarget.dataset.index + 1);
       this.triggerEvent('changeWords', {pageNum: pageNo, pageSize: this.data.pageSize})
       this.closeWords()
     },

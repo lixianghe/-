@@ -105,6 +105,7 @@ Page({
   },
   // 接受子组件传值
   async changeWords(e) {
+    console.log('----------changeWords----------',e);
     // 请求新的歌曲列表
     this.setData({
       scrollTop: 0,
@@ -117,6 +118,7 @@ Page({
       initPageNo: e.detail.pageNum,
     })
     let idName = this.data.idName
+    console.log('----------changeWords----------',{ ...e.detail, [idName]: this.data.optionId });
     this.getData({ ...e.detail, [idName]: this.data.optionId })
   },
 

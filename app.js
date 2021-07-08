@@ -92,7 +92,7 @@ App({
       const pages = getCurrentPages()
       const currentPage = pages[pages.length - 1]
       let songInfo = that.globalData.songInfo
-      if (songInfo.dataUrl) that.cutplay(currentPage, 1, true)
+      if (songInfo.dataUrl) that.cutplay(currentPage, 1,true,false,true)
     });
     //监听音乐暂停，保存播放进度广播暂停状态
     wx.onBackgroundAudioPause(function () {
@@ -124,7 +124,7 @@ App({
     return userInfo
   },
   vision: '1.0.0',
-  cutplay: async function (that, type, cutFlag, panelCut) {
+  cutplay: async function (that, type, cutFlag, panelCut,isAudioStop=false) {
     wx.showLoading({
       title: '加载中',
     })
@@ -294,6 +294,8 @@ App({
       wx.setStorageSync('songInfo',songInfo)
       if(abumInfoName){
         loopType === 'singleLoop' || !abumInfoName ? this.playing(null, that) : this.playing(null, that)
+      }else if(!abumInfoName && isAudioStop){
+        this.playing(null, that)
       }
     }
   },
