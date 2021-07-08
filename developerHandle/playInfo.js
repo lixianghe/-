@@ -143,12 +143,13 @@ module.exports = {
   },
   // 如果mediaUrl没有给出弹框并跳到首页
   needFee() {
+    const app = getApp()
     if (!this.data.songInfo.dataUrl) {
       wx.hideLoading()
-      wx.setStorageSync("playing", false);
-     let playing =  wx.getStorageSync("playing");
+      let playing =  wx.getStorageSync("playing");
       if(playing){
       wx.stopBackgroundAudio()
+      wx.setStorageSync("playing", false);
       }
       this.setData({
         showModal: true,

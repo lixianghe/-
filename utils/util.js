@@ -189,7 +189,8 @@ function EventListener(app, that, fl){
     })
    }else{
     that.setData({
-      percent: time
+      percent: time,
+      playtime:app.audioManager.currentTime?formatduration(app.audioManager.currentTime * 1000):'00:00',
     })
    }
     app.globalData.percent = time
