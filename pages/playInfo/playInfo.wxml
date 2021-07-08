@@ -40,6 +40,7 @@
         <view id="playstate" style="left:{{percent}}%;background: {{mainColor}}" 
         bindtouchstart="dragStartHandle"
         bindtouchmove="touchmove" 
+        bindtouchcancel="dragEndHandle"
         catch:touchmove bindtouchend="dragEndHandle"></view>
         <view id="dpstate" style="width:{{percent}}%;background: {{mainColor}}"></view>
       </view>
@@ -100,6 +101,7 @@
         <view id="playstate" style="left:{{percent}}%;background: {{mainColor}}" 
         bindtouchstart="dragStartHandle"
         bindtouchmove="touchmove" 
+        bindtouchcancel="dragEndHandle"
         catch:touchmove bindtouchend="dragEndHandle"></view>
         <view id="dpstate" style="width:{{percent}}%;background: {{mainColor}}"></view>
       </view>

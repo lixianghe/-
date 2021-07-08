@@ -54,14 +54,14 @@ function NewPlayAlrc(that, app) {
   let time = 0, playtime = 0;
   app.audioManager.onTimeUpdate(() => {
     time = app.audioManager.currentTime / app.audioManager.duration * 100;
-    playtime = app.audioManager.currentTime;
-    app.globalData.playing = true;
-    app.globalData.currentPosition = playtime
+    playtime = app.audioManager.currentTime
+    app.globalData.percent = time
+    app.globalData.currentPosition = app.audioManager.currentTime
+    app.globalData.playtime = playtime ? formatduration(playtime * 1000) : '00:00'
     if (!that.data.isDrag) {
       that.setData({
-        // playtime: playtime ? formatduration(playtime * 1000) : '00:00',
-        playtime: formatduration(playtime * 1000),
-        percent: time || app.globalData.percent
+        playtime:playtime? formatduration(playtime * 1000): '00:00',
+        percent: time || 0
       })
       app.globalData.percent = time
     }
@@ -128,91 +128,91 @@ function resetAudioManager(app){
     }
 }
 // 监听播放，上一首，下一首
-function EventListener(app, that, fl){
+function EventListener(app, that, fl) {
   //播放事件
   app.audioManager.onPlay(() => {
-    wx.hideLoading()
-    wx.setStorageSync('playing', true)
+    wx.hideLoading();
+    wx.setStorageSync("playing", true);
     that.setData({
-      playing: true
-    })
-    let pages = getCurrentPages()
-    let cureentPage = pages[pages.length - 1]
-    let minibar = cureentPage.selectComponent('#miniPlayer')
-    if (minibar) minibar.isLiked()
-    that.triggerEvent('setPlaying', true)
-  })
+      playing: true,
+    });
+    let pages = getCurrentPages();
+    let cureentPage = pages[pages.length - 1];
+    let minibar = cureentPage.selectComponent("#miniPlayer");
+    if (minibar) minibar.isLiked();
+    that.triggerEvent("setPlaying", true);
+  });
   //暂停事件
   app.audioManager.onPause(() => {
-    console.log('触发播放暂停事件');
-    wx.setStorageSync('playing', false)
-    that.setData({
-      playing: false
-    })
-    that.triggerEvent('setPlaying', false)
-  })
+    const pages = getCurrentPages();
+    wx.setStorageSync("playing", false);
+    let miniPlayer = pages[pages.length - 1].selectComponent("#miniPlayer");
+    if (miniPlayer) miniPlayer.setData({ playing: false });
+    pages[pages.length - 1].setData({ playing: false });
+    that.triggerEvent("setPlaying", false);
+  });
   //上一首事件
   app.audioManager.onPrev(() => {
-    console.log('触发上一首事件');
-     
-    const pages = getCurrentPages()
-    let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
+    console.log("触发上一首事件");
+    const pages = getCurrentPages();
+    let miniPlayer = pages[pages.length - 1].selectComponent("#miniPlayer");
     if (miniPlayer) {
-      miniPlayer.pre(true)
+      miniPlayer.pre(true);
     } else {
-      pages[pages.length - 1].pre(true)
+      pages[pages.length - 1].pre(true);
     }
-
-  })
+  });
   //下一首事件
   app.audioManager.onNext(() => {
-    console.log('触发onNext事件');
-
-    const pages = getCurrentPages()
-    let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
+    console.log("触发onNext事件");
+    const pages = getCurrentPages();
+    let miniPlayer = pages[pages.length - 1].selectComponent("#miniPlayer");
     if (miniPlayer) {
-      miniPlayer.next(true)
+      miniPlayer.next(true);
     } else {
-      pages[pages.length - 1].next(true)
+      pages[pages.length - 1].next(true);
     }
-    
-
-  })
+  });
   //停止事件
   app.audioManager.onStop(() => {
-   let time = app.audioManager.currentTime / app.audioManager.duration * 100;
-   const pages = getCurrentPages()
-   let miniPlayer = pages[pages.length - 1].selectComponent('#miniPlayer')
-   if (miniPlayer) {
+    let time = (app.audioManager.currentTime / app.audioManager.duration) * 100;
+    const pages = getCurrentPages();
+    let miniPlayer = pages[pages.length - 1].selectComponent("#miniPlayer");
+    if (miniPlayer) {
       miniPlayer.setData({
-      percent:time,
-    })
-   }else{
-    that.setData({
-      percent: time,
-      playtime:app.audioManager.currentTime?formatduration(app.audioManager.currentTime * 1000):'00:00',
-    })
-   }
-    app.globalData.percent = time
-    wx.hideLoading()
-  })
+        percent: time,
+        playing: false,
+      });
+    } else {
+      pages[pages.length - 1].setData({
+        percent: time,
+        playtime: app.audioManager.currentTime
+          ? formatduration(app.audioManager.currentTime * 1000)
+          : "00:00",
+        playing: false,
+      });
+    }
+    app.globalData.percent = time;
+    wx.hideLoading();
+  });
   //播放错误事件
   app.audioManager.onError(() => {
-    console.log('触发播放错误事件');
+    wx.setStorageSync("playing", false);
+    const pages = getCurrentPages();
+    let miniPlayer = pages[pages.length - 1].selectComponent("#miniPlayer");
+    if (miniPlayer) miniPlayer.setData({ playing: false });
+    pages[pages.length - 1].setData({ playing: false });
     // 在播放错误的时候触发下播放事件,且只调用一次
     if (fl) {
       app.playing(app.globalData.currentPosition, that);
-      fl = false
+      fl = false;
     }
-  })
+  });
   //播放完成事件
   app.audioManager.onEnded(() => {
-    console.log('触发播放完成事件');
-  })
+    console.log("触发播放完成事件");
+  });
 }
-
-
-
 // 函数节流
 function throttle(fn, interval) {
   var enterTime = 0;//触发的时间
